@@ -14,7 +14,7 @@ public class InteractableObjects : MonoBehaviour
     }
 
     public virtual void InteractionResponse()  
-    { 
-
+    {
+        Debug.Log("Action");
     }
 }

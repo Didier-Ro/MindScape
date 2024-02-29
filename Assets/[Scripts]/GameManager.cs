@@ -30,23 +30,6 @@ public class GameManager : MonoBehaviour
         Application.targetFrameRate = 60;
     }
 
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            ChangeGameState(GAME_STATE.EXPLORIMG);
-        }
-        else if (Input.GetKeyDown(KeyCode.S)) 
-        {
-            ChangeGameState(GAME_STATE.PAUSE);
-        }
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            ChangeGameState(GAME_STATE.READING);
-        }
-    }
-
     public void ChangeGameState(GAME_STATE _newGameState)//When called, the current Game State changes to the new Game State and sends a notification to all subscribers that the Game State changed
     {
         currentGameState = _newGameState;

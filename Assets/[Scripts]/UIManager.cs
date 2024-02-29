@@ -54,7 +54,7 @@ public class UIManager : MonoBehaviour
 
     public void InteractionUI() 
     {
-        
+        Debug.Log("Player Detected");
     }
     private void PauseUI() 
     {
