@@ -5,10 +5,12 @@ using UnityEngine;
 
 public class PoolManager : MonoBehaviour
 {
+    private bool isPaused = true;
     private static PoolManager _instance;
     private List<GameObject> _pooledObjects = new List<GameObject>();
     [SerializeField] private GameObject[] objectsToSpawn;
-  
+
+    #region SingleTone
     public static PoolManager GetInstance()
     {
         return _instance;
@@ -25,10 +27,31 @@ public class PoolManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-   
-  
-   
-    public GameObject GetPooledObject(OBJECT_TYPE _type, Vector2 coordinateToSpawn, Vector3 rotation)
+    
+
+    #endregion
+    
+    private void Start()
+    {
+        SubscribeToGameManagerGameState();
+    }
+
+    #region SubscriptionGameManagerProcess
+
+    private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
+    {
+        GameManager.GetInstance().OnGameStateChange += OnGameStateChange;
+        OnGameStateChange(GameManager.GetInstance().GetCurrentGameState());
+    }
+    
+    private void OnGameStateChange(GAME_STATE _newGameState)//Analyze the Game State type and makes differents behaviour
+    {
+        isPaused = _newGameState == GAME_STATE.EXPLORIMG;
+    }
+    
+    #endregion
+    
+    public GameObject GetPooledObject(OBJECT_TYPE _type, Vector2 coordinateToSpawn, Vector3 rotation) //Create or Activate the GameObject you want
     {
         for (int i = 0; i < _pooledObjects.Count; i++)
         {
@@ -55,7 +78,7 @@ public class PoolManager : MonoBehaviour
         }
         return null;
     }
-   
+    
 }
 
 public enum OBJECT_TYPE
