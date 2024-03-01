@@ -10,7 +10,7 @@ public class Push : MonoBehaviour
     void Start()
     {
         Obstacles = GameObject.FindGameObjectsWithTag("Obstacles");
-        Obstacles = GameObject.FindGameObjectsWithTag("Boxes");
+        Boxes = GameObject.FindGameObjectsWithTag("Boxes");
     }
 
     // Update is called once per frame
