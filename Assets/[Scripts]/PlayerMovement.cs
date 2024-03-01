@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private GameObject[] Obstacles;
-    private GameObject[] Boxes;
+    public GameObject[] Obstacles;
+    public GameObject[] Boxes;
     // Start is called before the first frame update
 
-    private bool ReadytoMove;
+    public bool ReadytoMove;
     void Start()
     {
         Obstacles = GameObject.FindGameObjectsWithTag("Obstacles");
