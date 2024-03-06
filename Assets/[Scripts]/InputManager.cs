@@ -48,7 +48,7 @@ public class InputManager : MonoBehaviour
 
     public Vector2 MovementInput()
     {
-       GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORIMG);
+       GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
         _vectorValue = _moveInput.ReadValue<Vector2>();
         Debug.Log(_vectorValue);
         return _vectorValue;
