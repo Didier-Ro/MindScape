@@ -25,6 +25,7 @@ public class InputManager : MonoBehaviour
     [Header("Read values")] 
     private Vector2 _vectorValue = default;
     private bool _isPaused = false;
+    private bool _isInteracting = false;
 
     private void Awake()
     {
@@ -38,8 +39,13 @@ public class InputManager : MonoBehaviour
         _pauseInput = _playerControls.Gameplay.Pause;
         _pauseInput.Enable();
         _playerControls.Gameplay.Pause.performed += _ => SetPause();
+        _playerControls.Gameplay.Interact.performed += _ => _isInteracting = true;
     }
-    
+
+    private void Update()
+    {
+        Debug.Log(_isInteracting);
+    }
 
     private void OnDisable()
     {
@@ -50,7 +56,7 @@ public class InputManager : MonoBehaviour
     {
        GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
         _vectorValue = _moveInput.ReadValue<Vector2>();
-        Debug.Log(_vectorValue);
+        
         return _vectorValue;
     }
 
@@ -59,5 +65,14 @@ public class InputManager : MonoBehaviour
         GameManager.GetInstance().ChangeGameState(GAME_STATE.PAUSE);
         _isPaused = true;
         return _isPaused;
+    }
+
+    public void IsInteracting()
+    {
+        if (_isInteracting)
+        {
+            _isInteracting = false;
+        }
+           
     }
 }
