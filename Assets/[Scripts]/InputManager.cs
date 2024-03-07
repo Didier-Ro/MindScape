@@ -39,7 +39,7 @@ public class InputManager : MonoBehaviour
         _pauseInput = _playerControls.Gameplay.Pause;
         _pauseInput.Enable();
         _playerControls.Gameplay.Pause.performed += _ => SetPause();
-        _playerControls.Gameplay.Interact.performed += _ =>  IsInteracting();
+        _playerControls.Gameplay.Interact.performed += _ => _isInteracting = true;
     }
 
     private void Update()
@@ -69,12 +69,8 @@ public class InputManager : MonoBehaviour
 
     public void IsInteracting()
     {
-        _isInteracting = true;
-        
-        
         if (_isInteracting)
         {
-            
             _isInteracting = false;
         }
            
