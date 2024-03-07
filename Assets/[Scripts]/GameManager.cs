@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    private GAME_STATE currentGameState = GAME_STATE.EXPLORATION;
+    private GAME_STATE currentGameState = GAME_STATE.EXPLORIMG;
     public Action<GAME_STATE> OnGameStateChange;
 
     private void Awake()
@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
 
 public enum GAME_STATE //All possible Game States
 {
-    EXPLORATION,
+    EXPLORIMG,
     READING,
     PAUSE,
     CUTSCENES,

@@ -40,7 +40,7 @@ public class UIManager : MonoBehaviour
             case GAME_STATE.PAUSE:
                 PauseUI();
                 break;
-            case GAME_STATE.EXPLORATION:
+            case GAME_STATE.EXPLORIMG:
                 ExploringUI();
                 break;
             case GAME_STATE.READING:
