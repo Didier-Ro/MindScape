@@ -10,6 +10,9 @@ public class UIManager : MonoBehaviour
         return Instance;
     }
 
+    [SerializeField] private GameObject pauseUI;
+    [SerializeField] private GameObject deadUI;
+
     private void Awake()
     {
         if (Instance == null)
@@ -40,7 +43,7 @@ public class UIManager : MonoBehaviour
             case GAME_STATE.PAUSE:
                 PauseUI();
                 break;
-            case GAME_STATE.EXPLORIMG:
+            case GAME_STATE.EXPLORATION:
                 ExploringUI();
                 break;
             case GAME_STATE.READING:
