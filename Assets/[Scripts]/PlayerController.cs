@@ -6,6 +6,11 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    [SerializeField] private bool canInteract = false;
+    [SerializeField] private bool isInteracting = false;
+
+    [SerializeField] private GameObject interactiveObject;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -15,6 +20,20 @@ public class PlayerController : MonoBehaviour
     {
         // Mover el jugador
         MovePlayer();
+
+        if (Input.GetKeyDown(KeyCode.F) && canInteract)
+        {
+            interactiveObject.GetComponent<Istepable>().Activate();
+            canInteract = false;
+            isInteracting = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.B) && isInteracting)
+        {
+            interactiveObject.GetComponent<Istepable>().Deactivate();
+            canInteract = true;
+            isInteracting = false;
+        }
     }
 
     void MovePlayer()
@@ -32,6 +51,25 @@ public class PlayerController : MonoBehaviour
         {
             float angle = Mathf.Atan2(movement.y, movement.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == ("Stepable"))
+        {
+            interactiveObject = collision.gameObject;
+            canInteract = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == ("Stepable"))
+        {
+            interactiveObject = null;
+            canInteract = false;
+            isInteracting = false;
         }
     }
 }
