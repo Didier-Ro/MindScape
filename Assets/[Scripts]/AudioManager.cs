@@ -38,7 +38,7 @@ public class AudioManager : MonoBehaviour
             case GAME_STATE.PAUSE:
                 StopSound();
                 break;
-            case GAME_STATE.EXPLORIMG:
+            case GAME_STATE.EXPLORATION:
                ResumeSound();
                 break;
             case GAME_STATE.READING:
