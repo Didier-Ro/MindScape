@@ -46,7 +46,7 @@ public class PoolManager : MonoBehaviour
     
     private void OnGameStateChange(GAME_STATE _newGameState)//Analyze the Game State type and makes differents behaviour
     {
-        isPaused = _newGameState == GAME_STATE.EXPLORIMG;
+        isPaused = _newGameState == GAME_STATE.EXPLORATION;
     }
     
     #endregion

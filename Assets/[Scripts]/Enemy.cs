@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
     }
     private void OnGameStateChange(GAME_STATE _newGameState)//Analyze the Game State type and makes differents behaviour
     {
-        CanMove = _newGameState == GAME_STATE.EXPLORIMG;
+        CanMove = _newGameState == GAME_STATE.EXPLORATION;
     }
         
     #endregion
