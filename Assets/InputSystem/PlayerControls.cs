@@ -262,6 +262,45 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Reading"",
+            ""id"": ""7567d65b-6c9d-446a-9728-7c06751dcaf8"",
+            ""actions"": [
+                {
+                    ""name"": ""Next"",
+                    ""type"": ""Button"",
+                    ""id"": ""881843a5-8692-4ef5-be53-8a65de92da32"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""f8e96054-b38e-407e-8298-93df9ac2d064"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Next"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1b80460a-f4fe-4f01-a599-aa96a958f363"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Next"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -273,6 +312,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Gameplay_Dash = m_Gameplay.FindAction("Dash", throwIfNotFound: true);
         m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
         m_Gameplay_Protect = m_Gameplay.FindAction("Protect", throwIfNotFound: true);
+        // Reading
+        m_Reading = asset.FindActionMap("Reading", throwIfNotFound: true);
+        m_Reading_Next = m_Reading.FindAction("Next", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -408,6 +450,52 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         }
     }
     public GameplayActions @Gameplay => new GameplayActions(this);
+
+    // Reading
+    private readonly InputActionMap m_Reading;
+    private List<IReadingActions> m_ReadingActionsCallbackInterfaces = new List<IReadingActions>();
+    private readonly InputAction m_Reading_Next;
+    public struct ReadingActions
+    {
+        private @PlayerControls m_Wrapper;
+        public ReadingActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Next => m_Wrapper.m_Reading_Next;
+        public InputActionMap Get() { return m_Wrapper.m_Reading; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ReadingActions set) { return set.Get(); }
+        public void AddCallbacks(IReadingActions instance)
+        {
+            if (instance == null || m_Wrapper.m_ReadingActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_ReadingActionsCallbackInterfaces.Add(instance);
+            @Next.started += instance.OnNext;
+            @Next.performed += instance.OnNext;
+            @Next.canceled += instance.OnNext;
+        }
+
+        private void UnregisterCallbacks(IReadingActions instance)
+        {
+            @Next.started -= instance.OnNext;
+            @Next.performed -= instance.OnNext;
+            @Next.canceled -= instance.OnNext;
+        }
+
+        public void RemoveCallbacks(IReadingActions instance)
+        {
+            if (m_Wrapper.m_ReadingActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IReadingActions instance)
+        {
+            foreach (var item in m_Wrapper.m_ReadingActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_ReadingActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public ReadingActions @Reading => new ReadingActions(this);
     public interface IGameplayActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -415,5 +503,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnDash(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnProtect(InputAction.CallbackContext context);
+    }
+    public interface IReadingActions
+    {
+        void OnNext(InputAction.CallbackContext context);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -10,15 +11,66 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isInteracting = false;
 
     [SerializeField] private GameObject interactiveObject;
+    
+    private Vector2 _moveInputValue = Vector2.zero;
+    private GAME_STATE currentGamestate = default;
+    
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        DialogManager.GetInstance().OnCloseDialog += () =>
+        {
+            if (currentGamestate == GAME_STATE.READING)
+            {
+                GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
+            }
+        };
     }
 
     void Update()
     {
+
+        if (isInteracting)
+        {
+            DialogManager.GetInstance().HandleUpdate();
+        }
+        SetInteraction();
         // Mover el jugador
+        //MovePlayer();
+
+        /*  if (Input.GetKeyDown(KeyCode.F) && canInteract)
+          {
+              interactiveObject.GetComponent<Istepable>().Activate();
+              canInteract = false;
+              isInteracting = true;
+          }
+
+          if (Input.GetKeyDown(KeyCode.B) && isInteracting)
+          {
+              interactiveObject.GetComponent<Istepable>().Deactivate();
+              canInteract = true;
+              isInteracting = false;
+          }*/
+    }
+
+    public void SetInteraction()
+    {
+        if (canInteract && InputManager.GetInstance().IsInteracting())
+        {
+            InputManager.GetInstance().ChangeInputState();
+            //interactiveObject.GetComponent<Istepable>().Activate();
+            GameManager.GetInstance().ChangeGameState(GAME_STATE.READING);
+            currentGamestate = GameManager.GetInstance().GetCurrentGameState();
+            canInteract = false;
+            isInteracting = true;
+        }
+        
+    }
+
+    private void FixedUpdate()
+    {
         MovePlayer();
 
         if (Input.GetKeyDown(KeyCode.F) && canInteract)
@@ -38,9 +90,9 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-        Vector2 movement = new Vector2(horizontalInput, verticalInput);
+        _moveInputValue = InputManager.GetInstance().MovementInput();
+       
+        Vector2 movement = new Vector2(_moveInputValue.x, _moveInputValue.y);
 
         movement.Normalize(); // Evitar movimientos diagonales más rápidos
 
