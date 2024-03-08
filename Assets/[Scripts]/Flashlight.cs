@@ -1,13 +1,35 @@
+using System;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class Flashlight : MonoBehaviour
 {
+    #region Singletone
+    private static Flashlight Instance;
+    public static Flashlight GetInstance() 
+    { 
+        return Instance;
+    }
+    #endregion
+    
     public Slider slider;
     [SerializeField] private Light2D flashlight;
     [SerializeField] private float energy = 100f; // Initial energy value
     private bool flashing = false;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            DontDestroyOnLoad(gameObject);
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -32,10 +54,6 @@ public class Flashlight : MonoBehaviour
     // Handle input to toggle flashlight mode
     private void HandleInput()
     {
-        if (InputManager.GetInstance().IsOn())
-        {
-            ToggleFlashing();
-        }
 
         if (!flashing)
         {

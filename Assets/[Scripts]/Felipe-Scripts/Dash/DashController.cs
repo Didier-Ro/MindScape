@@ -1,9 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class DashController : MonoBehaviour
 {
+    
+    #region Singletone
+    private static DashController Instance;
+    public static DashController GetInstance() 
+    { 
+        return Instance;
+    }
+    #endregion
+    
     public float dashDistance = 5f;
     public float dashDuration = 0.2f;
     public LayerMask dashLayerMask;
@@ -15,6 +25,19 @@ public class DashController : MonoBehaviour
 
     [SerializeField] private StaminaBar _staminaBar;
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            DontDestroyOnLoad(gameObject);
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -22,7 +45,16 @@ public class DashController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Fire2") && canDash)
+       /* if (InputManager.GetInstance(). && canDash)
+        {
+            Vector2 dashDirection = DetermineDashDirection();
+            StartDash(dashDirection);
+        }*/
+    }
+
+    public void SetInputDash()
+    {
+        if (canDash)
         {
             Vector2 dashDirection = DetermineDashDirection();
             StartDash(dashDirection);

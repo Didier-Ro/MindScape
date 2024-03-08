@@ -21,6 +21,7 @@ public class InputManager : MonoBehaviour
     private InputAction _interactInput = default;
     private InputAction _pauseInput = default;
     private InputAction _lightInput = default;
+    private InputAction _dashInput = default;
 
     [Header("ReadInputs")] private InputAction _nextInput = default;
     
@@ -56,11 +57,14 @@ public class InputManager : MonoBehaviour
         _pauseInput.Enable();
         _lightInput = _playerControls.Gameplay.Protect;
         _lightInput.Enable();
+        _dashInput = _playerControls.Gameplay.Dash;
+        _dashInput.Enable();
         _nextInput = _playerControls.Reading.Next;
         _nextInput.Enable();
         _playerControls.Gameplay.Pause.performed += _ => SetPause();
         _playerControls.Gameplay.Interact.performed += _ => IsInteracting();
-        _playerControls.Gameplay.Protect.performed += _ => IsOn();
+        _playerControls.Gameplay.Protect.performed += _ => Flashlight.GetInstance().ToggleFlashing();
+        _playerControls.Gameplay.Dash.performed += _ => DashController.GetInstance().SetInputDash();
 
     }
 
