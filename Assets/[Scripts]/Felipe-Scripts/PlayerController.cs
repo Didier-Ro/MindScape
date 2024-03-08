@@ -11,7 +11,6 @@ public class playerController : MonoBehaviour
         playerTransform = transform;
     }
 
-    // Método estático para respawnear al jugador en el último checkpoint alcanzado
     public static void RespawnAtLastCheckpoint()
     {
         if (CheckpointManager.GetLastCheckpointPosition() != Vector3.zero)

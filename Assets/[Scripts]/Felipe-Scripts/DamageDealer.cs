@@ -5,7 +5,7 @@ using UnityEngine;
 public class DamageDealer : MonoBehaviour
 {
     private bool isPlayerInContact = false;
-    public float damageDuration = 2f; // Tiempo en segundos que el jugador debe estar en contacto con el enemigo para recibir daño
+    public float damageDuration = 2f;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -23,15 +23,13 @@ public class DamageDealer : MonoBehaviour
             isPlayerInContact = false;
         }
     }
-
-    // Corutina para activar el daño al jugador después de un tiempo especificado
     IEnumerator DamagePlayer()
     {
         yield return new WaitForSeconds(damageDuration);
 
         if (isPlayerInContact)
         {
-            PlayerController.RespawnAtLastCheckpoint();
+            playerController.RespawnAtLastCheckpoint();
         }
     }
 }
