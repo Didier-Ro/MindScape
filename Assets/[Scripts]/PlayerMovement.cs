@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public LoadButton LoadButton;
     [SerializeField] private float _speed;
     [SerializeField] private Rigidbody2D _rb;
     private Vector2 _moveInputValue = Vector2.zero;
@@ -37,5 +39,16 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Goal"))
+        {
+           LoadButton.LoadScene();
+        }
+
+        if (other.CompareTag("Enemy"))
+        {
+            LoadButton.LoadScene();
+        }
+    }
 }
