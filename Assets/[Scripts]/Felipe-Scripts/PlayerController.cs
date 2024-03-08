@@ -2,37 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class playerController : MonoBehaviour
 {
-    private Vector3 initialPosition;
+    private static Transform playerTransform;
 
-    private void Start()
+    private void Awake()
     {
-        initialPosition = transform.position;
+        playerTransform = transform;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    // Método estático para respawnear al jugador en el último checkpoint alcanzado
+    public static void RespawnAtLastCheckpoint()
     {
-        if (other.CompareTag("Deadly"))
+        if (CheckpointManager.GetLastCheckpointPosition() != Vector3.zero)
         {
-            Die();
+            playerTransform.position = CheckpointManager.GetLastCheckpointPosition();
         }
-    }
-
-    public void Die()
-    {
-        RespawnAtCheckpoint();
-    }
-
-    private void RespawnAtCheckpoint()
-    {
-        Vector3 checkpointPosition = GameManagerCheckpoints.instance.GetCheckpoint();
-
-        transform.position = checkpointPosition;
-    }
-
-    public void SetInitialPosition(Vector3 position)
-    {
-        initialPosition = position;
+        else
+        {
+            Debug.LogWarning("No checkpoint reached yet!");
+        }
     }
 }
