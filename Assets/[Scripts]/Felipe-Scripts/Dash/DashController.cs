@@ -41,7 +41,7 @@ public class DashController : MonoBehaviour
         isDashing = true;
         canDash = false;
 
-        Vector2 targetPosition = (Vector2)transform.position + (dashDirection * dashDistance);
+        Vector2 targetPosition = (Vector2) transform.position + (dashDirection * dashDistance);
 
         float dashTime = 0f;
         while (dashTime < dashDuration)
