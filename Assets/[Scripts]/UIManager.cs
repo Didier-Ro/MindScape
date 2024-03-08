@@ -10,6 +10,10 @@ public class UIManager : MonoBehaviour
         return Instance;
     }
 
+    [SerializeField] private GameObject pauseUI;
+    [SerializeField] private GameObject deadUI;
+    [SerializeField] private Dialog dialog;
+
     private void Awake()
     {
         if (Instance == null)
@@ -67,7 +71,8 @@ public class UIManager : MonoBehaviour
 
     private void ReadingUI() 
     {
-        Debug.Log("Reading");
+        //Enable Reading UI in hierarchy
+       DialogManager.GetInstance().ShowDialog(dialog);
     }
     private void DeadUI() 
     {
