@@ -13,15 +13,29 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject interactiveObject;
     
     private Vector2 _moveInputValue = Vector2.zero;
+    private GAME_STATE currentGamestate = default;
     
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
+        DialogManager.GetInstance().OnCloseDialog += () =>
+        {
+            if (currentGamestate == GAME_STATE.READING)
+            {
+                GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
+            }
+        };
     }
 
     void Update()
     {
+
+        if (isInteracting)
+        {
+            DialogManager.GetInstance().HandleUpdate();
+        }
         SetInteraction();
         // Mover el jugador
         //MovePlayer();
@@ -47,7 +61,10 @@ public class PlayerController : MonoBehaviour
         {
             InputManager.GetInstance().ChangeInputState();
             interactiveObject.GetComponent<Istepable>().Activate();
-            Debug.Log("TORTA");
+            GameManager.GetInstance().ChangeGameState(GAME_STATE.READING);
+            currentGamestate = GameManager.GetInstance().GetCurrentGameState();
+            canInteract = false;
+            isInteracting = true;
         }
         
     }

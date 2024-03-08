@@ -240,6 +240,45 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Reading",
+            "id": "e375cf7f-683d-4a35-b7d4-1b0a01464ee7",
+            "actions": [
+                {
+                    "name": "Next",
+                    "type": "Button",
+                    "id": "fcff4ed8-2af1-443f-8dd5-d44d9ae8b2d4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2fe0e1af-db02-42b8-9912-49f69c392366",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Next",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5289f0d1-1cbd-487e-8b98-50fc07ffd753",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Next",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
