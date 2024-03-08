@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -10,6 +11,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isInteracting = false;
 
     [SerializeField] private GameObject interactiveObject;
+    
+    private Vector2 _moveInputValue = Vector2.zero;
+    
 
     void Start()
     {
@@ -18,29 +22,47 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        SetInteraction();
         // Mover el jugador
-        MovePlayer();
+        //MovePlayer();
 
-        if (Input.GetKeyDown(KeyCode.F) && canInteract)
+        /*  if (Input.GetKeyDown(KeyCode.F) && canInteract)
+          {
+              interactiveObject.GetComponent<Istepable>().Activate();
+              canInteract = false;
+              isInteracting = true;
+          }
+
+          if (Input.GetKeyDown(KeyCode.B) && isInteracting)
+          {
+              interactiveObject.GetComponent<Istepable>().Deactivate();
+              canInteract = true;
+              isInteracting = false;
+          }*/
+    }
+
+    public void SetInteraction()
+    {
+        if (canInteract && InputManager.GetInstance().IsInteracting())
         {
             interactiveObject.GetComponent<Istepable>().Activate();
-            canInteract = false;
-            isInteracting = true;
+            Debug.Log("TORTA");
+            
+            
         }
+        
+    }
 
-        if (Input.GetKeyDown(KeyCode.B) && isInteracting)
-        {
-            interactiveObject.GetComponent<Istepable>().Deactivate();
-            canInteract = true;
-            isInteracting = false;
-        }
+    private void FixedUpdate()
+    {
+        MovePlayer();
     }
 
     void MovePlayer()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-        Vector2 movement = new Vector2(horizontalInput, verticalInput);
+        _moveInputValue = InputManager.GetInstance().MovementInput();
+       
+        Vector2 movement = new Vector2(_moveInputValue.x, _moveInputValue.y);
 
         movement.Normalize(); // Evitar movimientos diagonales más rápidos
 

@@ -70,6 +70,7 @@ public class UIManager : MonoBehaviour
 
     private void ReadingUI() 
     {
+        //Enable Reading UI in hierarchy
         Debug.Log("Reading");
     }
     private void DeadUI() 

@@ -29,6 +29,16 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance == null)
+        {
+            DontDestroyOnLoad(gameObject);
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
         _playerControls = new PlayerControls();
         _playerMovement = GetComponent<ONLYTESTmovement>();
         _playerControls.Enable();
@@ -54,7 +64,7 @@ public class InputManager : MonoBehaviour
 
     public Vector2 MovementInput()
     {
-       GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
+      // GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
         _vectorValue = _moveInput.ReadValue<Vector2>();
         
         return _vectorValue;
@@ -67,12 +77,8 @@ public class InputManager : MonoBehaviour
         return _isPaused;
     }
 
-    public void IsInteracting()
+    public bool IsInteracting()
     {
-        if (_isInteracting)
-        {
-            _isInteracting = false;
-        }
-           
+        return _isInteracting;
     }
 }
