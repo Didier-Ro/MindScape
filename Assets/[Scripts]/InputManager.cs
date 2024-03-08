@@ -81,4 +81,9 @@ public class InputManager : MonoBehaviour
     {
         return _isInteracting;
     }
+
+    public void ChangeInputState()
+    {
+        _isInteracting = !_isInteracting;
+    }
 }

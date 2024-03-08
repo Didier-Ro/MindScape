@@ -45,10 +45,9 @@ public class PlayerController : MonoBehaviour
     {
         if (canInteract && InputManager.GetInstance().IsInteracting())
         {
+            InputManager.GetInstance().ChangeInputState();
             interactiveObject.GetComponent<Istepable>().Activate();
             Debug.Log("TORTA");
-            
-            
         }
         
     }
