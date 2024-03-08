@@ -16,20 +16,35 @@ public class InputManager : MonoBehaviour
     #endregion
 
     private PlayerControls _playerControls = default;
+    [Header("GameplayInputs")]
     private InputAction _moveInput = default;
     private InputAction _interactInput = default;
     private InputAction _pauseInput = default;
+
+    [Header("ReadInputs")] private InputAction _nextInput = default;
+    
     //Here goes any script that you want to control
-    private ONLYTESTmovement _playerMovement = default;
+    //private ONLYTESTmovement _playerMovement = default;
 
     [Header("Read values")] 
     private Vector2 _vectorValue = default;
     private bool _isPaused = false;
+    private bool _isInteracting = false;
+    private bool _isReading = false;
 
     private void Awake()
     {
+        if (Instance == null)
+        {
+            DontDestroyOnLoad(gameObject);
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
         _playerControls = new PlayerControls();
-        _playerMovement = GetComponent<ONLYTESTmovement>();
         _playerControls.Enable();
         _moveInput = _playerControls.Gameplay.Movement;
         _moveInput.Enable();
@@ -37,9 +52,17 @@ public class InputManager : MonoBehaviour
         _interactInput.Enable();
         _pauseInput = _playerControls.Gameplay.Pause;
         _pauseInput.Enable();
+        _nextInput = _playerControls.Reading.Next;
+        _nextInput.Enable();
         _playerControls.Gameplay.Pause.performed += _ => SetPause();
+        _playerControls.Gameplay.Interact.performed += _ => IsInteracting();
+        
     }
-    
+
+    private void Update()
+    {
+        Debug.Log(_isInteracting);
+    }
 
     private void OnDisable()
     {
@@ -48,9 +71,9 @@ public class InputManager : MonoBehaviour
 
     public Vector2 MovementInput()
     {
-       GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
+      // GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
         _vectorValue = _moveInput.ReadValue<Vector2>();
-        Debug.Log(_vectorValue);
+        
         return _vectorValue;
     }
 
@@ -59,5 +82,22 @@ public class InputManager : MonoBehaviour
         GameManager.GetInstance().ChangeGameState(GAME_STATE.PAUSE);
         _isPaused = true;
         return _isPaused;
+    }
+
+    public bool IsInteracting()
+    {
+        _isReading = true;
+        _isInteracting = true;
+        return _isInteracting;
+    }
+
+    public void ChangeInputState()
+    {
+        _isInteracting = !_isInteracting;
+    }
+
+    public bool NextLine()
+    {
+        return _isReading;
     }
 }
