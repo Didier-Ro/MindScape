@@ -32,7 +32,7 @@ public class Flashlight : MonoBehaviour
     // Handle input to toggle flashlight mode
     private void HandleInput()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (InputManager.GetInstance().IsOn())
         {
             ToggleFlashing();
         }
@@ -77,7 +77,7 @@ public class Flashlight : MonoBehaviour
     }
 
     // Toggle between flashlight modes
-    private void ToggleFlashing()
+    public void ToggleFlashing()
     {
         flashing = !flashing;
     }

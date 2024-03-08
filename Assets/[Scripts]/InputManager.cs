@@ -20,6 +20,7 @@ public class InputManager : MonoBehaviour
     private InputAction _moveInput = default;
     private InputAction _interactInput = default;
     private InputAction _pauseInput = default;
+    private InputAction _lightInput = default;
 
     [Header("ReadInputs")] private InputAction _nextInput = default;
     
@@ -31,6 +32,7 @@ public class InputManager : MonoBehaviour
     private bool _isPaused = false;
     private bool _isInteracting = false;
     private bool _isReading = false;
+    private bool _isOn = false;
 
     private void Awake()
     {
@@ -52,11 +54,14 @@ public class InputManager : MonoBehaviour
         _interactInput.Enable();
         _pauseInput = _playerControls.Gameplay.Pause;
         _pauseInput.Enable();
+        _lightInput = _playerControls.Gameplay.Protect;
+        _lightInput.Enable();
         _nextInput = _playerControls.Reading.Next;
         _nextInput.Enable();
         _playerControls.Gameplay.Pause.performed += _ => SetPause();
         _playerControls.Gameplay.Interact.performed += _ => IsInteracting();
-        
+        _playerControls.Gameplay.Protect.performed += _ => IsOn();
+
     }
 
     private void Update()
@@ -82,6 +87,16 @@ public class InputManager : MonoBehaviour
         GameManager.GetInstance().ChangeGameState(GAME_STATE.PAUSE);
         _isPaused = true;
         return _isPaused;
+    }
+
+    public bool IsOn()
+    {
+        _isOn = true;
+        if (_isOn)
+        {
+            _isOn = false;
+        }
+        return _isOn;
     }
 
     public bool IsInteracting()
