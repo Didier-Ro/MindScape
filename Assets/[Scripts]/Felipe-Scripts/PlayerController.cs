@@ -5,10 +5,16 @@ using UnityEngine;
 public class playerController : MonoBehaviour
 {
     private static Transform playerTransform;
+    public List<string> inventory = new List<string>();
 
     private void Awake()
     {
         playerTransform = transform;
+    }
+
+    public static void DisappearPlayer()
+    {
+        playerTransform.gameObject.SetActive(false);
     }
 
     public static void RespawnAtLastCheckpoint()
