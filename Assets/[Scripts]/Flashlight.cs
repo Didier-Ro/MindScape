@@ -45,7 +45,6 @@ public class Flashlight : MonoBehaviour
         {
             ConcentrateLight();
         }
-
         // Reduce energy based on flashlight mode
         ReduceEnergy();
     }
@@ -87,11 +86,11 @@ public class Flashlight : MonoBehaviour
     {
         if (!flashing)
         {
-            energy -= Time.deltaTime; // Reduce energy slowly
+            energy += Time.deltaTime / 2; // Reduce energy slowly
         }
         else
         {
-            energy -= Time.deltaTime * 4f; // Reduce energy faster
+            energy -= Time.deltaTime / 3; // Reduce energy faster
         }
 
         // Clamp energy to ensure it stays within valid range

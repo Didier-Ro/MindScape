@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class StaminaBar : MonoBehaviour
 {
     public Slider slider;
+    [SerializeField] private DashController _dashController;
     public float regenSpeed = 1f; // Stamina regeneration speed per second
     public float shiftStaminaCost = 25f; // Stamina cost when using Shift key
     public float delayBeforeRefill = 1.5f; // Delay before stamina starts refilling after it's used
@@ -19,7 +20,7 @@ public class StaminaBar : MonoBehaviour
     private void Update()
     {
         RegenerateStamina();
-        UseStamina();
+       //UseStamina();
     }
 
     private void RegenerateStamina()
@@ -30,17 +31,18 @@ public class StaminaBar : MonoBehaviour
             currentStamina = Mathf.Clamp(currentStamina, 0f, slider.maxValue); // Ensure stamina does not exceed maximum
             slider.value = currentStamina; // Update stamina bar value
         }
+        if (currentStamina >= slider.maxValue)
+        {
+            _dashController.UnlockDash();
+        }
     }
 
-    private void UseStamina()
+    public void UseStamina()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && currentStamina >= shiftStaminaCost)
-        {
             currentStamina -= shiftStaminaCost; // Reduce stamina when Shift key is pressed
             currentStamina = Mathf.Clamp(currentStamina, 0f, slider.maxValue); // Ensure stamina doesn't go below 0
             slider.value = currentStamina; // Update stamina bar value
             refillTimer = Time.time + delayBeforeRefill; // Set the refill timer
-        }
     }
 
     public void SetMaxStamina(float stamina)
