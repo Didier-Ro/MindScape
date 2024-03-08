@@ -6,13 +6,14 @@ public class DashController : MonoBehaviour
 {
     public float dashDistance = 5f;
     public float dashDuration = 0.2f;
-    public float dashCooldown = 1f;
     public LayerMask dashLayerMask;
-
+    
     private Rigidbody2D rb;
     private bool isDashing = false;
     private bool canDash = true;
     private Vector2 lastMovementDirection;
+
+    [SerializeField] private StaminaBar _staminaBar;
 
     void Start()
     {
@@ -41,11 +42,12 @@ public class DashController : MonoBehaviour
         isDashing = true;
         canDash = false;
 
-        Vector2 targetPosition = (Vector2)transform.position + (dashDirection * dashDistance);
+        Vector2 targetPosition = (Vector2) transform.position + (dashDirection * dashDistance);
 
         float dashTime = 0f;
         while (dashTime < dashDuration)
         {
+            _staminaBar.UseStamina();
             rb.MovePosition(Vector2.Lerp(transform.position, targetPosition, dashTime / dashDuration));
             dashTime += Time.deltaTime;
             yield return null;
@@ -54,11 +56,12 @@ public class DashController : MonoBehaviour
         rb.MovePosition(targetPosition);
 
         isDashing = false;
-
-        yield return new WaitForSeconds(dashCooldown);
-        canDash = true;
     }
 
+    public void UnlockDash()
+    {
+        canDash = true;
+    }
     private Vector2 DetermineDashDirection()
     {
         Vector2 inputDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
