@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5884745616733486445}
   - component: {fileID: 1914622887189723427}
   - component: {fileID: 5364415971258984023}
+  - component: {fileID: 3165050413991467005}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -102,6 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 5
   _rb: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &1914622887189723427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,7 +130,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: -1264
+  m_InstanceId: 33874
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0.5, z: 0}
@@ -159,6 +161,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &3165050413991467005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2329885812725176872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d80e28ac52e2a034793ba41a702707ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashlight: {fileID: 2776427008835697697}
 --- !u!1 &3093103328976649715
 GameObject:
   m_ObjectHideFlags: 0

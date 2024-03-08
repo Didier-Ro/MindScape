@@ -16,3 +16,7 @@ public class KeyInteraction : InteractableObjects
         
     }
 }
+
+public class InteractableObjects
+{
+}
