@@ -10,9 +10,6 @@ public class UIManager : MonoBehaviour
         return Instance;
     }
 
-    [SerializeField] private GameObject pauseUI;
-    [SerializeField] private GameObject deadUI;
-
     private void Awake()
     {
         if (Instance == null)
