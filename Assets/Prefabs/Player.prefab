@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9140427169719169660}
   - component: {fileID: 5884745616733486445}
   - component: {fileID: 1914622887189723427}
+  - component: {fileID: 5364415971258984023}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -99,9 +100,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08932f801c07fc64bb805ae29450c986, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Obstacles: []
-  Boxes: []
-  ReadytoMove: 0
+  _speed: 5
+  _rb: {fileID: 0}
 --- !u!114 &1914622887189723427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,10 +128,37 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: -43264
+  m_InstanceId: -1264
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0.5, z: 0}
+--- !u!50 &5364415971258984023
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2329885812725176872}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &3093103328976649715
 GameObject:
   m_ObjectHideFlags: 0
