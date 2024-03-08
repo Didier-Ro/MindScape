@@ -72,6 +72,20 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
+
+        if (Input.GetKeyDown(KeyCode.F) && canInteract)
+        {
+            interactiveObject.GetComponent<Istepable>().Activate();
+            canInteract = false;
+            isInteracting = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.B) && isInteracting)
+        {
+            interactiveObject.GetComponent<Istepable>().Deactivate();
+            canInteract = true;
+            isInteracting = false;
+        }
     }
 
     void MovePlayer()

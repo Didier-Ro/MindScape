@@ -6,11 +6,11 @@ using System.Collections.Generic;
 
 public class SaveSystem : MonoBehaviour
 {
-    // es mas que nada para poder guardar los datos de si trae esto o aquello xD, ya si no funciona o era chamba de alguien le decimos adiós
-    // Es un método para guardar los datos del juego en un archivo
+    // es mas que nada para poder guardar los datos de si trae esto o aquello xD, ya si no funciona o era chamba de alguien le decimos adiï¿½s
+    // Es un mï¿½todo para guardar los datos del juego en un archivo
     public static void SaveGame(playerController player)
     {
-        // la neta no le entendí muy bien pero funciona, espero
+        // la neta no le entendï¿½ muy bien pero funciona, espero
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/gameData.dat";
         FileStream stream = new FileStream(path, FileMode.Create);
@@ -23,7 +23,7 @@ public class SaveSystem : MonoBehaviour
         stream.Close();
     }
 
-    // El método para cargar los datos del juego desde un archivo
+    // El metodo para cargar los datos del juego desde un archivo
     public static GameData LoadGame()
     {
         string path = Application.persistentDataPath + "/gameData.dat";
@@ -45,7 +45,7 @@ public class SaveSystem : MonoBehaviour
     }
 }
 
-// Clase para almacenar los datos del juego que se guardarán y cargarán
+// Clase para almacenar los datos del juego que se guardarï¿½n y cargarï¿½n
 [Serializable]
 public class GameData
 {

@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Letter : InteractableObjects
+public class Letter : MonoBehaviour, Istepable
 {
-    public override void InteractionResponse()
+    public void Activate()
     {
-        base.InteractionResponse();
-        Debug.Log("Leyendo");
+        Debug.Log("Reading");
     }
 
+    public void Deactivate()
+    {
+        Debug.Log("Exit");
+    }
 }
