@@ -70,7 +70,7 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(_isInteracting);
+       
     }
 
     private void OnDisable()

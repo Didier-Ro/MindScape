@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
@@ -16,6 +17,12 @@ public class Flashlight : MonoBehaviour
     [SerializeField] private Light2D flashlight;
     [SerializeField] private float energy = 100f; // Initial energy value
     private bool flashing = false;
+
+    [SerializeField] private float angle;
+    private bool _canSeeTarget = false;
+    [SerializeField] private LayerMask obstructionMask;
+    [SerializeField] private LayerMask targetMask;
+    [SerializeField] private float radius;
 
     private void Awake()
     {
@@ -36,9 +43,13 @@ public class Flashlight : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         HandleInput();
+    }
+
+    private void Update()
+    {
         UpdateEnergyUI();
     }
 
@@ -60,6 +71,7 @@ public class Flashlight : MonoBehaviour
         else
         {
             ConcentrateLight();
+            EnemyLanternCheck();
         }
         // Reduce energy based on flashlight mode
         ReduceEnergy();
@@ -69,6 +81,44 @@ public class Flashlight : MonoBehaviour
     private void UpdateEnergyUI()
     {
         slider.value = energy;
+    }
+
+    private void EnemyLanternCheck()
+    {
+        Collider2D[] rangeCheck = Physics2D.OverlapCircleAll(transform.position, radius, targetMask);
+        if (rangeCheck.Length == 0) return;
+        Transform target = rangeCheck[0].transform;
+        Vector2 directionTarget = (target.position - transform.position).normalized;
+        if (Vector2.Angle(transform.forward, directionTarget) < angle / 2) //Verify if the plauer is in the designed fov
+        {
+            float distanceToTarget = Vector2.Distance(transform.position, target.position); //Minium distance to see the target
+            _canSeeTarget = !Physics2D.Raycast(transform.position, directionTarget, distanceToTarget, obstructionMask);
+            if (!_canSeeTarget) return;
+            rangeCheck[0].GetComponent<Ikillable>().Hit();
+        }
+        else if (_canSeeTarget)
+        {
+            _canSeeTarget = false;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, radius);
+
+        Gizmos.color = Color.green;
+
+        float halfFOV = angle / 2f;
+        Quaternion leftRayRotation = Quaternion.AngleAxis(-halfFOV, Vector3.forward);
+        Quaternion rightRayRotation = Quaternion.AngleAxis(halfFOV, Vector3.forward);
+
+        Vector3 leftRayDirection = leftRayRotation * transform.right;
+        Vector3 rightRayDirection = rightRayRotation * transform.right;
+
+        // Dibujar solo el gizmo del ángulo de visión
+        Gizmos.DrawLine( transform.position, transform.position + leftRayDirection * radius);
+        Gizmos.DrawLine(transform.position, transform.position + rightRayDirection * radius);
     }
 
     // Set flashlight settings for circle light mode

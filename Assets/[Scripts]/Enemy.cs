@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour,Ikillable
 {
     private bool isSuscribed = true;
     private bool CanMove = true;
@@ -9,7 +9,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Rigidbody2D _targetRb; 
     [SerializeField] private Vector2 _seekTarget; 
     [SerializeField] private Rigidbody2D _rb; 
-    private float prediction; 
+    private float prediction;
+    private SpriteRenderer _spriteRenderer;
+    private float _secondsToDie = 3;
+    private float _framesHit = 0f;
     [SerializeField] private float maxPrediction;
     
     #region SubscriptionToGameManager
@@ -28,7 +31,8 @@ public class Enemy : MonoBehaviour
         void Start()
         { 
             SubscribeToGameManagerGameState();
-            _rb = GetComponent<Rigidbody2D>(); 
+            _rb = GetComponent<Rigidbody2D>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
         }
         
         
@@ -90,8 +94,8 @@ public class Enemy : MonoBehaviour
       }
       void FixedUpdate()
       {
-          if (!CanMove) return;
-          GetSteering();
+       /*   if (!CanMove) return;
+          GetSteering();*/
       }
   
       private void OnDrawGizmos() 
@@ -104,4 +108,27 @@ public class Enemy : MonoBehaviour
           Gizmos.color = Color.cyan;
           Gizmos.DrawSphere(draw, 0.3f);
       }
-  }
+
+      private void ChangeOpacity(float newOpacity)
+      {
+          Color color = _spriteRenderer.color;
+          color.a = newOpacity;
+          _spriteRenderer.color = color;
+      }
+
+      public void Hit()
+      {
+          if (_framesHit >= _secondsToDie * 60)
+          {
+              gameObject.SetActive(false);
+              ChangeOpacity(1);
+              _framesHit = 0;
+          }
+          else
+          {
+              _framesHit++;
+              float opacitySprite = _framesHit * 100 / (_secondsToDie * 60)/100;
+              ChangeOpacity(1.0f - opacitySprite); 
+          }
+      }
+}
