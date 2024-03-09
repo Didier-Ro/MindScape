@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    public bool flashing = false;
     private GAME_STATE currentGameState = GAME_STATE.EXPLORATION;
     public Action<GAME_STATE> OnGameStateChange;
 
@@ -28,6 +29,16 @@ public class GameManager : MonoBehaviour
         }
 
         Application.targetFrameRate = 60;
+    }
+
+    public bool ReturnFlashing()
+    {
+        return flashing;
+    }
+    
+    public void ToggleFlashing()
+    {
+        flashing = !flashing;
     }
 
     public void ChangeGameState(GAME_STATE _newGameState)//When called, the current Game State changes to the new Game State and sends a notification to all subscribers that the Game State changed

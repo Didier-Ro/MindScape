@@ -75,8 +75,7 @@ public class Flashlight : MonoBehaviour
     // Handle input to toggle flashlight mode
     private void HandleInput()
     {
-
-        if (!flashing)
+        if (!GameManager.GetInstance().ReturnFlashing())
         {
             CircleLight();
         }
@@ -95,9 +94,9 @@ public class Flashlight : MonoBehaviour
         slider.value = energy;
     }
 
-    private void EnemyLanternCheck()
+    private void EnemyLanternCheck() //method to Know if an Enemy is on the angle
     {
-        Collider2D[] rangeCheck = Physics2D.OverlapCircleAll(transform.position, radius, targetMask);
+        Collider2D[] rangeCheck = Physics2D.OverlapCircleAll(transform.position, radius, targetMask); //Made a overlapCircle to check if an enemy is near
         if (rangeCheck.Length == 0) return;
         Transform target = rangeCheck[0].transform;
         Vector2 directionTarget = (target.position - transform.position).normalized;
@@ -193,13 +192,6 @@ public class Flashlight : MonoBehaviour
             flashlight.pointLightOuterAngle = minPointLightOuterAngle;
         }
     }
-
-    // Toggle between flashlight modes
-    public void ToggleFlashing()
-    {
-        flashing = !flashing;
-    }
-
     // Reduce energy based on flashlight mode
     private void ReduceEnergy()
     {
