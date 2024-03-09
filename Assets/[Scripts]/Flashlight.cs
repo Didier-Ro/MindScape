@@ -15,6 +15,17 @@ public class Flashlight : MonoBehaviour
     
     public Slider slider;
     [SerializeField] private Light2D flashlight;
+    [SerializeField] private float maxPointLightInnerAngle = 360;
+    [SerializeField] private float maxPointLightOuterAngle = 360;
+    [SerializeField] private float minPointLightInnerAngle = 0;
+    [SerializeField] private float minPointLightOuterAngle = 70;
+    [SerializeField] private float maxPointLightOuterRadius = 3;
+    [SerializeField] private float minPointLightOuterRadius = 3;
+    [SerializeField] private float maxLightIntensity = 1;
+    [SerializeField] private float minLightIntensity = 0.7f;
+    [SerializeField] private float intensityTimeSpeed;
+    [SerializeField] private float lightInnerAngleTimeSpeed;
+    [SerializeField] private float lightOuterAngleTimeSpeed;
     [SerializeField] private float energy = 100f; // Initial energy value
     private bool flashing = false;
 
@@ -40,6 +51,7 @@ public class Flashlight : MonoBehaviour
     void Start()
     {
         InitializeFlashlight();
+        LightSetUp();
     }
 
     // Update is called once per frame
@@ -122,23 +134,64 @@ public class Flashlight : MonoBehaviour
     }
 
     // Set flashlight settings for circle light mode
+    private void LightSetUp() 
+    {
+        float time = 0.3f;
+        int frame = 60;
+
+        float totalIntensityValue = maxLightIntensity - minLightIntensity;
+        float totalLightInnerAngle = maxPointLightInnerAngle - minPointLightInnerAngle;
+        float totalLightOuterAngle = maxPointLightOuterAngle - minPointLightOuterAngle;
+
+        intensityTimeSpeed = totalIntensityValue / (frame * time);
+        lightInnerAngleTimeSpeed = totalLightInnerAngle / (frame * time);
+        lightOuterAngleTimeSpeed = totalLightOuterAngle / (frame * time);   
+    }
     private void CircleLight()
     {
-        flashlight.intensity = 0.7f;
+        flashlight.intensity -= intensityTimeSpeed; 
         flashlight.pointLightOuterRadius = 3;
-        flashlight.pointLightInnerRadius = 0.24f;
-        flashlight.pointLightInnerAngle = 360;
-        flashlight.pointLightOuterAngle = 360;
+        flashlight.pointLightInnerRadius = 3;
+        flashlight.pointLightInnerAngle += lightInnerAngleTimeSpeed;
+        flashlight.pointLightOuterAngle += lightOuterAngleTimeSpeed;
+
+        if (flashlight.intensity <= minLightIntensity) 
+        {
+            flashlight.intensity = minLightIntensity;
+        }
+        if (flashlight.pointLightInnerAngle >= maxPointLightInnerAngle)
+        {
+            flashlight.pointLightInnerAngle = maxPointLightInnerAngle;
+        }
+
+        if (flashlight.pointLightOuterAngle >= maxPointLightOuterAngle)
+        {
+            flashlight.pointLightOuterAngle = maxPointLightOuterAngle;
+        }
     }
 
     // Set flashlight settings for concentrated light mode
     private void ConcentrateLight()
     {
-        flashlight.intensity = 1;
-        flashlight.pointLightOuterRadius = Mathf.Lerp(3, 6, 1);
-        flashlight.pointLightInnerRadius = 0.24f;
-        flashlight.pointLightInnerAngle = Mathf.Lerp(360, 26, 1);
-        flashlight.pointLightOuterAngle = Mathf.Lerp(360, 26, 1);
+        flashlight.intensity += intensityTimeSpeed;
+        flashlight.pointLightOuterRadius = 3;
+        flashlight.pointLightInnerRadius = 3;
+        flashlight.pointLightInnerAngle -= lightInnerAngleTimeSpeed;
+        flashlight.pointLightOuterAngle -= lightOuterAngleTimeSpeed;
+
+        if (flashlight.intensity >= maxLightIntensity)
+        {
+            flashlight.intensity = maxLightIntensity;
+        }
+        if (flashlight.pointLightInnerAngle <= minPointLightInnerAngle)
+        {
+            flashlight.pointLightInnerAngle = minPointLightInnerAngle;
+        }
+
+        if (flashlight.pointLightOuterAngle <= minPointLightOuterAngle)
+        {
+            flashlight.pointLightOuterAngle = minPointLightOuterAngle;
+        }
     }
 
     // Toggle between flashlight modes
