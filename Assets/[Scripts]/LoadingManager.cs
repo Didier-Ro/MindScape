@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -8,7 +9,7 @@ public class LoadingManager : MonoBehaviour
     public static LoadingManager instance;
 
     public GameObject loadingScreen;
-    public Text progressText;
+    public TextMeshProUGUI progressText;
 
     private void Awake()
     {

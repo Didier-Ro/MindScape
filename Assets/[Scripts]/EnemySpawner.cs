@@ -3,11 +3,16 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private GameObject target;
+    public Vector2[] VectorsToSpawn;
+    
     private void Start()
     {
-        GameObject enemy = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.EnemyChase, new Vector2(1, 1), new Vector3(0, 0, 0));
-        enemy.GetComponent<Enemy>().AssignTarget(target);
-        GameObject enemy2 =  PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.EnemyChase, new Vector2(2, 1), new Vector3(0, 0, 0));
-        enemy2.GetComponent<Enemy>().AssignTarget(target);
+        target = GameObject.FindGameObjectWithTag("Player");
+        for (int i = 0; i < 4; i++)
+        {
+            GameObject enemy = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.EnemyChase, VectorsToSpawn[i], new Vector3(0, 0, 0));
+            enemy.GetComponent<Enemy>().AssignTarget(target);
+        }
+        
     }
 }
