@@ -4,11 +4,11 @@ public class Enemy : MonoBehaviour,Ikillable
 {
     private bool isSuscribed = true;
     private bool CanMove = true;
-    public bool isChasing = false;
 
     #region ChasingVariables
      [SerializeField] private float satisfactionRadius;
      [SerializeField] private float timeToTarget = 0.25f;
+     [SerializeField] private float proximateError = 0.5f;
     #endregion
     [SerializeField] private float _maxSpeed; 
     [SerializeField] private Transform _target;
@@ -106,13 +106,13 @@ public class Enemy : MonoBehaviour,Ikillable
       void FixedUpdate()
       {
           if (!CanMove) return;
-          if (!GameManager.GetInstance().flashing)
+          if (!GameManager.GetInstance().ReturnFlashing())
           {
-              GetSteering();
+              Chasing();
           }
           else
           {
-              Chasing();
+              GetSteering();
           }
           
       }
@@ -130,22 +130,28 @@ public class Enemy : MonoBehaviour,Ikillable
               }
               _rb.velocity = result;
           }
+          else if (result.magnitude < satisfactionRadius - proximateError) 
+          {
+              result = transform.position - _target.position;
+              result *= _maxSpeed;
+              _rb.velocity = result;
+          }
           else //stop the movement
           {
-              _rb.velocity = Vector3.zero;
+              _rb.velocity = Vector2.zero;
           }
       }
   
       private void OnDrawGizmos()
       {
-          Vector2 point = isChasing ? _target.position : _seekTarget;
+          Vector2 point = GameManager.GetInstance().ReturnFlashing() ? _seekTarget :  _target.position;
           DrawGizmosLine(point);
       }
   
       private void DrawGizmosLine(Vector2 draw)
       {
           Gizmos.color = Color.cyan;
-          float radiusGizmos = isChasing ? satisfactionRadius : 0.3f;
+          float radiusGizmos = GameManager.GetInstance().ReturnFlashing() ? 0.3f : satisfactionRadius;
           Gizmos.DrawSphere(draw, radiusGizmos);  
       }
 
@@ -169,6 +175,7 @@ public class Enemy : MonoBehaviour,Ikillable
               else
               {
                   _framesHit++;
+                  _rb.velocity /=  1.1f;
                   float opacitySprite = _framesHit * 100 / (_secondsToDie * 60)/100;
                   ChangeOpacity(1.0f - opacitySprite); 
               }
