@@ -21,6 +21,7 @@ public class InputManager : MonoBehaviour
         SubscribeToGameManagerGameState();
     }
 
+    #region SubscribeToGamestate
     private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
     {
         GameManager.GetInstance().OnGameStateChange += OnGameStateChange;
@@ -45,6 +46,7 @@ public class InputManager : MonoBehaviour
                 break;
         }   
     }
+    #endregion
 
     private PlayerControls _playerControls = default;
     [Header("GameplayInputs")]
