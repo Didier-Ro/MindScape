@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +15,36 @@ public class InputManager : MonoBehaviour
         return Instance;
     }
     #endregion
+    
+    private void Start()
+    {
+        SubscribeToGameManagerGameState();
+    }
+
+    private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
+    {
+        GameManager.GetInstance().OnGameStateChange += OnGameStateChange;
+        OnGameStateChange(GameManager.GetInstance().GetCurrentGameState());
+    }
+
+    private void OnGameStateChange(GAME_STATE _newGameState)//Analyze the Game State type and shows a different UI
+    {
+        switch (_newGameState)
+        {
+            case GAME_STATE.PAUSE:
+                //PauseUI();
+                break;
+            case GAME_STATE.EXPLORATION:
+                ActivateGameplay();
+                break;
+            case GAME_STATE.READING:
+                ActivateReading();
+                break;
+            case GAME_STATE.DEAD:
+                //DeadUI();
+                break;
+        }   
+    }
 
     private PlayerControls _playerControls = default;
     [Header("GameplayInputs")]
@@ -23,10 +54,7 @@ public class InputManager : MonoBehaviour
     private InputAction _lightInput = default;
     private InputAction _dashInput = default;
 
-    [Header("ReadInputs")] private InputAction _nextInput = default;
-    
-    //Here goes any script that you want to control
-    //private ONLYTESTmovement _playerMovement = default;
+    [Header("ReadInputs")] public static InputAction _nextInput = default;
 
     [Header("Read values")] 
     private Vector2 _vectorValue = default;
@@ -60,24 +88,31 @@ public class InputManager : MonoBehaviour
         _dashInput = _playerControls.Gameplay.Dash;
         _dashInput.Enable();
         _nextInput = _playerControls.Reading.Next;
-        _nextInput.Enable();
+        _nextInput.Disable();
         _playerControls.Gameplay.Pause.performed += _ => SetPause();
         _playerControls.Gameplay.Protect.performed += _ => GameManager.GetInstance().ToggleFlashing();
-        _playerControls.Gameplay.Dash.performed += _ => DashController.GetInstance().SetInputDash();
+        //_playerControls.Gameplay.Dash.performed += _ => DashController.GetInstance().SetInputDash();
 
     }
-    
+
+    private void ActivateReading()
+    {
+      _playerControls.Gameplay.Disable();
+       _playerControls.Reading.Enable();
+    }
+
+    private void ActivateGameplay()
+    {
+        _playerControls.Gameplay.Enable();
+        _playerControls.Reading.Disable();
+    }
+
 
     private void OnDisable()
     {
         _playerControls.Disable();
     }
-    private void Update()
-    {
-        Debug.Log(_interactInput.ToString());
-    }
     
-
     public Vector2 MovementInput()
     {
         _vectorValue = _moveInput.ReadValue<Vector2>();
@@ -94,5 +129,10 @@ public class InputManager : MonoBehaviour
     public bool InteractInput()
     {
         return _interactInput.triggered;
+    }
+
+    public bool NextInput()
+    {
+        return _nextInput.triggered;
     }
 }

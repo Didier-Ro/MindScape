@@ -1,9 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Letter : MonoBehaviour, Istepable
+public class Sign : MonoBehaviour, Istepable
 {
     [SerializeField] private Dialog dialog;
     
@@ -16,7 +15,6 @@ public class Letter : MonoBehaviour, Istepable
     public void Deactivate()
     {
         Debug.Log("Exit");
-        Destroy(gameObject);
+      
     }
-    
 }
