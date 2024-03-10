@@ -31,7 +31,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-
         if (isInteracting)
         {
             DialogManager.GetInstance().HandleUpdate();
@@ -57,9 +56,8 @@ public class PlayerController : MonoBehaviour
 
     public void SetInteraction()
     {
-        if (canInteract && InputManager.GetInstance().IsInteracting())
+        if (canInteract)
         {
-            InputManager.GetInstance().ChangeInputState();
             //interactiveObject.GetComponent<Istepable>().Activate();
             GameManager.GetInstance().ChangeGameState(GAME_STATE.READING);
             currentGamestate = GameManager.GetInstance().GetCurrentGameState();

@@ -60,8 +60,9 @@ public class DialogManager : MonoBehaviour
 
     public void HandleUpdate()
     {
-        if (isTyping && InputManager.GetInstance().NextLine())
+        if (isTyping && InputManager.GetInstance().InteractInput())
         {
+            Debug.Log("Se presionó");
             ++currentLine;
             if (currentLine < dialog.Lines.Count)
             {

@@ -18,7 +18,7 @@ public class InputManager : MonoBehaviour
     private PlayerControls _playerControls = default;
     [Header("GameplayInputs")]
     private InputAction _moveInput = default;
-    private InputAction _interactInput = default;
+    public static InputAction _interactInput = default;
     private InputAction _pauseInput = default;
     private InputAction _lightInput = default;
     private InputAction _dashInput = default;
@@ -62,27 +62,25 @@ public class InputManager : MonoBehaviour
         _nextInput = _playerControls.Reading.Next;
         _nextInput.Enable();
         _playerControls.Gameplay.Pause.performed += _ => SetPause();
-        _playerControls.Gameplay.Interact.performed += _ => IsInteracting();
         _playerControls.Gameplay.Protect.performed += _ => GameManager.GetInstance().ToggleFlashing();
         _playerControls.Gameplay.Dash.performed += _ => DashController.GetInstance().SetInputDash();
 
     }
-
-    private void Update()
-    {
-       
-    }
+    
 
     private void OnDisable()
     {
         _playerControls.Disable();
     }
+    private void Update()
+    {
+        Debug.Log(_interactInput.ToString());
+    }
+    
 
     public Vector2 MovementInput()
     {
-      // GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
         _vectorValue = _moveInput.ReadValue<Vector2>();
-        
         return _vectorValue;
     }
 
@@ -93,30 +91,8 @@ public class InputManager : MonoBehaviour
         return _isPaused;
     }
 
-    public bool IsOn()
+    public bool InteractInput()
     {
-        _isOn = true;
-        if (_isOn)
-        {
-            _isOn = false;
-        }
-        return _isOn;
-    }
-
-    public bool IsInteracting()
-    {
-        _isReading = true;
-        _isInteracting = true;
-        return _isInteracting;
-    }
-
-    public void ChangeInputState()
-    {
-        _isInteracting = !_isInteracting;
-    }
-
-    public bool NextLine()
-    {
-        return _isReading;
+        return _interactInput.triggered;
     }
 }
