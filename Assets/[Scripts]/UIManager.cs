@@ -12,7 +12,6 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject pauseUI;
     [SerializeField] private GameObject deadUI;
-    [SerializeField] private Dialog dialog;
 
     private void Awake()
     {
@@ -72,7 +71,6 @@ public class UIManager : MonoBehaviour
     private void ReadingUI() 
     {
         //Enable Reading UI in hierarchy
-       DialogManager.GetInstance().ShowDialog(dialog);
     }
     private void DeadUI() 
     {
