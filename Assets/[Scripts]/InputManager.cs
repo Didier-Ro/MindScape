@@ -59,9 +59,6 @@ public class InputManager : MonoBehaviour
     [Header("Read values")] 
     private Vector2 _vectorValue = default;
     private bool _isPaused = false;
-    private bool _isInteracting = false;
-    private bool _isReading = false;
-    private bool _isOn = false;
 
     private void Awake()
     {
@@ -90,8 +87,6 @@ public class InputManager : MonoBehaviour
         _nextInput = _playerControls.Reading.Next;
         _nextInput.Disable();
         _playerControls.Gameplay.Pause.performed += _ => SetPause();
-        _playerControls.Gameplay.Protect.performed += _ => GameManager.GetInstance().ToggleFlashing();
-        //_playerControls.Gameplay.Dash.performed += _ => DashController.GetInstance().SetInputDash();
 
     }
 
@@ -121,14 +116,22 @@ public class InputManager : MonoBehaviour
 
     public bool SetPause()
     {
-        GameManager.GetInstance().ChangeGameState(GAME_STATE.PAUSE);
-        _isPaused = true;
-        return _isPaused;
+        return _pauseInput.triggered;
     }
 
     public bool InteractInput()
     {
         return _interactInput.triggered;
+    }
+
+    public bool FlashligthInput()
+    {
+        return _lightInput.triggered;
+    }
+
+    public bool DashInput()
+    {
+        return _dashInput.triggered;
     }
 
     public bool NextInput()
