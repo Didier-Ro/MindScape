@@ -40,33 +40,53 @@ public class DialogManager : MonoBehaviour
 
     #endregion
 
-    public void ShowDialog(Dialog dialog)
+    private void Update()
     {
+        Debug.Log("La linea se encuentra en: "+ currentLine);
+      
+        
+    }
 
+    public IEnumerator ShowDialog(Dialog dialog)
+    {
+        yield return new WaitForEndOfFrame();
+        Debug.Log(dialog.Lines);
         this.dialog = dialog;
         _dialogBox.SetActive(true);
         StartCoroutine(TypeDialog(dialog.Lines[0]));
     }
 
+   
+
+    public void HandleUpdate()
+    {
+        if (InputManager.GetInstance().NextInput() && !isTyping)
+        {
+            Debug.Log("Se presionó");
+            ++currentLine;
+            if (currentLine < dialog.Lines.Count)
+            {
+                StartCoroutine(TypeDialog(dialog.Lines[currentLine]));
+            }
+            else
+            {
+                currentLine = 0;
+                _dialogBox.SetActive(false);
+                OnCloseDialog?.Invoke();
+            }
+        }
+    }
+    
     public IEnumerator TypeDialog(string line)
     {
+        isTyping = true;
         _dialogText.text = "";
         foreach (var letter in line.ToCharArray())
         {
             _dialogText.text += letter;
             yield return new WaitForSeconds(1f / letterspPerSecond);
         }
-    }
 
-    public void HandleUpdate()
-    {
-        if (isTyping && InputManager.GetInstance().NextLine())
-        {
-            ++currentLine;
-            if (currentLine < dialog.Lines.Count)
-            {
-                StartCoroutine(TypeDialog(dialog.Lines[currentLine]));
-            }
-        }
+        isTyping = false;
     }
 }
