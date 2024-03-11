@@ -1,18 +1,17 @@
-using System;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class Flashlight : MonoBehaviour
 {
-    #region Singletone
-    private static Flashlight Instance;
-    public static Flashlight GetInstance() 
-    { 
-        return Instance;
+    #region Singleton
+    private static Flashlight instance;
+    public static Flashlight GetInstance()
+    {
+        return instance;
     }
     #endregion
-    
+
     public Slider slider;
     [SerializeField] private Light2D flashlight;
     [SerializeField] private float maxPointLightInnerAngle = 360;
@@ -26,20 +25,19 @@ public class Flashlight : MonoBehaviour
     [SerializeField] private float intensityTimeSpeed;
     [SerializeField] private float lightInnerAngleTimeSpeed;
     [SerializeField] private float lightOuterAngleTimeSpeed;
-    [SerializeField] private float energy = 100f; // Initial energy value
-    private bool flashing = false;
-
     [SerializeField] private float angle;
-    private bool _canSeeTarget = false;
+    private bool canSeeTarget = false;
     [SerializeField] private LayerMask obstructionMask;
     [SerializeField] private LayerMask targetMask;
     [SerializeField] private float radius;
+    public float currentSliderValue = 100f;
+    private float reductionSpeed;
 
     private void Awake()
     {
-        if (Instance == null)
+        if (instance == null)
         {
-            Instance = this;
+            instance = this;
         }
         else
         {
@@ -47,29 +45,21 @@ public class Flashlight : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         InitializeFlashlight();
         LightSetUp();
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         HandleInput();
-    }
-
-    private void Update()
-    {
-        UpdateEnergyUI();
     }
 
     // Initialize the flashlight settings
     private void InitializeFlashlight()
     {
         CircleLight();
-        energy = slider.maxValue;
     }
 
     // Handle input to toggle flashlight mode
@@ -84,56 +74,90 @@ public class Flashlight : MonoBehaviour
             ConcentrateLight();
             EnemyLanternCheck();
         }
-        // Reduce energy based on flashlight mode
-        ReduceEnergy();
     }
 
-    // Update the energy UI slider
-    private void UpdateEnergyUI()
+    // Method to check if an Enemy is within the flashlight's angle
+    private void EnemyLanternCheck()
     {
-        slider.value = energy;
-    }
-
-    private void EnemyLanternCheck() //method to Know if an Enemy is on the angle
-    {
-        Collider2D[] rangeCheck = Physics2D.OverlapCircleAll(transform.position, radius, targetMask); //Made a overlapCircle to check if an enemy is near
+        Collider2D[] rangeCheck = Physics2D.OverlapCircleAll(transform.position, radius, targetMask);
         if (rangeCheck.Length == 0) return;
         Transform target = rangeCheck[0].transform;
         Vector2 directionTarget = (target.position - transform.position).normalized;
-        if (Vector2.Angle(transform.forward, directionTarget) < angle / 2) //Verify if the plauer is in the designed fov
+        if (Vector2.Angle(transform.forward, directionTarget) < angle / 2)
         {
-            float distanceToTarget = Vector2.Distance(transform.position, target.position); //Minium distance to see the target
-            _canSeeTarget = !Physics2D.Raycast(transform.position, directionTarget, distanceToTarget, obstructionMask);
-            if (!_canSeeTarget) return;
+            float distanceToTarget = Vector2.Distance(transform.position, target.position);
+            canSeeTarget = !Physics2D.Raycast(transform.position, directionTarget, distanceToTarget, obstructionMask);
+            if (!canSeeTarget) return;
             rangeCheck[0].GetComponent<Ikillable>().Hit();
         }
-        else if (_canSeeTarget)
+        else if (canSeeTarget)
         {
-            _canSeeTarget = false;
+            canSeeTarget = false;
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, radius);
-
-        Gizmos.color = Color.green;
-
-        float halfFOV = angle / 2f;
-        Quaternion leftRayRotation = Quaternion.AngleAxis(-halfFOV, Vector3.forward);
-        Quaternion rightRayRotation = Quaternion.AngleAxis(halfFOV, Vector3.forward);
-
-        Vector3 leftRayDirection = leftRayRotation * transform.right;
-        Vector3 rightRayDirection = rightRayRotation * transform.right;
-
-        // Dibujar solo el gizmo del ángulo de visión
-        Gizmos.DrawLine( transform.position, transform.position + leftRayDirection * radius);
-        Gizmos.DrawLine(transform.position, transform.position + rightRayDirection * radius);
     }
 
     // Set flashlight settings for circle light mode
-    private void LightSetUp() 
+    private void CircleLight()
+    {
+        ReduceSliderValue(0.01f);
+        flashlight.intensity -= intensityTimeSpeed;
+        flashlight.pointLightOuterRadius = 3;
+        flashlight.pointLightInnerRadius = 3;
+        flashlight.pointLightInnerAngle += lightInnerAngleTimeSpeed;
+        flashlight.pointLightOuterAngle += lightOuterAngleTimeSpeed;
+
+        if (flashlight.intensity <= minLightIntensity)
+        {
+            flashlight.intensity = minLightIntensity;
+        }
+        if (flashlight.pointLightInnerAngle >= maxPointLightInnerAngle)
+        {
+            flashlight.pointLightInnerAngle = maxPointLightInnerAngle;
+        }
+        if (flashlight.pointLightOuterAngle >= maxPointLightOuterAngle)
+        {
+            flashlight.pointLightOuterAngle = maxPointLightOuterAngle;
+        }
+    }
+
+    // Set flashlight settings for concentrated light mode
+    private void ConcentrateLight()
+    {
+        ReduceSliderValue(0.05f);
+        flashlight.intensity += 2 * intensityTimeSpeed;
+        flashlight.pointLightOuterRadius = 3;
+        flashlight.pointLightInnerRadius = 3;
+        flashlight.pointLightInnerAngle -= 2 * lightInnerAngleTimeSpeed;
+        flashlight.pointLightOuterAngle -= 2 * lightOuterAngleTimeSpeed;
+
+        if (flashlight.intensity >= maxLightIntensity)
+        {
+            flashlight.intensity = maxLightIntensity;
+        }
+        if (flashlight.pointLightInnerAngle <= minPointLightInnerAngle)
+        {
+            flashlight.pointLightInnerAngle = minPointLightInnerAngle;
+        }
+        if (flashlight.pointLightOuterAngle <= minPointLightOuterAngle)
+        {
+            flashlight.pointLightOuterAngle = minPointLightOuterAngle;
+        }
+    }
+
+    // Reduce the slider value based on frames
+    public void ReduceSliderValue(float _reductionSpeed)
+    {
+        reductionSpeed = _reductionSpeed;
+        currentSliderValue -= reductionSpeed;
+        slider.value = currentSliderValue;
+        if(slider.value <= 0)
+            flashlight.gameObject.SetActive(false);
+        else 
+            flashlight.gameObject.SetActive(true);
+    }
+
+    // Set up initial flashlight settings
+    private void LightSetUp()
     {
         float time = 0.3f;
         int frame = 60;
@@ -144,73 +168,6 @@ public class Flashlight : MonoBehaviour
 
         intensityTimeSpeed = totalIntensityValue / (frame * time);
         lightInnerAngleTimeSpeed = totalLightInnerAngle / (frame * time);
-        lightOuterAngleTimeSpeed = totalLightOuterAngle / (frame * time);   
-    }
-    private void CircleLight()
-    {
-        flashlight.intensity -= intensityTimeSpeed; 
-        flashlight.pointLightOuterRadius = 3;
-        flashlight.pointLightInnerRadius = 3;
-        flashlight.pointLightInnerAngle += lightInnerAngleTimeSpeed;
-        flashlight.pointLightOuterAngle += lightOuterAngleTimeSpeed;
-
-        if (flashlight.intensity <= minLightIntensity) 
-        {
-            flashlight.intensity = minLightIntensity;
-        }
-        if (flashlight.pointLightInnerAngle >= maxPointLightInnerAngle)
-        {
-            flashlight.pointLightInnerAngle = maxPointLightInnerAngle;
-        }
-
-        if (flashlight.pointLightOuterAngle >= maxPointLightOuterAngle)
-        {
-            flashlight.pointLightOuterAngle = maxPointLightOuterAngle;
-        }
-    }
-
-    // Set flashlight settings for concentrated light mode
-    private void ConcentrateLight()
-    {
-        flashlight.intensity += intensityTimeSpeed;
-        flashlight.pointLightOuterRadius = 3;
-        flashlight.pointLightInnerRadius = 3;
-        flashlight.pointLightInnerAngle -= lightInnerAngleTimeSpeed;
-        flashlight.pointLightOuterAngle -= lightOuterAngleTimeSpeed;
-
-        if (flashlight.intensity >= maxLightIntensity)
-        {
-            flashlight.intensity = maxLightIntensity;
-        }
-        if (flashlight.pointLightInnerAngle <= minPointLightInnerAngle)
-        {
-            flashlight.pointLightInnerAngle = minPointLightInnerAngle;
-        }
-
-        if (flashlight.pointLightOuterAngle <= minPointLightOuterAngle)
-        {
-            flashlight.pointLightOuterAngle = minPointLightOuterAngle;
-        }
-    }
-    // Reduce energy based on flashlight mode
-    private void ReduceEnergy()
-    {
-        if (!flashing)
-        {
-            energy += Time.deltaTime / 2; // Reduce energy slowly
-        }
-        else
-        {
-            energy -= Time.deltaTime / 3; // Reduce energy faster
-        }
-
-        // Clamp energy to ensure it stays within valid range
-        energy = Mathf.Clamp(energy, 0f, slider.maxValue);
-    }
-
-    // Function to get current energy level
-    public float GetEnergy()
-    {
-        return energy;
+        lightOuterAngleTimeSpeed = totalLightOuterAngle / (frame * time);
     }
 }
