@@ -30,7 +30,7 @@ public class Flashlight : MonoBehaviour
     [SerializeField] private LayerMask obstructionMask;
     [SerializeField] private LayerMask targetMask;
     [SerializeField] private float radius;
-    private float currentSliderValue = 100f;
+    public float currentSliderValue = 100f;
     private float reductionSpeed;
 
     private void Awake()
@@ -145,7 +145,7 @@ public class Flashlight : MonoBehaviour
     }
 
     // Reduce the slider value based on frames
-    private void ReduceSliderValue(float _reductionSpeed)
+    public void ReduceSliderValue(float _reductionSpeed)
     {
         reductionSpeed = _reductionSpeed;
         currentSliderValue -= reductionSpeed;

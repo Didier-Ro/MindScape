@@ -28,13 +28,6 @@ public class HealthController : MonoBehaviour
         migraineImage.color = imageAlpha;
     }
 
-    IEnumerator HurtFlash()
-    {
-        migraineFlashImage.enabled = true;
-        yield return new WaitForSeconds(hurtTimer);
-        migraineFlashImage.enabled = false;
-    }
-
     public void PlayerTakeDamage()
     {
         if(currentPlayerHealth >= 0)
@@ -43,24 +36,27 @@ public class HealthController : MonoBehaviour
             UpdatePlayerHealth();
             healCooldown = maxHealCoolDown;
             startCoolDown = true;
+        }else if(currentPlayerHealth <= 0)
+        {
+            currentPlayerHealth = 0;
         }
     }
 
-    private void Update()
+    void Regen()
     {
         if (startCoolDown)
         {
             healCooldown -= Time.deltaTime;
-            if(healCooldown <= 0)
+            if (healCooldown <= 0)
             {
                 canRegen = true;
                 startCoolDown = false;
             }
         }
 
-        if(canRegen)
+        if (canRegen)
         {
-            if(currentPlayerHealth <= maxPlayerHealth - 0.01f)
+            if (currentPlayerHealth <= maxPlayerHealth - 0.01f)
             {
                 currentPlayerHealth += Time.deltaTime * regenRate;
                 UpdatePlayerHealth();
@@ -72,5 +68,10 @@ public class HealthController : MonoBehaviour
                 canRegen = false;
             }
         }
+    }
+
+    private void Update()
+    {
+        Regen();
     }
 }
