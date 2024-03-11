@@ -15,6 +15,7 @@ public class Flashlight : MonoBehaviour
     
     public Slider slider;
     [SerializeField] private Light2D flashlight;
+    [SerializeField] private Light2D wallFlashLight;
     [SerializeField] private float maxPointLightInnerAngle = 360;
     [SerializeField] private float maxPointLightOuterAngle = 360;
     [SerializeField] private float minPointLightInnerAngle = 0;
@@ -152,21 +153,28 @@ public class Flashlight : MonoBehaviour
         flashlight.intensity -= intensityTimeSpeed; 
         flashlight.pointLightOuterRadius = 3;
         flashlight.pointLightInnerRadius = 3;
+        wallFlashLight.pointLightOuterRadius = 3;
+        wallFlashLight.pointLightInnerRadius = 3;
         flashlight.pointLightInnerAngle += lightInnerAngleTimeSpeed;
+        wallFlashLight.pointLightInnerAngle += lightInnerAngleTimeSpeed;
         flashlight.pointLightOuterAngle += lightOuterAngleTimeSpeed;
+        wallFlashLight.pointLightOuterAngle += lightOuterAngleTimeSpeed;
 
         if (flashlight.intensity <= minLightIntensity) 
         {
             flashlight.intensity = minLightIntensity;
+            wallFlashLight.intensity = minLightIntensity;
         }
         if (flashlight.pointLightInnerAngle >= maxPointLightInnerAngle)
         {
             flashlight.pointLightInnerAngle = maxPointLightInnerAngle;
+            wallFlashLight.pointLightInnerAngle = maxPointLightInnerAngle;
         }
 
         if (flashlight.pointLightOuterAngle >= maxPointLightOuterAngle)
         {
             flashlight.pointLightOuterAngle = maxPointLightOuterAngle;
+            wallFlashLight.pointLightOuterAngle = maxPointLightOuterAngle;
         }
     }
 
@@ -176,21 +184,28 @@ public class Flashlight : MonoBehaviour
         flashlight.intensity += intensityTimeSpeed;
         flashlight.pointLightOuterRadius = 3;
         flashlight.pointLightInnerRadius = 3;
+        wallFlashLight.pointLightOuterRadius = 3;
+        wallFlashLight.pointLightInnerRadius = 3;
         flashlight.pointLightInnerAngle -= lightInnerAngleTimeSpeed;
+        wallFlashLight.pointLightInnerAngle -= lightInnerAngleTimeSpeed;
         flashlight.pointLightOuterAngle -= lightOuterAngleTimeSpeed;
+        wallFlashLight.pointLightOuterAngle -= lightOuterAngleTimeSpeed;
 
         if (flashlight.intensity >= maxLightIntensity)
         {
             flashlight.intensity = maxLightIntensity;
+            wallFlashLight.intensity = maxLightIntensity;
         }
         if (flashlight.pointLightInnerAngle <= minPointLightInnerAngle)
         {
             flashlight.pointLightInnerAngle = minPointLightInnerAngle;
+            wallFlashLight.pointLightInnerAngle = minPointLightInnerAngle;
         }
 
         if (flashlight.pointLightOuterAngle <= minPointLightOuterAngle)
         {
             flashlight.pointLightOuterAngle = minPointLightOuterAngle;
+            wallFlashLight.pointLightOuterAngle = minPointLightOuterAngle;
         }
     }
 
