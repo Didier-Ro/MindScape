@@ -186,10 +186,10 @@ public class Flashlight : MonoBehaviour
         flashlight.pointLightInnerRadius = 3;
         wallFlashLight.pointLightOuterRadius = 3;
         wallFlashLight.pointLightInnerRadius = 3;
-        flashlight.pointLightInnerAngle -= lightInnerAngleTimeSpeed;
-        wallFlashLight.pointLightInnerAngle -= lightInnerAngleTimeSpeed;
-        flashlight.pointLightOuterAngle -= lightOuterAngleTimeSpeed;
-        wallFlashLight.pointLightOuterAngle -= lightOuterAngleTimeSpeed;
+        flashlight.pointLightInnerAngle -= 2 * lightInnerAngleTimeSpeed;
+        wallFlashLight.pointLightInnerAngle -= 2 * lightInnerAngleTimeSpeed;
+        flashlight.pointLightOuterAngle -= 2 * lightOuterAngleTimeSpeed;
+        wallFlashLight.pointLightOuterAngle -= 2 * lightOuterAngleTimeSpeed;
 
         if (flashlight.intensity >= maxLightIntensity)
         {
