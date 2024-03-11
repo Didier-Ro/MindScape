@@ -25,18 +25,19 @@ public class PlayerController : MonoBehaviour
             if (currentGamestate == GAME_STATE.READING)
             {
                 GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
+                interactiveObject.GetComponent<Istepable>().Deactivate();
             }
         };
     }
 
     void Update()
     {
-
-        if (isInteracting)
+        if (currentGamestate == GAME_STATE.READING)
         {
             DialogManager.GetInstance().HandleUpdate();
         }
         SetInteraction();
+        Debug.Log(currentGamestate);
         // Mover el jugador
         //MovePlayer();
 
@@ -57,10 +58,9 @@ public class PlayerController : MonoBehaviour
 
     public void SetInteraction()
     {
-        if (canInteract && InputManager.GetInstance().IsInteracting())
+        if (canInteract && InputManager.GetInstance().InteractInput())
         {
-            InputManager.GetInstance().ChangeInputState();
-            //interactiveObject.GetComponent<Istepable>().Activate();
+            interactiveObject.GetComponent<Istepable>().Activate();
             GameManager.GetInstance().ChangeGameState(GAME_STATE.READING);
             currentGamestate = GameManager.GetInstance().GetCurrentGameState();
             canInteract = false;
@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
     {
         MovePlayer();
 
-        if (Input.GetKeyDown(KeyCode.F) && canInteract)
+       /* if (Input.GetKeyDown(KeyCode.F) && canInteract)
         {
             interactiveObject.GetComponent<Istepable>().Activate();
             canInteract = false;
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
             interactiveObject.GetComponent<Istepable>().Deactivate();
             canInteract = true;
             isInteracting = false;
-        }
+        }*/
     }
 
     void MovePlayer()
