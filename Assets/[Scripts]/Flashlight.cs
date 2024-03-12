@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
@@ -54,6 +55,14 @@ public class Flashlight : MonoBehaviour
     void FixedUpdate()
     {
         HandleInput();
+    }
+
+    private void Update()
+    {
+        if (InputManager.GetInstance().FlashligthInput())
+        {
+          GameManager.GetInstance().ToggleFlashing();
+        }
     }
 
     // Initialize the flashlight settings
@@ -119,6 +128,25 @@ public class Flashlight : MonoBehaviour
             flashlight.pointLightOuterAngle = maxPointLightOuterAngle;
         }
     }
+    
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, radius);
+
+        Gizmos.color = Color.green;
+
+        float halfFOV = angle / 2f;
+        Quaternion leftRayRotation = Quaternion.AngleAxis(-halfFOV, Vector3.forward);
+        Quaternion rightRayRotation = Quaternion.AngleAxis(halfFOV, Vector3.forward);
+
+        Vector3 leftRayDirection = leftRayRotation * transform.right;
+        Vector3 rightRayDirection = rightRayRotation * transform.right;
+
+        // Dibujar solo el gizmo del ángulo de visión
+        Gizmos.DrawLine(transform.position, transform.position + leftRayDirection * radius);
+        Gizmos.DrawLine(transform.position, transform.position + rightRayDirection * radius);
+    }
 
     // Set flashlight settings for concentrated light mode
     private void ConcentrateLight()
@@ -143,6 +171,7 @@ public class Flashlight : MonoBehaviour
             flashlight.pointLightOuterAngle = minPointLightOuterAngle;
         }
     }
+    
 
     // Reduce the slider value based on frames
     public void ReduceSliderValue(float _reductionSpeed)

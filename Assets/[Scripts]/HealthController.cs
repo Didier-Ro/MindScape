@@ -39,6 +39,7 @@ public class HealthController : MonoBehaviour
         }else if(currentPlayerHealth <= 0)
         {
             currentPlayerHealth = 0;
+            GameManager.GetInstance().ChangeGameState(GAME_STATE.DEAD);
         }
     }
 

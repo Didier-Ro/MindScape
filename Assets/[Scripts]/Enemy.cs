@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour,Ikillable
     
    
     private SpriteRenderer _spriteRenderer;
-    private float _secondsToDie = 3;
+    [SerializeField] private float _secondsToDie = 3;
     private float _framesHit = 0f;
     
     #region SubscriptionToGameManager
@@ -175,7 +175,7 @@ public class Enemy : MonoBehaviour,Ikillable
               else
               {
                   _framesHit++;
-                  _rb.velocity /=  1.1f;
+                  _rb.velocity /= 2;
                   float opacitySprite = _framesHit * 100 / (_secondsToDie * 60)/100;
                   ChangeOpacity(1.0f - opacitySprite); 
               }

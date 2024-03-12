@@ -86,6 +86,7 @@ public class CameraManager : MonoBehaviour
             _framingTransposer.m_TrackedObjectOffset = panLerp;
             yield return null;
         }
+        elapsedTime = 0;
     }
 
     #endregion
