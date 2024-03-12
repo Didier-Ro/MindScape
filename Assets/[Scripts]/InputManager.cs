@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,52 +14,26 @@ public class InputManager : MonoBehaviour
         return Instance;
     }
     #endregion
-    
-    private void Start()
-    {
-        SubscribeToGameManagerGameState();
-    }
-
-    #region SubscribeToGamestate
-    private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
-    {
-        GameManager.GetInstance().OnGameStateChange += OnGameStateChange;
-        OnGameStateChange(GameManager.GetInstance().GetCurrentGameState());
-    }
-
-    private void OnGameStateChange(GAME_STATE _newGameState)//Analyze the Game State type and shows a different UI
-    {
-        switch (_newGameState)
-        {
-            case GAME_STATE.PAUSE:
-                //PauseUI();
-                break;
-            case GAME_STATE.EXPLORATION:
-                ActivateGameplay();
-                break;
-            case GAME_STATE.READING:
-                ActivateReading();
-                break;
-            case GAME_STATE.DEAD:
-                //DeadUI();
-                break;
-        }   
-    }
-    #endregion
 
     private PlayerControls _playerControls = default;
     [Header("GameplayInputs")]
     private InputAction _moveInput = default;
-    public static InputAction _interactInput = default;
+    private InputAction _interactInput = default;
     private InputAction _pauseInput = default;
     private InputAction _lightInput = default;
     private InputAction _dashInput = default;
 
-    [Header("ReadInputs")] public static InputAction _nextInput = default;
+    [Header("ReadInputs")] private InputAction _nextInput = default;
+    
+    //Here goes any script that you want to control
+    //private ONLYTESTmovement _playerMovement = default;
 
     [Header("Read values")] 
     private Vector2 _vectorValue = default;
     private bool _isPaused = false;
+    private bool _isInteracting = false;
+    private bool _isReading = false;
+    private bool _isOn = false;
 
     private void Awake()
     {
@@ -87,57 +60,63 @@ public class InputManager : MonoBehaviour
         _dashInput = _playerControls.Gameplay.Dash;
         _dashInput.Enable();
         _nextInput = _playerControls.Reading.Next;
-        _nextInput.Disable();
+        _nextInput.Enable();
         _playerControls.Gameplay.Pause.performed += _ => SetPause();
+        _playerControls.Gameplay.Interact.performed += _ => IsInteracting();
+        _playerControls.Gameplay.Protect.performed += _ => Flashlight.GetInstance().ToggleFlashing();
+        _playerControls.Gameplay.Dash.performed += _ => DashController.GetInstance().SetInputDash();
 
     }
 
-    private void ActivateReading()
+    private void Update()
     {
-      _playerControls.Gameplay.Disable();
-       _playerControls.Reading.Enable();
+       
     }
-
-    private void ActivateGameplay()
-    {
-        _playerControls.Gameplay.Enable();
-        _playerControls.Reading.Disable();
-    }
-
 
     private void OnDisable()
     {
         _playerControls.Disable();
     }
-    
+
     public Vector2 MovementInput()
     {
+      // GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
         _vectorValue = _moveInput.ReadValue<Vector2>();
+        
         return _vectorValue;
     }
 
     public bool SetPause()
     {
-        return _pauseInput.triggered;
+        GameManager.GetInstance().ChangeGameState(GAME_STATE.PAUSE);
+        _isPaused = true;
+        return _isPaused;
     }
 
-    public bool InteractInput()
+    public bool IsOn()
     {
-        return _interactInput.triggered;
+        _isOn = true;
+        if (_isOn)
+        {
+            _isOn = false;
+        }
+        return _isOn;
     }
 
-    public bool FlashligthInput()
+    public bool IsInteracting()
     {
-        return _lightInput.triggered;
+        _isReading = true;
+        _isInteracting = true;
+        return _isInteracting;
     }
 
-    public bool DashInput()
+    public void ChangeInputState()
     {
-        return _dashInput.triggered;
+        _isInteracting = !_isInteracting;
     }
 
-    public bool NextInput()
+    public bool NextLine()
     {
-        return _nextInput.triggered;
+        return _isReading;
     }
 }
