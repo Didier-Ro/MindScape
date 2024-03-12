@@ -1,17 +1,16 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class CameraManager : MonoBehaviour
 {
-    private float elapsedTime = 0;
-    public static CameraManager instance;
-    private Coroutine _panCameraCoroutine;
-    [SerializeField] private CinemachineVirtualCamera[] _allVirtualCameras;
     private Vector2 _startingTrackedOffset;
-    private CinemachineVirtualCamera _currentCamera;
-    private CinemachineFramingTransposer _framingTransposer;
-
+    private CinemachineVirtualCamera currentCamera;
+    private CinemachineFramingTransposer framingTransposer;
+    private Coroutine panCameraCoroutine;
+    public static CameraManager instance;
+    [SerializeField] private CinemachineVirtualCamera[] allVirtualCameras;
+    
     private void Awake()
     {
         if (instance == null)
@@ -19,31 +18,28 @@ public class CameraManager : MonoBehaviour
             instance = this;
         }
 
-        for (int i = 0; i <_allVirtualCameras.Length; i++)
+        for (int i = 0; i <allVirtualCameras.Length; i++)
         {
             //set the current active camera
-            _currentCamera = _allVirtualCameras[i];
+            currentCamera = allVirtualCameras[i];
             //set the framing transposer
-            _framingTransposer = _currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+            framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
         }
         //set the starting position of the tracked object offset
-        _startingTrackedOffset = _framingTransposer.m_TrackedObjectOffset;
+        _startingTrackedOffset = framingTransposer.m_TrackedObjectOffset;
     }
     
-
-
     #region PanCamera
 
     public void PanCameraOnContact(float panDistance, float panTime, PanDirection panDirection, bool panToStartingPos)
     {
-        _panCameraCoroutine = StartCoroutine(PanCamera(panDistance, panTime, panDirection, panToStartingPos));
+        panCameraCoroutine = StartCoroutine(PanCamera(panDistance, panTime, panDirection, panToStartingPos));
     }
 
     public IEnumerator PanCamera(float panDistance, float panTime, PanDirection panDirection, bool panToStartingPos)
     {
         Vector2 endPos = Vector2.zero;
         Vector2 startingPos = Vector2.zero;
-        
         //handle pan for trigger
         if (!panToStartingPos)
         {
@@ -72,19 +68,20 @@ public class CameraManager : MonoBehaviour
         //handle the pan back to startng position
         else
         {
-            startingPos = _framingTransposer.m_TrackedObjectOffset;
+            startingPos = framingTransposer.m_TrackedObjectOffset;
             endPos = _startingTrackedOffset;
         }
 
-        
-        while (elapsedTime < panTime * 60)
+        float elapsedTime = 0;
+        while (elapsedTime < panTime)
         {
             elapsedTime += 1 / 60f;
             Vector3 panLerp = Vector3.Lerp(startingPos, endPos, (elapsedTime / panTime));
-            _framingTransposer.m_TrackedObjectOffset = panLerp;
+            framingTransposer.m_TrackedObjectOffset = panLerp;
             yield return null;
         }
-        elapsedTime = 0;
+        Debug.Log(elapsedTime);
+       
     }
 
     #endregion
