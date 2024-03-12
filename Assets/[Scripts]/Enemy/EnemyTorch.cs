@@ -43,7 +43,7 @@ public class EnemyTorch : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == ("Torch"))
+        if(collision.tag == ("Stepable"))
         {
             collision.gameObject.GetComponent<EIstepable>().EActivate();
             isInteracting= true;
@@ -52,22 +52,10 @@ public class EnemyTorch : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.tag == ("Torch"))
+        if (collision.tag == ("Stepable"))
         {
             collision.gameObject.GetComponent<EIstepable>().EDeactivate();
             isInteracting= false;
         }
     }
-
-    /*private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.tag == ("Torch"))
-        {
-            if (!collision.gameObject.GetComponent<Torch>().IsLightOn() && isInteracting)
-            {
-                isInteracting = false;
-                index++;
-            }
-        }
-    }*/
 }

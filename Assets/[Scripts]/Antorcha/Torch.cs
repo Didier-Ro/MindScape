@@ -30,12 +30,19 @@ public class Torch : MonoBehaviour, EIstepable, Istepable
             ReduceLightIntensity();
         }
     }
+    public void Activate()
+    {
+        
+    }
+
+    public void Deactivate()
+    {
+        
+    }
 
     public void EActivate()
     {
-        Debug.Log("Entra");
         enemyTurningOff = true;
-        
     }
 
     public void EDeactivate()
@@ -60,15 +67,5 @@ public class Torch : MonoBehaviour, EIstepable, Istepable
             currentIntensity = minIntensity;
             isLightOn = false;
         }
-    }
-
-    public void Activate()
-    {
-        
-    }
-
-    public void Deactivate()
-    {
-        
     }
 }
