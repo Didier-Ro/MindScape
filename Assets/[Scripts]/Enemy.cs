@@ -4,27 +4,16 @@ public class Enemy : MonoBehaviour,Ikillable
 {
     private bool isSuscribed = true;
     private bool CanMove = true;
-
-    #region ChasingVariables
-     [SerializeField] private float satisfactionRadius;
-     [SerializeField] private float timeToTarget = 0.25f;
-     [SerializeField] private float proximateError = 0.5f;
-    #endregion
     [SerializeField] private float _maxSpeed; 
-    [SerializeField] private Transform _target;
-    [SerializeField] private Rigidbody2D _rb; 
-
-    #region AttackingVariables
+    [SerializeField] private Transform _target; 
     [SerializeField] private Rigidbody2D _targetRb; 
     [SerializeField] private Vector2 _seekTarget; 
+    [SerializeField] private Rigidbody2D _rb; 
     private float prediction;
-    [SerializeField] private float maxPrediction;
-    #endregion
-    
-   
     private SpriteRenderer _spriteRenderer;
     private float _secondsToDie = 3;
     private float _framesHit = 0f;
+    [SerializeField] private float maxPrediction;
     
     #region SubscriptionToGameManager
     private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
@@ -105,54 +94,19 @@ public class Enemy : MonoBehaviour,Ikillable
       }
       void FixedUpdate()
       {
-          if (!CanMove) return;
-          if (!GameManager.GetInstance().ReturnFlashing())
-          {
-              Chasing();
-          }
-          else
-          {
-              GetSteering();
-          }
-          
-      }
-
-      private void Chasing() //Chasing or lurking method
-      {
-          Vector2 result = _target.position - transform.position; //Calculates the distance between player
-          if (result.magnitude > satisfactionRadius) //Check if the distance is bigger than radiusLimit
-          {
-              result /= timeToTarget; // decrease the speed in relation to the time is target
-              if (result.magnitude > _maxSpeed)
-              {
-                  result.Normalize();
-                  result *= _maxSpeed;
-              }
-              _rb.velocity = result;
-          }
-          else if (result.magnitude < satisfactionRadius - proximateError) 
-          {
-              result = transform.position - _target.position;
-              result *= _maxSpeed;
-              _rb.velocity = result;
-          }
-          else //stop the movement
-          {
-              _rb.velocity = Vector2.zero;
-          }
+       /*   if (!CanMove) return;
+          GetSteering();*/
       }
   
-      private void OnDrawGizmos()
+      private void OnDrawGizmos() 
       {
-          Vector2 point = GameManager.GetInstance().ReturnFlashing() ? _seekTarget :  _target.position;
-          DrawGizmosLine(point);
+          DrawGizmosLine(_seekTarget);
       }
   
       private void DrawGizmosLine(Vector2 draw)
       {
           Gizmos.color = Color.cyan;
-          float radiusGizmos = GameManager.GetInstance().ReturnFlashing() ? 0.3f : satisfactionRadius;
-          Gizmos.DrawSphere(draw, radiusGizmos);  
+          Gizmos.DrawSphere(draw, 0.3f);
       }
 
       private void ChangeOpacity(float newOpacity)
@@ -164,22 +118,17 @@ public class Enemy : MonoBehaviour,Ikillable
 
       public void Hit()
       {
-          if (CanMove)
+          if (_framesHit >= _secondsToDie * 60)
           {
-              if (_framesHit >= _secondsToDie * 60)
-              {
-                  gameObject.SetActive(false);
-                  ChangeOpacity(1);
-                  _framesHit = 0;
-              }
-              else
-              {
-                  _framesHit++;
-                  _rb.velocity /=  1.1f;
-                  float opacitySprite = _framesHit * 100 / (_secondsToDie * 60)/100;
-                  ChangeOpacity(1.0f - opacitySprite); 
-              }
+              gameObject.SetActive(false);
+              ChangeOpacity(1);
+              _framesHit = 0;
           }
-         
+          else
+          {
+              _framesHit++;
+              float opacitySprite = _framesHit * 100 / (_secondsToDie * 60)/100;
+              ChangeOpacity(1.0f - opacitySprite); 
+          }
       }
 }
