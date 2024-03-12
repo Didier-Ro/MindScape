@@ -79,7 +79,7 @@ public class CameraManager : MonoBehaviour
         }
 
         
-        while (elapsedTime < panTime)
+        while (elapsedTime < panTime * 60)
         {
             elapsedTime += 1 / 60f;
             Vector3 panLerp = Vector3.Lerp(startingPos, endPos, (elapsedTime / panTime));
