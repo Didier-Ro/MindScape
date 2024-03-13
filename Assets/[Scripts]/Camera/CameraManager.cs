@@ -9,7 +9,7 @@ public class CameraManager : MonoBehaviour
     private CinemachineFramingTransposer framingTransposer;
     private Coroutine panCameraCoroutine;
     public static CameraManager instance;
-    [SerializeField] private CinemachineVirtualCamera[] allVirtualCameras;
+    [SerializeField] private CinemachineVirtualCamera[] allVirtualCameras = default;
     
     private void Awake()
     {
@@ -31,19 +31,19 @@ public class CameraManager : MonoBehaviour
     
     #region PanCamera
 
-    public void PanCameraOnContact(float panDistance, float panTime, PanDirection panDirection, bool panToStartingPos)
+    public void PanCameraOnContact(float _panDistance, float _panTime, PanDirection _panDirection, bool _panToStartingPos)
     {
-        panCameraCoroutine = StartCoroutine(PanCamera(panDistance, panTime, panDirection, panToStartingPos));
+        panCameraCoroutine = StartCoroutine(PanCamera(_panDistance, _panTime, _panDirection, _panToStartingPos));
     }
 
-    public IEnumerator PanCamera(float panDistance, float panTime, PanDirection panDirection, bool panToStartingPos)
+    public IEnumerator PanCamera(float _panDistance, float _panTime, PanDirection _panDirection, bool _panToStartingPos)
     {
         Vector2 endPos = Vector2.zero;
         Vector2 startingPos = Vector2.zero;
         //handle pan for trigger
-        if (!panToStartingPos)
+        if (!_panToStartingPos)
         {
-            switch (panDirection)
+            switch (_panDirection)
             {
                 case PanDirection.Up:
                     endPos = Vector2.up;
@@ -61,7 +61,7 @@ public class CameraManager : MonoBehaviour
                     break;
             }
 
-            endPos *= panDistance;
+            endPos *= _panDistance;
             startingPos = _startingTrackedOffset;
             endPos += startingPos;
         }
@@ -73,15 +73,43 @@ public class CameraManager : MonoBehaviour
         }
 
         float elapsedTime = 0;
-        while (elapsedTime < panTime)
+        while (elapsedTime < _panTime)
         {
             elapsedTime += 1 / 60f;
-            Vector3 panLerp = Vector3.Lerp(startingPos, endPos, (elapsedTime / panTime));
+            Vector3 panLerp = Vector3.Lerp(startingPos, endPos, (elapsedTime / _panTime));
             framingTransposer.m_TrackedObjectOffset = panLerp;
             yield return null;
         }
-        Debug.Log(elapsedTime);
-       
+    }
+
+    #endregion
+
+    #region Swap Cameras
+
+    public void SwapCamera(CinemachineVirtualCamera _cameraFromLeft, CinemachineVirtualCamera _cameraFromRight, Vector2 _triggerExitDirection)
+    {
+        //if the current Camera is the camera on the left and our trigger exit direction was on the right
+        if (currentCamera == _cameraFromLeft && _triggerExitDirection.x > 0f)
+        {
+            //activate the new camera
+            _cameraFromRight.enabled = true;
+            //deactivate the other camera
+            _cameraFromLeft.enabled = false;
+            //set the new camera at the current camera
+            currentCamera = _cameraFromRight;
+            //update our composer variable
+            framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+        }
+        else if(currentCamera == _cameraFromRight && _triggerExitDirection.x < 0f)
+        {
+            _cameraFromLeft.enabled = true;
+            //deactivate the other camera
+            _cameraFromRight.enabled = false;
+            //set the new camera at the current camera
+            currentCamera = _cameraFromLeft;
+            //update our composer variable
+            framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+        }
     }
 
     #endregion

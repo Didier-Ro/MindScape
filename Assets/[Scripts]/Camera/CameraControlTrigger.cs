@@ -4,10 +4,11 @@ using UnityEditor;
 
 public class CameraControlTrigger : MonoBehaviour
 {
+    private Collider2D coll;
     // Start is called before the first frame update
-      public CustomInspectorObjects customInspectorObjects;
+    public CustomInspectorObjects customInspectorObjects;
 
-      private Collider2D coll;
+      
 
     private void Start()
     {
@@ -29,6 +30,15 @@ public class CameraControlTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            Vector2 exitDirection = (other.transform.position - coll.bounds.center).normalized;
+
+            if (customInspectorObjects.swapCameras && customInspectorObjects.cameraOnLeft != null && customInspectorObjects.cameraOnRight !=null)
+            {
+                //swap Cameras
+                Debug.Log("cambio de camara");
+                CameraManager.instance.SwapCamera(customInspectorObjects.cameraOnLeft, customInspectorObjects.cameraOnRight, exitDirection);
+            }
+            
             if (customInspectorObjects.panCameraOnContact)
             {
                 CameraManager.instance.PanCameraOnContact(customInspectorObjects.panDistance, customInspectorObjects.panTime, customInspectorObjects.panDirection, true); 
