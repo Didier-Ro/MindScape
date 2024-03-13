@@ -45,18 +45,18 @@ public class PlayerController : MonoBehaviour
         MovePlayer();
     }
     
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D _collision)
     {
-        if (collision.tag == ("Stepable"))
+        if (_collision.tag == ("Stepable"))
         {
-            interactiveObject = collision.gameObject;
+            interactiveObject = _collision.gameObject;
             canInteract = true;
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D _collision)
     {
-        if (collision.tag == ("Stepable"))
+        if (_collision.tag == ("Stepable"))
         {
             interactiveObject = null;
             canInteract = false;

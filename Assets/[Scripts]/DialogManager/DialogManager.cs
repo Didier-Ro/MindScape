@@ -39,11 +39,11 @@ public class DialogManager : MonoBehaviour
 
     #endregion
 
-    public IEnumerator ShowDialog(Dialog dialog)
+    public IEnumerator ShowDialog(Dialog _dialog)
     {
         yield return new WaitForEndOfFrame();
         Debug.Log(dialog.Lines);
-        this.dialog = dialog;
+        this.dialog = _dialog;
         dialogBox.SetActive(true);
         StartCoroutine(TypeDialog(dialog.Lines[0]));
     }
@@ -68,11 +68,11 @@ public class DialogManager : MonoBehaviour
         }
     }
     
-    public IEnumerator TypeDialog(string line)
+    public IEnumerator TypeDialog(string _line)
     {
         isTyping = true;
         dialogText.text = "";
-        foreach (var letter in line.ToCharArray())
+        foreach (var letter in _line.ToCharArray())
         {
             dialogText.text += letter;
             yield return new WaitForSeconds(1f / lettersPerSecond);
