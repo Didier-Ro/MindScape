@@ -71,6 +71,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleLight"",
+                    ""type"": ""Button"",
+                    ""id"": ""0426142b-c3cc-4753-b25b-d9e55365b422"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -198,7 +207,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d3b25449-0718-42c8-b5f8-d664106df320"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -264,11 +273,33 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""dd85387a-f7ee-4773-a0bd-bf931812982d"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Protect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""02750ff3-e9cf-4d68-8210-3f45cc461d81"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleLight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e176e975-36fd-4c23-b4a5-87cd896ef80a"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleLight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -303,7 +334,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""1b80460a-f4fe-4f01-a599-aa96a958f363"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<XInputController>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -323,6 +354,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Gameplay_Dash = m_Gameplay.FindAction("Dash", throwIfNotFound: true);
         m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
         m_Gameplay_Protect = m_Gameplay.FindAction("Protect", throwIfNotFound: true);
+        m_Gameplay_ToggleLight = m_Gameplay.FindAction("ToggleLight", throwIfNotFound: true);
         // Reading
         m_Reading = asset.FindActionMap("Reading", throwIfNotFound: true);
         m_Reading_Next = m_Reading.FindAction("Next", throwIfNotFound: true);
@@ -392,6 +424,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Dash;
     private readonly InputAction m_Gameplay_Pause;
     private readonly InputAction m_Gameplay_Protect;
+    private readonly InputAction m_Gameplay_ToggleLight;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -401,6 +434,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Dash => m_Wrapper.m_Gameplay_Dash;
         public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
         public InputAction @Protect => m_Wrapper.m_Gameplay_Protect;
+        public InputAction @ToggleLight => m_Wrapper.m_Gameplay_ToggleLight;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -425,6 +459,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Protect.started += instance.OnProtect;
             @Protect.performed += instance.OnProtect;
             @Protect.canceled += instance.OnProtect;
+            @ToggleLight.started += instance.OnToggleLight;
+            @ToggleLight.performed += instance.OnToggleLight;
+            @ToggleLight.canceled += instance.OnToggleLight;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -444,6 +481,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Protect.started -= instance.OnProtect;
             @Protect.performed -= instance.OnProtect;
             @Protect.canceled -= instance.OnProtect;
+            @ToggleLight.started -= instance.OnToggleLight;
+            @ToggleLight.performed -= instance.OnToggleLight;
+            @ToggleLight.canceled -= instance.OnToggleLight;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -514,6 +554,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnDash(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnProtect(InputAction.CallbackContext context);
+        void OnToggleLight(InputAction.CallbackContext context);
     }
     public interface IReadingActions
     {

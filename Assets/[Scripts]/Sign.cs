@@ -1,9 +1,8 @@
 using UnityEngine;
 
-public class Letter : MonoBehaviour, Istepable
+public class Sign : MonoBehaviour, Istepable
 {
     [SerializeField] private Dialog dialog;
-    
     public void Activate()
     {
         Debug.Log("Reading");
@@ -15,7 +14,5 @@ public class Letter : MonoBehaviour, Istepable
     {
         Debug.Log("Exit");
         GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
-        Destroy(gameObject);
     }
-    
 }
