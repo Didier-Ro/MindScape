@@ -4,26 +4,16 @@ public class Enemy : MonoBehaviour,Ikillable
 {
     private bool isSuscribed = true;
     private bool CanMove = true;
-
-    #region ChasingVariables
-     [SerializeField] private float satisfactionRadius = default;
-     [SerializeField] private float timeToTarget = default;
-     [SerializeField] private float proximateError = default;
-    #endregion
-    [SerializeField] private float maxSpeed = default; 
-    [SerializeField] private Transform targetTransform = default;
-    [SerializeField] private Rigidbody2D rb = default; 
-
-    #region AttackingVariables
+    [SerializeField] private float _maxSpeed; 
+    [SerializeField] private Transform _target; 
+    [SerializeField] private Rigidbody2D _targetRb; 
+    [SerializeField] private Vector2 _seekTarget; 
+    [SerializeField] private Rigidbody2D _rb; 
     private float prediction;
-    [SerializeField] private Rigidbody2D targetRb; 
-    [SerializeField] private Vector2 seekTarget; 
+    private SpriteRenderer _spriteRenderer;
+    private float _secondsToDie = 3;
+    private float _framesHit = 0f;
     [SerializeField] private float maxPrediction;
-    #endregion
-    
-    private float framesHit = 0f;
-    private SpriteRenderer spriteRenderer;
-    [SerializeField] private float secondsToDie = 3;
     
     #region SubscriptionToGameManager
     private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
@@ -41,23 +31,10 @@ public class Enemy : MonoBehaviour,Ikillable
         void Start()
         { 
             SubscribeToGameManagerGameState();
-            rb = GetComponent<Rigidbody2D>();
-            spriteRenderer = GetComponent<SpriteRenderer>();
+            _rb = GetComponent<Rigidbody2D>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
         }
         
-        void FixedUpdate()
-        {
-            if (!CanMove) return;
-            if (!GameManager.GetInstance().GetFlashing())
-            {
-                Chasing();
-            }
-            else
-            {
-                GetSteering();
-            }
-          
-        }
         
       private void OnDisable()
       {
@@ -78,38 +55,30 @@ public class Enemy : MonoBehaviour,Ikillable
           }
       }
       
-      public void AssignTarget(GameObject _target)
+      public void AssignTarget(GameObject target)
       {
-          targetTransform = _target.transform;
-          targetRb = _target.GetComponent<Rigidbody2D>();
+          _target = target.transform;
+          _targetRb = target.GetComponent<Rigidbody2D>();
       }
-      
-      public void Hit()
+  
+      private void KinematicSeek(Vector2 targetTransform) //Moves the enemy to the Vector 2 you assigned
       {
-          if (CanMove)
-          {
-              if (framesHit >= secondsToDie * 60)
-              {
-                  gameObject.SetActive(false);
-                  ChangeOpacity(1);
-                  framesHit = 0;
-              }
-              else
-              {
-                  framesHit++;
-                  rb.velocity /= 2;
-                  float opacitySprite = framesHit * 100 / (secondsToDie * 60)/100;
-                  ChangeOpacity(1.0f - opacitySprite); 
-              }
-          }
-         
+          //Seek   
+          Vector2 result = targetTransform - (Vector2) transform.position;
+          /* Flee
+           Vector3 result =  transform.position -  _target.position;
+           */
+          result.Normalize();
+          result *= _maxSpeed;
+         // transform.rotation = Quaternion.LookRotation(result);
+          _rb.velocity = result;
       }
-      
+  
       public virtual void GetSteering() //Gets the Player Direction and Makes a Prediction
       {
-          Vector2 direction =  targetTransform.position - transform.position;
+          Vector2 direction =  _target.position - transform.position;
           float distance = direction.magnitude;
-          float speed = rb.velocity.magnitude;
+          float speed = _rb.velocity.magnitude;
           if (speed <= distance / maxPrediction)
           {
               prediction = maxPrediction;
@@ -118,66 +87,48 @@ public class Enemy : MonoBehaviour,Ikillable
           {
               prediction = distance / speed;
           }
-          seekTarget = targetTransform.position;
-          var targetSpeed = targetRb.velocity;
-          seekTarget += targetSpeed * prediction;
-          KinematicSeek(seekTarget);
+          _seekTarget = _target.position;
+          var targetSpeed = _targetRb.velocity;
+          _seekTarget += targetSpeed * prediction;
+          KinematicSeek(_seekTarget);
       }
-      private void KinematicSeek(Vector2 _targetTransform) //Moves the enemy to the Vector 2 you assigned
+      void FixedUpdate()
       {
-          //Seek   
-          Vector2 result = _targetTransform - (Vector2) transform.position;
-          /* Flee
-           Vector3 result =  transform.position -  _target.position;
-           */
-          result.Normalize();
-          result *= maxSpeed;
-          // transform.rotation = Quaternion.LookRotation(result);
-          rb.velocity = result;
-      }
-
-      private void Chasing() //Chasing or lurking method
-      {
-          Vector2 result = targetTransform.position - transform.position; //Calculates the distance between player
-          if (result.magnitude > satisfactionRadius) //Check if the distance is bigger than radiusLimit
-          {
-              result /= timeToTarget; // decrease the speed in relation to the time is target
-              if (result.magnitude > maxSpeed)
-              {
-                  result.Normalize();
-                  result *= maxSpeed;
-              } 
-              rb.velocity = result;
-          }
-          else if (result.magnitude < satisfactionRadius - proximateError) 
-          {
-              result = transform.position - targetTransform.position;
-              result *= maxSpeed;
-              rb.velocity = result;
-          }
-          else //stop the movement
-          {
-              rb.velocity = Vector2.zero;
-          }
+       /*   if (!CanMove) return;
+          GetSteering();*/
       }
   
-      private void OnDrawGizmos()
+      private void OnDrawGizmos() 
       {
-          Vector2 point = GameManager.GetInstance().GetFlashing() ? seekTarget :  targetTransform.position;
-          DrawGizmosLine(point);
+          DrawGizmosLine(_seekTarget);
       }
   
       private void DrawGizmosLine(Vector2 draw)
       {
           Gizmos.color = Color.cyan;
-          float radiusGizmos = GameManager.GetInstance().GetFlashing() ? 0.3f : satisfactionRadius;
-          Gizmos.DrawSphere(draw, radiusGizmos);  
+          Gizmos.DrawSphere(draw, 0.3f);
       }
 
-      private void ChangeOpacity(float _newOpacity)
+      private void ChangeOpacity(float newOpacity)
       {
-          Color color = spriteRenderer.color;
-          color.a = _newOpacity;
-          spriteRenderer.color = color;
+          Color color = _spriteRenderer.color;
+          color.a = newOpacity;
+          _spriteRenderer.color = color;
+      }
+
+      public void Hit()
+      {
+          if (_framesHit >= _secondsToDie * 60)
+          {
+              gameObject.SetActive(false);
+              ChangeOpacity(1);
+              _framesHit = 0;
+          }
+          else
+          {
+              _framesHit++;
+              float opacitySprite = _framesHit * 100 / (_secondsToDie * 60)/100;
+              ChangeOpacity(1.0f - opacitySprite); 
+          }
       }
 }

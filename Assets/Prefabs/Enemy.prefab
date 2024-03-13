@@ -100,16 +100,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f40f534419a7f334ba8de22ed863e9f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  satisfactionRadius: 3.1
-  timeToTarget: 1
-  proximateError: 0.3
-  maxSpeed: 3
-  targetTransform: {fileID: 0}
-  rb: {fileID: 5102803297472633098}
-  targetRb: {fileID: 0}
-  seekTarget: {x: 0, y: 0}
+  _maxSpeed: 3
+  _target: {fileID: 0}
+  _targetRb: {fileID: 0}
+  _seekTarget: {x: 0, y: 0}
+  _rb: {fileID: 5102803297472633098}
   maxPrediction: 0.2
-  secondsToDie: 1
 --- !u!50 &5102803297472633098
 Rigidbody2D:
   serializedVersion: 4
