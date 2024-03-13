@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Serialization;
 
 public class DialogManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _dialogBox = default;
-    [SerializeField] private TextMeshProUGUI _dialogText = default;
-    [SerializeField] private int letterspPerSecond = default;
+    [SerializeField] private GameObject dialogBox = default;
+    [SerializeField] private TextMeshProUGUI dialogText = default;
+    [SerializeField] private int lettersPerSecond = default;
     private bool isTyping = false;
 
    
@@ -45,17 +46,17 @@ public class DialogManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
         
         this.dialog = dialog;
-        _dialogBox.SetActive(true);
+        dialogBox.SetActive(true);
         StartCoroutine(TypeDialog(dialog.Lines[0]));
     }
 
     public IEnumerator TypeDialog(string line)
     {
-        _dialogText.text = "";
+        dialogText.text = "";
         foreach (var letter in line.ToCharArray())
         {
-            _dialogText.text += letter;
-            yield return new WaitForSeconds(1f / letterspPerSecond);
+            dialogText.text += letter;
+            yield return new WaitForSeconds(1f / lettersPerSecond);
         }
     }
 

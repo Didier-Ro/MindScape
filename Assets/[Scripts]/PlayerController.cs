@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private GameObject interactiveObject;
     
-    private Vector2 _moveInputValue = Vector2.zero;
+    private Vector2 moveInputValue = Vector2.zero;
     private GAME_STATE currentGamestate = default;
     
 
@@ -24,7 +24,6 @@ public class PlayerController : MonoBehaviour
         {
             if (currentGamestate == GAME_STATE.READING)
             {
-                GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
                 interactiveObject.GetComponent<Istepable>().Deactivate();
             }
         };
@@ -61,7 +60,6 @@ public class PlayerController : MonoBehaviour
         if (canInteract && InputManager.GetInstance().InteractInput())
         {
             interactiveObject.GetComponent<Istepable>().Activate();
-            
             currentGamestate = GameManager.GetInstance().GetCurrentGameState();
             canInteract = false;
             isInteracting = true;
@@ -90,9 +88,9 @@ public class PlayerController : MonoBehaviour
 
     void MovePlayer()
     {
-        _moveInputValue = InputManager.GetInstance().MovementInput();
+        moveInputValue = InputManager.GetInstance().MovementInput();
        
-        Vector2 movement = new Vector2(_moveInputValue.x, _moveInputValue.y);
+        Vector2 movement = new Vector2(moveInputValue.x, moveInputValue.y);
 
         movement.Normalize(); // Evitar movimientos diagonales más rápidos
 

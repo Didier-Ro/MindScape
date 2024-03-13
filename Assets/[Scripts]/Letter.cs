@@ -17,6 +17,7 @@ public class Letter : MonoBehaviour, Istepable
     public void Deactivate()
     {
         Debug.Log("Exit");
+        GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
         Destroy(gameObject);
     }
     

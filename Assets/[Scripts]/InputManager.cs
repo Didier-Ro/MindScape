@@ -52,13 +52,13 @@ public class InputManager : MonoBehaviour
     
     [Header("GameplayInputs")]
     private InputAction moveInput = default;
-    public static InputAction interactInput = default;
+    private InputAction interactInput = default;
     private InputAction pauseInput = default;
     private InputAction lightInput = default;
     private InputAction dashInput = default;
 
     [Header("ReadInputs")] 
-    public static InputAction nextInput = default;
+    private InputAction nextInput = default;
 
     [Header("Read values")] 
     private Vector2 vectorValue = default;
@@ -117,7 +117,6 @@ public class InputManager : MonoBehaviour
     public bool InteractInput()
     {
         return interactInput.triggered;
-        //uwu
     }
 
     public bool NextInput()
