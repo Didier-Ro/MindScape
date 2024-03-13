@@ -1,75 +1,118 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+
 public class Movement : MonoBehaviour
 {
-    public float walkSpeed = 3f;
-    public Tilemap tilemap;
-    public float moveDelay = 0.2f;
-    Direction currentDir = Direction.South;
-    Vector2 input;
-    bool isMoving = false;
-    Vector3 startPos;
-    Vector3 endPos;
-    float progress;
-    float remainingMoveDelay = 0f;
+    [SerializeField] private Tilemap tilemap = default;
+    [SerializeField] private float moveDelay = default;
+    [SerializeField] private float walkSpeed = default;
+    private Direction currentDir = Direction.South;
+    private Vector2 input;
+    private bool isMoving = false;
+    private Rigidbody2D rb;
+    private Vector2 moveVelocity;
+    private float progress;
+    private float remainingMoveDelay = 0f;
+    private int framesPerMove = 60;
+    private bool isSuscribed = true;
 
-    public void Update()
+    #region SubscriptionToGameManager
+    private void SubscribeToGameManagerGameState() // Subscribe to Game Manager to receive Game State notifications when it changes
+    {
+        GameManager.GetInstance().OnGameStateChange += OnGameStateChange;
+        OnGameStateChange(GameManager.GetInstance().GetCurrentGameState());
+        isSuscribed = true;
+    }
+    private void OnGameStateChange(GAME_STATE _newGameState) // Analyze the Game State type and makes different behavior
+    {
+        isMoving = _newGameState == GAME_STATE.EXPLORATION;
+    }
+    #endregion
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
+
+    void FixedUpdate()
+    {
+        HandleMovementInput();
+        MoveCharacter();
+    }
+
+    void HandleMovementInput()
     {
         if (!isMoving)
         {
-            input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            if (input.x != 0f)
-                input.y = 0;
+            input = InputManager.GetInstance().MovementInput();
+
+            if (input.x != 0f && input.y != 0f)
+            {
+                input.x = Mathf.Sign(input.x);
+                input.y = Mathf.Sign(input.y);
+            }
+
             if (input != Vector2.zero)
             {
                 Direction oldDirection = currentDir;
-                if (input.x == -1f)
-                    currentDir = Direction.West;
-                if (input.x == 1f)
-                    currentDir = Direction.East;
-                if (input.y == 1f)
-                    currentDir = Direction.North;
-                if (input.y == -1f)
-                    currentDir = Direction.South;
+                Vector3Int moveDirection = Vector3Int.RoundToInt(new Vector3(input.x, input.y, 0f));
+
+                if (moveDirection != Vector3Int.zero)
+                {
+                    currentDir = GetDirectionFromVector(moveDirection);
+                }
 
                 if (currentDir != oldDirection)
                 {
                     remainingMoveDelay = moveDelay;
                 }
+
                 if (remainingMoveDelay > 0f)
                 {
-                    remainingMoveDelay -= Time.deltaTime;
+                    remainingMoveDelay -= 1f;
                     return;
                 }
-                startPos = transform.position;
-                endPos = new Vector3(startPos.x + input.x, startPos.y + input.y, startPos.z);
-                Vector3Int tilePosition = new Vector3Int((int)(endPos.x - 0.5f),
-                                                         (int)(endPos.y - 0.5f), 0);
 
-                if (tilemap.GetTile(tilePosition) == null)
-                {
-                    isMoving = true;
-                    progress = 0f;
-                }
-            }
-        }
-        if (isMoving)
-        {
-            if (progress < 1f)
-            {
-                progress += Time.deltaTime * walkSpeed;
-                transform.position = Vector3.Lerp(startPos, endPos, progress);
+                Vector2 desiredVelocity = input * walkSpeed;
+                moveVelocity = Vector2.Lerp(rb.velocity, desiredVelocity, 0.5f);
             }
             else
             {
-
-                isMoving = false;
-                transform.position = endPos;
+                moveVelocity = Vector2.zero;
             }
         }
     }
+
+    void MoveCharacter()
+    {
+        rb.velocity = moveVelocity;
+    }
+
+    private Direction GetDirectionFromVector(Vector3Int direction)
+    {
+        if (direction == Vector3Int.up)
+            return Direction.North;
+        else if (direction == Vector3Int.down)
+            return Direction.South;
+        else if (direction == Vector3Int.right)
+            return Direction.East;
+        else if (direction == Vector3Int.left)
+            return Direction.West;
+        else
+            return currentDir;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Box"))
+        {
+            collision.GetComponent<Boxes>().Activate(transform.position);
+        }
+    }
 }
-enum Direction
+
+public enum Direction
 {
     North, East, South, West
 }
