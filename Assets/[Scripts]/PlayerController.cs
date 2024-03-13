@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private GameObject interactiveObject;
     
-    private Vector2 _moveInputValue = Vector2.zero;
+    private Vector2 moveInputValue = Vector2.zero;
     private GAME_STATE currentGamestate = default;
     
 
@@ -24,8 +24,8 @@ public class PlayerController : MonoBehaviour
         {
             if (currentGamestate == GAME_STATE.READING)
             {
-                GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
                 interactiveObject.GetComponent<Istepable>().Deactivate();
+                canInteract = true;
             }
         };
     }
@@ -37,31 +37,37 @@ public class PlayerController : MonoBehaviour
             DialogManager.GetInstance().HandleUpdate();
         }
         SetInteraction();
-        Debug.Log(currentGamestate);
-        // Mover el jugador
-        //MovePlayer();
+    }
+    
 
-        /*  if (Input.GetKeyDown(KeyCode.F) && canInteract)
-          {
-              interactiveObject.GetComponent<Istepable>().Activate();
-              canInteract = false;
-              isInteracting = true;
-          }
-
-          if (Input.GetKeyDown(KeyCode.B) && isInteracting)
-          {
-              interactiveObject.GetComponent<Istepable>().Deactivate();
-              canInteract = true;
-              isInteracting = false;
-          }*/
+    private void FixedUpdate()
+    {
+        MovePlayer();
+    }
+    
+    private void OnTriggerEnter2D(Collider2D _collision)
+    {
+        if (_collision.tag == ("Stepable"))
+        {
+            interactiveObject = _collision.gameObject;
+            canInteract = true;
+        }
     }
 
+    private void OnTriggerExit2D(Collider2D _collision)
+    {
+        if (_collision.tag == ("Stepable"))
+        {
+            interactiveObject = null;
+            canInteract = false;
+            isInteracting = false;
+        }
+    }
     public void SetInteraction()
     {
         if (canInteract && InputManager.GetInstance().InteractInput())
         {
             interactiveObject.GetComponent<Istepable>().Activate();
-            
             currentGamestate = GameManager.GetInstance().GetCurrentGameState();
             canInteract = false;
             isInteracting = true;
@@ -69,30 +75,12 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    private void FixedUpdate()
-    {
-        MovePlayer();
-
-       /* if (Input.GetKeyDown(KeyCode.F) && canInteract)
-        {
-            interactiveObject.GetComponent<Istepable>().Activate();
-            canInteract = false;
-            isInteracting = true;
-        }
-
-        if (Input.GetKeyDown(KeyCode.B) && isInteracting)
-        {
-            interactiveObject.GetComponent<Istepable>().Deactivate();
-            canInteract = true;
-            isInteracting = false;
-        }*/
-    }
 
     void MovePlayer()
     {
-        _moveInputValue = InputManager.GetInstance().MovementInput();
+        moveInputValue = InputManager.GetInstance().MovementInput();
        
-        Vector2 movement = new Vector2(_moveInputValue.x, _moveInputValue.y);
+        Vector2 movement = new Vector2(moveInputValue.x, moveInputValue.y);
 
         movement.Normalize(); // Evitar movimientos diagonales más rápidos
 
@@ -106,22 +94,4 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == ("Stepable"))
-        {
-            interactiveObject = collision.gameObject;
-            canInteract = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag == ("Stepable"))
-        {
-            interactiveObject = null;
-            canInteract = false;
-            isInteracting = false;
-        }
-    }
 }

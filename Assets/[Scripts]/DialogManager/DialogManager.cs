@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Serialization;
 
 public class DialogManager : MonoBehaviour
 {
-    [SerializeField] private GameObject _dialogBox = default;
-    [SerializeField] private TextMeshProUGUI _dialogText = default;
-    [SerializeField] private int letterspPerSecond = default;
-    private bool isTyping = false;
-
-   
     public event Action OnCloseDialog;
-    private Dialog dialog;
+    [SerializeField] private GameObject dialogBox = default;
+    [SerializeField] private TextMeshProUGUI dialogText = default;
+    [SerializeField] private int lettersPerSecond = default;
+    private bool isTyping = false;
+    private Dialog dialog = default;
     private int currentLine = 0;
-    
+
     
     #region Singletone
     private static DialogManager Instance;
@@ -40,34 +39,45 @@ public class DialogManager : MonoBehaviour
 
     #endregion
 
-    public IEnumerator ShowDialog(Dialog dialog)
+    public IEnumerator ShowDialog(Dialog _dialog)
     {
         yield return new WaitForEndOfFrame();
-        
-        this.dialog = dialog;
-        _dialogBox.SetActive(true);
+        Debug.Log(dialog.Lines);
+        this.dialog = _dialog;
+        dialogBox.SetActive(true);
         StartCoroutine(TypeDialog(dialog.Lines[0]));
     }
 
-    public IEnumerator TypeDialog(string line)
-    {
-        _dialogText.text = "";
-        foreach (var letter in line.ToCharArray())
-        {
-            _dialogText.text += letter;
-            yield return new WaitForSeconds(1f / letterspPerSecond);
-        }
-    }
-
+    
     public void HandleUpdate()
     {
-        if (isTyping && InputManager.GetInstance().NextInput())
+        if (InputManager.GetInstance().NextInput() && !isTyping)
         {
+            Debug.Log("Se presionó");
             ++currentLine;
             if (currentLine < dialog.Lines.Count)
             {
                 StartCoroutine(TypeDialog(dialog.Lines[currentLine]));
             }
+            else
+            {
+                currentLine = 0;
+                dialogBox.SetActive(false);
+                OnCloseDialog?.Invoke();
+            }
         }
+    }
+    
+    public IEnumerator TypeDialog(string _line)
+    {
+        isTyping = true;
+        dialogText.text = "";
+        foreach (var letter in _line.ToCharArray())
+        {
+            dialogText.text += letter;
+            yield return new WaitForSeconds(1f / lettersPerSecond);
+        }
+
+        isTyping = false;
     }
 }
