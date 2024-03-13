@@ -63,7 +63,7 @@ public class InputManager : MonoBehaviour
         _nextInput.Enable();
         _playerControls.Gameplay.Pause.performed += _ => SetPause();
         _playerControls.Gameplay.Interact.performed += _ => IsInteracting();
-        _playerControls.Gameplay.Protect.performed += _ => Flashlight.GetInstance().ToggleFlashing();
+        _playerControls.Gameplay.Protect.performed += _ => GameManager.GetInstance().ToggleFlash();
         _playerControls.Gameplay.Dash.performed += _ => DashController.GetInstance().SetInputDash();
 
     }
