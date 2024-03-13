@@ -5,22 +5,26 @@ using UnityEngine.Rendering.Universal;
 
 public class Torch : MonoBehaviour, EIstepable, Istepable
 {
+    [Header("Light settings")]
     [SerializeField] private Light2D ligth2D;
     [SerializeField] private float lightOffTime = 2.5f;
-    private float maxIntensity = 1.0f;
-    private float minIntensity = 0.0f;
+    [SerializeField] private float lightOnTime = 0.5f;
+    [SerializeField] private float maxIntensity = 1.0f;
+    [SerializeField] private float minIntensity = 0.0f;
     private float currentIntensity = default;
-    private float intensityTimeSpeed  =default;
+    private float intensityOffTimeSpeed  =default;
+    private float intensityOnTimeSpeed =default;
     private bool isLightOn = true;
-    private bool enemyTurningOff = false;
-
+    [SerializeField] private bool enemyTurningOff = false;
     private int frames = 60;
     private float totalIntensityValue = default;
+    [SerializeField] private bool playerTurningOn = false;
     
     void Start()
     {
         totalIntensityValue = maxIntensity - minIntensity;
-        intensityTimeSpeed = totalIntensityValue / (frames * lightOffTime);
+        intensityOffTimeSpeed = totalIntensityValue / (frames * lightOffTime);
+        intensityOnTimeSpeed = totalIntensityValue / (frames * lightOnTime);
     }
 
     private void FixedUpdate()
@@ -29,15 +33,22 @@ public class Torch : MonoBehaviour, EIstepable, Istepable
         {
             ReduceLightIntensity();
         }
+
+        if(playerTurningOn)
+        {
+            IncreaseLightIntensity();
+        }
     }
+
     public void Activate()
     {
-        
+        playerTurningOn = true;
+        Debug.Log("Interacting");
     }
 
     public void Deactivate()
     {
-        
+        playerTurningOn = false;
     }
 
     public void EActivate()
@@ -59,13 +70,26 @@ public class Torch : MonoBehaviour, EIstepable, Istepable
 
     private void ReduceLightIntensity() 
     {
-        ligth2D.intensity -= intensityTimeSpeed;
-        currentIntensity = intensityTimeSpeed;
+        ligth2D.intensity -= intensityOffTimeSpeed;
+        currentIntensity = intensityOffTimeSpeed;
         if (ligth2D.intensity <= minIntensity)
         {
             ligth2D.intensity = 0;
             currentIntensity = minIntensity;
             isLightOn = false;
+        }
+    }
+
+    private void IncreaseLightIntensity()
+    {
+        ligth2D.intensity += intensityOnTimeSpeed;
+        currentIntensity = intensityOnTimeSpeed;
+        if (ligth2D .intensity <= maxIntensity)
+        {
+            ligth2D .intensity = maxIntensity;
+            currentIntensity = maxIntensity;
+            isLightOn = true;
+            playerTurningOn = false;
         }
     }
 }
