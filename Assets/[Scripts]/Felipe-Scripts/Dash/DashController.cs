@@ -45,11 +45,19 @@ public class DashController : MonoBehaviour
 
     void Update()
     {
-       /* if (InputManager.GetInstance(). && canDash)
+        /* if (InputManager.GetInstance(). && canDash)
+         {
+             Vector2 dashDirection = DetermineDashDirection();
+             StartDash(dashDirection);
+         }*/
+        if (canDash)
         {
-            Vector2 dashDirection = DetermineDashDirection();
-            StartDash(dashDirection);
-        }*/
+            if (InputManager.GetInstance().NextLine()) // Suponiendo que NextLine() sea el método que activa el dash en el juego
+            {
+                Vector2 dashDirection = DetermineDashDirection();
+                StartDash(dashDirection);
+            }
+        }
     }
 
     public void SetInputDash()
