@@ -7,7 +7,7 @@ public class DashController : MonoBehaviour
     public float dashDistance = 5f;
     public float dashDuration = 0.2f;
     public float dashCooldown = 1f;
-    public LayerMask dashLayerMask;
+    
 
     private Rigidbody2D rb;
     private bool isDashing = false;
