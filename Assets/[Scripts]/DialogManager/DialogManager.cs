@@ -40,9 +40,10 @@ public class DialogManager : MonoBehaviour
 
     #endregion
 
-    public void ShowDialog(Dialog dialog)
+    public IEnumerator ShowDialog(Dialog dialog)
     {
-
+        yield return new WaitForEndOfFrame();
+        
         this.dialog = dialog;
         _dialogBox.SetActive(true);
         StartCoroutine(TypeDialog(dialog.Lines[0]));
@@ -60,7 +61,7 @@ public class DialogManager : MonoBehaviour
 
     public void HandleUpdate()
     {
-        if (isTyping && InputManager.GetInstance().NextLine())
+        if (isTyping && InputManager.GetInstance().NextInput())
         {
             ++currentLine;
             if (currentLine < dialog.Lines.Count)
