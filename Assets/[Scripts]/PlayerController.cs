@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
         if (canInteract && InputManager.GetInstance().InteractInput())
         {
             interactiveObject.GetComponent<Istepable>().Activate();
-            GameManager.GetInstance().ChangeGameState(GAME_STATE.READING);
+            
             currentGamestate = GameManager.GetInstance().GetCurrentGameState();
             canInteract = false;
             isInteracting = true;

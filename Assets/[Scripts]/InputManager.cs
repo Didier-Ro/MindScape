@@ -15,13 +15,13 @@ public class InputManager : MonoBehaviour
         return Instance;
     }
     #endregion
+    #region SubscribeToGamestate
     
     private void Start()
     {
         SubscribeToGameManagerGameState();
     }
 
-    #region SubscribeToGamestate
     private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
     {
         GameManager.GetInstance().OnGameStateChange += OnGameStateChange;
@@ -48,19 +48,21 @@ public class InputManager : MonoBehaviour
     }
     #endregion
 
-    private PlayerControls _playerControls = default;
+    private PlayerControls playerControls = default;
+    
     [Header("GameplayInputs")]
-    private InputAction _moveInput = default;
-    public static InputAction _interactInput = default;
-    private InputAction _pauseInput = default;
-    private InputAction _lightInput = default;
-    private InputAction _dashInput = default;
+    private InputAction moveInput = default;
+    public static InputAction interactInput = default;
+    private InputAction pauseInput = default;
+    private InputAction lightInput = default;
+    private InputAction dashInput = default;
 
-    [Header("ReadInputs")] public static InputAction _nextInput = default;
+    [Header("ReadInputs")] 
+    public static InputAction nextInput = default;
 
     [Header("Read values")] 
-    private Vector2 _vectorValue = default;
-    private bool _isPaused = false;
+    private Vector2 vectorValue = default;
+    private bool isPaused = false;
 
     private void Awake()
     {
@@ -74,71 +76,70 @@ public class InputManager : MonoBehaviour
             Destroy(gameObject);
         }
         
-        _playerControls = new PlayerControls();
-        _playerControls.Enable();
-        _moveInput = _playerControls.Gameplay.Movement;
-        _moveInput.Enable();
-        _interactInput = _playerControls.Gameplay.Interact;
-        _interactInput.Enable();
-        _pauseInput = _playerControls.Gameplay.Pause;
-        _pauseInput.Enable();
-        _lightInput = _playerControls.Gameplay.Protect;
-        _lightInput.Enable();
-        _dashInput = _playerControls.Gameplay.Dash;
-        _dashInput.Enable();
-        _nextInput = _playerControls.Reading.Next;
-        _nextInput.Disable();
-        _playerControls.Gameplay.Pause.performed += _ => SetPause();
+        playerControls = new PlayerControls();
+        playerControls.Enable();
+        moveInput = playerControls.Gameplay.Movement;
+        moveInput.Enable();
+        interactInput = playerControls.Gameplay.Interact;
+        interactInput.Enable();
+        pauseInput = playerControls.Gameplay.Pause;
+        pauseInput.Enable();
+        lightInput = playerControls.Gameplay.Protect;
+        lightInput.Enable();
+        dashInput = playerControls.Gameplay.Dash;
+        dashInput.Enable();
+        nextInput = playerControls.Reading.Next;
+        nextInput.Disable();
+        playerControls.Gameplay.Pause.performed += _ => SetPause();
 
     }
-
-    private void ActivateReading()
-    {
-      _playerControls.Gameplay.Disable();
-       _playerControls.Reading.Enable();
-    }
-
-    private void ActivateGameplay()
-    {
-        _playerControls.Gameplay.Enable();
-        _playerControls.Reading.Disable();
-    }
-
 
     private void OnDisable()
     {
-        _playerControls.Disable();
+        playerControls.Disable();
+    }
+    
+    public bool SetPause()
+    {
+        return pauseInput.triggered;
     }
     
     public Vector2 MovementInput()
     {
-        _vectorValue = _moveInput.ReadValue<Vector2>();
-        return _vectorValue;
-    }
-
-    public bool SetPause()
-    {
-        return _pauseInput.triggered;
-    }
-
-    public bool InteractInput()
-    {
-        return _interactInput.triggered;
-        //uwu
+        vectorValue = moveInput.ReadValue<Vector2>();
+        return vectorValue;
     }
 
     public bool FlashligthInput()
     {
-        return _lightInput.triggered;
+        return lightInput.triggered;
     }
-
-    public bool DashInput()
+    public bool InteractInput()
     {
-        return _dashInput.triggered;
+        return interactInput.triggered;
+        //uwu
     }
 
     public bool NextInput()
     {
-        return _nextInput.triggered;
+        return nextInput.triggered;
     }
+
+    public bool DashInput()
+    {
+        return dashInput.triggered;
+    }
+
+    private void ActivateReading()
+    {
+      playerControls.Gameplay.Disable();
+       playerControls.Reading.Enable();
+    }
+
+    private void ActivateGameplay()
+    {
+        playerControls.Gameplay.Enable();
+        playerControls.Reading.Disable();
+    }
+
 }

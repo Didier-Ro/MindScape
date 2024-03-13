@@ -11,6 +11,7 @@ public class Letter : MonoBehaviour, Istepable
     {
         Debug.Log("Reading");
         StartCoroutine(DialogManager.GetInstance().ShowDialog(dialog));
+        GameManager.GetInstance().ChangeGameState(GAME_STATE.READING);
     }
 
     public void Deactivate()
