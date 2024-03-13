@@ -44,6 +44,10 @@ public class EnemyTorch : MonoBehaviour
         {
             index++;
         }
+        else
+        {
+            index = 0;
+        }
 
         if (index >= targets.Count)
         {
