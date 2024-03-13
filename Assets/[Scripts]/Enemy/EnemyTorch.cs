@@ -31,16 +31,18 @@ public class EnemyTorch : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (!_canMove)
+        /*if (!_canMove)
         {
             return;
-        }
+        }*/
 
         if (targets[index].IsLightOn())
         {
             agent.SetDestination(targets[index].transform.position);
+            
         }
-        else if (!targets[index].IsLightOn())
+
+        if (!targets[index].IsLightOn())
         {
             index++;
         }

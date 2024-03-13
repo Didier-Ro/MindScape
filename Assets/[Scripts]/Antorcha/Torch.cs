@@ -34,7 +34,7 @@ public class Torch : MonoBehaviour, EIstepable, Istepable
             ReduceLightIntensity();
         }
 
-        if(playerTurningOn)
+        if (playerTurningOn)
         {
             IncreaseLightIntensity();
         }
@@ -43,7 +43,7 @@ public class Torch : MonoBehaviour, EIstepable, Istepable
     public void Activate()
     {
         playerTurningOn = true;
-        Debug.Log("Interacting");
+        
     }
 
     public void Deactivate()
@@ -84,9 +84,9 @@ public class Torch : MonoBehaviour, EIstepable, Istepable
     {
         ligth2D.intensity += intensityOnTimeSpeed;
         currentIntensity = intensityOnTimeSpeed;
-        if (ligth2D .intensity <= maxIntensity)
+        if (ligth2D .intensity >= maxIntensity)
         {
-            ligth2D .intensity = maxIntensity;
+            ligth2D.intensity = maxIntensity;
             currentIntensity = maxIntensity;
             isLightOn = true;
             playerTurningOn = false;
