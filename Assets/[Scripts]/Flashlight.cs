@@ -77,7 +77,7 @@ public class Flashlight : MonoBehaviour
     private void HandleInput()
     {
 
-        if (!flashing)
+        if (!GameManager.GetInstance().GetFlashing())
         {
             CircleLight();
         }
@@ -207,12 +207,6 @@ public class Flashlight : MonoBehaviour
             flashlight.pointLightOuterAngle = minPointLightOuterAngle;
             wallFlashLight.pointLightOuterAngle = minPointLightOuterAngle;
         }
-    }
-
-    // Toggle between flashlight modes
-    public void ToggleFlashing()
-    {
-        flashing = !flashing;
     }
 
     // Reduce energy based on flashlight mode

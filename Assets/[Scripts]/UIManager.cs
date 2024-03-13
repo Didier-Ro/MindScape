@@ -73,7 +73,6 @@ public class UIManager : MonoBehaviour
     {
         //Enable Reading UI in hierarchy
        DialogManager.GetInstance().ShowDialog(dialog);
-       
     }
     private void DeadUI() 
     {
