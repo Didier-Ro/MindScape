@@ -56,12 +56,14 @@ public class InputManager : MonoBehaviour
     private InputAction pauseInput = default;
     private InputAction lightInput = default;
     private InputAction dashInput = default;
+    private InputAction moveLightInput = default;
 
     [Header("ReadInputs")] 
     private InputAction nextInput = default;
 
     [Header("Read values")] 
-    private Vector2 vectorValue = default;
+    private Vector2 vectorMovementValue = default;
+    private Vector2 vectorLightValue = default;
     private bool isPaused = false;
 
     private void Awake()
@@ -106,8 +108,14 @@ public class InputManager : MonoBehaviour
     
     public Vector2 MovementInput()
     {
-        vectorValue = moveInput.ReadValue<Vector2>();
-        return vectorValue;
+        vectorMovementValue = moveInput.ReadValue<Vector2>();
+        return vectorMovementValue;
+    }
+
+    public Vector2 MoveLightInput()
+    {
+        vectorLightValue = moveLightInput.ReadValue<Vector2>();
+        return vectorLightValue;
     }
 
     public bool FlashligthInput()
