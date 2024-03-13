@@ -80,6 +80,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveLight"",
+                    ""type"": ""Value"",
+                    ""id"": ""dfbf1af9-a4e3-4961-8da6-cb4f82a82c18"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -302,6 +311,72 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""ToggleLight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""c7922699-1bcb-4970-8aa6-76ce4ce7ac51"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLight"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""5738fa76-7381-42ed-9ee8-39bbb034fd53"",
+                    ""path"": ""<Gamepad>/rightStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""bf5cbcab-360e-4164-95cc-f591a9a5e9b5"",
+                    ""path"": ""<Gamepad>/rightStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""6086caee-c61d-48f4-8a72-756c19d945dc"",
+                    ""path"": ""<Gamepad>/rightStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""febd9338-eb42-4da4-86d0-da627e63dc18"",
+                    ""path"": ""<Gamepad>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3b6366d7-4f4e-4a56-81d5-c34b947eca76"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveLight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -355,6 +430,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
         m_Gameplay_Protect = m_Gameplay.FindAction("Protect", throwIfNotFound: true);
         m_Gameplay_ToggleLight = m_Gameplay.FindAction("ToggleLight", throwIfNotFound: true);
+        m_Gameplay_MoveLight = m_Gameplay.FindAction("MoveLight", throwIfNotFound: true);
         // Reading
         m_Reading = asset.FindActionMap("Reading", throwIfNotFound: true);
         m_Reading_Next = m_Reading.FindAction("Next", throwIfNotFound: true);
@@ -425,6 +501,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Pause;
     private readonly InputAction m_Gameplay_Protect;
     private readonly InputAction m_Gameplay_ToggleLight;
+    private readonly InputAction m_Gameplay_MoveLight;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -435,6 +512,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
         public InputAction @Protect => m_Wrapper.m_Gameplay_Protect;
         public InputAction @ToggleLight => m_Wrapper.m_Gameplay_ToggleLight;
+        public InputAction @MoveLight => m_Wrapper.m_Gameplay_MoveLight;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -462,6 +540,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ToggleLight.started += instance.OnToggleLight;
             @ToggleLight.performed += instance.OnToggleLight;
             @ToggleLight.canceled += instance.OnToggleLight;
+            @MoveLight.started += instance.OnMoveLight;
+            @MoveLight.performed += instance.OnMoveLight;
+            @MoveLight.canceled += instance.OnMoveLight;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -484,6 +565,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @ToggleLight.started -= instance.OnToggleLight;
             @ToggleLight.performed -= instance.OnToggleLight;
             @ToggleLight.canceled -= instance.OnToggleLight;
+            @MoveLight.started -= instance.OnMoveLight;
+            @MoveLight.performed -= instance.OnMoveLight;
+            @MoveLight.canceled -= instance.OnMoveLight;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -555,6 +639,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnPause(InputAction.CallbackContext context);
         void OnProtect(InputAction.CallbackContext context);
         void OnToggleLight(InputAction.CallbackContext context);
+        void OnMoveLight(InputAction.CallbackContext context);
     }
     public interface IReadingActions
     {
