@@ -15,6 +15,7 @@ public class Flashlight : MonoBehaviour
     
     public Slider slider;
     [SerializeField] private Light2D flashlight;
+    [SerializeField] private Light2D wallFlashLight;
     [SerializeField] private float maxPointLightInnerAngle = 360;
     [SerializeField] private float maxPointLightOuterAngle = 360;
     [SerializeField] private float minPointLightInnerAngle = 0;
@@ -75,7 +76,8 @@ public class Flashlight : MonoBehaviour
     // Handle input to toggle flashlight mode
     private void HandleInput()
     {
-        if (!GameManager.GetInstance().ReturnFlashing())
+
+        if (!GameManager.GetInstance().GetFlashing())
         {
             CircleLight();
         }
@@ -94,9 +96,9 @@ public class Flashlight : MonoBehaviour
         slider.value = energy;
     }
 
-    private void EnemyLanternCheck() //method to Know if an Enemy is on the angle
+    private void EnemyLanternCheck()
     {
-        Collider2D[] rangeCheck = Physics2D.OverlapCircleAll(transform.position, radius, targetMask); //Made a overlapCircle to check if an enemy is near
+        Collider2D[] rangeCheck = Physics2D.OverlapCircleAll(transform.position, radius, targetMask);
         if (rangeCheck.Length == 0) return;
         Transform target = rangeCheck[0].transform;
         Vector2 directionTarget = (target.position - transform.position).normalized;
@@ -151,21 +153,28 @@ public class Flashlight : MonoBehaviour
         flashlight.intensity -= intensityTimeSpeed; 
         flashlight.pointLightOuterRadius = 3;
         flashlight.pointLightInnerRadius = 3;
+        wallFlashLight.pointLightOuterRadius = 3;
+        wallFlashLight.pointLightInnerRadius = 3;
         flashlight.pointLightInnerAngle += lightInnerAngleTimeSpeed;
+        wallFlashLight.pointLightInnerAngle += lightInnerAngleTimeSpeed;
         flashlight.pointLightOuterAngle += lightOuterAngleTimeSpeed;
+        wallFlashLight.pointLightOuterAngle += lightOuterAngleTimeSpeed;
 
         if (flashlight.intensity <= minLightIntensity) 
         {
             flashlight.intensity = minLightIntensity;
+            wallFlashLight.intensity = minLightIntensity;
         }
         if (flashlight.pointLightInnerAngle >= maxPointLightInnerAngle)
         {
             flashlight.pointLightInnerAngle = maxPointLightInnerAngle;
+            wallFlashLight.pointLightInnerAngle = maxPointLightInnerAngle;
         }
 
         if (flashlight.pointLightOuterAngle >= maxPointLightOuterAngle)
         {
             flashlight.pointLightOuterAngle = maxPointLightOuterAngle;
+            wallFlashLight.pointLightOuterAngle = maxPointLightOuterAngle;
         }
     }
 
@@ -175,23 +184,31 @@ public class Flashlight : MonoBehaviour
         flashlight.intensity += intensityTimeSpeed;
         flashlight.pointLightOuterRadius = 3;
         flashlight.pointLightInnerRadius = 3;
-        flashlight.pointLightInnerAngle -= lightInnerAngleTimeSpeed;
-        flashlight.pointLightOuterAngle -= lightOuterAngleTimeSpeed;
+        wallFlashLight.pointLightOuterRadius = 3;
+        wallFlashLight.pointLightInnerRadius = 3;
+        flashlight.pointLightInnerAngle -= 2 * lightInnerAngleTimeSpeed;
+        flashlight.pointLightOuterAngle -= 2 * lightOuterAngleTimeSpeed;
+        wallFlashLight.pointLightInnerAngle -= 2 * lightInnerAngleTimeSpeed;
+        wallFlashLight.pointLightOuterAngle -= 2 * lightOuterAngleTimeSpeed;
 
         if (flashlight.intensity >= maxLightIntensity)
         {
             flashlight.intensity = maxLightIntensity;
+            wallFlashLight.intensity = maxLightIntensity;
         }
         if (flashlight.pointLightInnerAngle <= minPointLightInnerAngle)
         {
             flashlight.pointLightInnerAngle = minPointLightInnerAngle;
+            wallFlashLight.pointLightInnerAngle = minPointLightInnerAngle;
         }
 
         if (flashlight.pointLightOuterAngle <= minPointLightOuterAngle)
         {
             flashlight.pointLightOuterAngle = minPointLightOuterAngle;
+            wallFlashLight.pointLightOuterAngle = minPointLightOuterAngle;
         }
     }
+
     // Reduce energy based on flashlight mode
     private void ReduceEnergy()
     {
