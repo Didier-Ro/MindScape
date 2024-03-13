@@ -124,6 +124,7 @@ public class InputManager : MonoBehaviour
     public bool InteractInput()
     {
         return _interactInput.triggered;
+        //uwu
     }
 
     public bool FlashligthInput()
