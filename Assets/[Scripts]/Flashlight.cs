@@ -113,7 +113,6 @@ public class Flashlight : MonoBehaviour
             angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         }
         angle += offsetAngle;
-        Debug.Log("angulo del input" + angle);
         flashLightTransform.rotation = Quaternion.Slerp(flashLightTransform.rotation, Quaternion.Euler(0, 0, angle), rotationSpeed);
         wallFlashLightTransform.rotation  = Quaternion.Slerp(wallFlashLightTransform.rotation, Quaternion.Euler(0, 0, angle), rotationSpeed);
     }
