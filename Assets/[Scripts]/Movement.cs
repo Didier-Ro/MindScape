@@ -73,7 +73,7 @@ public class Movement : MonoBehaviour
     {
         if (isMoving)
         {
-            Debug.Log(endPos);
+         //   Debug.Log(endPos);
             if (progress < 1f)
             {
                 progress += (1f / framesPerMove) * walkSpeed;
