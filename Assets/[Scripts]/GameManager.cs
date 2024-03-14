@@ -31,6 +31,14 @@ public class GameManager : MonoBehaviour
         Application.targetFrameRate = 60;
     }
 
+    private void Update()
+    {
+        if (InputManager.GetInstance().FlashligthInput())
+        {
+           ToggleFlash();
+        }
+    }
+
     public bool GetFlashing()
     {
         return isFlashing;

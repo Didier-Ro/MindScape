@@ -14,6 +14,7 @@ public class Flashlight : MonoBehaviour
     #endregion
     
     public Slider slider;
+    public float currentSliderValue = 100f;
     [SerializeField] private Light2D flashlight;
     [SerializeField] private Light2D wallFlashLight;
     [SerializeField] private float maxPointLightInnerAngle = 360;
@@ -29,6 +30,7 @@ public class Flashlight : MonoBehaviour
     [SerializeField] private float lightOuterAngleTimeSpeed;
     [SerializeField] private float energy = 100f; // Initial energy value
     private bool flashing = false;
+    private float reductionSpeed;
 
     [SerializeField] private float angle;
     private bool _canSeeTarget = false;
@@ -61,11 +63,6 @@ public class Flashlight : MonoBehaviour
         HandleInput();
     }
 
-    private void Update()
-    {
-        UpdateEnergyUI();
-    }
-
     // Initialize the flashlight settings
     private void InitializeFlashlight()
     {
@@ -86,14 +83,6 @@ public class Flashlight : MonoBehaviour
             ConcentrateLight();
             EnemyLanternCheck();
         }
-        // Reduce energy based on flashlight mode
-        ReduceEnergy();
-    }
-
-    // Update the energy UI slider
-    private void UpdateEnergyUI()
-    {
-        slider.value = energy;
     }
 
     private void EnemyLanternCheck()
@@ -150,6 +139,7 @@ public class Flashlight : MonoBehaviour
     }
     private void CircleLight()
     {
+        ReduceSliderValue(0.01f);
         flashlight.intensity -= intensityTimeSpeed; 
         flashlight.pointLightOuterRadius = 3;
         flashlight.pointLightInnerRadius = 3;
@@ -181,6 +171,7 @@ public class Flashlight : MonoBehaviour
     // Set flashlight settings for concentrated light mode
     private void ConcentrateLight()
     {
+        ReduceSliderValue(0.5f);
         flashlight.intensity += intensityTimeSpeed;
         flashlight.pointLightOuterRadius = 3;
         flashlight.pointLightInnerRadius = 3;
@@ -209,20 +200,18 @@ public class Flashlight : MonoBehaviour
         }
     }
 
-    // Reduce energy based on flashlight mode
-    private void ReduceEnergy()
+    public void ReduceSliderValue(float _reductionSpeed)
     {
-        if (!flashing)
+        reductionSpeed = _reductionSpeed;
+        currentSliderValue -= reductionSpeed;
+        slider.value = currentSliderValue;
+        if (currentSliderValue <= 0)
         {
-            energy += Time.deltaTime / 2; // Reduce energy slowly
+            flashlight.gameObject.SetActive(false);
+            currentSliderValue = 0;
         }
         else
-        {
-            energy -= Time.deltaTime / 3; // Reduce energy faster
-        }
-
-        // Clamp energy to ensure it stays within valid range
-        energy = Mathf.Clamp(energy, 0f, slider.maxValue);
+            flashlight.gameObject.SetActive(true);
     }
 
     // Function to get current energy level
