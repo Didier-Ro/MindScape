@@ -1,39 +1,20 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class Movement : MonoBehaviour
 {
-    [SerializeField] private Tilemap tilemap = default;
-    [SerializeField] private float moveDelay = default;
-    [SerializeField] private float walkSpeed = default;
-    private Direction currentDir = Direction.South;
-    private Vector2 input;
-    private bool isMoving = false;
-    private Rigidbody2D rb;
-    private Vector2 moveVelocity;
-    private float progress;
-    private float remainingMoveDelay = 0f;
-    private int framesPerMove = 60;
-    private bool isSuscribed = true;
-
-    #region SubscriptionToGameManager
-    private void SubscribeToGameManagerGameState() // Subscribe to Game Manager to receive Game State notifications when it changes
-    {
-        GameManager.GetInstance().OnGameStateChange += OnGameStateChange;
-        OnGameStateChange(GameManager.GetInstance().GetCurrentGameState());
-        isSuscribed = true;
-    }
-    private void OnGameStateChange(GAME_STATE _newGameState) // Analyze the Game State type and makes different behavior
-    {
-        isMoving = _newGameState == GAME_STATE.EXPLORATION;
-    }
-    #endregion
-
-    void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-    }
+    [SerializeField] private float walkSpeed = 1.5f;
+    [SerializeField] private Tilemap floorTilemap;
+    [SerializeField] private Tilemap wallTilemap;
+    [SerializeField] private float moveDelay = 0.2f;
+    Direction currentDir = Direction.South;
+    Vector2 input;
+    bool isMoving = false;
+    Vector3 startPos;
+    Vector3 endPos;
+    float progress;
+    float remainingMoveDelay = 0f;
+    int framesPerMove = 60;
 
     void FixedUpdate()
     {
@@ -46,7 +27,8 @@ public class Movement : MonoBehaviour
         if (!isMoving)
         {
             input = InputManager.GetInstance().MovementInput();
-
+            Debug.Log(input.x);
+            Debug.Log(input.y);
             if (input.x != 0f && input.y != 0f)
             {
                 input.x = Mathf.Sign(input.x);
@@ -74,19 +56,36 @@ public class Movement : MonoBehaviour
                     return;
                 }
 
-                Vector2 desiredVelocity = input * walkSpeed;
-                moveVelocity = Vector2.Lerp(rb.velocity, desiredVelocity, 0.5f);
-            }
-            else
-            {
-                moveVelocity = Vector2.zero;
+                startPos = transform.position;
+                endPos = new Vector3(startPos.x + input.x, startPos.y + input.y, startPos.z);
+                Vector3Int tilePosition = floorTilemap.WorldToCell(endPos);
+
+                if (floorTilemap.GetTile(tilePosition) != null && wallTilemap.GetTile(tilePosition) == null)
+                {
+                    isMoving = true;
+                    progress = 0f;
+                }
             }
         }
     }
 
     void MoveCharacter()
     {
-        rb.velocity = moveVelocity;
+        if (isMoving)
+        {
+            Debug.Log(endPos);
+            if (progress < 1f)
+            {
+                progress += (1f / framesPerMove) * walkSpeed;
+                transform.position = Vector3.Lerp(startPos, endPos, progress);
+                
+            }
+            else
+            {
+                isMoving = false;
+                transform.position = endPos;
+            }
+        }
     }
 
     private Direction GetDirectionFromVector(Vector3Int direction)
@@ -116,3 +115,4 @@ public enum Direction
 {
     North, East, South, West
 }
+
