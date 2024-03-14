@@ -39,13 +39,13 @@ public class DialogManager : MonoBehaviour
 
     #endregion
 
-    public IEnumerator ShowDialog(Dialog _dialog)
+    public IEnumerator ShowDialog(Dialog dialog)
     {
         yield return new WaitForEndOfFrame();
-        Debug.Log(dialog.Lines);
-        this.dialog = _dialog;
+//        Debug.Log(this.dialog.Lines);
+        this.dialog = dialog;
         dialogBox.SetActive(true);
-        StartCoroutine(TypeDialog(dialog.Lines[0]));
+        StartCoroutine(TypeDialog(this.dialog.Lines[0]));
     }
 
     
