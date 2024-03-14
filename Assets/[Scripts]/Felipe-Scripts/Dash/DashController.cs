@@ -22,7 +22,6 @@ public class DashController : MonoBehaviour
     private bool isDashing = false;
     private bool canDash = true;
     private Vector2 lastMovementDirection;
-
     [SerializeField] private StaminaBar _staminaBar;
 
     private void Awake()
@@ -45,11 +44,18 @@ public class DashController : MonoBehaviour
 
     void Update()
     {
-       /* if (InputManager.GetInstance(). && canDash)
+        Debug.Log("Se llamo");
+        /* if (InputManager.GetInstance(). && canDash)
+         {
+             Vector2 dashDirection = DetermineDashDirection();
+             StartDash(dashDirection);
+         }*/
+        if (canDash && InputManager.GetInstance() != null && InputManager.GetInstance().DashInput())
         {
+            Debug.Log("Se detectó el input para Dash");
             Vector2 dashDirection = DetermineDashDirection();
             StartDash(dashDirection);
-        }*/
+        }
     }
 
     public void SetInputDash()
