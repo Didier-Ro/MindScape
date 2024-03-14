@@ -123,6 +123,50 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &98677898
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 98677900}
+  - component: {fileID: 98677899}
+  m_Layer: 0
+  m_Name: gamemanager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &98677899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 98677898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60640930b879bc4428c9fee07b208a83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &98677900
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 98677898}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.2258673, y: -1.202367, z: -0.027195405}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &111180122
 GameObject:
   m_ObjectHideFlags: 0
@@ -557,6 +601,7 @@ GameObject:
   - component: {fileID: 425821933}
   - component: {fileID: 425821934}
   - component: {fileID: 425821935}
+  - component: {fileID: 425821936}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -699,7 +744,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
@@ -728,12 +773,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78d3bc008c43aa4380561047c55ab38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dashDistance: 10
-  dashDuration: 0.2
-  dashLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  _staminaBar: {fileID: 425821935}
+  dashSpeed: 10
 --- !u!114 &425821935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -751,6 +791,18 @@ MonoBehaviour:
   regenSpeed: 1
   shiftStaminaCost: 25
   delayBeforeRefill: 1.5
+--- !u!114 &425821936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 425821928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23170e4c79fd94540a3da637c629cfa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &670876305
 GameObject:
   m_ObjectHideFlags: 0
@@ -1552,3 +1604,4 @@ SceneRoots:
   - {fileID: 392700259}
   - {fileID: 1048516795}
   - {fileID: 1440090504}
+  - {fileID: 98677900}
