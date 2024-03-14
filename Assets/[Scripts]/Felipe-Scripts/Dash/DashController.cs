@@ -100,16 +100,23 @@ public class DashController : MonoBehaviour
     {
         canDash = true;
     }
-    private Vector2 DetermineDashDirection()
+    public Vector2 DetermineDashDirection()
     {
-        Vector2 inputDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+        // Obtener la dirección de entrada de movimiento
+        Vector2 inputDirection = InputManager.GetInstance().MovementInput();
+
+        // Si el jugador está ingresando una dirección de movimiento
         if (inputDirection != Vector2.zero)
         {
-            lastMovementDirection = inputDirection;
+            // Normalizar la dirección para obtener una dirección unitaria
+            inputDirection.Normalize();
+
+            // Retornar la dirección de movimiento como dirección de dash
             return inputDirection;
         }
         else
         {
+            // Si no hay entrada de movimiento, usar la última dirección de movimiento registrada
             return lastMovementDirection;
         }
     }
