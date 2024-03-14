@@ -19,7 +19,7 @@ public class Boxes : MonoBehaviour
     private float lerpTime = 1f; 
     private float currentLerpTime = 0f; 
 
-    // ...
+
 
     private void FixedUpdate()
     {
@@ -81,7 +81,7 @@ public class Boxes : MonoBehaviour
         if (hit.collider == null)
         {
             isMoving = true;
-            currentLerpTime = 0f; // Reinicia el tiempo de interpolación
+            currentLerpTime = 0f; 
         }
         else
         {
