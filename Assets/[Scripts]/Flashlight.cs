@@ -1,6 +1,7 @@
 using System;
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
@@ -37,16 +38,15 @@ public class Flashlight : MonoBehaviour
     [SerializeField] private LayerMask targetMask;
     [SerializeField] private float radius;
     private bool _canSeeTarget = false;
-    public float angleDegrees;
-    public float lightAngle;
    
     
     [Header("RotateLight")]
     private Vector2 lastMousePosition = Vector2.zero;
     [SerializeField] private Transform flashLightTransform;
-    [SerializeField] private float rotateSpeed = default;
+    [SerializeField] private float rotationSpeed = default;
     [SerializeField] private Transform wallFlashLightTransform;
     [SerializeField] private Camera camera = default;
+    private float offsetAngle = 270;
 
     private void Awake()
     {
@@ -111,11 +111,22 @@ public class Flashlight : MonoBehaviour
 
     private void RotateLight()
     {
-        Vector2 inputLight = camera.ScreenToWorldPoint(InputManager.GetInstance().MoveLightInput());
-        Vector2 direction = (inputLight - (Vector2)transform.position).normalized;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        flashLightTransform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        wallFlashLightTransform.rotation  = Quaternion.AngleAxis(angle, Vector3.forward);
+        float angle = 0;
+        if (Gamepad.current != null)
+        {
+            Vector2 inputLight = InputManager.GetInstance().MoveLightInput();
+            angle = Mathf.Atan2(inputLight.y, inputLight.x) * Mathf.Rad2Deg;
+        }
+        else if (Mouse.current != null)
+        {
+            Vector2 inputLight = camera.ScreenToWorldPoint(InputManager.GetInstance().MoveLightInput());
+            Vector2 direction = (inputLight - (Vector2)transform.position).normalized;
+            angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        }
+        angle += offsetAngle;
+        Debug.Log("angulo del input" + angle);
+        flashLightTransform.rotation = Quaternion.Slerp(flashLightTransform.rotation, Quaternion.Euler(0, 0, angle), rotationSpeed);
+        wallFlashLightTransform.rotation  = Quaternion.Slerp(wallFlashLightTransform.rotation, Quaternion.Euler(0, 0, angle), rotationSpeed);
     }
 
     private float ReduceErrorZero(float value)
@@ -133,16 +144,18 @@ public class Flashlight : MonoBehaviour
         if (rangeCheck.Length == 0) return;
         foreach (Collider2D col in rangeCheck)
         {
-            Vector2 direction = col.transform.position - transform.position.normalized;
+            Vector2 direction = col.transform.position - transform.position;
             direction.x = ReduceErrorZero(direction.x);
             direction.y = ReduceErrorZero(direction.y);
             float angleRadians = Mathf.Atan2(direction.y, direction.x);
-            angleDegrees = Mathf.Repeat(angleRadians * Mathf.Rad2Deg, 360);
-            lightAngle = Mathf.Repeat(flashLightTransform.rotation.eulerAngles.z, 360); 
-            Debug.Log( "rango mayor " + Mathf.Repeat(lightAngle + angleRange, 360) + " angulo "  + angleDegrees +  " rango menor " + Mathf.Repeat(lightAngle - angleRange, 360));
-            if (Mathf.Repeat(lightAngle + angleRange, 360)< angleDegrees && angleDegrees > Mathf.Repeat(lightAngle - angleRange, 360))
+            float angleDegrees = Mathf.Repeat(angleRadians * Mathf.Rad2Deg, 360);
+            float lightAngle = Mathf.Repeat(flashLightTransform.rotation.eulerAngles.z - offsetAngle, 360);
+            lightAngle = Mathf.Repeat(lightAngle, 360);
+            float upperLimitLightAngle = Mathf.Repeat(lightAngle + angleRange, 360);
+            float lowerLimitLightAngle = Mathf.Repeat(lightAngle - angleRange, 360);
+          //Debug.Log(angleDegrees + " > " + lowerLimitLightAngle + " && " + upperLimitLightAngle +" < " + angleDegrees);
+            if (angleDegrees > lowerLimitLightAngle && upperLimitLightAngle > angleDegrees)
             {
-                Debug.Log("le hizo daño");
                 float distanceToTarget = Vector2.Distance(transform.position, col.transform.position); //Minium distance to see the target
                 _canSeeTarget = !Physics2D.Raycast(transform.position, direction, distanceToTarget, obstructionMask);
                 if (!_canSeeTarget) return;

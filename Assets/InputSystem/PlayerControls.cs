@@ -89,15 +89,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""RotationJoystick"",
-                    ""type"": ""Value"",
-                    ""id"": ""410995c2-9a47-49c3-a76e-30f1f3ebab75"",
-                    ""expectedControlType"": ""Stick"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -378,23 +369,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""3b6366d7-4f4e-4a56-81d5-c34b947eca76"",
+                    ""id"": ""52af5dd6-9425-4035-b6a6-34d32db94b0a"",
                     ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MoveLight"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b7bd5abe-5d9e-45a7-888d-7d04a586589d"",
-                    ""path"": ""<Gamepad>/rightStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""RotationJoystick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -451,7 +431,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Gameplay_Protect = m_Gameplay.FindAction("Protect", throwIfNotFound: true);
         m_Gameplay_ToggleLight = m_Gameplay.FindAction("ToggleLight", throwIfNotFound: true);
         m_Gameplay_MoveLight = m_Gameplay.FindAction("MoveLight", throwIfNotFound: true);
-        m_Gameplay_RotationJoystick = m_Gameplay.FindAction("RotationJoystick", throwIfNotFound: true);
         // Reading
         m_Reading = asset.FindActionMap("Reading", throwIfNotFound: true);
         m_Reading_Next = m_Reading.FindAction("Next", throwIfNotFound: true);
@@ -523,7 +502,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Protect;
     private readonly InputAction m_Gameplay_ToggleLight;
     private readonly InputAction m_Gameplay_MoveLight;
-    private readonly InputAction m_Gameplay_RotationJoystick;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -535,7 +513,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Protect => m_Wrapper.m_Gameplay_Protect;
         public InputAction @ToggleLight => m_Wrapper.m_Gameplay_ToggleLight;
         public InputAction @MoveLight => m_Wrapper.m_Gameplay_MoveLight;
-        public InputAction @RotationJoystick => m_Wrapper.m_Gameplay_RotationJoystick;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -566,9 +543,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @MoveLight.started += instance.OnMoveLight;
             @MoveLight.performed += instance.OnMoveLight;
             @MoveLight.canceled += instance.OnMoveLight;
-            @RotationJoystick.started += instance.OnRotationJoystick;
-            @RotationJoystick.performed += instance.OnRotationJoystick;
-            @RotationJoystick.canceled += instance.OnRotationJoystick;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -594,9 +568,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @MoveLight.started -= instance.OnMoveLight;
             @MoveLight.performed -= instance.OnMoveLight;
             @MoveLight.canceled -= instance.OnMoveLight;
-            @RotationJoystick.started -= instance.OnRotationJoystick;
-            @RotationJoystick.performed -= instance.OnRotationJoystick;
-            @RotationJoystick.canceled -= instance.OnRotationJoystick;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -669,7 +640,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnProtect(InputAction.CallbackContext context);
         void OnToggleLight(InputAction.CallbackContext context);
         void OnMoveLight(InputAction.CallbackContext context);
-        void OnRotationJoystick(InputAction.CallbackContext context);
     }
     public interface IReadingActions
     {
