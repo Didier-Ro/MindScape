@@ -103,9 +103,9 @@ public class Movement : MonoBehaviour
             return currentDir;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Box"))
+        if (collision.CompareTag("Box") && InputManager.GetInstance().InteractInput())
         {
             collision.GetComponent<Boxes>().Activate(transform.position);
         }
