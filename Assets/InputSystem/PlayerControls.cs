@@ -369,7 +369,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""3b6366d7-4f4e-4a56-81d5-c34b947eca76"",
+                    ""id"": ""52af5dd6-9425-4035-b6a6-34d32db94b0a"",
                     ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
                     ""processors"": """",
