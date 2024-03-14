@@ -90,6 +90,8 @@ public class InputManager : MonoBehaviour
         lightInput.Enable();
         dashInput = playerControls.Gameplay.Dash;
         dashInput.Enable();
+        moveLightInput = playerControls.Gameplay.MoveLight;
+        moveLightInput.Enable();
         nextInput = playerControls.Reading.Next;
         nextInput.Disable();
         playerControls.Gameplay.Pause.performed += _ => SetPause();

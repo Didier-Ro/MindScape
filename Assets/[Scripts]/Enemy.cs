@@ -163,15 +163,13 @@ public class Enemy : MonoBehaviour,Ikillable
   
       private void OnDrawGizmos()
       {
-          Vector2 point = GameManager.GetInstance().GetFlashing() ? seekTarget :  targetTransform.position;
-          DrawGizmosLine(point);
+          DrawGizmosLine(seekTarget);
       }
   
       private void DrawGizmosLine(Vector2 draw)
       {
           Gizmos.color = Color.cyan;
-          float radiusGizmos = GameManager.GetInstance().GetFlashing() ? 0.3f : satisfactionRadius;
-          Gizmos.DrawSphere(draw, radiusGizmos);  
+          Gizmos.DrawSphere(draw, maxPrediction);  
       }
 
       private void ChangeOpacity(float _newOpacity)
