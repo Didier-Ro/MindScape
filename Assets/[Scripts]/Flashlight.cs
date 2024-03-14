@@ -1,5 +1,7 @@
 using System;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
@@ -30,13 +32,23 @@ public class Flashlight : MonoBehaviour
     [SerializeField] private float lightOuterAngleTimeSpeed;
     [SerializeField] private float energy = 100f; // Initial energy value
     private bool flashing = false;
+    
     private float reductionSpeed;
 
-    [SerializeField] private float angle;
-    private bool _canSeeTarget = false;
+    [SerializeField] private float angleRange;
     [SerializeField] private LayerMask obstructionMask;
     [SerializeField] private LayerMask targetMask;
     [SerializeField] private float radius;
+    private bool _canSeeTarget = false;
+   
+    
+    [Header("RotateLight")]
+    private Vector2 lastMousePosition = Vector2.zero;
+    [SerializeField] private Transform flashLightTransform;
+    [SerializeField] private float rotationSpeed = default;
+    [SerializeField] private Transform wallFlashLightTransform;
+    [SerializeField] private Camera camera = default;
+    private float offsetAngle = 270;
 
     private void Awake()
     {
@@ -55,6 +67,7 @@ public class Flashlight : MonoBehaviour
     {
         InitializeFlashlight();
         LightSetUp();
+        angleRange = minPointLightInnerAngle / 2;
     }
 
     // Update is called once per frame
@@ -73,7 +86,6 @@ public class Flashlight : MonoBehaviour
     // Handle input to toggle flashlight mode
     private void HandleInput()
     {
-
         if (!GameManager.GetInstance().GetFlashing())
         {
             CircleLight();
@@ -81,47 +93,69 @@ public class Flashlight : MonoBehaviour
         else
         {
             ConcentrateLight();
+            RotateLight();
             EnemyLanternCheck();
         }
+    }
+
+    private void RotateLight()
+    {
+        float angle = 0;
+        if (Gamepad.current != null)
+        {
+            Vector2 inputLight = InputManager.GetInstance().MoveLightInput();
+            angle = Mathf.Atan2(inputLight.y, inputLight.x) * Mathf.Rad2Deg;
+        }
+        else if (Mouse.current != null)
+        {
+            Vector2 inputLight = camera.ScreenToWorldPoint(InputManager.GetInstance().MoveLightInput());
+            Vector2 direction = (inputLight - (Vector2)transform.position).normalized;
+            angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        }
+        angle += offsetAngle;
+        flashLightTransform.rotation = Quaternion.Slerp(flashLightTransform.rotation, Quaternion.Euler(0, 0, angle), rotationSpeed);
+        wallFlashLightTransform.rotation  = Quaternion.Slerp(wallFlashLightTransform.rotation, Quaternion.Euler(0, 0, angle), rotationSpeed);
+    }
+
+    private float ReduceErrorZero(float value)
+    {
+        if (Mathf.Approximately(value, 0))
+        {
+            value = Mathf.Epsilon;
+        }
+        return value;
     }
 
     private void EnemyLanternCheck()
     {
         Collider2D[] rangeCheck = Physics2D.OverlapCircleAll(transform.position, radius, targetMask);
         if (rangeCheck.Length == 0) return;
-        Transform target = rangeCheck[0].transform;
-        Vector2 directionTarget = (target.position - transform.position).normalized;
-        if (Vector2.Angle(transform.forward, directionTarget) < angle / 2) //Verify if the plauer is in the designed fov
+        foreach (Collider2D col in rangeCheck)
         {
-            float distanceToTarget = Vector2.Distance(transform.position, target.position); //Minium distance to see the target
-            _canSeeTarget = !Physics2D.Raycast(transform.position, directionTarget, distanceToTarget, obstructionMask);
-            if (!_canSeeTarget) return;
-            rangeCheck[0].GetComponent<Ikillable>().Hit();
-        }
-        else if (_canSeeTarget)
-        {
-            _canSeeTarget = false;
+            Vector2 direction = col.transform.position - transform.position;
+            direction.x = ReduceErrorZero(direction.x);
+            direction.y = ReduceErrorZero(direction.y);
+            float angleRadians = Mathf.Atan2(direction.y, direction.x);
+            float angleDegrees = Mathf.Repeat(angleRadians * Mathf.Rad2Deg, 360);
+            float lightAngle = Mathf.Repeat(flashLightTransform.rotation.eulerAngles.z - offsetAngle, 360);
+            lightAngle = Mathf.Repeat(lightAngle, 360);
+            float upperLimitLightAngle = Mathf.Repeat(lightAngle + angleRange, 360);
+            float lowerLimitLightAngle = Mathf.Repeat(lightAngle - angleRange, 360);
+          //Debug.Log(angleDegrees + " > " + lowerLimitLightAngle + " && " + upperLimitLightAngle +" < " + angleDegrees);
+            if (angleDegrees > lowerLimitLightAngle && upperLimitLightAngle > angleDegrees)
+            {
+                float distanceToTarget = Vector2.Distance(transform.position, col.transform.position); //Minium distance to see the target
+                _canSeeTarget = !Physics2D.Raycast(transform.position, direction, distanceToTarget, obstructionMask);
+                if (!_canSeeTarget) return;
+                 col.GetComponent<Ikillable>().Hit();
+            }
+            else if (_canSeeTarget)
+            {
+                _canSeeTarget = false;
+            }
         }
     }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, radius);
-
-        Gizmos.color = Color.green;
-
-        float halfFOV = angle / 2f;
-        Quaternion leftRayRotation = Quaternion.AngleAxis(-halfFOV, Vector3.forward);
-        Quaternion rightRayRotation = Quaternion.AngleAxis(halfFOV, Vector3.forward);
-
-        Vector3 leftRayDirection = leftRayRotation * transform.right;
-        Vector3 rightRayDirection = rightRayRotation * transform.right;
-
-        // Dibujar solo el gizmo del ángulo de visión
-        Gizmos.DrawLine( transform.position, transform.position + leftRayDirection * radius);
-        Gizmos.DrawLine(transform.position, transform.position + rightRayDirection * radius);
-    }
+    
 
     // Set flashlight settings for circle light mode
     private void LightSetUp() 
