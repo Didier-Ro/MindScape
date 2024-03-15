@@ -27,8 +27,6 @@ public class Movement : MonoBehaviour
         if (!isMoving)
         {
             input = InputManager.GetInstance().MovementInput();
-            Debug.Log(input.x);
-            Debug.Log(input.y);
             if (input.x != 0f && input.y != 0f)
             {
                 input.x = Mathf.Sign(input.x);

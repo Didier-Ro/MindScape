@@ -88,9 +88,13 @@ public class CameraManager : MonoBehaviour
 
     public void SwapCamera(CinemachineVirtualCamera _cameraFromLeft, CinemachineVirtualCamera _cameraFromRight, Vector2 _triggerExitDirection)
     {
+        Debug.Log(_triggerExitDirection);
+        Debug.Log(_cameraFromLeft);
+        Debug.Log(currentCamera + "camara actual");
         //if the current Camera is the camera on the left and our trigger exit direction was on the right
         if (currentCamera == _cameraFromLeft && _triggerExitDirection.x > 0f)
         {
+            Debug.Log("cambio de camara a derecha");
             //activate the new camera
             _cameraFromRight.enabled = true;
             //deactivate the other camera
@@ -102,6 +106,7 @@ public class CameraManager : MonoBehaviour
         }
         else if(currentCamera == _cameraFromRight && _triggerExitDirection.x < 0f)
         {
+            Debug.Log("cambio de camara a izquierda");
             _cameraFromLeft.enabled = true;
             //deactivate the other camera
             _cameraFromRight.enabled = false;
