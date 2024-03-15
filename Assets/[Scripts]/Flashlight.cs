@@ -204,7 +204,7 @@ public class Flashlight : MonoBehaviour
     // Set flashlight settings for concentrated light mode
     private void ConcentrateLight()
     {
-        ReduceSliderValue(0.5f);
+        ReduceSliderValue(0.1f);
         flashlight.intensity += intensityTimeSpeed;
         flashlight.pointLightOuterRadius = 3;
         flashlight.pointLightInnerRadius = 3;

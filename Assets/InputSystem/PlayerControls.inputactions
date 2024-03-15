@@ -71,61 +71,6 @@
             ],
             "bindings": [
                 {
-                    "name": "WASD",
-                    "id": "2f5197cb-20fd-4983-a540-ec984c887fcf",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "4ac352db-02ef-41e9-af47-e804cffdfe8e",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "9b71c21d-0efb-41c1-88fc-aee13dda5285",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "1a292c04-d5a7-429b-a1cd-5a412ba87729",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "162c95ee-6796-4e19-973e-b5375fe77002",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "Joystick",
                     "id": "433aacd8-0e2c-4d64-b7ef-2570b391fbdf",
                     "path": "2DVector",
@@ -182,34 +127,12 @@
                 },
                 {
                     "name": "",
-                    "id": "e884131f-c4aa-45a7-a8c0-1c4702440646",
-                    "path": "<Keyboard>/f",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Interact",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "d3b25449-0718-42c8-b5f8-d664106df320",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Interact",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "edbdfc8f-b6c9-47d1-8a8a-d96140a7e2dd",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -226,17 +149,6 @@
                 },
                 {
                     "name": "",
-                    "id": "4958d7ed-8c22-4574-9c3f-09f07aab946f",
-                    "path": "<Keyboard>/escape",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Pause",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "cac85ea3-4298-4606-b46f-832863f5dcf0",
                     "path": "<Gamepad>/start",
                     "interactions": "",
@@ -248,34 +160,12 @@
                 },
                 {
                     "name": "",
-                    "id": "3a0cf7d1-029a-468b-90d9-6be7463d60c6",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "Protect",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "dd85387a-f7ee-4773-a0bd-bf931812982d",
                     "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Protect",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "02750ff3-e9cf-4d68-8210-3f45cc461d81",
-                    "path": "<Keyboard>/q",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "ToggleLight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -344,17 +234,6 @@
                     "action": "MoveLight",
                     "isComposite": false,
                     "isPartOfComposite": true
-                },
-                {
-                    "name": "",
-                    "id": "e74b94ed-501e-443a-960f-0228289621bc",
-                    "path": "<Mouse>/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard",
-                    "action": "MoveLight",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 }
             ]
         },
