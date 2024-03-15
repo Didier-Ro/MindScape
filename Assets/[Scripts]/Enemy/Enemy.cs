@@ -74,6 +74,7 @@ public class Enemy : MonoBehaviour,Ikillable
           {
               GameManager.GetInstance().OnGameStateChange += OnGameStateChange;
               OnGameStateChange(GameManager.GetInstance().GetCurrentGameState());
+              
               isSuscribed = true;
           }
       }
@@ -91,6 +92,11 @@ public class Enemy : MonoBehaviour,Ikillable
               if (framesHit >= secondsToDie * 60)
               {
                   gameObject.SetActive(false);
+                  if (EnemySpawner.getInstance() != null)
+                  {
+                      EnemySpawner.getInstance().enemiesActive.Remove(gameObject);
+                      EnemySpawner.getInstance().CheckArray();
+                  }
                   ChangeOpacity(1);
                   framesHit = 0;
               }

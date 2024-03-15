@@ -1,5 +1,3 @@
-using System;
-using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
@@ -242,10 +240,15 @@ public class Flashlight : MonoBehaviour
         if (currentSliderValue <= 0)
         {
             flashlight.gameObject.SetActive(false);
+            wallFlashLight.gameObject.SetActive(false);
             currentSliderValue = 0;
         }
         else
+        {
             flashlight.gameObject.SetActive(true);
+            wallFlashLight.gameObject.SetActive(true);
+        }
+            
     }
 
     // Function to get current energy level
