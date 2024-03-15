@@ -8,6 +8,7 @@ public class HealthController : MonoBehaviour
     [Header("Player health")]
     public float currentPlayerHealth = 100.0f;
     public float maxPlayerHealth = 100.0f;
+    public GameObject gameOverScreen;
     public int regenRate = 1;
     private bool canRegen = false;
 
@@ -40,6 +41,8 @@ public class HealthController : MonoBehaviour
         else if (currentPlayerHealth <= 0)
         {
             currentPlayerHealth = 0;
+            gameOverScreen.SetActive(true);
+            Debug.Log("Se murio");
         }
     }
 

@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 7933755353333501670}
   - component: {fileID: 3738076845298650269}
   - component: {fileID: 6297893171183457100}
+  - component: {fileID: -2278262530916522709}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -180,8 +181,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 0}
+  currentSliderValue: 100
   flashlight: {fileID: 2776427008835697697}
+  wallFlashLight: {fileID: 0}
+  maxPointLightInnerAngle: 360
+  maxPointLightOuterAngle: 360
+  minPointLightInnerAngle: 0
+  minPointLightOuterAngle: 70
+  maxPointLightOuterRadius: 3
+  minPointLightOuterRadius: 3
+  maxLightIntensity: 1
+  minLightIntensity: 0.7
+  intensityTimeSpeed: 0
+  lightInnerAngleTimeSpeed: 0
+  lightOuterAngleTimeSpeed: 0
   energy: 100
+  angleRange: 0
+  obstructionMask:
+    serializedVersion: 2
+    m_Bits: 0
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 0
+  radius: 0
+  flashLightTransform: {fileID: 0}
+  rotationSpeed: 0
+  wallFlashLightTransform: {fileID: 0}
+  camera: {fileID: 0}
 --- !u!95 &6378126534524751285
 Animator:
   serializedVersion: 5
@@ -286,6 +312,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneToLoad: Camera
+--- !u!114 &-2278262530916522709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2329885812725176872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c862a64f8fbc0524481d267681d63b98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentPlayerHealth: 100
+  maxPlayerHealth: 100
+  regenRate: 1
+  migraineImage: {fileID: 0}
+  migraineFlashImage: {fileID: 0}
+  hurtTimer: 0.1
+  healCooldown: 3
+  maxHealCoolDown: 3
 --- !u!1 &3093103328976649715
 GameObject:
   m_ObjectHideFlags: 0
