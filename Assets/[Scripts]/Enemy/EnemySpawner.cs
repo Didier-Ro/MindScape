@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     private static EnemySpawner Instance;
-
+    
     private void Awake()
     {
         if (Instance == null)
@@ -19,10 +19,11 @@ public class EnemySpawner : MonoBehaviour
         return Instance;
     }
     [SerializeField] private Transform[] enemiesSpawns;
+    public GameObject CanvasWinner;
     public List<GameObject> enemiesActive = new List<GameObject>();
     [SerializeField] private int maxRounds;
     public GameObject target;
-   private int actualRound = 1;
+    private int actualRound = 1;
     public void SpawnRoundEnemy()
     {
         if (actualRound < maxRounds)
@@ -34,6 +35,11 @@ public class EnemySpawner : MonoBehaviour
                enemy.GetComponent<Enemy>().AssignTarget(target);
                enemiesActive.Add(enemy);
             }
+        }
+        else
+        {
+            GameManager.GetInstance().ChangeGameState(GAME_STATE.DEAD);
+            CanvasWinner.SetActive(true);
         }
     }
 
