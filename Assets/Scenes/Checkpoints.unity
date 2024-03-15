@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 98677900}
   - component: {fileID: 98677899}
+  - component: {fileID: 98677901}
   m_Layer: 0
   m_Name: gamemanager
   m_TagString: Untagged
@@ -167,6 +168,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &98677901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 98677898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23170e4c79fd94540a3da637c629cfa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &111180122
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,7 +614,6 @@ GameObject:
   - component: {fileID: 425821933}
   - component: {fileID: 425821934}
   - component: {fileID: 425821935}
-  - component: {fileID: 425821936}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -773,7 +785,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78d3bc008c43aa4380561047c55ab38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dashSpeed: 10
+  dashDistance: 5
+  dashDuration: 0.2
+  _staminaBar: {fileID: 425821935}
 --- !u!114 &425821935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -791,18 +805,6 @@ MonoBehaviour:
   regenSpeed: 1
   shiftStaminaCost: 25
   delayBeforeRefill: 1.5
---- !u!114 &425821936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 425821928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23170e4c79fd94540a3da637c629cfa2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &670876305
 GameObject:
   m_ObjectHideFlags: 0
@@ -1239,6 +1241,7 @@ GameObject:
   - component: {fileID: 1153048556}
   - component: {fileID: 1153048555}
   - component: {fileID: 1153048554}
+  - component: {fileID: 1153048557}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1320,6 +1323,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1153048557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153048553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+  m_TaaSettings:
+    quality: 3
+    frameInfluence: 0.1
+    jitterScale: 1
+    mipBias: 0
+    varianceClampScale: 0.9
+    contrastAdaptiveSharpening: 0
 --- !u!1 &1178625511
 GameObject:
   m_ObjectHideFlags: 0
