@@ -12,7 +12,8 @@ public class Enemy : MonoBehaviour,Ikillable
     #endregion
     [SerializeField] private float maxSpeed = default; 
     [SerializeField] private Transform targetTransform = default;
-    [SerializeField] private Rigidbody2D rb = default; 
+    [SerializeField] private Rigidbody2D rb = default;
+    private Flashlight _flashlightTarget;
 
     #region AttackingVariables
     private float prediction;
@@ -48,7 +49,7 @@ public class Enemy : MonoBehaviour,Ikillable
         void FixedUpdate()
         {
             if (!CanMove) return;
-            if (!GameManager.GetInstance().GetFlashing())
+            if (!GameManager.GetInstance().GetFlashing() && _flashlightTarget.currentSliderValue > 0)
             {
                 Chasing();
             }
@@ -83,6 +84,7 @@ public class Enemy : MonoBehaviour,Ikillable
       {
           targetTransform = _target.transform;
           targetRb = _target.GetComponent<Rigidbody2D>();
+          _flashlightTarget = _target.GetComponent<Flashlight>();
       }
       
       public void Hit()
