@@ -136,6 +136,7 @@ public class InputManager : MonoBehaviour
 
     public bool DashInput()
     {
+        Debug.Log("funciona el input");
         return dashInput.triggered;
     }
 
