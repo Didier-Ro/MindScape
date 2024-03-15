@@ -16,13 +16,11 @@ public class DashController : MonoBehaviour
     
     public float dashDistance = 5f;
     public float dashDuration = 0.2f;
-    public LayerMask dashLayerMask;
     
     private Rigidbody2D rb;
     private bool isDashing = false;
-    private bool canDash = true;
+    public bool canDash = true;
     private Vector2 lastMovementDirection;
-
     [SerializeField] private StaminaBar _staminaBar;
 
     private void Awake()
@@ -45,11 +43,18 @@ public class DashController : MonoBehaviour
 
     void Update()
     {
-       /* if (InputManager.GetInstance(). && canDash)
+      //  Debug.Log("Se llamo");
+        /* if (InputManager.GetInstance(). && canDash)
+         {
+             Vector2 dashDirection = DetermineDashDirection();
+             StartDash(dashDirection);
+         }*/
+        if (canDash && InputManager.GetInstance().DashInput())
         {
+            Debug.Log("Se detectó el input para Dash");
             Vector2 dashDirection = DetermineDashDirection();
             StartDash(dashDirection);
-        }*/
+        }
     }
 
     public void SetInputDash()
@@ -94,16 +99,23 @@ public class DashController : MonoBehaviour
     {
         canDash = true;
     }
-    private Vector2 DetermineDashDirection()
+    public Vector2 DetermineDashDirection()
     {
-        Vector2 inputDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
+        // Obtener la dirección de entrada de movimiento
+        Vector2 inputDirection = InputManager.GetInstance().MovementInput();
+
+        // Si el jugador está ingresando una dirección de movimiento
         if (inputDirection != Vector2.zero)
         {
-            lastMovementDirection = inputDirection;
+            // Normalizar la dirección para obtener una dirección unitaria
+            inputDirection.Normalize();
+
+            // Retornar la dirección de movimiento como dirección de dash
             return inputDirection;
         }
         else
         {
+            // Si no hay entrada de movimiento, usar la última dirección de movimiento registrada
             return lastMovementDirection;
         }
     }

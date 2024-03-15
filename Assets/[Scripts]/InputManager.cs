@@ -1,3 +1,7 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -93,6 +97,7 @@ public class InputManager : MonoBehaviour
         playerControls.Gameplay.Pause.performed += _ => SetPause();
 
     }
+
     private void OnDisable()
     {
         playerControls.Disable();
@@ -131,7 +136,7 @@ public class InputManager : MonoBehaviour
 
     public bool DashInput()
     {
-        Debug.Log("hola");
+        Debug.Log("funciona el input");
         return dashInput.triggered;
     }
 
@@ -146,5 +151,5 @@ public class InputManager : MonoBehaviour
         playerControls.Gameplay.Enable();
         playerControls.Reading.Disable();
     }
-    
+
 }

@@ -27,8 +27,6 @@ public class Movement : MonoBehaviour
         if (!isMoving)
         {
             input = InputManager.GetInstance().MovementInput();
-            Debug.Log(input.x);
-            Debug.Log(input.y);
             if (input.x != 0f && input.y != 0f)
             {
                 input.x = Mathf.Sign(input.x);
@@ -73,7 +71,6 @@ public class Movement : MonoBehaviour
     {
         if (isMoving)
         {
-         //   Debug.Log(endPos);
             if (progress < 1f)
             {
                 progress += (1f / framesPerMove) * walkSpeed;
