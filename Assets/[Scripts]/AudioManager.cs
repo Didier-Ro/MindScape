@@ -6,7 +6,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource musicSource, SfxSource = default;
 
     #region SingeTone
-    public AudioManager GetInstance()
+    public static AudioManager GetInstance()
     {
         return _instance;
     }
