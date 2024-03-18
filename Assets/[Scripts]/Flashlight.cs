@@ -47,6 +47,7 @@ public class Flashlight : MonoBehaviour
     [SerializeField] private Transform wallFlashLightTransform;
     [SerializeField] private Camera camera = default;
     private float offsetAngle = 270;
+    private float lastAngle = 0;
 
     private void Awake()
     {
@@ -103,6 +104,7 @@ public class Flashlight : MonoBehaviour
         {
             Vector2 inputLight = InputManager.GetInstance().MoveLightInput();
             angle = Mathf.Atan2(inputLight.y, inputLight.x) * Mathf.Rad2Deg;
+            if (inputLight == Vector2.zero) return;
         }
         else if (Mouse.current != null)
         {
@@ -111,8 +113,10 @@ public class Flashlight : MonoBehaviour
             angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         }
         angle += offsetAngle;
-        flashLightTransform.rotation = Quaternion.Slerp(flashLightTransform.rotation, Quaternion.Euler(0, 0, angle), rotationSpeed);
-        wallFlashLightTransform.rotation  = Quaternion.Slerp(wallFlashLightTransform.rotation, Quaternion.Euler(0, 0, angle), rotationSpeed);
+        //float difference = lastAngle - angle;
+        flashLightTransform.rotation = Quaternion.Slerp(Quaternion.Euler(0,0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
+        wallFlashLightTransform.rotation  = Quaternion.Slerp(Quaternion.Euler(0,0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
+        lastAngle = flashLightTransform.rotation.z;
     }
 
     private float ReduceErrorZero(float value)
@@ -204,7 +208,7 @@ public class Flashlight : MonoBehaviour
     // Set flashlight settings for concentrated light mode
     private void ConcentrateLight()
     {
-        ReduceSliderValue(0.5f);
+        ReduceSliderValue(0.1f);
         flashlight.intensity += intensityTimeSpeed;
         flashlight.pointLightOuterRadius = 3;
         flashlight.pointLightInnerRadius = 3;
