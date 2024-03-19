@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    private bool isPaused;
     private bool isFlashing;
     private GAME_STATE currentGameState = GAME_STATE.EXPLORATION;
     public Action<GAME_STATE> OnGameStateChange;
@@ -37,11 +38,23 @@ public class GameManager : MonoBehaviour
         {
            ToggleFlash();
         }
+
+        if (InputManager.GetInstance().SetPause())
+        {
+            GAME_STATE actualGameState = TogglePause() ? GAME_STATE.PAUSE : GAME_STATE.EXPLORATION;
+            ChangeGameState(actualGameState);
+        }
     }
 
     public bool GetFlashing()
     {
         return isFlashing;
+    }
+
+    private bool TogglePause()
+    {
+        isPaused = !isPaused;
+        return isPaused;
     }
 
     public void ToggleFlash()

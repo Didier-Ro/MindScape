@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class UIManager : MonoBehaviour
 {
@@ -10,8 +11,11 @@ public class UIManager : MonoBehaviour
         return Instance;
     }
 
+    [SerializeField] private EventSystem eventSystem = default;
     [SerializeField] private GameObject pauseUI;
     [SerializeField] private GameObject deadUI;
+
+    [SerializeField] private GameObject deadButtonUI;
     [SerializeField] private Dialog dialog;
 
     private void Awake()
@@ -29,6 +33,17 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         SubscribeToGameManagerGameState();
+        eventSystem = EventSystem.current;
+        if (eventSystem == null)
+        {
+            eventSystem = new GameObject("EventSystem").AddComponent<EventSystem>();
+            eventSystem.gameObject.AddComponent<StandaloneInputModule>();
+        }
+    }
+    
+    public void ChangeUISelected(GameObject objectToSelect)
+    {
+       eventSystem.SetSelectedGameObject(objectToSelect);
     }
 
     private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
@@ -76,6 +91,7 @@ public class UIManager : MonoBehaviour
     }
     private void DeadUI() 
     {
-
+        deadUI.SetActive(true);
+        ChangeUISelected(deadButtonUI);
     }
 }
