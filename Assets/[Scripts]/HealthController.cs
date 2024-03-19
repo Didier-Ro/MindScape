@@ -42,7 +42,7 @@ public class HealthController : MonoBehaviour
         {
             GameManager.GetInstance().ChangeGameState(GAME_STATE.DEAD);
             currentPlayerHealth = 0;
-            gameOverScreen.SetActive(true);
+           // gameOverScreen.SetActive(true);
             Debug.Log("Se murio");
         }
     }
