@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Letter : MonoBehaviour, Istepable
 {
-    [SerializeField] private Dialog dialog;
+    [SerializeField] private LetterScriptable dialog;
     
     public void Activate()
     {

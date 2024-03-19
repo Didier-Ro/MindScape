@@ -1,19 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyTorch : MonoBehaviour
 {
     GAME_STATE gameState;
-    private bool _isSuscribed = true;
-    bool _canMove = true;
+    private bool isSuscribed = true;
+    public bool canMove = true;
 
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private GameObject playerTarget;
     [SerializeField] private List<Torch> targets = new List<Torch>();
     [SerializeField] private int index = 0;
-
     
 
     private void Start()
@@ -25,29 +25,28 @@ public class EnemyTorch : MonoBehaviour
         agent.updateUpAxis = false;
 
         targets.AddRange(FindObjectsOfType<Torch>());
-        
     }
 
     // Update is called once per frame
     private void Update()
     {
-        /*if (!_canMove)
+        if (!canMove)
         {
-            return;
-        }*/
+            StopEnemyMovement();
+        }
+        
 
-        if (targets[index].IsLightOn())
+        if (targets[index].IsLightOn() && canMove)
         {
             agent.SetDestination(targets[index].transform.position);
-            
         }
 
-        if (!targets[index].IsLightOn())
+        if (!targets[index].IsLightOn() && canMove)
         {
             index++;
         }
 
-        if (index >= targets.Count)
+        if (index >= targets.Count && canMove)
         {
             index = 0;
             agent.SetDestination(playerTarget.transform.position);
@@ -56,7 +55,7 @@ public class EnemyTorch : MonoBehaviour
 
     private void OnEnable()
     {
-        if (!_isSuscribed)
+        if (!isSuscribed)
         {
             SubscribeToGameManagerGameState();
         }
@@ -64,10 +63,10 @@ public class EnemyTorch : MonoBehaviour
 
     private void OnDisable()
     {
-        if (_isSuscribed)
+        if (isSuscribed)
         {
             GameManager.GetInstance().OnGameStateChange -= OnGameStateChange;
-            _isSuscribed = false;
+            isSuscribed = false;
         }
     }
 
@@ -93,12 +92,18 @@ public class EnemyTorch : MonoBehaviour
     {
         GameManager.GetInstance().OnGameStateChange += OnGameStateChange;
         OnGameStateChange(GameManager.GetInstance().GetCurrentGameState());
-        _isSuscribed = true;
+        isSuscribed = true;
     }
 
     private void OnGameStateChange(GAME_STATE _newGamestate)
     {
-        _canMove = _newGamestate == GAME_STATE.EXPLORATION;
+        canMove = _newGamestate == GAME_STATE.EXPLORATION;
+    }
+
+    private void StopEnemyMovement()
+    {
+        agent.velocity = Vector3.zero;
+        
     }
 
 }

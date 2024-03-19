@@ -39,7 +39,6 @@ public class IsInTp : MonoBehaviour
     {
         if (_collision.tag == ("Box"))
         {
-           Debug.Log("caca");
             isOnTp = false;
         }
     }
