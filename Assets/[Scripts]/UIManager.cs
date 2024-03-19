@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject pauseUI;
     [SerializeField] private GameObject deadUI;
-    [SerializeField] private Dialog dialog;
+    [SerializeField] private LetterScriptable dialog;
 
     private void Awake()
     {
