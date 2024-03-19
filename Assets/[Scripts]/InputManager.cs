@@ -3,7 +3,6 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-
     #region Singletone
     private static InputManager Instance;
     public static InputManager GetInstance() 
@@ -97,6 +96,7 @@ public class InputManager : MonoBehaviour
     {
         playerControls.Disable();
     }
+    
     
     public bool SetPause()
     {

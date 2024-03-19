@@ -1,20 +1,25 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 using Assets.SimpleLocalization.Scripts;
 using TMPro;
 namespace Assets.SimpleLocalization
 {
     public class LocalizeManager : MonoBehaviour
     {
+        public static LocalizeManager instance;
         public TextMeshProUGUI FormattedText;
 
+        public LocalizeManager GetInstance()
+        {
+            return instance;
+        }
         /// <summary>
         /// Called on app start.
         /// </summary>
         public void Awake()
         {
             LocalizationManager.Read();
-
             switch (Application.systemLanguage)
             {
                 case SystemLanguage.Spanish:
@@ -39,6 +44,7 @@ namespace Assets.SimpleLocalization
         {
             LocalizationManager.Language = localization;
         }
+        
 
         /// <summary>
         /// Write a review.
