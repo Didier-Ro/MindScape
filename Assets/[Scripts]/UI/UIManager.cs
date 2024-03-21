@@ -10,10 +10,10 @@ public class UIManager : MonoBehaviour
     {
         return Instance;
     }
-
     [SerializeField] private EventSystem eventSystem = default;
     [SerializeField] private GameObject pauseUI;
     [SerializeField] private GameObject deadUI;
+    [SerializeField] private TabGroup tabGroup;
 
     [SerializeField] private GameObject deadButtonUI;
     [SerializeField] private LetterScriptable dialog;
@@ -77,11 +77,12 @@ public class UIManager : MonoBehaviour
     }
     private void PauseUI() 
     {
-        Debug.Log("Pause");
+        pauseUI.SetActive(true);
+        tabGroup.ResetAll();
     }
     private void ExploringUI() 
     {
-        Debug.Log("Exploring");
+       pauseUI.SetActive(false);
     }
 
     private void ReadingUI() 
