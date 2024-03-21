@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,12 +5,27 @@ using UnityEngine.UI;
 public class TabButton : MonoBehaviour
 {
     public TabGroup tabGroup = default;
-
     public Image background;
-
-    private void Start()
+   [SerializeField]  private GameObject canvasUI = default;
+   [SerializeField] private GameObject initialButton;
+    private void Awake()
     {
         background = GetComponent<Image>();
-        tabGroup.Subscribe(this);
+    }
+
+
+    public void ActivateCanvas()
+    {
+        canvasUI.SetActive(true);
+        if (initialButton != null)
+        {
+            UIManager.GetInstance().ChangeUISelected(initialButton);   
+        }
+      
+    }
+
+    public void DeactivateCanvas()
+    {
+        canvasUI.SetActive(false);
     }
 }

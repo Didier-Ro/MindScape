@@ -53,6 +53,11 @@ public class InputManager : MonoBehaviour
     private InputAction dashInput = default;
     private InputAction moveLightInput = default;
 
+    [Header("UIInputs")] 
+    private InputAction nextUI = default;
+    private InputAction previousUI = default;
+    
+
     [Header("ReadInputs")] 
     private InputAction nextInput = default;
 
@@ -89,6 +94,10 @@ public class InputManager : MonoBehaviour
         moveLightInput.Enable();
         nextInput = playerControls.Reading.Next;
         nextInput.Disable();
+        nextUI = playerControls.UI.Next;
+        nextUI.Enable();
+        previousUI = playerControls.UI.Previous;
+        previousUI.Enable();
         playerControls.Gameplay.Pause.performed += _ => SetPause();
 
     }
@@ -127,6 +136,16 @@ public class InputManager : MonoBehaviour
     public bool NextInput()
     {
         return nextInput.triggered;
+    }
+
+    public bool NextUIInput()
+    {
+        return nextUI.triggered;
+    }
+    
+    public bool PreviousUIInput()
+    {
+        return previousUI.triggered;
     }
 
     public bool DashInput()
