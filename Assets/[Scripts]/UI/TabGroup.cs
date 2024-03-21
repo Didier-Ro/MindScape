@@ -65,7 +65,7 @@ public class TabGroup : MonoBehaviour
             ArrayCheck(1);
             OnTabSelected(tabButtons[counter]);
         } 
-        else if (InputManager.GetInstance().PreviousUIInput())
+        else if (InputManager.GetInstance().BackUIInput())
         {
             ArrayCheck(-1);
             OnTabSelected(tabButtons[counter]);
