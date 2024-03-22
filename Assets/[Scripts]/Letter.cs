@@ -52,6 +52,7 @@ namespace Assets.SimpleLocalization.Scripts
         
         private void Localize()
         {
+            dialog.Lines.Clear();
             foreach (var key in localizationKey)
             {
                 dialog.Lines.Add(LocalizationManager.Localize(key));
