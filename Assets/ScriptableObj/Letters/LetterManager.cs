@@ -1,11 +1,11 @@
 using UnityEditor;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 [CreateAssetMenu(fileName = "LetterManager",menuName = "Letter/LetterManager")]
 public class LetterManager :ScriptableObject
 {
-   public List<float> hola;
    public List<LetterStructure> _discoveredLetters = new List<LetterStructure>();
    public void AddLetter(LetterStructure scriptableLetter)
    {
@@ -26,7 +26,7 @@ public class LetterManager :ScriptableObject
       AssetDatabase.SaveAssets();
    }
 }
-
+[Serializable]
 public class LetterStructure
 {
    public string letterTittle;

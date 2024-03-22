@@ -1,3 +1,4 @@
+using Assets.SimpleLocalization.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,8 @@ public class FlexibleGridLayout : LayoutGroup
     public Vector2 spacing;
     public bool fitX;
     public bool fitY;
+
+   
     
     public override void CalculateLayoutInputVertical()
     {

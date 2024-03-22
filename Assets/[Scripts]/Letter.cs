@@ -34,7 +34,6 @@ namespace Assets.SimpleLocalization.Scripts
         public void Deactivate()
         {
             letterManager.AddLetter(AddLetterToScriptableObject());
-            letterManager.hola.Add(2);
             GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
             Destroy(gameObject);
         }
