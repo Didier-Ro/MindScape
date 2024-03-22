@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using System.Collections.Generic;
 using Assets.SimpleLocalization.Scripts;
 using TMPro;
 namespace Assets.SimpleLocalization
