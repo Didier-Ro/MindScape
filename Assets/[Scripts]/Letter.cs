@@ -1,6 +1,7 @@
 using System;
 using UnityEditor;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -9,14 +10,42 @@ namespace Assets.SimpleLocalization.Scripts
     public class Letter : MonoBehaviour, Istepable
     {
         [SerializeField] private Dialog dialog;
+        [SerializeField] private GameObject interactionCanvas = default;
+        [SerializeField] private GameObject keyboardUI = default;
+        [SerializeField] private GameObject gamepadUI = default;
         public String keyTittle;
         public List<String> localizationKey = new List<string>();
         [SerializeField] private LetterManager letterManager;
+        private string currentControlScheme;
 
         private void Start()
         {
             Localize();
             LocalizationManager.OnLocalizationChanged += Localize;
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.tag== "Player")
+            {
+                SetActiveCanvas();
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (other.tag== "Player")
+            {
+                DeactivateCanvas();
+            }
+        }
+
+        private void OnTriggerStay2D(Collider2D other)
+        {
+            if (other.tag== "Player")
+            {
+                SetActiveCanvas();
+            }
         }
 
         private void OnDestroy()
@@ -57,6 +86,27 @@ namespace Assets.SimpleLocalization.Scripts
             {
                 dialog.Lines.Add(LocalizationManager.Localize(key));
             }
+        }
+
+        public void SetActiveCanvas()
+        {
+            if (InputManager.GetInstance().ReturnControlScheme(currentControlScheme) == "Gamepad")
+            {
+                interactionCanvas.SetActive(true);
+                keyboardUI.SetActive(false);
+                gamepadUI.SetActive(true);
+            }
+            else if(InputManager.GetInstance().ReturnControlScheme(currentControlScheme) == "Keyboard")
+            {
+                interactionCanvas.SetActive(true);
+                gamepadUI.SetActive(false);
+                keyboardUI.SetActive(true);
+            }
+        }
+
+        public void DeactivateCanvas()
+        {
+            interactionCanvas.SetActive(false);
         }
     }
 }

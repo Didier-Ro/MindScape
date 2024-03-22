@@ -483,12 +483,34 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         {
             ""name"": ""Keyboard"",
             ""bindingGroup"": ""Keyboard"",
-            ""devices"": []
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Keyboard>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Mouse>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
         },
         {
             ""name"": ""Gamepad"",
             ""bindingGroup"": ""Gamepad"",
-            ""devices"": []
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Gamepad>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<Mouse>"",
+                    ""isOptional"": true,
+                    ""isOR"": false
+                }
+            ]
         }
     ]
 }");
