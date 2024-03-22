@@ -53,10 +53,12 @@ public class Enemy : MonoBehaviour,Ikillable
             if (!CanMove) return;
             if (!GameManager.GetInstance().GetFlashing() && _flashlightTarget.currentSliderValue > 0)
             {
+                animator.SetBool("Attack" ,false);
                 Chasing();
             }
             else
             {
+                animator.SetBool("Attack" ,true);
                 GetSteering();
             }
           

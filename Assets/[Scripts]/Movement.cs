@@ -1,5 +1,3 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -12,8 +10,8 @@ public class Movement : MonoBehaviour
     Direction currentDir = Direction.South;
     public Vector2 input;
     bool isMoving = false;
-    [SerializeField]  bool canInteract = false;
-    [SerializeField]   private bool isInteracting = false;
+    [SerializeField] bool canInteract = false;
+    [SerializeField] private bool isInteracting = false;
     Vector3 startPos;
     Vector3 endPos;
     float progress;
@@ -26,6 +24,7 @@ public class Movement : MonoBehaviour
 
     private void Start()
     {
+        animator = GetComponent<Animator>();
         DialogManager.GetInstance().OnCloseDialog += () =>
         {
             if (currentGamestate == GAME_STATE.READING)
@@ -34,8 +33,7 @@ public class Movement : MonoBehaviour
                 canInteract = true;
             }
         };
-
-        animator = GetComponent<Animator>();
+        
     }
 
 
@@ -43,7 +41,6 @@ public class Movement : MonoBehaviour
     {
         HandleMovementInput();
         MoveCharacter();
-        
         if (currentGamestate == GAME_STATE.READING)
         {
             DialogManager.GetInstance().HandleUpdate();
@@ -70,19 +67,17 @@ public class Movement : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-
         if (other.tag == "Stepable")
         {
-        interactiveObject = null;
-        canInteract = false;
-        isInteracting = false;
+            interactiveObject = null;
+            canInteract = false;
+            isInteracting = false;
         }
     }
     void HandleMovementInput()
     {
         if (!isMoving)
         {
-
             input = InputManager.GetInstance().MovementInput();
             animator.SetFloat("x", input.x);
             animator.SetFloat("y", input.y);
@@ -170,8 +165,6 @@ public class Movement : MonoBehaviour
             canInteract = false;
             isInteracting = true;
             }
-            Debug.Log("caja");
-            collision.GetComponent<Boxes>().Activate(transform.position);
         }
         
     }
