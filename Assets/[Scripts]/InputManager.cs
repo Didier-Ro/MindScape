@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -43,6 +44,11 @@ public class InputManager : MonoBehaviour
     }
     #endregion
 
+    public static PlayerInput playerInput = default;
+    public static string gamepadControlScheme = "Gamepad";
+    public static string keyboardControlScheme = "Keyboard";
+    public static string currentControlScheme {get; private set;}
+
     private PlayerControls playerControls = default;
     
     [Header("GameplayInputs")]
@@ -77,7 +83,8 @@ public class InputManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
+
+        playerInput = GetComponent<PlayerInput>();
         playerControls = new PlayerControls();
         playerControls.Enable();
         moveInput = playerControls.Gameplay.Movement;
@@ -101,6 +108,12 @@ public class InputManager : MonoBehaviour
         playerControls.Gameplay.Pause.performed += _ => SetPause();
 
     }
+
+    private void Update()
+    {
+        
+    }
+
     private void OnDisable()
     {
         playerControls.Disable();
@@ -152,6 +165,18 @@ public class InputManager : MonoBehaviour
     {
         Debug.Log("hola");
         return dashInput.triggered;
+    }
+
+    public void SwitchControls(PlayerInput input)
+    {
+        currentControlScheme = input.currentControlScheme;
+        Debug.Log(currentControlScheme);
+    }
+
+    public string ReturnControlScheme(string _currentControlScheme)
+    {
+        _currentControlScheme = currentControlScheme;
+        return _currentControlScheme;
     }
 
     private void ActivateReading()
