@@ -12,7 +12,7 @@ public class DialogManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI dialogText = default;
     [SerializeField] private int lettersPerSecond = default;
     private bool isTyping = false;
-    private LetterScriptable dialog = default;
+    private Dialog dialog = default;
     private int currentLine = 0;
 
     
@@ -39,7 +39,7 @@ public class DialogManager : MonoBehaviour
 
     #endregion
 
-    public IEnumerator ShowDialog(LetterScriptable dialog)
+    public IEnumerator ShowDialog(Dialog dialog)
     {
         yield return new WaitForEndOfFrame();
 //        Debug.Log(this.dialog.Lines);

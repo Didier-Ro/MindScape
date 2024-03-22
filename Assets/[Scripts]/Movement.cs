@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -11,30 +10,74 @@ public class Movement : MonoBehaviour
     Direction currentDir = Direction.South;
     public Vector2 input;
     bool isMoving = false;
+    [SerializeField] bool canInteract = false;
+    [SerializeField] private bool isInteracting = false;
     Vector3 startPos;
     Vector3 endPos;
     float progress;
     float remainingMoveDelay = 0f;
     float x;
     int framesPerMove = 60;
+   [SerializeField] GameObject interactiveObject;
+    GAME_STATE currentGamestate = default;
     Animator animator;
-
 
     private void Start()
     {
         animator = GetComponent<Animator>();
+        DialogManager.GetInstance().OnCloseDialog += () =>
+        {
+            if (currentGamestate == GAME_STATE.READING)
+            {
+                interactiveObject.GetComponent<Istepable>().Deactivate();
+                canInteract = true;
+            }
+        };
+        
     }
+
+
     void FixedUpdate()
     {
         HandleMovementInput();
         MoveCharacter();
+        if (currentGamestate == GAME_STATE.READING)
+        {
+            DialogManager.GetInstance().HandleUpdate();
+        }
+        SetInteraction();
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Box") && InputManager.GetInstance().InteractInput())
+        {
+            collision.GetComponent<Boxes>().Activate(transform.position);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Stepable")
+        {
+            interactiveObject = other.gameObject;
+            canInteract = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.tag == "Stepable")
+        {
+            interactiveObject = null;
+            canInteract = false;
+            isInteracting = false;
+        }
+    }
     void HandleMovementInput()
     {
         if (!isMoving)
         {
-
             input = InputManager.GetInstance().MovementInput();
             animator.SetFloat("x", input.x);
             animator.SetFloat("y", input.y);
@@ -110,15 +153,24 @@ public class Movement : MonoBehaviour
         else
             return currentDir;
     }
-
-    private void OnTriggerStay2D(Collider2D collision)
+    
+    public void SetInteraction()
     {
-        if (collision.CompareTag("Box") && InputManager.GetInstance().InteractInput())
+        if (canInteract && InputManager.GetInstance().InteractInput())
         {
-            Debug.Log("caja");
-            collision.GetComponent<Boxes>().Activate(transform.position);
+            if (interactiveObject != null)
+            {
+            interactiveObject.GetComponent<Istepable>().Activate();
+            currentGamestate = GameManager.GetInstance().GetCurrentGameState();
+            canInteract = false;
+            isInteracting = true;
+            }
         }
+        
     }
+
+   
+
 }
 
 public enum Direction
