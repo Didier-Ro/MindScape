@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TabGroup tabGroup;
 
     [SerializeField] private GameObject deadButtonUI;
-    [SerializeField] private LetterScriptable dialog;
+    [SerializeField] private Dialog dialog;
 
     private void Awake()
     {

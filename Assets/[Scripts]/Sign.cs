@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Sign : MonoBehaviour, Istepable
 {
-    [SerializeField] private LetterScriptable dialog;
+    [SerializeField] private Dialog dialog;
     public void Activate()
     {
         Debug.Log("Reading");

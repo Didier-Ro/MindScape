@@ -4,9 +4,10 @@ public class Enemy : MonoBehaviour,Ikillable
 {
     private bool isSuscribed = true;
     private bool CanMove = true;
+    Animator animator;
 
     #region ChasingVariables
-     [SerializeField] private float satisfactionRadius = default;
+    [SerializeField] private float satisfactionRadius = default;
      [SerializeField] private float timeToTarget = default;
      [SerializeField] private float proximateError = default;
     #endregion
@@ -41,6 +42,7 @@ public class Enemy : MonoBehaviour,Ikillable
     #endregion
         void Start()
         { 
+            animator = GetComponent<Animator>();
             SubscribeToGameManagerGameState();
             rb = GetComponent<Rigidbody2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
@@ -51,10 +53,12 @@ public class Enemy : MonoBehaviour,Ikillable
             if (!CanMove) return;
             if (!GameManager.GetInstance().GetFlashing() && _flashlightTarget.currentSliderValue > 0)
             {
+                animator.SetBool("Attack" ,false);
                 Chasing();
             }
             else
             {
+                animator.SetBool("Attack" ,true);
                 GetSteering();
             }
           
