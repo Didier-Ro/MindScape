@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -8,14 +9,21 @@ public class Movement : MonoBehaviour
     [SerializeField] private Tilemap wallTilemap;
     [SerializeField] private float moveDelay = 0.2f;
     Direction currentDir = Direction.South;
-    Vector2 input;
+    public Vector2 input;
     bool isMoving = false;
     Vector3 startPos;
     Vector3 endPos;
     float progress;
     float remainingMoveDelay = 0f;
+    float x;
     int framesPerMove = 60;
+    Animator animator;
 
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
     void FixedUpdate()
     {
         HandleMovementInput();
@@ -26,7 +34,10 @@ public class Movement : MonoBehaviour
     {
         if (!isMoving)
         {
+
             input = InputManager.GetInstance().MovementInput();
+            animator.SetFloat("x", input.x);
+            animator.SetFloat("y", input.y);
             if (input.x != 0f && input.y != 0f)
             {
                 input.x = Mathf.Sign(input.x);
@@ -71,12 +82,12 @@ public class Movement : MonoBehaviour
     {
         if (isMoving)
         {
-         //   Debug.Log(endPos);
+            //   Debug.Log(endPos);
             if (progress < 1f)
             {
                 progress += (1f / framesPerMove) * walkSpeed;
                 transform.position = Vector3.Lerp(startPos, endPos, progress);
-                
+
             }
             else
             {
@@ -104,6 +115,7 @@ public class Movement : MonoBehaviour
     {
         if (collision.CompareTag("Box") && InputManager.GetInstance().InteractInput())
         {
+            Debug.Log("caja");
             collision.GetComponent<Boxes>().Activate(transform.position);
         }
     }
