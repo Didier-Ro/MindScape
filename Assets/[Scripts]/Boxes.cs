@@ -1,42 +1,81 @@
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class Boxes : MonoBehaviour
 {
-    [SerializeField] private Tilemap floorTilemap = default;
-    [SerializeField] private Tilemap wallTilemap = default;
-    [SerializeField] private float boxDistance = 1f;
     private bool isMoving = false;
-    private Vector3 startPos;
-    private Vector3 endPos;
-    private float progress;
-    private Vector2 colliderSize;
-    private float lerpTime = 1f;
-    private float currentLerpTime = 0f;
+    private Vector3 startPos = default;
+    int finalFramesToReachPoint = default;
+    const float cubeBorder = 0.05f;
+    public float distanceToMove = 1;
+    RaycastHit2D rayhit;
+    float startposition = default;
+    float finalDistanceToMove = default;
+    public float timeToReachPointInSeconds = 1;
+    int framesToReachPoint = default;
+    float speedPerFrame = default;
+    float finalSpeedPerFrame = default;
+    int frameCounter = 0;
+    public Transform[] firepoints;
+    direction push;
+
 
     private void FixedUpdate()
     {
-        if (isMoving)
-        {
-            MoveBox();
-        }
+        MoveBox();
     }
 
     private void MoveBox()
     {
-        currentLerpTime += Time.fixedDeltaTime;
-        if (currentLerpTime > lerpTime)
+        if (!isMoving) return;
+        frameCounter++;
+        switch (push)
         {
-            currentLerpTime = lerpTime;
-            isMoving = false;
+            case direction.left:
+                if (frameCounter >= finalFramesToReachPoint)
+                {
+                    transform.Translate(new Vector3(-speedPerFrame, 0, 0));
+                    isMoving = false;
+                    transform.position = new Vector3(transform.position.x - finalDistanceToMove, transform.position.y, 0);
+                }
+                break;
+            case direction.right:
+                if (frameCounter >= finalFramesToReachPoint)
+                {
+                    transform.Translate(new Vector3(speedPerFrame, 0, 0));
+                    isMoving = false;
+                    transform.position = new Vector3(transform.position.x + finalDistanceToMove, transform.position.y, 0);
+                }
+                break;
+            case direction.up:
+                if (frameCounter >= finalFramesToReachPoint)
+                {
+                    transform.Translate(new Vector3(0, speedPerFrame, 0));
+                    isMoving = false;
+                    transform.position = new Vector3(transform.position.x, transform.position.y + finalDistanceToMove, 0);
+                }
+                break;
+            case direction.down:
+                if (frameCounter >= finalFramesToReachPoint)
+                {
+                    transform.Translate(new Vector3(0, -speedPerFrame, 0));
+                    isMoving = false;
+                    transform.position = new Vector3(transform.position.x, transform.position.y - finalDistanceToMove, 0);
+                }
+                break;
         }
 
-        float t = currentLerpTime / lerpTime;
-        transform.position = Vector3.Lerp(startPos, endPos, t);
+        if (frameCounter >= finalFramesToReachPoint)
+        {
+            isMoving = false;
+            transform.position = new Vector3(transform.position.x, transform.position.y, startposition + finalDistanceToMove);
+        }
     }
 
     public void Activate(Vector2 _playerDirection)
     {
+        isMoving = true;
+        framesToReachPoint = (int)timeToReachPointInSeconds * 60;
+        speedPerFrame = distanceToMove / (timeToReachPointInSeconds * 60);
         Vector2 distance = _playerDirection - (Vector2)transform.position;
         Vector2 dir = Vector2.zero;
         if (Mathf.Abs(distance.x) > Mathf.Abs(distance.y))
@@ -44,13 +83,42 @@ public class Boxes : MonoBehaviour
             startPos = transform.position;
             if (distance.x > 0)
             {
-                dir = Vector2.left;
-                endPos = new Vector3(startPos.x - boxDistance, startPos.y, startPos.z);
+                push = direction.left;
+                Debug.DrawRay(transform.position + (Vector3.left * cubeBorder), Vector3.left * distanceToMove, Color.red, 1f);
+                rayhit = Physics2D.Raycast(/*transform.position + (Vector3.left * cubeBorder)*/firepoints[0].position, Vector3.left, distanceToMove);
+                if (rayhit.collider != null)
+                {
+                    Debug.Log("Raycast Hit" + rayhit.point);
+                    finalDistanceToMove = rayhit.point.x - (startposition + cubeBorder);
+                    finalFramesToReachPoint = (int)(finalDistanceToMove / speedPerFrame);
+
+                }
+                else
+                {
+                    finalDistanceToMove = distanceToMove;
+                    finalFramesToReachPoint = framesToReachPoint;
+
+                }
+                frameCounter = 0;
             }
             else
             {
-                dir = Vector2.right;
-                endPos = new Vector3(startPos.x + boxDistance, startPos.y, startPos.z);
+                push = direction.right;
+                Debug.Log("aa");
+                Debug.DrawRay(transform.position + (Vector3.right * cubeBorder), Vector3.right * distanceToMove, Color.red, 1f);
+                rayhit = Physics2D.Raycast(/*transform.position + (Vector3.left * cubeBorder)*/firepoints[1].position, Vector3.right, distanceToMove);
+                if (rayhit.collider != null)
+                {
+                    Debug.Log("Raycast Hit" + rayhit.point);
+                    finalDistanceToMove = rayhit.point.x - (startposition + cubeBorder);
+                    finalFramesToReachPoint = (int)(finalDistanceToMove / speedPerFrame);
+                }
+                else
+                {
+                    finalDistanceToMove = distanceToMove;
+                    finalFramesToReachPoint = framesToReachPoint;
+                }
+                frameCounter = 0;
             }
         }
         else
@@ -58,38 +126,48 @@ public class Boxes : MonoBehaviour
             startPos = transform.position;
             if (distance.y > 0)
             {
-                dir = Vector2.down;
-                endPos = new Vector3(startPos.x, startPos.y - boxDistance, startPos.z);
-            }
-            else
-            {
-                dir = Vector2.up;
-                endPos = new Vector3(startPos.x, startPos.y + boxDistance, startPos.z);
-            }
-        }
-
-        // Check if the destination position is within the floor tilemap and not within the wall tilemap
-        Vector3Int tilePosition = floorTilemap.WorldToCell(endPos);
-        TileBase floorTile = floorTilemap.GetTile(tilePosition);
-        TileBase wallTile = wallTilemap.GetTile(tilePosition);
-
-        if (floorTile != null && wallTile == null)
-        {
-            RaycastHit2D hit = Physics2D.Raycast(startPos, dir, boxDistance + 0.1f, LayerMask.GetMask("obstacleLayer"));
-            if (hit.collider == null)
-            {
-                isMoving = true;
-                currentLerpTime = 0f;
-            }
-            else
-            {
-                float distanceToCollision = Vector2.Distance(hit.point, transform.position);
-                if (Mathf.Abs(distanceToCollision) > 0.1)
+                Debug.Log("aaa");
+                push = direction.down;
+                Debug.DrawRay(transform.position + (Vector3.down * cubeBorder), Vector3.down * distanceToMove, Color.red, 1f);
+                rayhit = Physics2D.Raycast(/*transform.position + (Vector3.left * cubeBorder)*/firepoints[2].position, Vector3.down, distanceToMove);
+                if (rayhit.collider != null)
                 {
-                    Vector2 directionToMove = dir * (distanceToCollision);
-                    transform.Translate(directionToMove);
+                    Debug.Log("Raycast Hit" + rayhit.point);
+                    finalDistanceToMove = rayhit.point.y - (startposition + cubeBorder);
+                    finalFramesToReachPoint = (int)(finalDistanceToMove / speedPerFrame);
                 }
+                else
+                {
+                    finalDistanceToMove = distanceToMove;
+                    finalFramesToReachPoint = framesToReachPoint;
+                }
+                frameCounter = 0;
+            }
+            else
+            {
+                Debug.Log("aaaa");
+                push = direction.up;
+                Debug.DrawRay(transform.position + (Vector3.up * cubeBorder), Vector3.up * distanceToMove, Color.red, 1f);
+                rayhit = Physics2D.Raycast(/*transform.position + (Vector3.left * cubeBorder)*/firepoints[3].position, Vector3.up, distanceToMove);
+                if (rayhit.collider != null)
+                {
+                    Debug.Log("Raycast Hit" + rayhit.point);
+                    finalDistanceToMove = rayhit.point.y - (startposition + cubeBorder);
+                    finalFramesToReachPoint = (int)(finalDistanceToMove / speedPerFrame);
+                }
+                else
+                {
+                    finalDistanceToMove = distanceToMove;
+                    finalFramesToReachPoint = framesToReachPoint;
+                }
+                frameCounter = 0;
             }
         }
     }
+    public enum direction
+    {
+        up, down, left, right,
+    }
+
+
 }
