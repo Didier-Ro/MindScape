@@ -19,13 +19,18 @@ public class playerController : MonoBehaviour
 
     public static void RespawnAtLastCheckpoint()
     {
-        if (CheckpointManager.GetLastCheckpointPosition() != Vector3.zero)
+        if (CheckpointManager.FindNearestCheckpoint(playerTransform.position) != Vector3.zero)
         {
-            playerTransform.position = CheckpointManager.GetLastCheckpointPosition();
+            playerTransform.position = CheckpointManager.FindNearestCheckpoint(playerTransform.position);
         }
         else
         {
             Debug.LogWarning("No checkpoint reached yet!");
         }
+    }
+
+    public static void RespawnAtCheckpoint(Vector3 checkpointPosition)
+    {
+        playerTransform.position = checkpointPosition;
     }
 }
