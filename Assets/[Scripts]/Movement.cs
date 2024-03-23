@@ -10,70 +10,25 @@ public class Movement : MonoBehaviour
     Direction currentDir = Direction.South;
     public Vector2 input;
     bool isMoving = false;
-    [SerializeField] bool canInteract = false;
-    [SerializeField] private bool isInteracting = false;
     Vector3 startPos;
     Vector3 endPos;
     float progress;
     float remainingMoveDelay = 0f;
-    float x;
     int framesPerMove = 60;
-   [SerializeField] GameObject interactiveObject;
     GAME_STATE currentGamestate = default;
     Animator animator;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
-        DialogManager.GetInstance().OnCloseDialog += () =>
-        {
-            if (currentGamestate == GAME_STATE.READING)
-            {
-                interactiveObject.GetComponent<Istepable>().Deactivate();
-                canInteract = true;
-            }
-        };
-        
     }
-
 
     void FixedUpdate()
     {
         HandleMovementInput();
         MoveCharacter();
-        if (currentGamestate == GAME_STATE.READING)
-        {
-            DialogManager.GetInstance().HandleUpdate();
-        }
-        SetInteraction();
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Box") && InputManager.GetInstance().InteractInput())
-        {
-            collision.GetComponent<Boxes>().Activate(transform.position);
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.tag == "Stepable")
-        {
-            interactiveObject = other.gameObject;
-            canInteract = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.tag == "Stepable")
-        {
-            interactiveObject = null;
-            canInteract = false;
-            isInteracting = false;
-        }
-    }
     void HandleMovementInput()
     {
         if (!isMoving)
@@ -89,22 +44,17 @@ public class Movement : MonoBehaviour
 
             if (input != Vector2.zero)
             {
-                Direction oldDirection = currentDir;
                 Vector3Int moveDirection = Vector3Int.RoundToInt(new Vector3(input.x, input.y, 0f));
 
                 if (moveDirection != Vector3Int.zero)
                 {
                     currentDir = GetDirectionFromVector(moveDirection);
-                }
-
-                if (currentDir != oldDirection)
-                {
                     remainingMoveDelay = moveDelay;
                 }
 
                 if (remainingMoveDelay > 0f)
                 {
-                    remainingMoveDelay -= 1f;
+                    remainingMoveDelay -= Time.deltaTime;
                     return;
                 }
 
@@ -114,8 +64,24 @@ public class Movement : MonoBehaviour
 
                 if (floorTilemap.GetTile(tilePosition) != null && wallTilemap.GetTile(tilePosition) == null)
                 {
-                    isMoving = true;
-                    progress = 0f;
+                    // Check for collisions with objects outside tilemaps
+                    Collider2D[] colliders = Physics2D.OverlapCircleAll(endPos, 0.1f);
+                    bool canMove = true;
+                    foreach (Collider2D collider in colliders)
+                    {
+                        if (collider.gameObject != gameObject) // Ignore self
+                        {
+                            canMove = false;
+                            break;
+                        }
+                    }
+
+                    if (canMove)
+                    {
+                        isMoving = true;
+                        progress = 0f;
+                    }
+
                 }
             }
         }
@@ -125,12 +91,10 @@ public class Movement : MonoBehaviour
     {
         if (isMoving)
         {
-            //   Debug.Log(endPos);
             if (progress < 1f)
             {
                 progress += (1f / framesPerMove) * walkSpeed;
                 transform.position = Vector3.Lerp(startPos, endPos, progress);
-
             }
             else
             {
@@ -153,28 +117,9 @@ public class Movement : MonoBehaviour
         else
             return currentDir;
     }
-    
-    public void SetInteraction()
-    {
-        if (canInteract && InputManager.GetInstance().InteractInput())
-        {
-            if (interactiveObject != null)
-            {
-            interactiveObject.GetComponent<Istepable>().Activate();
-            currentGamestate = GameManager.GetInstance().GetCurrentGameState();
-            canInteract = false;
-            isInteracting = true;
-            }
-        }
-        
-    }
-
-   
-
 }
 
 public enum Direction
 {
     North, East, South, West
 }
-
