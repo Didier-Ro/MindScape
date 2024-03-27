@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class Floor : MonoBehaviour, Fstepable
 {
-    [SerializeField] private AudioClip[] audioClips;
-    private int index = 0;
+    [SerializeField] private FLOOR tFloor;
+    
 
     public void FActivate()
     {
-        index = Random.Range(0, audioClips.Length);
-        AudioManager.GetInstance().PlaySFX(audioClips[index]);
+        AudioManager.GetInstance().FloorSound(tFloor);
     }
 
     public void FDeactivate()
     {
         
     }
+}
+
+public enum FLOOR
+{
+    WOOD,
+    CONCRETE
 }

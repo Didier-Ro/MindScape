@@ -9,12 +9,14 @@ public class EnemyTorch : MonoBehaviour
     GAME_STATE gameState;
     private bool isSuscribed = true;
     public bool canMove = true;
+    private bool velocityCatch = false;
 
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private GameObject playerTarget;
     [SerializeField] private List<Torch> targets = new List<Torch>();
     [SerializeField] private int index = 0;
-    
+
+    [SerializeField] private Vector3 velocity;
 
     private void Start()
     {
@@ -32,9 +34,8 @@ public class EnemyTorch : MonoBehaviour
     {
         if (!canMove)
         {
-            StopEnemyMovement();
+            return;
         }
-        
 
         if (targets[index].IsLightOn() && canMove)
         {
@@ -98,12 +99,32 @@ public class EnemyTorch : MonoBehaviour
     private void OnGameStateChange(GAME_STATE _newGamestate)
     {
         canMove = _newGamestate == GAME_STATE.EXPLORATION;
+        if (!canMove)
+        {
+            StopEnemyMovement();
+        }
+        else
+        {
+            ContinueEnemyMovement();
+        }
     }
 
     private void StopEnemyMovement()
     {
+        velocity = agent.velocity;
+        agent.isStopped = true;
         agent.velocity = Vector3.zero;
-        
+        velocityCatch = true;
+    }
+
+    private void ContinueEnemyMovement()
+    {
+        if (velocityCatch)
+        {
+            agent.velocity = velocity;
+            agent.isStopped = false;
+            velocityCatch = false;
+        }
     }
 
 }
