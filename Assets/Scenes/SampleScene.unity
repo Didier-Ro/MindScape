@@ -561,6 +561,7 @@ MonoBehaviour:
   playerTarget: {fileID: 1274724350}
   targets: []
   index: 0
+  velocity: {x: 0, y: 0, z: 0}
 --- !u!50 &473324629
 Rigidbody2D:
   serializedVersion: 4
@@ -931,7 +932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e95a31a1fd3e8c04d86a48315435751a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioClips: []
+  tFloor: 0
 --- !u!4 &682468854
 Transform:
   m_ObjectHideFlags: 0
@@ -1342,8 +1343,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff1e4612cf98e024c85e947316611850, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventSystem: {fileID: 0}
   pauseUI: {fileID: 0}
   deadUI: {fileID: 0}
+  tabGroup: {fileID: 0}
+  deadButtonUI: {fileID: 0}
   dialog:
     lines: []
 --- !u!114 &1019019059
@@ -1607,6 +1611,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSource: {fileID: 1019019064}
   SfxSource: {fileID: 1019019063}
+  floorSound: {fileID: 11400000, guid: 0b87435a0ae67b54abfd4e875d8d4037, type: 2}
 --- !u!1 &1152286025
 GameObject:
   m_ObjectHideFlags: 0
