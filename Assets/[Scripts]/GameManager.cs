@@ -28,7 +28,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
         Application.targetFrameRate = 60;
     }
 
@@ -83,18 +82,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] private WorldCondition[] allConditions;
     public Action<int> OnConditionCompleted;
 
-    public void MarkConditionCompleted(int i)
+    public void MarkConditionCompleted(int _i)
     {
-        stageConditions.MarkCondition(i);
+        stageConditions.MarkCondition(_i);
         if (OnConditionCompleted != null)
         {
-            OnConditionCompleted(i);
+            OnConditionCompleted(_i);
         }
     }
     
-    public bool IsConditionCompleted(int id)
+    public bool IsConditionCompleted(int _id)
     {
-        return stageConditions.IsConditionCompleted(id);
+        return stageConditions.IsConditionCompleted(_id);
     }
     
     private void SaveAllData()
@@ -121,6 +120,31 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < allConditions.Length; i++)
         {
             allConditions[i].LoadData(dataToLoad[i]);
+        }
+        LoadCurrentGameData(PlayerPrefs.GetInt("GameNumber", 1));
+        CheckpointManager.SetLastCheckpointPosition(stageConditions.lastPosition);
+    }
+
+    public void SaveSpecificGameData(int _gameUWantToReplace)
+    {
+        foreach (var stageCondition in allConditions)
+        {
+            if (stageCondition.nGame == _gameUWantToReplace)
+            {
+                stageCondition.ResetData();
+                stageCondition.LoadData(stageConditions.GetData(stageCondition.nGame));
+                stageCondition.SaveData();
+            }
+        }
+    }
+    private void LoadCurrentGameData(int _currentGame)
+    {
+        foreach (var stageCondition in allConditions)
+        {
+            if (stageCondition.nGame == _currentGame)
+            {
+                stageConditions = stageCondition.GetNumOfGame();
+            }
         }
     }
     
