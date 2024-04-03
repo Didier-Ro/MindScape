@@ -76,6 +76,56 @@ public class GameManager : MonoBehaviour
     {
         return currentGameState;
     }
+
+    #region WorldConditions
+
+    [SerializeField] private WorldCondition stageConditions;
+    [SerializeField] private WorldCondition[] allConditions;
+    public Action<int> OnConditionCompleted;
+
+    public void MarkConditionCompleted(int i)
+    {
+        stageConditions.MarkCondition(i);
+        if (OnConditionCompleted != null)
+        {
+            OnConditionCompleted(i);
+        }
+    }
+    
+    public bool IsConditionCompleted(int id)
+    {
+        return stageConditions.IsConditionCompleted(id);
+    }
+    
+    private void SaveAllData()
+    {
+        string dataToSave = "";
+        for (int i = 0; i < allConditions.Length; i++)
+        {
+            dataToSave += allConditions[i].SaveData() + "*";
+        }
+        PlayerPrefs.SetString("alldata", dataToSave);
+    }
+
+    private void ResetAll()
+    {
+        for (int i = 0; i < allConditions.Length; i++)
+        {
+            allConditions[i].ResetData();
+        }
+    }
+
+    private void LoadAllData()
+    {
+        string[] dataToLoad = PlayerPrefs.GetString("alldata").Split("*");
+        for (int i = 0; i < allConditions.Length; i++)
+        {
+            allConditions[i].LoadData(dataToLoad[i]);
+        }
+    }
+    
+    #endregion
+    
 }
 
 public enum GAME_STATE //All possible Game States
