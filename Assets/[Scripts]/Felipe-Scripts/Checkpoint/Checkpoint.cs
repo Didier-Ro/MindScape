@@ -10,7 +10,7 @@ public class Checkpoint : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            CheckpointManager.SetLastCheckpointPosition(checkpointPosition);
+            CheckpointManager.AddCheckpointPosition(checkpointPosition);
         }
     }
 }
