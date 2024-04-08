@@ -21,9 +21,10 @@ public class WorldCondition : ScriptableObject, IsaveScript
         {
             dataToSave += (conditions[i].isCompleted ? 1 : 0) + "/";
         }
-        dataToSave += (int)lastPosition.x;
-        dataToSave += (int)lastPosition.y;
+        dataToSave += lastPosition.x+ "/";
+        dataToSave += lastPosition.y+ "/";
         dataToSave += _gameNumber.ToString();
+        Debug.Log(dataToSave);
         return dataToSave;
     }
     public void LoadData(string s)
@@ -54,8 +55,8 @@ public class WorldCondition : ScriptableObject, IsaveScript
         {
             dataToSave += (conditions[i].isCompleted ? 1 : 0) + "/";
         }
-        dataToSave += (int)lastPosition.x;
-        dataToSave += (int)lastPosition.y;
+        dataToSave += (int)lastPosition.x + "/";
+        dataToSave += (int)lastPosition.y + "/";
         dataToSave += nGame.ToString();
         PlayerPrefs.SetString("worldConditions", dataToSave);
         Debug.Log(dataToSave);

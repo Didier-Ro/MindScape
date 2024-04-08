@@ -18,6 +18,13 @@ public class GameManager : MonoBehaviour
     private GAME_STATE currentGameState = GAME_STATE.EXPLORATION;
     public Action<GAME_STATE> OnGameStateChange;
 
+    private void Start()
+    {
+        ResetAll();
+        LoadAllData();
+        Debug.Log(stageConditions.nGame);
+    }
+
     private void Awake()
     {
         if (Instance == null)
@@ -37,7 +44,6 @@ public class GameManager : MonoBehaviour
         {
            ToggleFlash();
         }
-
         if (InputManager.GetInstance().SetPause())
         {
             GAME_STATE actualGameState = TogglePause() ? GAME_STATE.PAUSE : GAME_STATE.EXPLORATION;
@@ -113,6 +119,11 @@ public class GameManager : MonoBehaviour
             allConditions[i].ResetData();
         }
     }
+    
+    public void SelectGameNum(int _number)
+    {
+        PlayerPrefs.SetInt("GameNumber", _number);
+    }
 
     private void LoadAllData()
     {
@@ -132,10 +143,10 @@ public class GameManager : MonoBehaviour
             if (stageCondition.nGame == _gameUWantToReplace)
             {
                 stageCondition.ResetData();
-                stageCondition.LoadData(stageConditions.GetData(stageCondition.nGame));
-                stageCondition.SaveData();
+                stageCondition.LoadData(stageConditions.GetData(_gameUWantToReplace));
             }
         }
+        SaveAllData();
     }
     private void LoadCurrentGameData(int _currentGame)
     {
