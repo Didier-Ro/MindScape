@@ -43,7 +43,6 @@ public class Torch : MonoBehaviour, EIstepable, Istepable
     public void Activate()
     {
         playerTurningOn = true;
-        
     }
 
     public void Deactivate()

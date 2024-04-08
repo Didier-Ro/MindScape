@@ -5,6 +5,8 @@ public class AudioManager : MonoBehaviour
     private static AudioManager _instance;
     [SerializeField] private AudioSource musicSource, SfxSource = default;
 
+    [SerializeField] private FloorSoundsSO floorSound;
+
     #region SingeTone
     public static AudioManager GetInstance()
     {
@@ -75,5 +77,18 @@ public class AudioManager : MonoBehaviour
     {
         musicSource.clip = music;
         musicSource.Play();
+    }
+
+    public void FloorSound(FLOOR typeFloor)
+    {
+        switch (typeFloor)
+        {
+            case FLOOR.CONCRETE:
+                PlaySFX(floorSound.typeSounds[0].sound[Random.Range(0, floorSound.typeSounds[0].sound.Length)]);
+                break;
+            case FLOOR.WOOD:
+                PlaySFX(floorSound.typeSounds[1].sound[Random.Range(0, floorSound.typeSounds[1].sound.Length)]);
+                break;
+        }
     }
 }
