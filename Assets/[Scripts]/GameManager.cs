@@ -38,6 +38,11 @@ public class GameManager : MonoBehaviour
         Application.targetFrameRate = 60;
     }
 
+    private void OnDestroy()
+    {
+        SaveAllData();
+    }
+
     private void Update()
     {
         if (InputManager.GetInstance().FlashligthInput())
