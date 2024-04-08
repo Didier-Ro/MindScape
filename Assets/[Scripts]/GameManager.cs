@@ -15,13 +15,7 @@ public class GameManager : MonoBehaviour
     private bool isFlashing;
     private GAME_STATE currentGameState = GAME_STATE.EXPLORATION;
     public Action<GAME_STATE> OnGameStateChange;
-
-    private void Start()
-    {
-        ResetAll();
-        LoadAllData();
-        Debug.Log(stageConditions.nGame);
-    }
+    
 
     private void Awake()
     {
@@ -34,6 +28,8 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         Application.targetFrameRate = 60;
+        ResetAll();
+        LoadAllData();
     }
 
     private void OnDestroy()
@@ -136,7 +132,7 @@ public class GameManager : MonoBehaviour
             allConditions[i].LoadData(dataToLoad[i]);
         }
         LoadCurrentGameData(PlayerPrefs.GetInt("GameNumber", 1));
-        CheckpointManager.AddCheckpointPosition(stageConditions.lastPosition);
+       // CheckpointManager.AddCheckpointPosition(stageConditions.lastPosition);
     }
 
     public void SaveSpecificGameData(int _gameUWantToReplace)
