@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -138,7 +136,7 @@ public class GameManager : MonoBehaviour
             allConditions[i].LoadData(dataToLoad[i]);
         }
         LoadCurrentGameData(PlayerPrefs.GetInt("GameNumber", 1));
-        CheckpointManager.SetLastCheckpointPosition(stageConditions.lastPosition);
+        CheckpointManager.AddCheckpointPosition(stageConditions.lastPosition);
     }
 
     public void SaveSpecificGameData(int _gameUWantToReplace)

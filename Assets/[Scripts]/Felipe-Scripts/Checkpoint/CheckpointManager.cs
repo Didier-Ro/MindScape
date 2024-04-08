@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public static class CheckpointManager
 {
-    private static Vector3 lastCheckpointPosition;
-    
-    public static void SetLastCheckpointPosition(Vector3 position)
+    private static List<Vector3> checkpointPositions = new List<Vector3>();
+    public static void AddCheckpointPosition(Vector3 position)
     {
         checkpointPositions.Add(position);
     }
