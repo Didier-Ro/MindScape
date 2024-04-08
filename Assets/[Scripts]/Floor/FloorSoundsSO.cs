@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "FloorSounds", menuName = "ScriptableObjects/FloorSounds", order = 0)]
 public class FloorSoundsSO : ScriptableObject
 {
-    [SerializeField] public SOUNDS[] typeSounds;
+    public SOUNDS[] typeSounds;
 }
 
 [Serializable]

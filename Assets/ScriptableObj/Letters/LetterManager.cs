@@ -1,4 +1,6 @@
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -10,7 +12,9 @@ public class LetterManager :ScriptableObject
    public void AddLetter(LetterStructure scriptableLetter)
    {
       _discoveredLetters.Add(scriptableLetter);
+      #if UNITY_EDITOR
       EditorUtility.SetDirty(this);
+      #endif
       AssetDatabase.SaveAssets();
    }
    
@@ -22,7 +26,9 @@ public class LetterManager :ScriptableObject
    public void ResetLetters()
    {
       _discoveredLetters.Clear();
+      #if UNITY_EDITOR
       EditorUtility.SetDirty(this);
+      #endif
       AssetDatabase.SaveAssets();
    }
 }
