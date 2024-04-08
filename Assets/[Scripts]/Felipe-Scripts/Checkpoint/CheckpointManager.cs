@@ -1,18 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public static class CheckpointManager
 {
     private static List<Vector3> checkpointPositions = new List<Vector3>();
-
-    // Agrega una posición de checkpoint a la lista
     public static void AddCheckpointPosition(Vector3 position)
     {
         checkpointPositions.Add(position);
     }
 
-    // Encuentra el checkpoint más cercano a la posición dada
+    // Encuentra el checkpoint mï¿½s cercano a la posiciï¿½n dada
     public static Vector3 FindNearestCheckpoint(Vector3 currentPosition)
     {
         if (checkpointPositions.Count == 0)
@@ -23,7 +22,7 @@ public static class CheckpointManager
         Vector3 nearestCheckpoint = checkpointPositions[0];
         float shortestDistance = Vector3.Distance(nearestCheckpoint, currentPosition);
 
-        // Itera sobre todas las posiciones de los checkpoints y encuentra la más cercana
+        // Itera sobre todas las posiciones de los checkpoints y encuentra la mï¿½s cercana
         foreach (Vector3 checkpointPosition in checkpointPositions)
         {
             float distanceToCheckpoint = Vector3.Distance(checkpointPosition, currentPosition);
