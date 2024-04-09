@@ -163,7 +163,6 @@ public class InputManager : MonoBehaviour
 
     public bool DashInput()
     {
-        Debug.Log("hola");
         return dashInput.triggered;
     }
 
