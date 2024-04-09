@@ -48,8 +48,11 @@ public class UIManager : MonoBehaviour
 
     private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
     {
-        GameManager.GetInstance().OnGameStateChange += OnGameStateChange;
-        OnGameStateChange(GameManager.GetInstance().GetCurrentGameState());
+        if (GameManager.GetInstance() != null)
+        {
+            GameManager.GetInstance().OnGameStateChange += OnGameStateChange;
+            OnGameStateChange(GameManager.GetInstance().GetCurrentGameState());
+        }
     }
 
     private void OnGameStateChange(GAME_STATE _newGameState)//Analyze the Game State type and shows a different UI
