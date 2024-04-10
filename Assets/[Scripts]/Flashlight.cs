@@ -174,6 +174,7 @@ public class Flashlight : MonoBehaviour
         lightInnerAngleTimeSpeed = totalLightInnerAngle / (frame * time);
         lightOuterAngleTimeSpeed = totalLightOuterAngle / (frame * time);   
     }
+
     private void CircleLight()
     {
         ReduceSliderValue(0.01f);
