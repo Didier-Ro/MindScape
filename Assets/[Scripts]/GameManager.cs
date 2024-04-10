@@ -169,5 +169,6 @@ public enum GAME_STATE //All possible Game States
     PAUSE,
     CUTSCENES,
     FLASBACKS,
+    FALLING,
     DEAD
 }
