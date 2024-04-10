@@ -24,6 +24,7 @@ public class Mirror : MonoBehaviour, Ikillable
         lineRenderer.enabled = true;
         
         Debug.DrawRay(outPoint.position, outPoint.TransformDirection(Vector3.left), Color.green, 10f, true);
+        lineRenderer.SetPosition(0, outPoint.position);
         
         if (hit.collider != null)
         {
@@ -33,8 +34,8 @@ public class Mirror : MonoBehaviour, Ikillable
                 hitParticles.Play(true);
             }
 
-            float distance = ((Vector2)hit.point - (Vector2)transform.position).magnitude;
-            lineRenderer.SetPosition(1, new Vector3(distance,0,0));
+            float distance = ((Vector2)hit.point - (Vector2)outPoint.position).magnitude;
+            lineRenderer.SetPosition(1, hit.point);
         Mirror reflectedMirror = hit.collider.GetComponent<Mirror>();
         if (reflectedMirror != null)
         {
@@ -44,7 +45,7 @@ public class Mirror : MonoBehaviour, Ikillable
         }
         else
         {
-            lineRenderer.SetPosition(1, new Vector3(lightLenght,0,0));
+            lineRenderer.SetPosition(1, outPoint.position + outPoint.TransformDirection(Vector3.left) * lightLenght);
             startPlayingParticles = false;
             hitParticles.Stop(true);
         }
