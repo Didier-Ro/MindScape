@@ -50,9 +50,14 @@ public class Movement : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        if (collision.CompareTag("Box"))
+        {
+            Debug.Log("esta");
+        }
         if (collision.CompareTag("Box") && InputManager.GetInstance().InteractInput())
         {
-            collision.GetComponent<Boxes>().Activate(transform.position);
+            Debug.Log("entro");
+           collision.GetComponent<MovableObject>().GetDirection(transform.position);
         }
     }
 
@@ -125,7 +130,6 @@ public class Movement : MonoBehaviour
     {
         if (isMoving)
         {
-            //   Debug.Log(endPos);
             if (progress < 1f)
             {
                 progress += (1f / framesPerMove) * walkSpeed;
@@ -160,10 +164,10 @@ public class Movement : MonoBehaviour
         {
             if (interactiveObject != null)
             {
-            interactiveObject.GetComponent<Istepable>().Activate();
-            currentGamestate = GameManager.GetInstance().GetCurrentGameState();
-            canInteract = false;
-            isInteracting = true;
+                interactiveObject.GetComponent<Istepable>().Activate();
+                currentGamestate = GameManager.GetInstance().GetCurrentGameState();
+                canInteract = false;
+                isInteracting = true;
             }
         }
         
