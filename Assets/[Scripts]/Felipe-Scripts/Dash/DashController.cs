@@ -45,11 +45,11 @@ public class DashController : MonoBehaviour
 
     void Update()
     {
-       /* if (InputManager.GetInstance(). && canDash)
-        {
-            Vector2 dashDirection = DetermineDashDirection();
-            StartDash(dashDirection);
-        }*/
+       if (canDash && InputManager.GetInstance().DashInput())
+    {
+        Vector2 dashDirection = DetermineDashDirection();
+        StartDash(dashDirection);
+    }
     }
 
     public void SetInputDash()

@@ -4,36 +4,22 @@ using UnityEngine;
 
 public class LetterGenerator : MonoBehaviour
 { 
-   [SerializeField] private GameObject letter;
-  [SerializeField] private LetterManager letterManager;
+  [SerializeField] private List<GameObject> letters = new List<GameObject>();
+ 
+  [SerializeField] private List<int> conditions = new List<int>();
+  
   private void OnEnable()
   {
-     SpawnLetters();
+      ConditionCheck();
   }
 
-  private List<LetterStructure> GetLetters()
+  private void ConditionCheck()
   {
-    List<LetterStructure> letterStructures = new  List<LetterStructure>();
-    foreach (var letter in  letterManager.GetLetterList())
-    {
-        letterStructures.Add(letter);
+    for (int i = 0; i < conditions.Count; i++)
+    { 
+        letters[i].SetActive(GameManager.GetInstance().IsConditionCompleted(conditions[i]));
     }
-    return letterStructures;
   }
 
-  private void SpawnLetters()
-  {
-      for (int i = 0; i < GetLetters().Count; i++)
-      {
-          CreateLetter(GetLetters()[i]);
-      }
-  }
-  
-  public void CreateLetter(LetterStructure letterStructure)
-  {
-      GameObject Letter =  Instantiate(letter, gameObject.transform);
-      LocalizedTextMeshPro localize = Letter.GetComponentInChildren<LocalizedTextMeshPro>();
-      localize.LocalizationKey = letterStructure.letterTittle;
-      localize.enabled = true;
-  }
+ 
 }

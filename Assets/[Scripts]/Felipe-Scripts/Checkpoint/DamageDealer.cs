@@ -5,7 +5,8 @@ using UnityEngine;
 public class DamageDealer : MonoBehaviour
 {
     private bool isPlayerInContact = false;
-    public float damageDuration = 5f; 
+    private float contactTime = 0f;
+    public float damageDuration = 5f;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -21,24 +22,34 @@ public class DamageDealer : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInContact = false;
+            contactTime = 0f; // Reiniciar el tiempo cuando el jugador sale del contacto
         }
     }
 
     IEnumerator DamagePlayer()
     {
-        yield return new WaitForSeconds(damageDuration);
-
-        if (isPlayerInContact)
+        while (isPlayerInContact && contactTime < damageDuration)
         {
-            if (CheckpointManager.GetLastCheckpointPosition() != Vector3.zero)
-            {
- 
-                playerController.RespawnAtLastCheckpoint();
-            }
-            else
-            {
-                playerController.DisappearPlayer();
-            }
+            yield return new WaitForSeconds(1f); // Esperar un segundo
+            contactTime += 1f; // Incrementar el tiempo de contacto
+        }
+
+        if (isPlayerInContact && contactTime >= damageDuration)
+        {
+            MovePlayerToNearestCheckpoint();
+        }
+    }
+
+    private void MovePlayerToNearestCheckpoint()
+    {
+        Vector3 closestCheckpoint = CheckpointManager.FindNearestCheckpoint(transform.position);
+        if (closestCheckpoint != Vector3.zero)
+        {
+            playerController.RespawnAtCheckpoint(closestCheckpoint);
+        }
+        else
+        {
+            Debug.LogWarning("No checkpoints found!");
         }
     }
 }

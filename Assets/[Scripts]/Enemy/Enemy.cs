@@ -91,7 +91,7 @@ public class Enemy : MonoBehaviour,Ikillable
           _flashlightTarget = _target.GetComponent<Flashlight>();
       }
       
-      public void Hit()
+      public void Hit(Transform player)
       {
           if (CanMove)
           {

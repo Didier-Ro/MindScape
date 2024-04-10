@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -17,6 +15,7 @@ public class GameManager : MonoBehaviour
     private bool isFlashing;
     private GAME_STATE currentGameState = GAME_STATE.EXPLORATION;
     public Action<GAME_STATE> OnGameStateChange;
+    
 
     private void Awake()
     {
@@ -28,8 +27,14 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
         Application.targetFrameRate = 60;
+        ResetAll();
+        LoadAllData();
+    }
+
+    private void OnDestroy()
+    {
+        SaveAllData();
     }
 
     private void Update()
@@ -38,7 +43,6 @@ public class GameManager : MonoBehaviour
         {
            ToggleFlash();
         }
-
         if (InputManager.GetInstance().SetPause())
         {
             GAME_STATE actualGameState = TogglePause() ? GAME_STATE.PAUSE : GAME_STATE.EXPLORATION;
@@ -76,6 +80,86 @@ public class GameManager : MonoBehaviour
     {
         return currentGameState;
     }
+
+    #region WorldConditions
+
+    [SerializeField] private WorldCondition stageConditions;
+    [SerializeField] private WorldCondition[] allConditions;
+    public Action<int> OnConditionCompleted;
+
+    public void MarkConditionCompleted(int _i)
+    {
+        stageConditions.MarkCondition(_i);
+        if (OnConditionCompleted != null)
+        {
+            OnConditionCompleted(_i);
+        }
+    }
+    
+    public bool IsConditionCompleted(int _id)
+    {
+        return stageConditions.IsConditionCompleted(_id);
+    }
+    
+    private void SaveAllData()
+    {
+        string dataToSave = "";
+        for (int i = 0; i < allConditions.Length; i++)
+        {
+            dataToSave += allConditions[i].SaveData() + "*";
+        }
+        PlayerPrefs.SetString("alldata", dataToSave);
+    }
+
+    private void ResetAll()
+    {
+        for (int i = 0; i < allConditions.Length; i++)
+        {
+            allConditions[i].ResetData();
+        }
+    }
+    
+    public void SelectGameNum(int _number)
+    {
+        PlayerPrefs.SetInt("GameNumber", _number);
+    }
+
+    private void LoadAllData()
+    {
+        string[] dataToLoad = PlayerPrefs.GetString("alldata").Split("*");
+        for (int i = 0; i < allConditions.Length; i++)
+        {
+            allConditions[i].LoadData(dataToLoad[i]);
+        }
+        LoadCurrentGameData(PlayerPrefs.GetInt("GameNumber", 1));
+       // CheckpointManager.AddCheckpointPosition(stageConditions.lastPosition);
+    }
+
+    public void SaveSpecificGameData(int _gameUWantToReplace)
+    {
+        foreach (var stageCondition in allConditions)
+        {
+            if (stageCondition.nGame == _gameUWantToReplace)
+            {
+                stageCondition.ResetData();
+                stageCondition.LoadData(stageConditions.GetData(_gameUWantToReplace));
+            }
+        }
+        SaveAllData();
+    }
+    private void LoadCurrentGameData(int _currentGame)
+    {
+        foreach (var stageCondition in allConditions)
+        {
+            if (stageCondition.nGame == _currentGame)
+            {
+                stageConditions = stageCondition.GetNumOfGame();
+            }
+        }
+    }
+    
+    #endregion
+    
 }
 
 public enum GAME_STATE //All possible Game States
@@ -85,5 +169,6 @@ public enum GAME_STATE //All possible Game States
     PAUSE,
     CUTSCENES,
     FLASBACKS,
+    FALLING,
     DEAD
 }

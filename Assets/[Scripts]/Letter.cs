@@ -1,7 +1,5 @@
 using System;
-using UnityEditor;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -17,11 +15,15 @@ namespace Assets.SimpleLocalization.Scripts
         public List<String> localizationKey = new List<string>();
         [SerializeField] private LetterManager letterManager;
         private string currentControlScheme;
-
+        public int conditionId;
         private void Start()
         {
             Localize();
             LocalizationManager.OnLocalizationChanged += Localize;
+            if (GameManager.GetInstance().IsConditionCompleted(conditionId))
+            {
+                Destroy(gameObject);
+            }
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -42,7 +44,7 @@ namespace Assets.SimpleLocalization.Scripts
 
         private void OnTriggerStay2D(Collider2D other)
         {
-            if (other.tag== "Player")
+            if (other.tag == "Player")
             {
                 SetActiveCanvas();
             }
@@ -64,6 +66,7 @@ namespace Assets.SimpleLocalization.Scripts
         {
             letterManager.AddLetter(AddLetterToScriptableObject());
             GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
+            GameManager.GetInstance().MarkConditionCompleted(conditionId);
             Destroy(gameObject);
         }
 
