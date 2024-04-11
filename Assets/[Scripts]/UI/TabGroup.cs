@@ -11,8 +11,14 @@ public class TabGroup : MonoBehaviour
     public Sprite tabHover;
     public Sprite tabSelected;
     private int counter = 0;
-    
+    public bool canChangeTab = true;
 
+    public void CanTab(bool permission)
+    {
+        canChangeTab = permission;
+    }
+    
+    
     public void Subscribe(TabButton button)
     {
         tabButtons.Add(button);
@@ -60,12 +66,12 @@ public class TabGroup : MonoBehaviour
 
     private void Update()
     {
-        if (InputManager.GetInstance().NextUIInput())
+        if (InputManager.GetInstance().NextUIInput() && canChangeTab)
         {
             ArrayCheck(1);
             OnTabSelected(tabButtons[counter]);
         } 
-        else if (InputManager.GetInstance().BackUIInput())
+        else if (InputManager.GetInstance().BackUIInput()&& canChangeTab)
         {
             ArrayCheck(-1);
             OnTabSelected(tabButtons[counter]);

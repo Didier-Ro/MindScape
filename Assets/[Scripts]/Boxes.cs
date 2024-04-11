@@ -97,7 +97,6 @@ public class Boxes : MonoBehaviour
                 {
                     finalDistanceToMove = distanceToMove;
                     finalFramesToReachPoint = framesToReachPoint;
-
                 }
                 frameCounter = 0;
             }
