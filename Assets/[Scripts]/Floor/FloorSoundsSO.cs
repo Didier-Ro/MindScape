@@ -12,6 +12,6 @@ public class FloorSoundsSO : ScriptableObject
 [Serializable]
 public struct SOUNDS
 {
-    public string materialSound;
+    public FLOOR floor;
     public AudioClip[] sound;
 }
