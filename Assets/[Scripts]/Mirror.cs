@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Mirror : MonoBehaviour, Ikillable
@@ -13,11 +10,47 @@ public class Mirror : MonoBehaviour, Ikillable
     [SerializeField] private ParticleSystem hitParticles;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private float lightLenght = 10f;
+    [SerializeField] private float upperAngleRange = -170f;
+    [SerializeField] private float lowerAngleRange = -10f;
     private bool startPlayingParticles;
-    
 
 
-    public void Hit()
+    private void Start()
+    {
+        lowerAngleRange =  Mathf.Repeat(lowerAngleRange, 360);
+        upperAngleRange = Mathf.Repeat(upperAngleRange, 360);
+    }
+
+
+    public void Hit(Transform player)
+    {
+        if (AngleCheck(player))
+        {
+            MirrorProjection();
+        }
+    }
+
+    private float ReduceErrorZero(float value)
+    {
+        if (Mathf.Approximately(value, 0))
+        {
+            value = Mathf.Epsilon;
+        }
+        return value;
+    }
+    private bool AngleCheck(Transform player)
+    {
+        bool canSeeTarget;
+        Vector2 direction = player.position - transform.position;
+        direction.x = ReduceErrorZero(direction.x);
+        direction.y = ReduceErrorZero(direction.y);
+        float angleRadians = Mathf.Atan2(direction.y, direction.x);
+        float angleDegrees = Mathf.Repeat(angleRadians * Mathf.Rad2Deg, 360);
+        canSeeTarget = angleDegrees > lowerAngleRange && upperAngleRange > angleDegrees;
+        return canSeeTarget;
+    }
+
+    public void MirrorProjection()
     {
         Vector3 direction = outPoint.TransformDirection(Vector3.left);
         RaycastHit2D hit = Physics2D.Raycast(outPoint.position, direction, lightLenght, targetMask);
@@ -36,12 +69,11 @@ public class Mirror : MonoBehaviour, Ikillable
 
             float distance = ((Vector2)hit.point - (Vector2)outPoint.position).magnitude;
             lineRenderer.SetPosition(1, hit.point);
-        Mirror reflectedMirror = hit.collider.GetComponent<Mirror>();
-        if (reflectedMirror != null)
-        {
-            reflectedMirror.GetComponent<Ikillable>().Hit();
-        }
-
+            Mirror reflectedMirror = hit.collider.GetComponent<Mirror>();
+            if (reflectedMirror != null)
+            {
+                reflectedMirror.GetComponent<Ikillable>().Hit(transform);
+            }
         }
         else
         {
@@ -49,7 +81,19 @@ public class Mirror : MonoBehaviour, Ikillable
             startPlayingParticles = false;
             hitParticles.Stop(true);
         }
-        
-        
     }
+    
+  /*  private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        float lowerAngleRad = Mathf.Deg2Rad * lowerAngleRange;
+        float upperAngleRad = Mathf.Deg2Rad * upperAngleRange;
+        // Dibujar arco entre los dos ángulos
+        for (int i = 0; i <= 50; i++)
+        {
+            float angle = Mathf.Lerp(lowerAngleRad, upperAngleRad, (float)i / 50);
+            Vector3 point = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0) * 1;
+            Gizmos.DrawLine(Vector3.zero, point);
+        }
+    }*/
 }

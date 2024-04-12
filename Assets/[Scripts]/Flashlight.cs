@@ -64,6 +64,7 @@ public class Flashlight : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SubscribeToGameManagerGameState();
         InitializeFlashlight();
         LightSetUp();
         angleRange = minPointLightInnerAngle / 2;
@@ -165,7 +166,7 @@ public class Flashlight : MonoBehaviour
                 float distanceToTarget = Vector2.Distance(transform.position, col.transform.position); //Minium distance to see the target
                 _canSeeTarget = !Physics2D.Raycast(transform.position, direction, distanceToTarget, obstructionMask);
                 if (!_canSeeTarget) return;
-                 col.GetComponent<Ikillable>().Hit();
+                 col.GetComponent<Ikillable>().Hit(transform);
             }
             else if (_canSeeTarget)
             {
