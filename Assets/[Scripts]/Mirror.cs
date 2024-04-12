@@ -58,7 +58,6 @@ public class Mirror : MonoBehaviour, Ikillable
         if (initialAngleRange < upperAngleRange)
         {
             return canSeeTarget = angleDegrees > initialAngleRange  && upperAngleRange  > angleDegrees;
-            Debug.Log(canSeeTarget);
         }
         else
         {
