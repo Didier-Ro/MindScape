@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc0e06d762eca4948880b6dc249832c3, type: 3}
   m_Name: FloorSounds
   m_EditorClassIdentifier: 
-  typeSounds: []
+  typeSounds:
+  - floor: 0
+    sound:
+    - {fileID: 8300000, guid: 662945eaa5646f34c8831805e5f8830f, type: 3}
+  - floor: 1
+    sound:
+    - {fileID: 8300000, guid: f93c219f19b0f024a8de8caf04893310, type: 3}

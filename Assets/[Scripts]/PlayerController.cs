@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
     
     private void OnTriggerEnter2D(Collider2D _collision)
     {
-        if (_collision.tag == ("Stepable"))
+        if (_collision.CompareTag("Stepable"))
         {
             interactiveObject = _collision.gameObject;
             canInteract = true;
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D _collision)
     {
-        if (_collision.tag == ("Stepable"))
+        if (_collision.CompareTag("Stepable"))
         {
             interactiveObject = null;
             canInteract = false;
