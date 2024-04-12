@@ -64,6 +64,7 @@ public class Flashlight : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SubscribeToGameManagerGameState();
         InitializeFlashlight();
         LightSetUp();
         angleRange = minPointLightInnerAngle / 2;
