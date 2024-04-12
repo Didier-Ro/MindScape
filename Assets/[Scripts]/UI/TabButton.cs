@@ -17,10 +17,10 @@ public class TabButton : MonoBehaviour
     public void ActivateCanvas()
     {
         canvasUI.SetActive(true);
-        if (initialButton != null)
+      /*  if (initialButton != null)
         {
             UIManager.GetInstance().ChangeUISelected(initialButton);   
-        }
+        }*/
       
     }
 
