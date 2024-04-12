@@ -13,6 +13,8 @@ public class Mirror : MonoBehaviour, Ikillable
     [SerializeField] private float angleRange = 160f;
     [SerializeField] private float initialAngleRange;
     [SerializeField] private float upperAngleRange;
+    [SerializeField] private GameObject lightGoal;
+    [SerializeField] private GameObject doorToUnlock;
     private float parentOffset;
     private bool startPlayingParticles;
 
@@ -84,6 +86,11 @@ public class Mirror : MonoBehaviour, Ikillable
                 startPlayingParticles = true;
                 hitParticles.Play(true);
             }
+            if (hit.collider.CompareTag("Goal"))
+            {
+                Debug.Log("CACA");
+                doorToUnlock.SetActive(false);
+            }
 
             float distance = ((Vector2)hit.point - (Vector2)outPoint.position).magnitude;
             lineRenderer.SetPosition(1, hit.point);
@@ -92,6 +99,8 @@ public class Mirror : MonoBehaviour, Ikillable
             {
                 reflectedMirror.GetComponent<Ikillable>().Hit(transform);
             }
+
+            
         }
         else
         {

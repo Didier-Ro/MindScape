@@ -22,6 +22,10 @@ GameObject:
   - component: {fileID: 1410288976761826958}
   - component: {fileID: 3054615977689496595}
   - component: {fileID: 3615247757312906683}
+  - component: {fileID: 9085674106924849759}
+  - component: {fileID: 4435208341411124382}
+  - component: {fileID: 1591396028175977598}
+  - component: {fileID: 6417283572764960499}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -44,6 +48,7 @@ Transform:
   m_Children:
   - {fileID: 8320832870263175557}
   - {fileID: 5297800564107809037}
+  - {fileID: 8550604738416219372}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &9140427169719169660
@@ -124,7 +129,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: -83850
+  m_InstanceId: -141858
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0.5, z: 0}
@@ -170,7 +175,7 @@ MonoBehaviour:
   slider: {fileID: 0}
   currentSliderValue: 100
   flashlight: {fileID: 2776427008835697697}
-  wallFlashLight: {fileID: 8715654913658092055}
+  wallFlashLight: {fileID: 3601992183203132566}
   maxPointLightInnerAngle: 360
   maxPointLightOuterAngle: 360
   minPointLightInnerAngle: 26
@@ -193,7 +198,7 @@ MonoBehaviour:
   radius: 3
   flashLightTransform: {fileID: 8320832870263175557}
   rotationSpeed: 2
-  wallFlashLightTransform: {fileID: 5297800564107809037}
+  wallFlashLightTransform: {fileID: 8550604738416219372}
   camera: {fileID: 0}
 --- !u!95 &6378126534524751285
 Animator:
@@ -373,6 +378,72 @@ MonoBehaviour:
   flasLight: {fileID: 8715654913658092055}
   wallFlaslight: {fileID: 2776427008835697697}
   healthController: {fileID: -2278262530916522709}
+--- !u!114 &9085674106924849759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2329885812725176872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63dda12fda7b548469647b953064286f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  walkSpeed: 3
+  floorTilemap: {fileID: 0}
+  wallTilemap: {fileID: 0}
+  moveDelay: 0
+  input: {x: 0, y: 0}
+  canInteract: 0
+  isInteracting: 0
+  interactiveObject: {fileID: 0}
+--- !u!114 &4435208341411124382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2329885812725176872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3be9f2b7191588646ae749e324c2a1ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  texts: []
+  localizationKey:
+  - Menu.Welcome
+  - Prueba.prueba
+--- !u!114 &1591396028175977598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2329885812725176872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c191290af4c37642b09b7156ad585ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallingDuration: 1.5
+  playerSprite: {fileID: 9140427169719169660}
+  flasLight: {fileID: 3601992183203132566}
+  wallFlaslight: {fileID: 2776427008835697697}
+  healthController: {fileID: -2278262530916522709}
+--- !u!114 &6417283572764960499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2329885812725176872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f5c23af3a565904883c2d889f2e66bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floor: {fileID: 0}
 --- !u!1 &3093103328976649715
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,6 +565,88 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5093181191839202093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ComponentVersion: 1
+  m_LightType: 3
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
+  m_LightVolumeIntensity: 1
+  m_LightVolumeIntensityEnabled: 0
+  m_ApplyToSortingLayers: 1d47c5ab
+  m_LightCookieSprite: {fileID: 0}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 0
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowIntensityEnabled: 1
+  m_ShadowIntensity: 1
+  m_ShadowVolumeIntensityEnabled: 0
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {x: 0, y: -0.00000011920929, z: 0}
+    m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 3
+  m_PointLightOuterRadius: 3
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
+--- !u!1 &8720401885194052205
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8550604738416219372}
+  - component: {fileID: 3601992183203132566}
+  m_Layer: 0
+  m_Name: Light2D
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8550604738416219372
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8720401885194052205}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7769005239479393648}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+--- !u!114 &3601992183203132566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8720401885194052205}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
