@@ -29,7 +29,6 @@ public class MovableObject : MonoBehaviour, Istepable
         {
             transform.position = finalPosition;
             isMoving = false;
-            Debug.Log("acabo");
         }
     }
     private void RayCastCheck()
