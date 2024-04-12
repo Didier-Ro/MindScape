@@ -178,7 +178,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8592979618192492174}
   - component: {fileID: 1593255040233215743}
-  - component: {fileID: -4327116608723609729}
   m_Layer: 0
   m_Name: Mirror
   m_TagString: Untagged
@@ -256,31 +255,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-4327116608723609729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4676937200241693025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d2c318235b89bb44ad4a7318db99309, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitPoint: {fileID: 0}
-  outPoint: {fileID: 0}
-  obstructionMask:
-    serializedVersion: 2
-    m_Bits: 0
-  targetMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  hitParticles: {fileID: 0}
-  lineRenderer: {fileID: 0}
-  lightLenght: 10
-  upperAngleRange: -10
-  lowerAngleRange: -170
 --- !u!1 &4800479609074678600
 GameObject:
   m_ObjectHideFlags: 0
@@ -5176,8 +5150,8 @@ MonoBehaviour:
   hitParticles: {fileID: 3355843208073665471}
   lineRenderer: {fileID: 705946858582067389}
   lightLenght: 10
-  upperAngleRange: 0
-  lowerAngleRange: 0
+  upperAngleRange: -10
+  lowerAngleRange: -170
 --- !u!58 &6094285126042109808
 CircleCollider2D:
   m_ObjectHideFlags: 0

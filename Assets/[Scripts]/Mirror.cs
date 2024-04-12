@@ -10,15 +10,24 @@ public class Mirror : MonoBehaviour, Ikillable
     [SerializeField] private ParticleSystem hitParticles;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private float lightLenght = 10f;
-    [SerializeField] private float upperAngleRange = -170f;
-    [SerializeField] private float lowerAngleRange = -10f;
+    [SerializeField] private float angleRange = 160f;
+    [SerializeField] private float initialAngleRange;
+    [SerializeField] private float upperAngleRange;
+    private float parentOffset;
     private bool startPlayingParticles;
 
 
     private void Start()
     {
-        lowerAngleRange =  Mathf.Repeat(lowerAngleRange, 360);
-        upperAngleRange = Mathf.Repeat(upperAngleRange, 360);
+       CheckParentRotation();
+    }
+
+    private void CheckParentRotation()
+    {
+        parentOffset = transform.parent.eulerAngles.z;
+        parentOffset = Mathf.Repeat(parentOffset, 360);
+        initialAngleRange = Mathf.Repeat(parentOffset + initialAngleRange, 360);
+        upperAngleRange = Mathf.Repeat(initialAngleRange + angleRange, 360);
     }
 
 
@@ -46,8 +55,18 @@ public class Mirror : MonoBehaviour, Ikillable
         direction.y = ReduceErrorZero(direction.y);
         float angleRadians = Mathf.Atan2(direction.y, direction.x);
         float angleDegrees = Mathf.Repeat(angleRadians * Mathf.Rad2Deg, 360);
-        canSeeTarget = angleDegrees > lowerAngleRange && upperAngleRange > angleDegrees;
-        return canSeeTarget;
+        if (initialAngleRange < upperAngleRange)
+        {
+            return canSeeTarget = angleDegrees > initialAngleRange  && upperAngleRange  > angleDegrees;
+            Debug.Log(canSeeTarget);
+        }
+        else
+        {
+            bool secondSegment = angleDegrees >= initialAngleRange && angleDegrees <= 360;
+            bool firstSegment = angleDegrees >= 0 && angleDegrees <= upperAngleRange;
+            
+          return  canSeeTarget = angleDegrees > initialAngleRange || upperAngleRange  > angleDegrees;
+        }
     }
 
     public void MirrorProjection()
@@ -83,17 +102,5 @@ public class Mirror : MonoBehaviour, Ikillable
         }
     }
     
-  /*  private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.cyan;
-        float lowerAngleRad = Mathf.Deg2Rad * lowerAngleRange;
-        float upperAngleRad = Mathf.Deg2Rad * upperAngleRange;
-        // Dibujar arco entre los dos ángulos
-        for (int i = 0; i <= 50; i++)
-        {
-            float angle = Mathf.Lerp(lowerAngleRad, upperAngleRad, (float)i / 50);
-            Vector3 point = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0) * 1;
-            Gizmos.DrawLine(Vector3.zero, point);
-        }
-    }*/
+   
 }
