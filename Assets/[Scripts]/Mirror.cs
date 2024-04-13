@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Mirror : MonoBehaviour, Ikillable
@@ -13,11 +10,65 @@ public class Mirror : MonoBehaviour, Ikillable
     [SerializeField] private ParticleSystem hitParticles;
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private float lightLenght = 10f;
+    [SerializeField] private float angleRange = 160f;
+    [SerializeField] private float initialAngleRange;
+    [SerializeField] private float upperAngleRange;
+    private float parentOffset;
     private bool startPlayingParticles;
-    
 
 
-    public void Hit()
+    private void Start()
+    {
+       CheckParentRotation();
+    }
+
+    private void CheckParentRotation()
+    {
+        parentOffset = transform.parent.eulerAngles.z;
+        parentOffset = Mathf.Repeat(parentOffset, 360);
+        initialAngleRange = Mathf.Repeat(parentOffset + initialAngleRange, 360);
+        upperAngleRange = Mathf.Repeat(initialAngleRange + angleRange, 360);
+    }
+
+
+    public void Hit(Transform player)
+    {
+        if (AngleCheck(player))
+        {
+            MirrorProjection();
+        }
+    }
+
+    private float ReduceErrorZero(float value)
+    {
+        if (Mathf.Approximately(value, 0))
+        {
+            value = Mathf.Epsilon;
+        }
+        return value;
+    }
+    private bool AngleCheck(Transform player)
+    {
+        bool canSeeTarget;
+        Vector2 direction = player.position - transform.position;
+        direction.x = ReduceErrorZero(direction.x);
+        direction.y = ReduceErrorZero(direction.y);
+        float angleRadians = Mathf.Atan2(direction.y, direction.x);
+        float angleDegrees = Mathf.Repeat(angleRadians * Mathf.Rad2Deg, 360);
+        if (initialAngleRange < upperAngleRange)
+        {
+            return canSeeTarget = angleDegrees > initialAngleRange  && upperAngleRange  > angleDegrees;
+        }
+        else
+        {
+            bool secondSegment = angleDegrees >= initialAngleRange && angleDegrees <= 360;
+            bool firstSegment = angleDegrees >= 0 && angleDegrees <= upperAngleRange;
+            
+          return  canSeeTarget = angleDegrees > initialAngleRange || upperAngleRange  > angleDegrees;
+        }
+    }
+
+    public void MirrorProjection()
     {
         Vector3 direction = outPoint.TransformDirection(Vector3.left);
         RaycastHit2D hit = Physics2D.Raycast(outPoint.position, direction, lightLenght, targetMask);
@@ -36,12 +87,11 @@ public class Mirror : MonoBehaviour, Ikillable
 
             float distance = ((Vector2)hit.point - (Vector2)outPoint.position).magnitude;
             lineRenderer.SetPosition(1, hit.point);
-        Mirror reflectedMirror = hit.collider.GetComponent<Mirror>();
-        if (reflectedMirror != null)
-        {
-            reflectedMirror.GetComponent<Ikillable>().Hit();
-        }
-
+            Mirror reflectedMirror = hit.collider.GetComponent<Mirror>();
+            if (reflectedMirror != null)
+            {
+                reflectedMirror.GetComponent<Ikillable>().Hit(transform);
+            }
         }
         else
         {
@@ -49,7 +99,7 @@ public class Mirror : MonoBehaviour, Ikillable
             startPlayingParticles = false;
             hitParticles.Stop(true);
         }
-        
-        
     }
+    
+   
 }
