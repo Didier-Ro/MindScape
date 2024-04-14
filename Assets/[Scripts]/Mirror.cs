@@ -12,6 +12,7 @@ public class Mirror : MonoBehaviour, Ikillable
     [SerializeField] private float lightLenght = 10f;
     [SerializeField] private float angleRange = 160f;
     [SerializeField] private float initialAngleRange;
+    [SerializeField] private GameObject parentObject;
     [SerializeField] private float upperAngleRange;
     private float parentOffset;
     private bool startPlayingParticles;
@@ -24,7 +25,7 @@ public class Mirror : MonoBehaviour, Ikillable
 
     private void CheckParentRotation()
     {
-        parentOffset = transform.parent.eulerAngles.z;
+        parentOffset = parentObject.transform.eulerAngles.z;
         parentOffset = Mathf.Repeat(parentOffset, 360);
         initialAngleRange = Mathf.Repeat(parentOffset + initialAngleRange, 360);
         upperAngleRange = Mathf.Repeat(initialAngleRange + angleRange, 360);
@@ -50,7 +51,7 @@ public class Mirror : MonoBehaviour, Ikillable
     private bool AngleCheck(Transform player)
     {
         bool canSeeTarget;
-        Vector2 direction = player.position - transform.position;
+        Vector2 direction = player.position - parentObject.transform.position;
         direction.x = ReduceErrorZero(direction.x);
         direction.y = ReduceErrorZero(direction.y);
         float angleRadians = Mathf.Atan2(direction.y, direction.x);

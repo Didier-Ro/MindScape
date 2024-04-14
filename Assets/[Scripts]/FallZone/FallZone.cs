@@ -10,5 +10,9 @@ public class FallZone : MonoBehaviour
         {
             GameManager.GetInstance().ChangeGameState(GAME_STATE.FALLING);
         }
+        if (collision.CompareTag("Box"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
