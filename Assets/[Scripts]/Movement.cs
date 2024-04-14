@@ -47,20 +47,7 @@ public class Movement : MonoBehaviour
         }
         SetInteraction();
     }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Box"))
-        {
-            Debug.Log("esta");
-        }
-        if (collision.CompareTag("Box") && InputManager.GetInstance().InteractInput())
-        {
-            Debug.Log("entro");
-           collision.GetComponent<MovableObject>().GetDirection(transform.position);
-        }
-    }
-
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Stepable")
