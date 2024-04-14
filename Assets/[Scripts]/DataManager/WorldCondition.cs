@@ -39,6 +39,20 @@ public class WorldCondition : ScriptableObject, IsaveScript
         nGame = int.Parse(conditionsS[conditionsS.Length-1]);
     }
 
+    public bool IsFirstTimePlayed()
+    {
+        bool isPlayed;
+        foreach (var check in conditions)
+        {
+            isPlayed = check.isCompleted;
+            if (isPlayed)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public WorldCondition GetNumOfGame()
     {
         return this;
