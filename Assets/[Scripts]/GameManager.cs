@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
     #region Singletone
     private static GameManager Instance;
     public static GameManager GetInstance() 
-    { 
+    {
         return Instance;
     }
     #endregion
