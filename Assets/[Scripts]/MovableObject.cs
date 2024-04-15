@@ -15,6 +15,8 @@ public class MovableObject : MonoBehaviour, Istepable
     [SerializeField] private float offsetY;
     private Vector2 startPosition;
     private Vector2 finalPosition;
+    [SerializeField] private GameObject activateObject;
+    private ActivateZone activateScript;
     [SerializeField] private int distanceToMove;
     public float timeToReachPointInSeconds = 1;
     public void Activate()
@@ -22,12 +24,13 @@ public class MovableObject : MonoBehaviour, Istepable
         speedPerFrame = finalDistanceToMove / (timeToReachPointInSeconds * 60);
         if (frameCounter <= finalFramesToReachPoint)
         {
-            transform.Translate(directionToMove * speedPerFrame);
+            activateObject.transform.Translate(directionToMove * speedPerFrame);
             frameCounter++;
         }
         else
         {
-            transform.position = finalPosition;
+            activateObject.transform.position = finalPosition;
+            activateScript.ActivateBool();
             isMoving = false;
         }
     }
@@ -55,7 +58,7 @@ public class MovableObject : MonoBehaviour, Istepable
         }
         Debug.DrawRay((Vector2) transform.position + offset, directionToMove * distanceToMove, Color.red, 1f);
         rayhit = Physics2D.Raycast((Vector2)transform.position + offset, directionToMove, distanceToMove);
-        startPosition = transform.position;
+        startPosition = activateObject.transform.position;
         if (rayhit.collider == null)
         {
             finalDistanceToMove = distanceToMove;
@@ -64,12 +67,24 @@ public class MovableObject : MonoBehaviour, Istepable
         {
             Vector2 distance = rayhit.point - (Vector2)transform.position - offset;
             finalDistanceToMove = distance.magnitude;
+            if (finalDistanceToMove < 0.1f)
+            {
+                activateScript.ActivateBool();
+                return;
+            }
         }
         finalFramesToReachPoint = (int)timeToReachPointInSeconds * 60;
         finalPosition = startPosition + finalDistanceToMove * directionToMove;
         frameCounter = 0;
         isMoving = true;
     }
+
+    private void Start()
+    {
+        
+        activateScript = activateObject.GetComponent<ActivateZone>();
+    }
+
     public void GetDirection(Vector2 _playerDirection)
     {
         if (!isMoving)
