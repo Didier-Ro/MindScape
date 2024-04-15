@@ -81,7 +81,6 @@ public class MovableObject : MonoBehaviour, Istepable
 
     private void Start()
     {
-        
         activateScript = activateObject.GetComponent<ActivateZone>();
     }
 
