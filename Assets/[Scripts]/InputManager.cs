@@ -40,6 +40,9 @@ public class InputManager : MonoBehaviour
             case GAME_STATE.DEAD:
                 //DeadUI();
                 break;
+            case GAME_STATE.FALLING:
+                DeactivateInput();
+                break;
         }   
     }
     #endregion
@@ -187,6 +190,12 @@ public class InputManager : MonoBehaviour
     private void ActivateGameplay()
     {
         playerControls.Gameplay.Enable();
+        playerControls.Reading.Disable();
+    }
+
+    private void DeactivateInput()
+    {
+        playerControls.Gameplay.Disable();
         playerControls.Reading.Disable();
     }
     
