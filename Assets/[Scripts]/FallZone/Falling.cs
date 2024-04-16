@@ -20,7 +20,7 @@ public class Falling : MonoBehaviour
 
     void Start()
     {
-        SubscribeToGameManagerGameState();
+        SubscribeToPlayerGameState();
         FallingSetUp();
     }
 
@@ -32,18 +32,18 @@ public class Falling : MonoBehaviour
         }
     }
 
-    private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
+    private void SubscribeToPlayerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
     {
-        if (GameManager.GetInstance() != null)
+        if (PlayerStates.GetInstance() != null)
         {
-            GameManager.GetInstance().OnGameStateChange += OnGameStateChange;
-            OnGameStateChange(GameManager.GetInstance().GetCurrentGameState());
+            PlayerStates.GetInstance().OnPlayerStateChanged += OnPlayerStateChange;
+            OnPlayerStateChange(PlayerStates.GetInstance().GetCurrentPlayerState());
         }
     }
 
-    private void OnGameStateChange (GAME_STATE _newGameState)
+    private void OnPlayerStateChange(PLAYER_STATES _newPlayerState)
     {
-        if (_newGameState == GAME_STATE.FALLING)
+        if (_newPlayerState == PLAYER_STATES.FALL)
         {
             isFalling = true;
         }
