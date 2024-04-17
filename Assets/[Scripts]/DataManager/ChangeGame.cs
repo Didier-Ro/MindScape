@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ChangeGame : MonoBehaviour
@@ -6,8 +7,14 @@ public class ChangeGame : MonoBehaviour
    [SerializeField] private WorldCondition[] allConditions;
    [SerializeField] private string gameScene;
    [SerializeField] private string animationScene;
-   
-   
+
+
+   private void Start()
+   {
+      ResetAll();
+      LoadAllData();
+   }
+
    private void ResetAll()
    {
       for (int i = 0; i < allConditions.Length; i++)
@@ -18,7 +25,7 @@ public class ChangeGame : MonoBehaviour
    
    private void LoadAllData()
    {
-      string[] dataToLoad = PlayerPrefs.GetString("alldata").Split("*");
+      string[] dataToLoad = PlayerPrefs.GetString("alldata","0/0/0/0/0/0/1*0/0/0/0/0/0/2*0/0/0/0/0/0/3*").Split("*");
       for (int i = 0; i < allConditions.Length; i++)
       {
          allConditions[i].LoadData(dataToLoad[i]);
@@ -37,8 +44,6 @@ public class ChangeGame : MonoBehaviour
    }
    public void SelectGame(int _num)
    {
-      ResetAll();
-      LoadAllData();
       PlayerPrefs.SetInt("GameNumber", _num);
       LoadCurrentGameData(_num);
       string sceneToPlay = stageConditions.IsFirstTimePlayed() ? animationScene : gameScene; 
