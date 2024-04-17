@@ -67,17 +67,32 @@ public class MovableObject : MonoBehaviour, Istepable
         }
         else
         {
-                Vector2 distance = rayhit.point - (Vector2)transform.position - offset;
-                finalDistanceToMove = distance.magnitude;
-                if (finalDistanceToMove > 0.9)
+            float approx = Mathf.Abs(rayhit.distance) + offset.magnitude;
+            float difference = Mathf.Abs(distanceToMove + offset.magnitude - 0.01f - approx);
+            if (difference <= 0.05f)
+            {
+                finalDistanceToMove = distanceToMove;
+            }
+            else
+            {
+                if (rayhit.collider.CompareTag("Precipice"))
                 {
-                    
+                    finalDistanceToMove = Mathf.Abs(Vector2.Distance(transform.position ,rayhit.collider.transform.position));
+                    Destroy(rayhit.collider.gameObject);
+                    boxIsOnPrecipice = true;
                 }
-                if (finalDistanceToMove < 0.1f)
+                else
                 {
-                    activateScript.ActivateBool();
-                    return;
+                    Vector2 distance = rayhit.point - (Vector2)transform.position - offset;
+                    finalDistanceToMove = distance.magnitude;
+                    if (finalDistanceToMove < 0.1f)
+                    {
+                        activateScript.ActivateBool();
+                        return;
+                    }
                 }
+            }
+             
         }
         finalFramesToReachPoint = (int)timeToReachPointInSeconds * 60;
         finalPosition = startPosition + finalDistanceToMove * directionToMove;
