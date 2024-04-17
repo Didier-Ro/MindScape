@@ -32,7 +32,6 @@ public class MovableObject : MonoBehaviour, Istepable
         {
             activateObject.transform.position = finalPosition;
             activateScript.ActivateBool();
-            Debug.Log("se termino de mover");
             isMoving = false;
         }
     }
@@ -69,7 +68,7 @@ public class MovableObject : MonoBehaviour, Istepable
         {
             float approx = Mathf.Abs(rayhit.distance) + offset.magnitude;
             float difference = Mathf.Abs(distanceToMove + offset.magnitude - 0.01f - approx);
-            if (difference <= 0.05f)
+            if (difference <= 0.02f)
             {
                 finalDistanceToMove = distanceToMove;
             }
@@ -126,7 +125,7 @@ public class MovableObject : MonoBehaviour, Istepable
     {
         if (!isMoving && boxIsOnPrecipice)
         {
-            Destroy(gameObject);
+            Destroy(activateObject);
         }
         if (!isMoving) return;
         Activate();
