@@ -109,6 +109,7 @@ public class GameManager : MonoBehaviour
             dataToSave += allConditions[i].SaveData() + "*";
         }
         PlayerPrefs.SetString("alldata", dataToSave);
+        Debug.Log(dataToSave);
     }
 
     private void ResetAll()
