@@ -5,20 +5,21 @@ public class MovableObject : MonoBehaviour, Istepable
 {
     public direction pushDirection;
     public bool isMoving;
+    public float timeToReachPointInSeconds = 1;
+    [SerializeField] private float offsetX;
+    [SerializeField] private float offsetY;
+    [SerializeField] private GameObject activateObject;
+    [SerializeField] private int distanceToMove;
     private int finalFramesToReachPoint = default; 
     private float speedPerFrame = default;
     private float finalDistanceToMove = default;
     private RaycastHit2D rayhit;
     private Vector2 directionToMove = Vector2.zero;
     private int frameCounter = 0;
-    [SerializeField] private float offsetX;
-    [SerializeField] private float offsetY;
     private Vector2 startPosition;
     private Vector2 finalPosition;
-    [SerializeField] private GameObject activateObject;
+    private bool boxIsOnPrecipice;
     private ActivateZone activateScript;
-    [SerializeField] private int distanceToMove;
-    public float timeToReachPointInSeconds = 1;
     public void Activate()
     {
         speedPerFrame = finalDistanceToMove / (timeToReachPointInSeconds * 60);
@@ -31,6 +32,7 @@ public class MovableObject : MonoBehaviour, Istepable
         {
             activateObject.transform.position = finalPosition;
             activateScript.ActivateBool();
+            Debug.Log("se termino de mover");
             isMoving = false;
         }
     }
@@ -65,13 +67,17 @@ public class MovableObject : MonoBehaviour, Istepable
         }
         else
         {
-            Vector2 distance = rayhit.point - (Vector2)transform.position - offset;
-            finalDistanceToMove = distance.magnitude;
-            if (finalDistanceToMove < 0.1f)
-            {
-                activateScript.ActivateBool();
-                return;
-            }
+                Vector2 distance = rayhit.point - (Vector2)transform.position - offset;
+                finalDistanceToMove = distance.magnitude;
+                if (finalDistanceToMove > 0.9)
+                {
+                    
+                }
+                if (finalDistanceToMove < 0.1f)
+                {
+                    activateScript.ActivateBool();
+                    return;
+                }
         }
         finalFramesToReachPoint = (int)timeToReachPointInSeconds * 60;
         finalPosition = startPosition + finalDistanceToMove * directionToMove;
@@ -81,7 +87,6 @@ public class MovableObject : MonoBehaviour, Istepable
 
     private void Start()
     {
-        
         activateScript = activateObject.GetComponent<ActivateZone>();
     }
 
@@ -104,10 +109,13 @@ public class MovableObject : MonoBehaviour, Istepable
 
     private void FixedUpdate()
     {
+        if (!isMoving && boxIsOnPrecipice)
+        {
+            Destroy(gameObject);
+        }
         if (!isMoving) return;
         Activate();
     }
-
     public void Deactivate()
     {
         
