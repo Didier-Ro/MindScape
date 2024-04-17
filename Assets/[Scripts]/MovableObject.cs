@@ -10,6 +10,7 @@ public class MovableObject : MonoBehaviour, Istepable
     [SerializeField] private float offsetY;
     [SerializeField] private GameObject activateObject;
     [SerializeField] private int distanceToMove;
+    [SerializeField] private GameObject boxFalling;
     private int finalFramesToReachPoint = default; 
     private float speedPerFrame = default;
     private float finalDistanceToMove = default;
@@ -77,7 +78,7 @@ public class MovableObject : MonoBehaviour, Istepable
                 if (rayhit.collider.CompareTag("Precipice"))
                 {
                     finalDistanceToMove = Mathf.Abs(Vector2.Distance(transform.position ,rayhit.collider.transform.position));
-                    Destroy(rayhit.collider.gameObject);
+                    rayhit.collider.enabled = false;
                     boxIsOnPrecipice = true;
                 }
                 else
@@ -126,6 +127,10 @@ public class MovableObject : MonoBehaviour, Istepable
         if (!isMoving && boxIsOnPrecipice)
         {
             Destroy(activateObject);
+            if (boxFalling != null)
+            {
+                PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.FallingBox, transform.position, Vector2.zero);
+            }
         }
         if (!isMoving) return;
         Activate();
