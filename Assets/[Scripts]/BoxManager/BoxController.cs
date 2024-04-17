@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -5,22 +6,31 @@ using UnityEngine;
 
 public class BoxController : MonoBehaviour
 {
+    private static BoxController Instance;
+    public static BoxController GetInstance()
+    {
+        return Instance;
+    }
+
     [SerializeField] private GameObject box;
     [SerializeField] private Vector3 spawnPoint;
     [SerializeField] private Vector3 finalPoint;
     [SerializeField] private bool canMove = false;
-    
-    void Start()
-    {
-        
-    }
 
-    
-    void Update()
-    {
-        
-    }
+    public Action<BOX_STATE> OnBoxStateChange;
+    private BOX_STATE boxState = BOX_STATE.NORMAL;
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void FixedUpdate()
     {
@@ -29,6 +39,7 @@ public class BoxController : MonoBehaviour
             MoveBox();
         }
     }
+
     void RespawnBox()
     {
         box.transform.position = spawnPoint;
@@ -47,6 +58,29 @@ public class BoxController : MonoBehaviour
         {
             box.transform.position = finalPoint;
             canMove = false;
+            ChangeBoxState(BOX_STATE.NORMAL);
         }
     }
+
+    public void ChangeBoxState(BOX_STATE _newBoxState)
+    {
+        boxState = _newBoxState;
+
+        if (OnBoxStateChange != null)
+        {
+            OnBoxStateChange.Invoke(boxState);
+        }
+
+        if (boxState == BOX_STATE.SPAWN)
+        {
+            RespawnBox();
+        }
+    }
+}
+
+public enum BOX_STATE
+{
+    SPAWN,
+    NORMAL,
+    FALLING,
 }

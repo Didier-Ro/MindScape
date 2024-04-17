@@ -12,7 +12,7 @@ public class FallZone : MonoBehaviour
         }
         if (collision.CompareTag("Box"))
         {
-            Destroy(gameObject);
+            BoxController.GetInstance().ChangeBoxState(BOX_STATE.FALLING);
         }
     }
 }
