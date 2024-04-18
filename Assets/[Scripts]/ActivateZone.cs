@@ -7,7 +7,6 @@ public class ActivateZone : MonoBehaviour
    [SerializeField] private GameObject gameObjectToActivate;
    private string currentControlScheme;
    [SerializeField] private GameObject[] gameUI;
-  
    
    public void DeactivateCanvas()
    {
