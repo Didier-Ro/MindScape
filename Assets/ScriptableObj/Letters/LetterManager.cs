@@ -15,7 +15,6 @@ public class LetterManager :ScriptableObject
       #if UNITY_EDITOR
       EditorUtility.SetDirty(this);
       #endif
-      AssetDatabase.SaveAssets();
    }
    
    public List<LetterStructure> GetLetterList()
@@ -29,7 +28,6 @@ public class LetterManager :ScriptableObject
       #if UNITY_EDITOR
       EditorUtility.SetDirty(this);
       #endif
-      AssetDatabase.SaveAssets();
    }
 }
 [Serializable]
