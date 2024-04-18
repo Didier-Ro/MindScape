@@ -10,7 +10,7 @@ public class FallZone : MonoBehaviour
         {
             PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.FALL);
         }
-        if (collision.tag == "Box" )
+        if (collision.CompareTag("Box")   )
         {
             collision.GetComponentInParent<BoxFalling>().BoxInZone();
         }
