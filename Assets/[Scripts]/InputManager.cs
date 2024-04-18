@@ -22,6 +22,8 @@ public class InputManager : MonoBehaviour
     {
         GameManager.GetInstance().OnGameStateChange += OnGameStateChange;
         OnGameStateChange(GameManager.GetInstance().GetCurrentGameState());
+        PlayerStates.GetInstance().OnPlayerStateChanged += PlayerStateChange;
+        PlayerStateChange(PlayerStates.GetInstance().GetCurrentPlayerState());
     }
 
     private void OnGameStateChange(GAME_STATE _newGameState)//Analyze the Game State type and shows a different UI
@@ -45,6 +47,22 @@ public class InputManager : MonoBehaviour
                 break;
         }   
     }
+    
+    private void PlayerStateChange(PLAYER_STATES _newPlayerState)//Analyze the Game State type and shows a different UI
+    {
+        switch (_newPlayerState)
+        {
+            case PLAYER_STATES.FALL:
+                DeactivateInput();
+                break;
+            
+            case PLAYER_STATES.PLAY:
+                ActivateGameplay();
+                break;
+                
+        }   
+    }
+    
     #endregion
 
     public static PlayerInput playerInput = default;
