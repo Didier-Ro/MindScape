@@ -12,6 +12,7 @@ public class BoxController : MonoBehaviour
         return Instance;
     }
 
+    [SerializeField] private GameObject boxParent;
     [SerializeField] private GameObject box;
     [SerializeField] private Vector3 spawnPoint;
     [SerializeField] private Vector3 finalPoint;
@@ -42,8 +43,9 @@ public class BoxController : MonoBehaviour
 
     void RespawnBox()
     {
+        boxParent.transform.position = finalPoint;
         box.transform.position = spawnPoint;
-        box.SetActive(true);
+        box.transform.localScale = new Vector3(1, 1, 1);
         canMove = true;
     }
 

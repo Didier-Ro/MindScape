@@ -6,9 +6,15 @@ public class BoxFalling : MonoBehaviour
 {
     [SerializeField] bool isFalling;
     [SerializeField] Transform boxtransform;
+
+    private float size;
+    private float totalSize;
+
     void Start()
     {
         SubscribeToBoxController();
+        size = 1 - 0;
+        totalSize = size / (60 * 1);
     }
 
     private void FixedUpdate()
@@ -41,14 +47,13 @@ public class BoxFalling : MonoBehaviour
 
     void Falling()
     {
-        float totalSize = 1 / (60 * 1);
+        boxtransform.localScale -= new Vector3(totalSize, totalSize,0);
 
-        boxtransform.localScale -= new Vector3(totalSize, totalSize, 0);
-
-        /*if (transform.localScale.y <= 0 && transform.localScale.x <= 0)
+        if (boxtransform.localScale.y <= 0 || boxtransform.localScale.x <= 0)
         {
-            transform.localScale = new Vector3(0,0,0);
+            boxtransform.localScale = new Vector3(0,0,0);
+            isFalling = false;
             BoxController.GetInstance().ChangeBoxState(BOX_STATE.SPAWN);
-        }*/
+        }
     }
 }
