@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class BoxFalling : MonoBehaviour
 {
+    [SerializeField] private GameObject box;
+    [SerializeField] private BoxCollider2D boxCollider;
+    [SerializeField] private Vector3 spawnPoint;
+    [SerializeField] private Vector3 finalPoint;
+    [SerializeField] private bool canMove = false;
+
     [SerializeField] bool isFalling;
-    [SerializeField] Transform boxtransform;
 
     private float size;
     private float totalSize;
 
     void Start()
     {
-        SubscribeToBoxController();
+        boxCollider = GetComponent<BoxCollider2D>();
         size = 1 - 0;
         totalSize = size / (60 * 1);
     }
@@ -23,37 +28,51 @@ public class BoxFalling : MonoBehaviour
         {
             Falling();
         }
-    }
 
-    void SubscribeToBoxController()
-    {
-        if (BoxController.GetInstance() != null)
+        if (canMove)
         {
-            BoxController.GetInstance().OnBoxStateChange += OnBoxStateChanged;
+            MoveBox();
         }
     }
 
-    void OnBoxStateChanged(BOX_STATE _newBoxState)
+    public void BoxInZone()
     {
-        if (_newBoxState == BOX_STATE.FALLING)
-        {
-            isFalling = true;
-        }
-        else
-        {
-            isFalling = false;
-        }
+        isFalling = true;
     }
 
     void Falling()
     {
-        boxtransform.localScale -= new Vector3(totalSize, totalSize,0);
+        boxCollider.enabled = false;
+        box.transform.localScale -= new Vector3(totalSize, totalSize,0);
 
-        if (boxtransform.localScale.y <= 0 || boxtransform.localScale.x <= 0)
+        if (box.transform.localScale.y <= 0 || box.transform.localScale.x <= 0)
         {
-            boxtransform.localScale = new Vector3(0,0,0);
+            box.transform.localScale = new Vector3(0,0,0);
             isFalling = false;
-            BoxController.GetInstance().ChangeBoxState(BOX_STATE.SPAWN);
+            RespawnBox();
+        }
+    }
+
+    void RespawnBox()
+    {
+        transform.position = finalPoint;
+        box.transform.position = spawnPoint;
+        box.transform.localScale = new Vector3(1, 1, 1);
+        canMove = true;
+    }
+
+    void MoveBox()
+    {
+        float distance = spawnPoint.y - finalPoint.y;
+        float destiny = distance / (60 * 1f);
+
+        box.transform.position -= new Vector3(0, destiny, 0);
+
+        if (box.transform.position.y <= finalPoint.y)
+        {
+            box.transform.position = finalPoint;
+            canMove = false;
+            boxCollider.enabled = true;
         }
     }
 }
