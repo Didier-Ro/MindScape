@@ -22,10 +22,9 @@ GameObject:
   - component: {fileID: 1410288976761826958}
   - component: {fileID: 3054615977689496595}
   - component: {fileID: 3615247757312906683}
-  - component: {fileID: 9085674106924849759}
   - component: {fileID: 4435208341411124382}
-  - component: {fileID: 1591396028175977598}
   - component: {fileID: 6417283572764960499}
+  - component: {fileID: 5089621736467595596}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -91,7 +90,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 5
   m_Sprite: {fileID: -694891545, guid: ff98654b74f7018408653729eb12549a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -129,7 +128,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: -141858
+  m_InstanceId: -159780
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0.5, z: 0}
@@ -288,8 +287,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.032939114, y: -0.007842183}
-  m_Size: {x: 0.30673185, y: 0.8023711}
+  m_Offset: {x: 0.03293912, y: -0.16205531}
+  m_Size: {x: 0.30673185, y: 0.49394476}
   m_Direction: 0
 --- !u!114 &6297893171183457100
 MonoBehaviour:
@@ -337,11 +336,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63dda12fda7b548469647b953064286f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 3
-  floorTilemap: {fileID: 0}
-  wallTilemap: {fileID: 0}
-  moveDelay: 0
   input: {x: 0, y: 0}
+  isMoving: 1
+  walkSpeed: 2
   canInteract: 0
   isInteracting: 0
   interactiveObject: {fileID: 0}
@@ -378,26 +375,6 @@ MonoBehaviour:
   flasLight: {fileID: 8715654913658092055}
   wallFlaslight: {fileID: 2776427008835697697}
   healthController: {fileID: -2278262530916522709}
---- !u!114 &9085674106924849759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2329885812725176872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63dda12fda7b548469647b953064286f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  walkSpeed: 3
-  floorTilemap: {fileID: 0}
-  wallTilemap: {fileID: 0}
-  moveDelay: 0
-  input: {x: 0, y: 0}
-  canInteract: 0
-  isInteracting: 0
-  interactiveObject: {fileID: 0}
 --- !u!114 &4435208341411124382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -414,23 +391,6 @@ MonoBehaviour:
   localizationKey:
   - Menu.Welcome
   - Prueba.prueba
---- !u!114 &1591396028175977598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2329885812725176872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c191290af4c37642b09b7156ad585ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fallingDuration: 1.5
-  playerSprite: {fileID: 9140427169719169660}
-  flasLight: {fileID: 3601992183203132566}
-  wallFlaslight: {fileID: 2776427008835697697}
-  healthController: {fileID: -2278262530916522709}
 --- !u!114 &6417283572764960499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -444,6 +404,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floor: {fileID: 0}
+--- !u!114 &5089621736467595596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2329885812725176872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e5c4d50beb8eae41beaf2f27d202c71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3093103328976649715
 GameObject:
   m_ObjectHideFlags: 0
