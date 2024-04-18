@@ -47,8 +47,8 @@ public class BoxFalling : MonoBehaviour
 
         if (box.transform.localScale.y <= 0 || box.transform.localScale.x <= 0)
         {
-            box.transform.localScale = new Vector3(0,0,0);
             isFalling = false;
+            box.transform.localScale = new Vector3(0,0,0);
             RespawnBox();
         }
     }
