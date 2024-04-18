@@ -5,7 +5,8 @@ using UnityEngine;
 public class BoxFalling : MonoBehaviour
 {
     [SerializeField] private GameObject box;
-    [SerializeField] private BoxCollider2D boxCollider;
+    [SerializeField] private BoxCollider2D boxColliderParent;
+    [SerializeField] private BoxCollider2D boxColliderChild;
     [SerializeField] private Vector3 spawnPoint;
     [SerializeField] private Vector3 finalPoint;
     [SerializeField] private bool canMove = false;
@@ -17,7 +18,6 @@ public class BoxFalling : MonoBehaviour
 
     void Start()
     {
-        boxCollider = GetComponent<BoxCollider2D>();
         size = 1 - 0;
         totalSize = size / (60 * 1);
     }
@@ -42,7 +42,8 @@ public class BoxFalling : MonoBehaviour
 
     void Falling()
     {
-        boxCollider.enabled = false;
+        boxColliderParent.enabled = false;
+        boxColliderChild.enabled = false;
         box.transform.localScale -= new Vector3(totalSize, totalSize,0);
 
         if (box.transform.localScale.y <= 0 || box.transform.localScale.x <= 0)
@@ -72,7 +73,8 @@ public class BoxFalling : MonoBehaviour
         {
             box.transform.position = finalPoint;
             canMove = false;
-            boxCollider.enabled = true;
+            boxColliderParent.enabled = true;
+            boxColliderChild.enabled = true;
         }
     }
 }
