@@ -16,7 +16,9 @@ public class Movement : MonoBehaviour
     private bool isSuscribed = true;
     private GAME_STATE currentGamestate = default;
     Animator animator;
-    Rigidbody2D rb;
+    [SerializeField]
+    private Rigidbody2D rb;
+    public Rigidbody2D Rb { get { return rb; } }
 
     #region SubscriptionToGameManager
     private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
