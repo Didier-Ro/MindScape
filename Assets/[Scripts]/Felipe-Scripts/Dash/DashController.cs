@@ -22,10 +22,10 @@ public class DashController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift) && Time.time > lastDashTime + dashCooldown)
-        {
-            AttemptDash();
-        }
+        if (InputManager.GetInstance().DashInput() && Time.time > lastDashTime + dashCooldown)
+    {
+        AttemptDash();
+    }
     }
 
     private void AttemptDash()
