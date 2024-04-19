@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BoxDetector : MonoBehaviour
@@ -9,6 +7,16 @@ public class BoxDetector : MonoBehaviour
     [SerializeField] private Vector2 spawnPos;
     [SerializeField] private TYPE_DETECTOR typeDetector;
     [SerializeField] private Doors doors;
+    [SerializeField] private int conditionId;
+
+    private void Start()
+    {
+        if (GameManager.GetInstance().IsConditionCompleted(conditionId))
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Box"))

@@ -806,8 +806,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 15d01da0102d44647b1086550c1b883d, type: 2}
   - {fileID: 11400000, guid: 20017bcbe556c254e945eb6d8ffcfd62, type: 2}
   - {fileID: 11400000, guid: 47264021079bb3845aa77b3488f177d1, type: 2}
-  gameScene: Tutorial1
-  animationScene: Cutscene1
+  levelScenes:
+  - Level1
+  - Level2
+  animationScene: CutScene1
+  conditionsIds: 0000000004000000
+  defaultdata: 1/0/0/0/0/0/0/1*0/0/0/0/0/0/0/2*1/1/0/0/0/0/0/3*
 --- !u!1 &500678122
 GameObject:
   m_ObjectHideFlags: 0
