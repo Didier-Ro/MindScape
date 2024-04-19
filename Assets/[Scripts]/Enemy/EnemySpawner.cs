@@ -25,6 +25,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private int maxRounds;
     public GameObject target;
     private int actualRound = 1;
+    [SerializeField] private GameObject key;
 
     public void SpawnRound(int _enemiesUWantToSpawn, OBJECT_TYPE _enemyType)
     {
@@ -62,12 +63,9 @@ public class EnemySpawner : MonoBehaviour
             {
                 doorScript.isUnlocked = true;
             }
-            if (doorScript2 != null)
-            {
-                doorScript2.isUnlocked = true;
-            }
-
-            PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Key, transform.position, Vector3.zero);
+            
+            key.SetActive(true);
+           // PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Key, transform.position, Vector3.zero);
         }
     }
 }
