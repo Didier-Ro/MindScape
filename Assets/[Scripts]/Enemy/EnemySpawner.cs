@@ -19,11 +19,23 @@ public class EnemySpawner : MonoBehaviour
         return Instance;
     }
     [SerializeField] private Transform[] enemiesSpawns;
-    public GameObject CanvasWinner;
     public List<GameObject> enemiesActive = new List<GameObject>();
     [SerializeField] private int maxRounds;
     public GameObject target;
     private int actualRound = 1;
+
+    public void SpawnRound(int _enemiesUWantToSpawn, OBJECT_TYPE _enemyType)
+    {
+        for (int i = 0; i < _enemiesUWantToSpawn; i++)
+        {
+            GameObject enemy = PoolManager.GetInstance().GetPooledObject(_enemyType, enemiesSpawns[i].position, Vector3.zero);
+            if (_enemyType == OBJECT_TYPE.EnemyChase)
+            {
+                enemy.GetComponent<Enemy>().AssignTarget(target);
+            }
+            enemiesActive.Add(enemy);
+        }
+    }
     public void SpawnRoundEnemy()
     {
         if (actualRound < maxRounds)
@@ -36,19 +48,13 @@ public class EnemySpawner : MonoBehaviour
                enemiesActive.Add(enemy);
             }
         }
-        else
-        {
-            GameManager.GetInstance().ChangeGameState(GAME_STATE.DEAD);
-            CanvasWinner.SetActive(true);
-        }
     }
 
     public void CheckArray()
     {
         if (enemiesActive.Count == 0)
         {
-            actualRound++;
-            SpawnRoundEnemy();
+            PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Key, transform.position, Vector3.zero);
         }
     }
 }
