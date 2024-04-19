@@ -88,5 +88,5 @@ public enum OBJECT_TYPE
     Spawn,
     FallingBox,
     Box,
-    Key
+    Key,
 }
