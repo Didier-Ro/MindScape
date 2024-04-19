@@ -55,6 +55,7 @@ public class Movement : MonoBehaviour
         {
             GameManager.GetInstance().MarkConditionCompleted(0);
             transform.position = initialPosition;
+            GameManager.GetInstance().SavePlayerPosition(initialPosition);
         }
     }
 
