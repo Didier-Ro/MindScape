@@ -5,7 +5,8 @@ using UnityEngine;
 public class DialogCutscene : MonoBehaviour
 {
     [SerializeField] private Dialog dialog;
-  
+    [SerializeField] private GameObject background;
+    [SerializeField] private GameObject text;
 
    public void ActivateChatbox()
     {
@@ -18,8 +19,9 @@ public class DialogCutscene : MonoBehaviour
     {
         Debug.Log("Adioh");
         //letterManager.AddLetter(AddLetterToScriptableObject());
-        GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
+        //GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
         //GameManager.GetInstance().MarkConditionCompleted(conditionId);
-        Destroy(gameObject);
+        Destroy(background);
+        Destroy(text);
     }
 }
