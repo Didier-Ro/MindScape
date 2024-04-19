@@ -29,6 +29,7 @@ public class BoxDetector : MonoBehaviour
                 colliderParent.enabled = false;
                 GameObject obj = Instantiate(boxPrefab, spawnPos, Quaternion.identity);
                 gameObject.SetActive(false);
+                
             }
             else if (typeDetector == TYPE_DETECTOR.BUTTON)
             { 
