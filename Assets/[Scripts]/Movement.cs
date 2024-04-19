@@ -7,6 +7,7 @@ public class Movement : MonoBehaviour
 {
     public Vector2 input;
     public bool isMoving = true;
+    [SerializeField] private int levelConditionCheck = 4;
     [SerializeField] private Vector3 initialPosition;
     [SerializeField] private float walkSpeed = 1.5f;
     [SerializeField] bool canInteract = false;
@@ -15,7 +16,9 @@ public class Movement : MonoBehaviour
     private bool isSuscribed = true;
     private GAME_STATE currentGamestate = default;
     Animator animator;
-    Rigidbody2D rb;
+    [SerializeField]
+    private Rigidbody2D rb;
+    public Rigidbody2D Rb { get { return rb; } }
 
     #region SubscriptionToGameManager
     private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
@@ -46,14 +49,14 @@ public class Movement : MonoBehaviour
                 canInteract = true;
             }
         };
-        if (GameManager.GetInstance().IsConditionCompleted(0))
+        if (GameManager.GetInstance().IsConditionCompleted(levelConditionCheck))
         {
             transform.position = CheckpointManager.FindNearestCheckpoint(transform.position);
           
         }
         else
         {
-            GameManager.GetInstance().MarkConditionCompleted(0);
+            GameManager.GetInstance().MarkConditionCompleted(levelConditionCheck);
             transform.position = initialPosition;
             GameManager.GetInstance().SavePlayerPosition(initialPosition);
         }

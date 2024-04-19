@@ -15,11 +15,13 @@ MonoBehaviour:
   conditions:
   - condition: IsAlreadyPlayed?
     isCompleted: 1
-  - condition: 
+  - condition: FirstPuzzleComplete
     isCompleted: 0
-  - condition: 
+  - condition: SecondPuzzleComplete
     isCompleted: 0
-  - condition: 
+  - condition: ThirdPuzzleComplete
+    isCompleted: 0
+  - condition: IsLevel2Started
     isCompleted: 0
   nGame: 1
   lastPosition: {x: 6.1, y: -17.32, z: 0}
