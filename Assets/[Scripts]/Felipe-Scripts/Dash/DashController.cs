@@ -1,110 +1,65 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DashController : MonoBehaviour
 {
-    
-    #region Singletone
-    private static DashController Instance;
-    public static DashController GetInstance() 
-    { 
-        return Instance;
-    }
-    #endregion
-    
-    public float dashDistance = 5f;
-    public float dashDuration = 0.2f;
-    public LayerMask dashLayerMask;
-    
-    private Rigidbody2D rb;
-    private bool isDashing = false;
-    private bool canDash = true;
-    private Vector2 lastMovementDirection;
+    public float dashSpeed = 10f;
+    public float dashTime = 0.1f;
+    public float dashCooldown = 1f;
+    public float dashStaminaCost = 25f;
 
-    [SerializeField] private StaminaBar _staminaBar;
+    private float lastDashTime;
+    private Vector2 dashDirection;
+    private bool isDashingOnCooldown = false;
 
-    private void Awake()
+    private Movement movementScript;
+    private StaminaBar staminaBar;
+
+    private void Start()
     {
-        if (Instance == null)
-        {
-            DontDestroyOnLoad(gameObject);
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
+        movementScript = GetComponent<Movement>();
+        staminaBar = FindObjectOfType<StaminaBar>(); // Encuentra la referencia de StaminaBar en la escena
     }
 
     void Update()
     {
-       if (canDash && InputManager.GetInstance().DashInput())
-    {
-        Vector2 dashDirection = DetermineDashDirection();
-        StartDash(dashDirection);
-    }
-    }
-
-    public void SetInputDash()
-    {
-        if (canDash)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && Time.time > lastDashTime + dashCooldown)
         {
-            Vector2 dashDirection = DetermineDashDirection();
-            StartDash(dashDirection);
+            AttemptDash();
         }
     }
 
-    public void StartDash(Vector2 dashDirection)
+    private void AttemptDash()
     {
-        if (!isDashing)
+        if (staminaBar != null && staminaBar.CurrentStamina >= dashStaminaCost)
         {
-            StartCoroutine(Dash(dashDirection));
+            float inputX = Input.GetAxisRaw("Horizontal");
+            float inputY = Input.GetAxisRaw("Vertical");
+            if (inputX != 0 || inputY != 0)
+            {
+                dashDirection = new Vector2(inputX, inputY).normalized;
+                StartCoroutine(PerformDash());
+                lastDashTime = Time.time;
+                isDashingOnCooldown = true;
+                staminaBar.UseStamina(dashStaminaCost); // Reduce la stamina cuando se realiza el dash
+            }
         }
     }
 
-    IEnumerator Dash(Vector2 dashDirection)
+    private System.Collections.IEnumerator PerformDash()
     {
-        isDashing = true;
-        canDash = false;
+        movementScript.isMoving = false;
+        float dashTimer = 0f;
 
-        Vector2 targetPosition = (Vector2) transform.position + (dashDirection * dashDistance);
-
-        float dashTime = 0f;
-        while (dashTime < dashDuration)
+        while (dashTimer < dashTime)
         {
-            _staminaBar.UseStamina();
-            rb.MovePosition(Vector2.Lerp(transform.position, targetPosition, dashTime / dashDuration));
-            dashTime += Time.deltaTime;
+            Vector2 dashMovement = dashDirection * dashSpeed * Time.deltaTime;
+            movementScript.Rb.MovePosition(movementScript.Rb.position + dashMovement);
+            dashTimer += Time.deltaTime;
             yield return null;
         }
 
-        rb.MovePosition(targetPosition);
-
-        isDashing = false;
-    }
-
-    public void UnlockDash()
-    {
-        canDash = true;
-    }
-    private Vector2 DetermineDashDirection()
-    {
-        Vector2 inputDirection = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")).normalized;
-        if (inputDirection != Vector2.zero)
-        {
-            lastMovementDirection = inputDirection;
-            return inputDirection;
-        }
-        else
-        {
-            return lastMovementDirection;
-        }
+        movementScript.isMoving = true;
+        yield return new WaitForSeconds(dashCooldown);
+        isDashingOnCooldown = false; // Restablece el cooldown del dash
     }
 }
