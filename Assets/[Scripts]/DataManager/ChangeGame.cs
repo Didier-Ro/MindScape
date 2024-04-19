@@ -29,7 +29,6 @@ public class ChangeGame : MonoBehaviour
    
    private void LoadAllData()
    {
-      PlayerPrefs.SetString("alldata",defaultdata);
       string[] dataToLoad = PlayerPrefs.GetString("alldata",defaultdata).Split("*");
       for (int i = 0; i < allConditions.Length; i++)
       {
