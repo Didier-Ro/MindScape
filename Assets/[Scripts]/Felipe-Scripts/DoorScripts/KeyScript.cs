@@ -4,13 +4,28 @@ using UnityEngine;
 
 public class KeyScript : MonoBehaviour
 {
-    public DoorScript doorToOpen;
+    public GameObject doorContainer; // GameObject vacío que contiene el DoorScript
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            doorToOpen.isUnlocked = true;
+            if (doorContainer != null)
+            {
+                DoorScript doorScript = doorContainer.GetComponent<DoorScript>();
+                if (doorScript != null)
+                {
+                    doorScript.isUnlocked = true;
+                }
+                else
+                {
+                    Debug.LogError("No se encontró el script de DoorScript en el GameObject contenedor.");
+                }
+            }
+            else
+            {
+                Debug.LogError("No se asignó ningún GameObject contenedor en el Inspector.");
+            }
         }
 
         Destroy(gameObject);
