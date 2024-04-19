@@ -38,12 +38,11 @@ public class BoxDetector : MonoBehaviour
             else if (typeDetector == TYPE_DETECTOR.UNIQUE)
             {
                 doors.IncreaseCounter();
-              
-                    Transform parentTransform = collision.transform.parent;
-                    GameObject parent = parentTransform.gameObject;        
-                    colliderParent = parent.GetComponent<BoxCollider2D>();
-                    colliderParent.enabled = false;
-                    gameObject.SetActive(false);
+                Transform parentTransform = collision.transform.parent;
+                GameObject parent = parentTransform.gameObject;        
+                colliderParent = parent.GetComponent<BoxCollider2D>();
+                colliderParent.enabled = false;
+                gameObject.SetActive(false);
             }
             
         }
