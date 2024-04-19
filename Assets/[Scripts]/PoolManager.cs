@@ -87,5 +87,6 @@ public enum OBJECT_TYPE
     LanternEnemies,
     Spawn,
     FallingBox,
-    Box
+    Box,
+    Key
 }
