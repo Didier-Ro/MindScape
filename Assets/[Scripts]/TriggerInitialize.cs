@@ -7,7 +7,7 @@ public class TriggerInitialize : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-           EnemySpawner.getInstance().SpawnRoundEnemy();
+           EnemySpawner.getInstance().SpawnRound(5, OBJECT_TYPE.EnemyChase);
            Destroy(gameObject);
         }
     }
