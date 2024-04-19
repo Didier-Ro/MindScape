@@ -15,6 +15,8 @@ public class BoxDetector : MonoBehaviour
             colliderParent = parent.GetComponent<BoxCollider2D>();
             colliderParent.enabled = false;
             PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Box, spawnPos, new Vector3(0, 0, 0));
+            gameObject.SetActive(false);
+            
         }
     }
 }
