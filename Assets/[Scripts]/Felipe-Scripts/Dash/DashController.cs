@@ -17,7 +17,7 @@ public class DashController : MonoBehaviour
     private void Start()
     {
         movementScript = GetComponent<Movement>();
-        staminaBar = FindObjectOfType<StaminaBar>(); // Encuentra la referencia de StaminaBar en la escena
+        staminaBar = FindObjectOfType<StaminaBar>();
     }
 
     void Update()
@@ -40,7 +40,7 @@ public class DashController : MonoBehaviour
                 StartCoroutine(PerformDash());
                 lastDashTime = Time.time;
                 isDashingOnCooldown = true;
-                staminaBar.UseStamina(dashStaminaCost); // Reduce la stamina cuando se realiza el dash
+                staminaBar.UseStamina(dashStaminaCost); // Reduce la stamina
             }
         }
     }
@@ -60,6 +60,6 @@ public class DashController : MonoBehaviour
 
         movementScript.isMoving = true;
         yield return new WaitForSeconds(dashCooldown);
-        isDashingOnCooldown = false; // Restablece el cooldown del dash
+        isDashingOnCooldown = false; // Restablece el cooldown
     }
 }
