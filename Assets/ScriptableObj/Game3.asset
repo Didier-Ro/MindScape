@@ -13,13 +13,15 @@ MonoBehaviour:
   m_Name: Game3
   m_EditorClassIdentifier: 
   conditions:
-  - condition: 
+  - condition: IsAlreadyPlayed?
     isCompleted: 0
-  - condition: 
+  - condition: FirstPuzzleComplete
     isCompleted: 0
-  - condition: 
+  - condition: SecondPuzzleComplete
     isCompleted: 0
-  - condition: 
+  - condition: ThirdPuzzleComplete
     isCompleted: 0
-  nGame: 0
+  - condition: IsLevel2Started
+    isCompleted: 0
+  nGame: 3
   lastPosition: {x: 0, y: 0, z: 0}

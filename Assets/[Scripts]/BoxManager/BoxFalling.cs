@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BoxFalling : MonoBehaviour
@@ -10,6 +8,8 @@ public class BoxFalling : MonoBehaviour
     [SerializeField] private Vector3 spawnPoint;
     [SerializeField] private Vector3 finalPoint;
     [SerializeField] private bool canMove = false;
+    [SerializeField] private int conditionId;
+    [SerializeField] private Vector3 positionWhenPuzzleIsCompleted;
 
     [SerializeField] bool isFalling;
 
@@ -18,6 +18,11 @@ public class BoxFalling : MonoBehaviour
 
     void Start()
     {
+        if (GameManager.GetInstance().IsConditionCompleted(conditionId))
+        {
+            boxColliderParent.enabled = false;
+            transform.position = positionWhenPuzzleIsCompleted;
+        }
         size = 1 - 0;
         totalSize = size / (60 * 1);
     }
