@@ -1,30 +1,40 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class Movement : MonoBehaviour
 {
-    [SerializeField] private float walkSpeed = 1.5f;
-    [SerializeField] private Tilemap floorTilemap;
-    [SerializeField] private Tilemap wallTilemap;
-    [SerializeField] private float moveDelay = 0.2f;
-    Direction currentDir = Direction.South;
     public Vector2 input;
-    bool isMoving = false;
+    public bool isMoving = true;
+    [SerializeField] private float walkSpeed = 1.5f;
     [SerializeField] bool canInteract = false;
     [SerializeField] private bool isInteracting = false;
-    Vector3 startPos;
-    Vector3 endPos;
-    float progress;
-    float remainingMoveDelay = 0f;
-    float x;
-    int framesPerMove = 60;
-   [SerializeField] GameObject interactiveObject;
-    GAME_STATE currentGamestate = default;
+    [SerializeField] GameObject interactiveObject;
+    private bool isSuscribed = true;
+    private GAME_STATE currentGamestate = default;
     Animator animator;
+    Rigidbody2D rb;
+
+    #region SubscriptionToGameManager
+    private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
+    {
+        GameManager.GetInstance().OnGameStateChange += OnGameStateChange;
+        OnGameStateChange(GameManager.GetInstance().GetCurrentGameState());
+        isSuscribed = true;
+    }
+    private void OnGameStateChange(GAME_STATE _newGameState)//Analyze the Game State type and makes differents behaviour
+    {
+        Debug.Log(_newGameState.ToString());
+       isMoving = _newGameState == GAME_STATE.EXPLORATION;
+    }
+
+    #endregion
 
     private void Start()
     {
+        SubscribeToGameManagerGameState();
         animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>();
         DialogManager.GetInstance().OnCloseDialog += () =>
         {
             if (currentGamestate == GAME_STATE.READING)
@@ -33,32 +43,24 @@ public class Movement : MonoBehaviour
                 canInteract = true;
             }
         };
-        
     }
-
 
     void FixedUpdate()
     {
+
+        input = InputManager.GetInstance().MovementInput();
         HandleMovementInput();
-        MoveCharacter();
         if (currentGamestate == GAME_STATE.READING)
         {
             DialogManager.GetInstance().HandleUpdate();
+            isMoving = false;
         }
-        SetInteraction();
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Box") && InputManager.GetInstance().InteractInput())
-        {
-            collision.GetComponent<Boxes>().Activate(transform.position);
-        }
+       
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Stepable")
+        if (other.CompareTag("Stepable"))
         {
             interactiveObject = other.gameObject;
             canInteract = true;
@@ -67,114 +69,23 @@ public class Movement : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.tag == "Stepable")
+        if (other.CompareTag("Stepable"))
         {
             interactiveObject = null;
             canInteract = false;
             isInteracting = false;
         }
     }
+
     void HandleMovementInput()
-    {
-        if (!isMoving)
-        {
-            input = InputManager.GetInstance().MovementInput();
-            animator.SetFloat("x", input.x);
-            animator.SetFloat("y", input.y);
-            if (input.x != 0f && input.y != 0f)
-            {
-                input.x = Mathf.Sign(input.x);
-                input.y = Mathf.Sign(input.y);
-            }
-
-            if (input != Vector2.zero)
-            {
-                Direction oldDirection = currentDir;
-                Vector3Int moveDirection = Vector3Int.RoundToInt(new Vector3(input.x, input.y, 0f));
-
-                if (moveDirection != Vector3Int.zero)
-                {
-                    currentDir = GetDirectionFromVector(moveDirection);
-                }
-
-                if (currentDir != oldDirection)
-                {
-                    remainingMoveDelay = moveDelay;
-                }
-
-                if (remainingMoveDelay > 0f)
-                {
-                    remainingMoveDelay -= 1f;
-                    return;
-                }
-
-                startPos = transform.position;
-                endPos = new Vector3(startPos.x + input.x, startPos.y + input.y, startPos.z);
-                Vector3Int tilePosition = floorTilemap.WorldToCell(endPos);
-
-                if (floorTilemap.GetTile(tilePosition) != null && wallTilemap.GetTile(tilePosition) == null)
-                {
-                    isMoving = true;
-                    progress = 0f;
-                }
-            }
-        }
-    }
-
-    void MoveCharacter()
     {
         if (isMoving)
         {
-            //   Debug.Log(endPos);
-            if (progress < 1f)
-            {
-                progress += (1f / framesPerMove) * walkSpeed;
-                transform.position = Vector3.Lerp(startPos, endPos, progress);
-
-            }
-            else
-            {
-                isMoving = false;
-                transform.position = endPos;
-            }
+            animator.SetFloat("x", input.x);
+            animator.SetFloat("y", input.y);
+            Vector2 movement = input.normalized * walkSpeed * Time.fixedDeltaTime;
+            rb.MovePosition(rb.position + movement);
         }
     }
-
-    private Direction GetDirectionFromVector(Vector3Int direction)
-    {
-        if (direction == Vector3Int.up)
-            return Direction.North;
-        else if (direction == Vector3Int.down)
-            return Direction.South;
-        else if (direction == Vector3Int.right)
-            return Direction.East;
-        else if (direction == Vector3Int.left)
-            return Direction.West;
-        else
-            return currentDir;
-    }
-    
-    public void SetInteraction()
-    {
-        if (canInteract && InputManager.GetInstance().InteractInput())
-        {
-            if (interactiveObject != null)
-            {
-            interactiveObject.GetComponent<Istepable>().Activate();
-            currentGamestate = GameManager.GetInstance().GetCurrentGameState();
-            canInteract = false;
-            isInteracting = true;
-            }
-        }
-        
-    }
-
-   
-
-}
-
-public enum Direction
-{
-    North, East, South, West
 }
 

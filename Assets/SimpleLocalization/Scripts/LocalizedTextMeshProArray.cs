@@ -12,7 +12,7 @@ public class LocalizedTextMeshProArray : MonoBehaviour
 {
     public List<String> texts = new List<String>();
     public List<String> localizationKey = new List<string>();
-    public void Start()
+    public void OnEnable()
     {
         Localize();
         LocalizationManager.OnLocalizationChanged += Localize;

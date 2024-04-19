@@ -83,10 +83,10 @@ public class AudioManager : MonoBehaviour
     {
         switch (typeFloor)
         {
-            case FLOOR.CONCRETE:
+            case FLOOR.WOOD:
                 PlaySFX(floorSound.typeSounds[0].sound[Random.Range(0, floorSound.typeSounds[0].sound.Length)]);
                 break;
-            case FLOOR.WOOD:
+            case FLOOR.CONCRETE:
                 PlaySFX(floorSound.typeSounds[1].sound[Random.Range(0, floorSound.typeSounds[1].sound.Length)]);
                 break;
         }

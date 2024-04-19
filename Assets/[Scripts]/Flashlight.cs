@@ -29,7 +29,7 @@ public class Flashlight : MonoBehaviour
     [SerializeField] private float lightInnerAngleTimeSpeed;
     [SerializeField] private float lightOuterAngleTimeSpeed;
     [SerializeField] private float energy = 100f; // Initial energy value
-    private bool flashing = false;
+    private bool isExPloration = false;
     
     private float reductionSpeed;
 
@@ -64,6 +64,7 @@ public class Flashlight : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        SubscribeToGameManagerGameState();
         InitializeFlashlight();
         LightSetUp();
         angleRange = minPointLightInnerAngle / 2;
@@ -72,7 +73,22 @@ public class Flashlight : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (!isExPloration)
+            return;
         HandleInput();
+    }
+
+    private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
+    {
+        if (GameManager.GetInstance() != null)
+        {
+            GameManager.GetInstance().OnGameStateChange += OnGameStateChange;
+            OnGameStateChange(GameManager.GetInstance().GetCurrentGameState());
+        }
+    }
+    private void OnGameStateChange(GAME_STATE _newGameState)
+    {
+        isExPloration = _newGameState == GAME_STATE.EXPLORATION;
     }
 
     // Initialize the flashlight settings
@@ -150,7 +166,7 @@ public class Flashlight : MonoBehaviour
                 float distanceToTarget = Vector2.Distance(transform.position, col.transform.position); //Minium distance to see the target
                 _canSeeTarget = !Physics2D.Raycast(transform.position, direction, distanceToTarget, obstructionMask);
                 if (!_canSeeTarget) return;
-                 col.GetComponent<Ikillable>().Hit();
+                 col.GetComponent<Ikillable>().Hit(transform);
             }
             else if (_canSeeTarget)
             {
@@ -174,6 +190,7 @@ public class Flashlight : MonoBehaviour
         lightInnerAngleTimeSpeed = totalLightInnerAngle / (frame * time);
         lightOuterAngleTimeSpeed = totalLightOuterAngle / (frame * time);   
     }
+
     private void CircleLight()
     {
         ReduceSliderValue(0.01f);

@@ -11,6 +11,8 @@ TagManager:
   - Enemy
   - Torch
   - Portal
+  - Floor
+  - Precipice
   layers:
   - Default
   - TransparentFX
@@ -18,7 +20,7 @@ TagManager:
   - obstacleLayer
   - Water
   - UI
-  - 
+  - Uninteractable
   - 
   - 
   - 
@@ -50,4 +52,7 @@ TagManager:
     locked: 0
   - name: Wall
     uniqueID: 2881832733
+    locked: 0
+  - name: Player
+    uniqueID: 723588137
     locked: 0

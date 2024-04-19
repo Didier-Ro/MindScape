@@ -85,5 +85,7 @@ public enum OBJECT_TYPE
 {
     EnemyChase,
     LanternEnemies,
-    Spawn
+    Spawn,
+    FallingBox,
+    Box
 }

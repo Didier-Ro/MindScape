@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
     #region Singletone
     private static GameManager Instance;
     public static GameManager GetInstance() 
-    { 
+    {
         return Instance;
     }
     #endregion
@@ -109,6 +109,7 @@ public class GameManager : MonoBehaviour
             dataToSave += allConditions[i].SaveData() + "*";
         }
         PlayerPrefs.SetString("alldata", dataToSave);
+        Debug.Log(dataToSave);
     }
 
     private void ResetAll()
@@ -169,5 +170,6 @@ public enum GAME_STATE //All possible Game States
     PAUSE,
     CUTSCENES,
     FLASBACKS,
+    FALLING,
     DEAD
 }
