@@ -95,6 +95,11 @@ public class GameManager : MonoBehaviour
             OnConditionCompleted(_i);
         }
     }
+
+    public void SavePlayerPosition(Vector3 position)
+    {
+        stageConditions.SavePlayerPosition(position);
+    }
     
     public bool IsConditionCompleted(int _id)
     {
@@ -133,7 +138,6 @@ public class GameManager : MonoBehaviour
             allConditions[i].LoadData(dataToLoad[i]);
         }
         LoadCurrentGameData(PlayerPrefs.GetInt("GameNumber", 1));
-       // CheckpointManager.AddCheckpointPosition(stageConditions.lastPosition);
     }
 
     public void SaveSpecificGameData(int _gameUWantToReplace)
@@ -157,6 +161,8 @@ public class GameManager : MonoBehaviour
                 stageConditions = stageCondition.GetNumOfGame();
             }
         }
+        Debug.Log(stageConditions.lastPosition);
+        CheckpointManager.AddCheckpointPosition(stageConditions.lastPosition);
     }
     
     #endregion

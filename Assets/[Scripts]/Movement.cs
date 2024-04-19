@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -6,6 +7,7 @@ public class Movement : MonoBehaviour
 {
     public Vector2 input;
     public bool isMoving = true;
+    [SerializeField] private Vector3 initialPosition;
     [SerializeField] private float walkSpeed = 1.5f;
     [SerializeField] bool canInteract = false;
     [SerializeField] private bool isInteracting = false;
@@ -29,6 +31,7 @@ public class Movement : MonoBehaviour
     }
 
     #endregion
+    
 
     private void Start()
     {
@@ -43,6 +46,16 @@ public class Movement : MonoBehaviour
                 canInteract = true;
             }
         };
+        if (GameManager.GetInstance().IsConditionCompleted(0))
+        {
+            transform.position = CheckpointManager.FindNearestCheckpoint(transform.position);
+          
+        }
+        else
+        {
+            GameManager.GetInstance().MarkConditionCompleted(0);
+            transform.position = initialPosition;
+        }
     }
 
     void FixedUpdate()
