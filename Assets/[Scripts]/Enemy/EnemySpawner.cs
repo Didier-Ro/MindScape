@@ -1,11 +1,12 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
     private static EnemySpawner Instance;
-    
+
+    [SerializeField] private DoorScript doorScript;
+
     private void Awake()
     {
         if (Instance == null)
@@ -18,11 +19,13 @@ public class EnemySpawner : MonoBehaviour
     {
         return Instance;
     }
+
     [SerializeField] private Transform[] enemiesSpawns;
     public List<GameObject> enemiesActive = new List<GameObject>();
     [SerializeField] private int maxRounds;
     public GameObject target;
     private int actualRound = 1;
+    [SerializeField] private GameObject key;
 
     public void SpawnRound(int _enemiesUWantToSpawn, OBJECT_TYPE _enemyType)
     {
@@ -36,6 +39,7 @@ public class EnemySpawner : MonoBehaviour
             enemiesActive.Add(enemy);
         }
     }
+
     public void SpawnRoundEnemy()
     {
         if (actualRound < maxRounds)
@@ -43,18 +47,25 @@ public class EnemySpawner : MonoBehaviour
             enemiesActive.Clear();
             for (int i = 0; i < actualRound; i++)
             {
-               GameObject enemy = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.EnemyChase, enemiesSpawns[i].position, Vector3.zero);
-               enemy.GetComponent<Enemy>().AssignTarget(target);
-               enemiesActive.Add(enemy);
+                GameObject enemy = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.EnemyChase, enemiesSpawns[i].position, Vector3.zero);
+                enemy.GetComponent<Enemy>().AssignTarget(target);
+                enemiesActive.Add(enemy);
             }
         }
+        CheckArray();
     }
 
     public void CheckArray()
     {
         if (enemiesActive.Count == 0)
         {
-            PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Key, transform.position, Vector3.zero);
+            if (doorScript != null)
+            {
+                doorScript.isUnlocked = true;
+            }
+            
+            key.SetActive(true);
+           // PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Key, transform.position, Vector3.zero);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,27 +8,35 @@ public class Doors : MonoBehaviour
     [SerializeField] private GameObject Door;
     [SerializeField] private bool boxOnButton = false;
     [SerializeField] private bool doorIsOpen = false;
-    private void OnTriggerEnter2D(Collider2D other)
+    private byte buttonCounter = 0;
+    [SerializeField] private int conditionId;
+
+
+    private void Start()
     {
-        if (other.CompareTag("Box"))
+        if (GameManager.GetInstance().IsConditionCompleted(conditionId))
         {
-            boxOnButton = true;
-            if (!doorIsOpen)
-            {
-                OpenDoor();
-            }
+           Destroy(gameObject);
         }
     }
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("Box"))
-        {
-            boxOnButton = false;
-        }
-    }
+
     private void OpenDoor()
     {
         Door.SetActive(false); // Desactiva la puerta
-        boxOnButton = true;
+    }
+
+    public void IncreaseCounter()
+    {
+        buttonCounter++;
+
+        if (buttonCounter == 2)
+        {
+            OpenDoor();
+        }
+    }
+
+    public byte ReturnCounter()
+    {
+        return buttonCounter;
     }
 }

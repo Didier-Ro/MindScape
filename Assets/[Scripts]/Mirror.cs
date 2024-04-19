@@ -89,7 +89,6 @@ public class Mirror : MonoBehaviour, Ikillable
             }
             if (hit.collider.CompareTag("Goal"))
             {
-                Debug.Log("CACA");
                 doorToUnlock.SetActive(false);
             }
 

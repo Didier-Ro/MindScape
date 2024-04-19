@@ -7,7 +7,8 @@ public class ActivateZone : MonoBehaviour
    [SerializeField] private GameObject gameObjectToActivate;
    private string currentControlScheme;
    [SerializeField] private GameObject[] gameUI;
-   
+   [SerializeField] private bool isDeactivateWithCondition;
+   [SerializeField] private int conditionId;
    public void DeactivateCanvas()
    {
       gameUI[0].SetActive(false);
@@ -25,6 +26,14 @@ public class ActivateZone : MonoBehaviour
       {
          gameUI[0].SetActive(true);
          gameUI[1].SetActive(false);
+      }
+   }
+
+   private void Start()
+   {
+      if (GameManager.GetInstance().IsConditionCompleted(conditionId) && isDeactivateWithCondition)
+      {
+         Destroy(gameObject);
       }
    }
 

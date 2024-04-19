@@ -34,9 +34,14 @@ public class WorldCondition : ScriptableObject, IsaveScript
         {
             conditions[i].isCompleted = int.Parse(conditionsS[i]) >= 1;
         }
-        lastPosition.x = int.Parse(conditionsS[conditionsS.Length - 3]);
-        lastPosition.y = int.Parse(conditionsS[conditionsS.Length - 2]);
+        lastPosition.x = float.Parse(conditionsS[conditionsS.Length - 3]);
+        lastPosition.y = float.Parse(conditionsS[conditionsS.Length - 2]);
         nGame = int.Parse(conditionsS[conditionsS.Length-1]);
+    }
+
+    public void SavePlayerPosition(Vector3 position)
+    {
+        lastPosition = position;
     }
 
     public bool IsFirstTimePlayed()
@@ -69,8 +74,8 @@ public class WorldCondition : ScriptableObject, IsaveScript
         {
             dataToSave += (conditions[i].isCompleted ? 1 : 0) + "/";
         }
-        dataToSave += (int)lastPosition.x + "/";
-        dataToSave += (int)lastPosition.y + "/";
+        dataToSave += lastPosition.x + "/";
+        dataToSave += lastPosition.y + "/";
         dataToSave += nGame.ToString();
         PlayerPrefs.SetString("worldConditions", dataToSave);
         Debug.Log(dataToSave);

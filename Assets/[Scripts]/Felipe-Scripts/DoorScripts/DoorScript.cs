@@ -6,12 +6,16 @@ public class DoorScript : MonoBehaviour
 {
     public Transform door;
     public float doorSpeed = 1f;
+    public static DoorScript Instance { get; private set; }
     public bool isUnlocked = true;
     public Transform openTransform;
     public Transform closeTransform;
     Vector3 targetPosition;
     float time;
-
+    private void Awake()
+    {
+        Instance = this; // Establecer la instancia estática al iniciar
+    }
     void Start()
     {
         targetPosition = closeTransform.position;
