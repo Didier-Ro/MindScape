@@ -7,7 +7,11 @@ public class BoxFalling : MonoBehaviour
     [SerializeField] private BoxCollider2D boxColliderChild;
     [SerializeField] private Vector3 spawnPoint;
     [SerializeField] private Vector3 finalPoint;
-    [SerializeField] private bool canMove = false;
+    [Tooltip("If the box is SINGLE, then there is no need to reference DetectorManager.")]
+    [SerializeField] private TYPE_BOX type_Box;
+    [SerializeField] private OverlapBoxDetectorManager overlayBoxDetectorManager;
+
+    private bool canMove = false;
     [SerializeField] private int conditionId;
     [SerializeField] private Vector3 positionWhenPuzzleIsCompleted;
 
@@ -55,15 +59,31 @@ public class BoxFalling : MonoBehaviour
         {
             isFalling = false;
             box.transform.localScale = new Vector3(0,0,0);
-            RespawnBox();
+
+            if (type_Box == TYPE_BOX.DUO)
+            {
+                RespawnBox(overlayBoxDetectorManager.FindVoidPlace());
+            }
+            else if(type_Box == TYPE_BOX.SINGLE) 
+            {
+                RespawnBox(finalPoint);
+            }
         }
     }
 
-    void RespawnBox()
+    public void SetSpawnPosition(Vector3 _finalPoint)
     {
-        transform.position = finalPoint;
-        box.transform.position = spawnPoint;
+        finalPoint = _finalPoint;
+        BoxInZone();    
+    }
+
+    void RespawnBox(Vector3 _finalPoint)
+    {
+        transform.position = _finalPoint;
+        box.transform.position = new Vector3(_finalPoint.x, 27,0);
         box.transform.localScale = new Vector3(1, 1, 1);
+        spawnPoint = new Vector3(_finalPoint.x, 27, 0);
+        finalPoint = _finalPoint;
         canMove = true;
     }
 
@@ -82,4 +102,10 @@ public class BoxFalling : MonoBehaviour
             boxColliderChild.enabled = true;
         }
     }
+}
+
+public enum TYPE_BOX
+{
+    SINGLE,
+    DUO,
 }
