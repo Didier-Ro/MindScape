@@ -1,18 +1,41 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FuelRegenerationZone : MonoBehaviour
+public class FuelRegenerationZone : MonoBehaviour, Istepable
 {
     [SerializeField] private Slider slider;
     [SerializeField] private float regenerationValue = 100f;
     [SerializeField] private GameObject interactInstruction = null;
 
-    private void OnTriggerStay2D(Collider2D other)
+    public bool isInside = false;
+
+    private void Update()
+    {
+        Recharge();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
         // Check if the colliding object is tagged as "Player"
         if (other.CompareTag("Player"))
         {
-            interactInstruction.SetActive(true);
+            Activate();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        // Check if the colliding object is tagged as "Player"
+        if (collision.CompareTag("Player"))
+        {
+            Deactivate();
+        }
+    }
+
+    void Recharge()
+    {
+        if (isInside)
+        {
             // Check for the "F" key press
             if (InputManager.GetInstance().InteractInput())
             {
@@ -22,8 +45,15 @@ public class FuelRegenerationZone : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    public void Activate()
     {
+        isInside = true;
+        interactInstruction.SetActive(true);
+    }
+
+    public void Deactivate()
+    {
+        isInside = false;
         interactInstruction.SetActive(false);
     }
 }

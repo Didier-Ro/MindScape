@@ -13,7 +13,7 @@ public class ChangeGame : MonoBehaviour
    
 
    private void Start()
-   {
+   { 
       ResetAll();
       LoadAllData();
    }
@@ -26,7 +26,16 @@ public class ChangeGame : MonoBehaviour
       }
    }
    
-   
+   private void SaveAllData()
+   {
+      string dataToSave = "";
+      for (int i = 0; i < allConditions.Length; i++)
+      {
+         dataToSave += allConditions[i].SaveData() + "*";
+      }
+      PlayerPrefs.SetString("alldata", dataToSave);
+      Debug.Log(dataToSave);
+   }
    private void LoadAllData()
    {
       string[] dataToLoad = PlayerPrefs.GetString("alldata",defaultdata).Split("*");
@@ -58,6 +67,7 @@ public class ChangeGame : MonoBehaviour
       if (stageConditions.IsFirstTimePlayed())
       {
          sceneToPlay = animationScene;
+         SaveAllData();
       }
       else
       {

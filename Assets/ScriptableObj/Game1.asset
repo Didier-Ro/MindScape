@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   conditions:
   - condition: IsAlreadyPlayed?
-    isCompleted: 1
+    isCompleted: 0
   - condition: FirstPuzzleComplete
     isCompleted: 0
   - condition: SecondPuzzleComplete
@@ -22,6 +22,6 @@ MonoBehaviour:
   - condition: ThirdPuzzleComplete
     isCompleted: 0
   - condition: IsLevel2Started
-    isCompleted: 0
+    isCompleted: 1
   nGame: 1
-  lastPosition: {x: 6.1, y: -17.32, z: 0}
+  lastPosition: {x: 3, y: -18, z: 0}
