@@ -128,7 +128,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 419854
+  m_InstanceId: -159780
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0.5, z: 0}
@@ -232,10 +232,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78d3bc008c43aa4380561047c55ab38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dashSpeed: 10
-  dashTime: 0.1
-  dashCooldown: 1
-  dashStaminaCost: 25
+  dashDistance: 3
+  dashDuration: 0.2
+  dashLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  _staminaBar: {fileID: 7933755353333501670}
 --- !u!114 &7933755353333501670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,9 +251,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 0}
+  _dashController: {fileID: 4976075616536129700}
   regenSpeed: 1
+  shiftStaminaCost: 25
   delayBeforeRefill: 1.5
-  maxStamina: 100
 --- !u!70 &3738076845298650269
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -284,8 +287,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.21}
-  m_Size: {x: 0.30673185, y: 0.36}
+  m_Offset: {x: 0.03293912, y: -0.16205531}
+  m_Size: {x: 0.30673185, y: 0.49394476}
   m_Direction: 0
 --- !u!114 &6297893171183457100
 MonoBehaviour:
@@ -335,13 +338,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   input: {x: 0, y: 0}
   isMoving: 1
-  levelConditionCheck: 4
-  initialPosition: {x: 0, y: 0, z: 0}
   walkSpeed: 2
   canInteract: 0
   isInteracting: 0
   interactiveObject: {fileID: 0}
-  rb: {fileID: 0}
 --- !u!114 &3054615977689496595
 MonoBehaviour:
   m_ObjectHideFlags: 0
