@@ -49,11 +49,13 @@ public class FuelRegenerationZone : MonoBehaviour, Istepable
     {
         isInside = true;
         interactInstruction.SetActive(true);
+        Flashlight.GetInstance().ReduceSliderValue(0f);
     }
 
     public void Deactivate()
     {
         isInside = false;
         interactInstruction.SetActive(false);
+        Flashlight.GetInstance().ReduceSliderValue(0.01f);
     }
 }
