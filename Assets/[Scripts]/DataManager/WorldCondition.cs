@@ -14,6 +14,19 @@ public class WorldCondition : ScriptableObject, IsaveScript
         conditions[id].isCompleted = done;
     }
 
+    public string RestartDataToANewGame()
+    {
+        string dataToSave = "";
+        for (int i = 0; i <conditions.Length; i++)
+        {
+            dataToSave += 0 + "/";
+        }
+        dataToSave += 0 + "/";
+        dataToSave += 0 + "/";
+        dataToSave += nGame.ToString();
+        return dataToSave;
+    }
+
     public string GetData(int _gameNumber)
     {
         string dataToSave = "";
@@ -89,7 +102,6 @@ public class WorldCondition : ScriptableObject, IsaveScript
             conditions[i].isCompleted = false;
         }
         lastPosition = Vector3.zero;
-        nGame = 0;
     }
 }
 [Serializable]
