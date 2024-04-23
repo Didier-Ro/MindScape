@@ -25,6 +25,28 @@ public class ChangeGame : MonoBehaviour
          allConditions[i].ResetData();
       }
    }
+
+   private void RestartANewGameData(int _gameToRestart)
+   {
+      foreach (var stageCondition in allConditions)
+      {
+         if (stageCondition.nGame == _gameToRestart)
+         {
+            stageCondition.RestartDataToANewGame();
+         }
+      }
+      SaveAllData();
+   }
+
+   private string RestartAllGamesToNewGames()
+   {
+      string dataToSave = "";
+      for (int i = 0; i < allConditions.Length; i++)
+      {
+         dataToSave += allConditions[i].RestartDataToANewGame() + "*";
+      }
+      return dataToSave;
+   }
    
    private void SaveAllData()
    {
@@ -34,11 +56,10 @@ public class ChangeGame : MonoBehaviour
          dataToSave += allConditions[i].SaveData() + "*";
       }
       PlayerPrefs.SetString("alldata", dataToSave);
-      Debug.Log(dataToSave);
    }
    private void LoadAllData()
    {
-      string[] dataToLoad = PlayerPrefs.GetString("alldata",defaultdata).Split("*");
+      string[] dataToLoad = PlayerPrefs.GetString("alldata",RestartAllGamesToNewGames()).Split("*");
       for (int i = 0; i < allConditions.Length; i++)
       {
          allConditions[i].LoadData(dataToLoad[i]);
