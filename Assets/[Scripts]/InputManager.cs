@@ -1,6 +1,8 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 public class InputManager : MonoBehaviour
 {
@@ -13,10 +15,7 @@ public class InputManager : MonoBehaviour
     #endregion
     #region SubscribeToGamestate
     
-    private void Start()
-    {
-        SubscribeToGameManagerGameState();
-    }
+    
 
     private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
     {
@@ -66,9 +65,12 @@ public class InputManager : MonoBehaviour
     #endregion
 
     public static PlayerInput playerInput = default;
+    
     public static string gamepadControlScheme = "Gamepad";
     public static string keyboardControlScheme = "Keyboard";
     public static string currentControlScheme {get; private set;}
+    
+    [SerializeField] private InputActionReference actionReference;
 
     private PlayerControls playerControls = default;
     
@@ -79,6 +81,7 @@ public class InputManager : MonoBehaviour
     private InputAction lightInput = default;
     private InputAction dashInput = default;
     private InputAction moveLightInput = default;
+    
 
     [Header("UIInputs")] 
     private InputAction nextUIInput = default;
@@ -92,6 +95,7 @@ public class InputManager : MonoBehaviour
     private Vector2 vectorMovementValue = default;
     private Vector2 vectorLightValue = default;
     private bool isPaused = false;
+    private bool isHolding = false;
 
     private void Awake()
     {
@@ -127,17 +131,29 @@ public class InputManager : MonoBehaviour
         backUIInput = playerControls.UI.Back;
         backUIInput.Enable();
         playerControls.Gameplay.Pause.performed += _ => SetPause();
+        actionReference.action.Enable();
+
+        
+
+    }
+    
+    private void Start()
+    {
+        SubscribeToGameManagerGameState();
+        SetHolding();
 
     }
 
     private void Update()
     {
         
+        Debug.Log(isHolding);
     }
 
     private void OnDisable()
     {
         playerControls.Disable();
+        actionReference.action.Disable();
     }
     
     
@@ -166,6 +182,7 @@ public class InputManager : MonoBehaviour
     {
         return interactInput.triggered;
     }
+    
 
     public bool NextInput()
     {
@@ -187,6 +204,11 @@ public class InputManager : MonoBehaviour
         return dashInput.triggered;
     }
 
+    public bool HoldingInteract()
+    {
+        return isHolding;
+    }
+
     public void SwitchControls(PlayerInput input)
     {
         currentControlScheme = input.currentControlScheme;
@@ -197,6 +219,51 @@ public class InputManager : MonoBehaviour
     {
         _currentControlScheme = currentControlScheme;
         return _currentControlScheme;
+    }
+
+    private void SetHolding()
+    {
+        actionReference.action.started += context =>
+        {
+            Debug.Log("Holi");
+            if (context.interaction is HoldInteraction)
+            {
+               // Debug.Log(context.interaction + "Started");
+                isHolding = true;
+            }else if (context.interaction is TapInteraction)
+            {
+               // Debug.Log(context.interaction + "Started");
+                isHolding = false;
+            }
+        };
+
+        actionReference.action.performed += context =>
+        {
+            if (context.interaction is HoldInteraction)
+            {
+                //Debug.Log(context.interaction + "Performed");
+                isHolding = true;
+            }else if (context.interaction is TapInteraction)
+            {
+                //Debug.Log(context.interaction + "performed");
+                isHolding = false;
+            }
+        };
+        
+        actionReference.action.canceled += context =>
+        {
+            if (context.interaction is HoldInteraction)
+            {
+                //Debug.Log(context.interaction + "canceled");
+                isHolding = false;
+            }else if (context.interaction is TapInteraction)
+            {
+                //Debug.Log(context.interaction + "canceled");
+                isHolding = false;
+            }
+        };
+
+
     }
 
     private void ActivateReading()
