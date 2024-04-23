@@ -13,6 +13,7 @@ public class FallZone : MonoBehaviour
         if (collision.CompareTag("Box")   )
         {
             collision.GetComponentInParent<BoxFalling>().BoxInZone();
+            Debug.Log("AQUI");
         }
     }
 }

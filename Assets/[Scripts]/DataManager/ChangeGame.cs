@@ -5,12 +5,15 @@ public class ChangeGame : MonoBehaviour
 {
    [SerializeField] private WorldCondition stageConditions;
    [SerializeField] private WorldCondition[] allConditions;
-   [SerializeField] private string gameScene;
+   [SerializeField] private string[] levelScenes;
    [SerializeField] private string animationScene;
+   [SerializeField] private int[] conditionsIds;
+   [SerializeField] private string defaultdata;
 
+   
 
    private void Start()
-   {
+   { 
       ResetAll();
       LoadAllData();
    }
@@ -23,12 +26,26 @@ public class ChangeGame : MonoBehaviour
       }
    }
    
+   private void SaveAllData()
+   {
+      string dataToSave = "";
+      for (int i = 0; i < allConditions.Length; i++)
+      {
+         dataToSave += allConditions[i].SaveData() + "*";
+      }
+      PlayerPrefs.SetString("alldata", dataToSave);
+      Debug.Log(dataToSave);
+   }
    private void LoadAllData()
    {
-      string[] dataToLoad = PlayerPrefs.GetString("alldata","0/0/0/0/0/0/1*0/0/0/0/0/0/2*0/0/0/0/0/0/3*").Split("*");
+      string[] dataToLoad = PlayerPrefs.GetString("alldata",defaultdata).Split("*");
       for (int i = 0; i < allConditions.Length; i++)
       {
          allConditions[i].LoadData(dataToLoad[i]);
+      }
+      for (int i = 0; i < dataToLoad.Length; i++)
+      {
+         Debug.Log(dataToLoad[i]); // Print each element individually
       }
    }
    
@@ -46,7 +63,22 @@ public class ChangeGame : MonoBehaviour
    {
       PlayerPrefs.SetInt("GameNumber", _num);
       LoadCurrentGameData(_num);
-      string sceneToPlay = stageConditions.IsFirstTimePlayed() ? animationScene : gameScene; 
+      string sceneToPlay = default;
+      if (stageConditions.IsFirstTimePlayed())
+      {
+         sceneToPlay = animationScene;
+         SaveAllData();
+      }
+      else
+      {
+         for (int i = 0; i < conditionsIds.Length; i++)
+         {
+            if (stageConditions.IsConditionCompleted(conditionsIds[i]))
+            {
+               sceneToPlay = levelScenes[i];
+            }
+         }
+      }
       LoadingManager.instance.LoadScene(sceneToPlay);
    }
 }
