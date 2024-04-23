@@ -40,6 +40,11 @@ public class ChangeGame : MonoBehaviour
 
    private string RestartAllGamesToNewGames()
    {
+      ResetAll();
+      for (int i = 0; i <allConditions.Length; i++)
+      {
+         allConditions[i].nGame = i + 1;
+      }
       string dataToSave = "";
       for (int i = 0; i < allConditions.Length; i++)
       {
