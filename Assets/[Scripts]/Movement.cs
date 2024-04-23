@@ -14,6 +14,7 @@ public class Movement : MonoBehaviour
     [SerializeField] private bool isInteracting = false;
     [SerializeField] GameObject interactiveObject;
     private bool isSuscribed = true;
+    private bool canMove = true;
     private GAME_STATE currentGamestate = default;
     Animator animator;
     [SerializeField]
@@ -34,11 +35,38 @@ public class Movement : MonoBehaviour
     }
 
     #endregion
+
+
+    #region SubscriptionToPlayerStates
+    
+    private void SubscribeToPlayerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
+    {
+        if (PlayerStates.GetInstance() != null)
+        {
+            PlayerStates.GetInstance().OnPlayerStateChanged += OnPlayerStateChange;
+            OnPlayerStateChange(PlayerStates.GetInstance().GetCurrentPlayerState());
+        }
+    }
+    
+    private void OnPlayerStateChange(PLAYER_STATES _newPlayerState)
+    {
+        if (_newPlayerState == PLAYER_STATES.PLAY)
+        {
+            canMove = true;
+        }
+        else
+        {
+            canMove = false;
+        }
+    }
+
     
 
+    #endregion
     private void Start()
     {
         SubscribeToGameManagerGameState();
+        SubscribeToPlayerGameState();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         DialogManager.GetInstance().OnCloseDialog += () =>
@@ -101,7 +129,10 @@ public class Movement : MonoBehaviour
             animator.SetFloat("x", input.x);
             animator.SetFloat("y", input.y);
             Vector2 movement = input.normalized * walkSpeed * Time.fixedDeltaTime;
-            rb.MovePosition(rb.position + movement);
+            if (canMove)
+            {
+                rb.MovePosition(rb.position + movement);
+            }
         }
     }
 }

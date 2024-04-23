@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MovableObject : MonoBehaviour, Istepable
 {
@@ -11,7 +12,8 @@ public class MovableObject : MonoBehaviour, Istepable
     [SerializeField] private GameObject activateObject;
     [SerializeField] private int distanceToMove;
     [SerializeField] private GameObject boxFalling;
-    private int finalFramesToReachPoint = default; 
+    private int finalFramesToReachPoint = default;
+    private Transform targetTransfom;
     private float speedPerFrame = default;
     private float finalDistanceToMove = default;
     private RaycastHit2D rayhit;
@@ -20,19 +22,19 @@ public class MovableObject : MonoBehaviour, Istepable
     private Vector2 startPosition;
     private Vector2 finalPosition;
     private bool boxIsOnPrecipice;
-    private ActivateZone activateScript;
     public void Activate()
     {
         speedPerFrame = finalDistanceToMove / (timeToReachPointInSeconds * 60);
         if (frameCounter <= finalFramesToReachPoint)
         {
             activateObject.transform.Translate(directionToMove * speedPerFrame);
+            targetTransfom.Translate(directionToMove * speedPerFrame);
             frameCounter++;
         }
         else
         {
             activateObject.transform.position = finalPosition;
-            activateScript.ActivateBool();
+            PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
             isMoving = false;
         }
     }
@@ -87,7 +89,6 @@ public class MovableObject : MonoBehaviour, Istepable
                     finalDistanceToMove = distance.magnitude;
                     if (finalDistanceToMove < 0.1f)
                     {
-                        activateScript.ActivateBool();
                         return;
                     }
                 }
@@ -100,16 +101,17 @@ public class MovableObject : MonoBehaviour, Istepable
         isMoving = true;
     }
 
-    private void Start()
+    private void GetDirectionToMove()
     {
-        activateScript = activateObject.GetComponent<ActivateZone>();
+      Vector2 movementInput = InputManager.GetInstance().MovementInput();
     }
 
-    public void GetDirection(Vector2 _playerDirection)
+    public void GetDirection(Transform _target)
     {
         if (!isMoving)
-        {
-            Vector2 distance = _playerDirection - (Vector2)transform.position;
+        { 
+            targetTransfom = _target;
+            Vector2 distance = (Vector2)targetTransfom.position - (Vector2)transform.position;
             if (Mathf.Abs(distance.x) > Mathf.Abs(distance.y))
             {
                 pushDirection = distance.x > 0 ? direction.right : direction.left;
@@ -118,7 +120,7 @@ public class MovableObject : MonoBehaviour, Istepable
             {
                 pushDirection = distance.y > 0 ? direction.up : direction.down;
             }
-            RayCastCheck();  
+           // RayCastCheck();  
         }
     }
 
@@ -126,7 +128,7 @@ public class MovableObject : MonoBehaviour, Istepable
     {
         if (!isMoving && boxIsOnPrecipice)
         {
-            Destroy(activateObject);
+            activateObject.SetActive(false);
             if (boxFalling != null)
             {
                 PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.FallingBox, transform.position, Vector2.zero);

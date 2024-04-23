@@ -1,11 +1,12 @@
-using System;
 using UnityEngine;
 
 public class ActivateZone : MonoBehaviour
 {
-   private bool canActivate = true;
+   public bool canActivate = false;
    [SerializeField] private GameObject gameObjectToActivate;
+   private MovableObject _movableObject;
    private string currentControlScheme;
+   public GameObject player;
    [SerializeField] private GameObject[] gameUI;
    [SerializeField] private bool isDeactivateWithCondition;
    [SerializeField] private int conditionId;
@@ -29,11 +30,30 @@ public class ActivateZone : MonoBehaviour
       }
    }
 
+   private void FixedUpdate()
+   {
+      if (canActivate && InputManager.GetInstance().HoldingInteract())
+      {
+         PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.MOVINGBOXES);
+         _movableObject.GetDirection(player.transform);
+      }
+      else if (PlayerStates.GetInstance().GetCurrentPlayerState() == PLAYER_STATES.MOVINGBOXES && !InputManager.GetInstance().HoldingInteract())
+      {
+         PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
+      }
+      
+     
+   }
+
    private void Start()
    {
       if (GameManager.GetInstance().IsConditionCompleted(conditionId) && isDeactivateWithCondition)
       {
          Destroy(gameObject);
+      }
+      else
+      {
+         _movableObject = gameObjectToActivate.GetComponent<MovableObject>();
       }
    }
 
@@ -41,6 +61,11 @@ public class ActivateZone : MonoBehaviour
    {
       if (other.CompareTag("Player"))
       {
+         if (player == null)
+         {
+            player = other.gameObject;
+         }
+         canActivate = true;
          SetActiveCanvas();
       }
        
@@ -50,21 +75,13 @@ public class ActivateZone : MonoBehaviour
    {
       if (other.CompareTag("Player"))
       {
+         canActivate = false;
          DeactivateCanvas();
       }
    }
 
-
-   private void OnTriggerStay2D(Collider2D other)
-   {
-      if (other.CompareTag("Player") && canActivate && InputManager.GetInstance().InteractInput())
-      {
-         canActivate = false;
-         gameObjectToActivate.GetComponent<MovableObject>().GetDirection(other.transform.position);
-      }
-   }
-
-
+   
+   
    public void ActivateBool()
    {
       canActivate = true;
