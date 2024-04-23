@@ -96,7 +96,7 @@ public class Enemy : MonoBehaviour,Ikillable
         private void RandomTimer()
         {
             Random random = new Random();
-            randomTimer = random.Next(30, 120);
+            randomTimer = random.Next(30, 90);
         }
 
         private void KnockBackCheck()
@@ -242,7 +242,7 @@ public class Enemy : MonoBehaviour,Ikillable
               Vector2 center = targetTransform.position;
               Vector2 direction = ((Vector2)transform.position - center).normalized;
               Vector2 desiredPosition = center + (direction * satisfactionRadius);
-              Vector2 velocity = (desiredPosition - (Vector2)transform.position).normalized * fleeSpeed;
+              Vector2 velocity = (desiredPosition - (Vector2)transform.position).normalized * chasingSpeed;
               if (!isLurkingToTheRight)
               {
                   rb.velocity = new Vector2(-direction.y, direction.x) * velocity.magnitude;
