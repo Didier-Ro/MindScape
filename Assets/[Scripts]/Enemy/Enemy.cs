@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Random = System.Random;
 
 public class Enemy : MonoBehaviour,Ikillable
 {
@@ -11,10 +12,17 @@ public class Enemy : MonoBehaviour,Ikillable
 
     #region ChasingVariables
     [SerializeField] private float satisfactionRadius = default;
-     [SerializeField] private float timeToTarget = default;
-     [SerializeField] private float proximateError = default;
+    [SerializeField] private float timeToTarget = default;
+    [SerializeField] private float proximateError = default;
+    [SerializeField] private float rotationLurkingSpeed;
+    [SerializeField] private bool isLurkingToTheRight;
+    private int changeDirectionTimer;
+    private int randomTimer;
+    private float angle = 30;
     #endregion
-    [SerializeField] private float maxSpeed = default; 
+    [SerializeField] private float chasingSpeed = default;
+    [SerializeField] private float fleeSpeed;
+    [SerializeField] private float attackingSpeed;
     [SerializeField] private Transform targetTransform = default;
     [SerializeField] private Rigidbody2D rb = default;
     private Flashlight _flashlightTarget;
@@ -48,12 +56,15 @@ public class Enemy : MonoBehaviour,Ikillable
     #endregion
         void Start()
         {
+           
+            RandomTimer(); 
             recoverTime = recoverTimer;
             animator = GetComponent<Animator>();
             SubscribeToGameManagerGameState();
             rb = GetComponent<Rigidbody2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
+        
         void FixedUpdate()
         {
             if (!CanMove) return;
@@ -68,7 +79,24 @@ public class Enemy : MonoBehaviour,Ikillable
                 animator.SetBool("Attack" ,true);
                 GetSteering();
             }
+
+            if ( changeDirectionTimer < randomTimer)
+            {
+                changeDirectionTimer++;
+            }
+            else
+            {
+                changeDirectionTimer = 0;
+                isLurkingToTheRight = !isLurkingToTheRight;
+                RandomTimer();
+            }
           
+        }
+        
+        private void RandomTimer()
+        {
+            Random random = new Random();
+            randomTimer = random.Next(30, 120);
         }
 
         private void KnockBackCheck()
@@ -184,7 +212,7 @@ public class Enemy : MonoBehaviour,Ikillable
            Vector3 result =  transform.position -  _target.position;
            */
           result.Normalize();
-          result *= maxSpeed;
+          result *= attackingSpeed;
           // transform.rotation = Quaternion.LookRotation(result);
           rb.velocity = result;
       }
@@ -195,22 +223,34 @@ public class Enemy : MonoBehaviour,Ikillable
           if (result.magnitude > satisfactionRadius) //Check if the distance is bigger than radiusLimit
           {
               result /= timeToTarget; // decrease the speed in relation to the time is target
-              if (result.magnitude > maxSpeed)
+              if (result.magnitude > chasingSpeed)
               {
                   result.Normalize();
-                  result *= maxSpeed;
+                  result *= chasingSpeed;
               } 
               rb.velocity = result;
           }
           else if (result.magnitude < satisfactionRadius - proximateError) 
           {
+              // get out of the circle
               result = transform.position - targetTransform.position;
-              result *= maxSpeed;
+              result *= fleeSpeed;
               rb.velocity = result;
           }
-          else //stop the movement
+          else //lurking in circles
           {
-              rb.velocity = Vector2.zero;
+              Vector2 center = targetTransform.position;
+              Vector2 direction = ((Vector2)transform.position - center).normalized;
+              Vector2 desiredPosition = center + (direction * satisfactionRadius);
+              Vector2 velocity = (desiredPosition - (Vector2)transform.position).normalized * fleeSpeed;
+              if (!isLurkingToTheRight)
+              {
+                  rb.velocity = new Vector2(-direction.y, direction.x) * velocity.magnitude;
+              }
+              else
+              {
+                  rb.velocity = new Vector2(direction.y, -direction.x) * velocity.magnitude;
+              }
           }
       }
 
