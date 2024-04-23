@@ -111,6 +111,10 @@ MonoBehaviour:
   targetRb: {fileID: 0}
   seekTarget: {x: 0, y: 0}
   maxPrediction: 0.2
+  knockBackForce: 100
+  recoverTimer: 1
+  healRate: 1
+  framesHit: 0
   secondsToDie: 1
 --- !u!50 &5102803297472633098
 Rigidbody2D:

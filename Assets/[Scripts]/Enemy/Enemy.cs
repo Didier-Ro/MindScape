@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour,Ikillable
 {
     private bool isSuscribed = true;
-    private bool CanMove = true;
+    private bool CanMove = true; 
+    private float recoverTime = 0;
+    private bool isKnockBacking = false;
     Animator animator;
 
     #region ChasingVariables
@@ -21,9 +24,12 @@ public class Enemy : MonoBehaviour,Ikillable
     [SerializeField] private Rigidbody2D targetRb; 
     [SerializeField] private Vector2 seekTarget; 
     [SerializeField] private float maxPrediction;
+    [SerializeField]private float knockBackForce;
     #endregion
     
-    private float framesHit = 0f;
+    [SerializeField] private float recoverTimer = 1.0f;
+    [SerializeField] private float healRate = 0.5f;
+    [SerializeField] private float framesHit = 0f;
     private SpriteRenderer spriteRenderer;
     [SerializeField] private float secondsToDie = 3;
     
@@ -41,16 +47,17 @@ public class Enemy : MonoBehaviour,Ikillable
         
     #endregion
         void Start()
-        { 
+        {
+            recoverTime = recoverTimer;
             animator = GetComponent<Animator>();
             SubscribeToGameManagerGameState();
             rb = GetComponent<Rigidbody2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
-        
         void FixedUpdate()
         {
             if (!CanMove) return;
+            HealObject();
             if (!GameManager.GetInstance().GetFlashing() && _flashlightTarget.currentSliderValue > 0)
             {
                 animator.SetBool("Attack" ,false);
@@ -62,6 +69,24 @@ public class Enemy : MonoBehaviour,Ikillable
                 GetSteering();
             }
           
+        }
+
+        private void KnockBackCheck()
+        {
+            if (rb.velocity.magnitude >= 0.1)
+            {
+                isKnockBacking = false;
+            }
+        }
+
+        private void KnockBack(Vector2 _direction)
+        {
+            if (!isKnockBacking)
+            {
+                Debug.Log("hola");
+               // isKnockBacking = true;
+                rb.velocity =_direction.normalized * knockBackForce;
+            }
         }
         
       private void OnDisable()
@@ -79,7 +104,6 @@ public class Enemy : MonoBehaviour,Ikillable
           {
               GameManager.GetInstance().OnGameStateChange += OnGameStateChange;
               OnGameStateChange(GameManager.GetInstance().GetCurrentGameState());
-              
               isSuscribed = true;
           }
       }
@@ -90,11 +114,28 @@ public class Enemy : MonoBehaviour,Ikillable
           targetRb = _target.GetComponent<Rigidbody2D>();
           _flashlightTarget = _target.GetComponent<Flashlight>();
       }
+
+      private void HealObject() //Heals the enemy if is not taking damage 
+      {
+          if (framesHit <= 0 )
+              return;
+          if (recoverTime <= 0)
+          {
+              framesHit-= healRate;
+              float opacitySprite = framesHit * 100 / (secondsToDie * 60)/100;
+              ChangeOpacity(1.0f - opacitySprite); 
+          }
+          else
+          {
+              recoverTime-= 1f/60;
+          }
+      }
       
       public void Hit(Transform player)
       {
           if (CanMove)
           {
+              recoverTime = recoverTimer; 
               if (framesHit >= secondsToDie * 60)
               {
                   gameObject.SetActive(false);
@@ -172,7 +213,16 @@ public class Enemy : MonoBehaviour,Ikillable
               rb.velocity = Vector2.zero;
           }
       }
-  
+
+      private void OnCollisionEnter2D(Collision2D other)
+      {
+         /* if (other.gameObject.CompareTag("Player"))
+          {
+             KnockBack(other.transform.position - transform.position);
+             Debug.Log(other.transform.position - transform.position);
+          }*/
+      }
+
       private void OnDrawGizmos()
       {
           DrawGizmosLine(seekTarget);
@@ -184,7 +234,7 @@ public class Enemy : MonoBehaviour,Ikillable
           Gizmos.DrawSphere(draw, maxPrediction);  
       }
 
-      private void ChangeOpacity(float _newOpacity)
+      private void ChangeOpacity(float _newOpacity) //change the opacity depends on the value
       {
           Color color = spriteRenderer.color;
           color.a = _newOpacity;

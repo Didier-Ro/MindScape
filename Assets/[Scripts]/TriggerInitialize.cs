@@ -9,7 +9,7 @@ public class TriggerInitialize : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             doorScript.isUnlocked = false;
-            EnemySpawner.getInstance().SpawnRound(5, OBJECT_TYPE.EnemyChase);
+            EnemySpawner.getInstance().SpawnRound(2, OBJECT_TYPE.EnemyChase);
            Destroy(gameObject);
         }
     }
