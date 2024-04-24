@@ -35,14 +35,12 @@ public class ActivateZone : MonoBehaviour
       if (canActivate && InputManager.GetInstance().HoldingInteract())
       {
          PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.MOVINGBOXES);
-         _movableObject.GetDirection(player.transform);
+         _movableObject.GetDirection(player);
       }
-      else if (PlayerStates.GetInstance().GetCurrentPlayerState() == PLAYER_STATES.MOVINGBOXES && !InputManager.GetInstance().HoldingInteract())
+      else if(!InputManager.GetInstance().HoldingInteract() && !_movableObject.isMoving )
       {
          PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
       }
-      
-     
    }
 
    private void Start()
@@ -75,15 +73,13 @@ public class ActivateZone : MonoBehaviour
    {
       if (other.CompareTag("Player"))
       {
+         if(PlayerStates.GetInstance().GetCurrentPlayerState() == PLAYER_STATES.MOVINGBOXES)
+         {
+            PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
+         }
          canActivate = false;
          DeactivateCanvas();
       }
    }
-
    
-   
-   public void ActivateBool()
-   {
-      canActivate = true;
-   }
 }

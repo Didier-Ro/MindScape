@@ -14,7 +14,10 @@ public class Movement : MonoBehaviour
     [SerializeField] private bool isInteracting = false;
     [SerializeField] GameObject interactiveObject;
     private bool isSuscribed = true;
+    private bool isThePlayerCenterToTheBox;
     private bool canMove = true;
+    private bool isMovingToCenterOfTheBox = false;
+    private Vector2 positionToCenterThePlayer;
     private GAME_STATE currentGamestate = default;
     Animator animator;
     [SerializeField]
@@ -53,6 +56,7 @@ public class Movement : MonoBehaviour
         if (_newPlayerState == PLAYER_STATES.PLAY)
         {
             canMove = true;
+            isThePlayerCenterToTheBox = false;
         }
         else
         {
@@ -89,7 +93,7 @@ public class Movement : MonoBehaviour
             GameManager.GetInstance().SavePlayerPosition(initialPosition);
         }
     }
-
+    
     void FixedUpdate()
     {
 
@@ -100,7 +104,38 @@ public class Movement : MonoBehaviour
             DialogManager.GetInstance().HandleUpdate();
             isMoving = false;
         }
+        if (isMovingToCenterOfTheBox)
+        {
+            MoveThePlayerToABox();
+        }
        
+    }
+    
+    public void CenterThePlayerToABox(Vector2 positionToMove)
+    {
+        positionToCenterThePlayer = positionToMove;
+        isMovingToCenterOfTheBox = true;
+    }
+
+    public bool IsTheBoxCenter()
+    {
+        return isThePlayerCenterToTheBox;
+    }
+
+    private void MoveThePlayerToABox()
+    {
+        if (Vector2.Distance(positionToCenterThePlayer, transform.position) < 0.05f)
+        {
+            isMovingToCenterOfTheBox = false;
+            isThePlayerCenterToTheBox = true;
+            transform.position = positionToCenterThePlayer;
+            positionToCenterThePlayer = Vector2.zero;
+        }
+        else
+        { 
+            Vector2 newPos = Vector2.MoveTowards(transform.position, positionToCenterThePlayer, 0.05f); transform.position = (newPos);
+            transform.position = newPos;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
