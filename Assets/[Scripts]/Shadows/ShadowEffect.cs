@@ -5,13 +5,24 @@ using UnityEngine.Rendering.Universal;
 
 public class ShadowEffect : MonoBehaviour
 {
-    public Vector3 offset = new Vector3(-0.1f, -0.1f);
-    public Material material;
+    [SerializeField] private Vector3 offset = new Vector3(-0.1f, -0.1f);
+    [SerializeField] private Material material;
+    [SerializeField] private Light2D light2D;
 
     GameObject shadow;
 
-    public Light2D light2D;
+    Vector3 lightDirection;
+    Vector3 shadowPosition;
 
+    float distanceToLight;
+
+    float minDistanceToShowShadow = 0.5f; // Distancia mínima para que la sombra sea visible
+    float maxDistanceToShowShadow = 2.0f; // Distancia máxima a la que la sombra estará completamente visible
+    float maxShadowScale = 1f; // Escala máxima de la sombra
+    float shadowScale;
+    float startFadingDistance = 5.0f;
+    float maxDistanceToHideShadow = 10.0f;
+    float shadowOpacity = 1.0f;
 
     void Start()
     {
@@ -33,8 +44,40 @@ public class ShadowEffect : MonoBehaviour
 
     private void LateUpdate()
     {
-        shadow.transform.localPosition = -light2D.transform.position.normalized /*+ transform.position.normalized*/;
-        shadow.transform.eulerAngles = transform.eulerAngles;
+        lightDirection = light2D.transform.position - transform.position;
+        distanceToLight = lightDirection.magnitude;
 
+        if (distanceToLight > minDistanceToShowShadow && distanceToLight < maxDistanceToHideShadow)
+        {
+            shadow.SetActive(true);
+
+            // Calculamos la escala de la sombra basada en la distancia a la luz
+            shadowScale = Mathf.Clamp01((distanceToLight - minDistanceToShowShadow) / (maxDistanceToShowShadow - minDistanceToShowShadow)) * maxShadowScale;
+
+            // Calculamos la opacidad de la sombra en función de la distancia
+
+            if (distanceToLight > startFadingDistance)
+            {
+                shadowOpacity = 1 - ((distanceToLight - startFadingDistance) / (maxDistanceToHideShadow - startFadingDistance));
+            }
+
+            // Aplicamos la escala y la opacidad a la sombra
+            shadow.transform.localScale = new Vector3(shadowScale, shadowScale, 1f);
+            Color shadowColor = material.color;
+            shadowColor.a = shadowOpacity;
+            material.color = shadowColor;
+
+            // Calculamos la posición de la sombra detrás del objeto
+            shadowPosition = -lightDirection.normalized * shadowScale;
+            shadow.transform.localPosition = shadowPosition;
+
+            // Ajustamos la rotación de la sombra según la rotación del objeto
+            shadow.transform.eulerAngles = transform.eulerAngles;
+        }
+        else
+        {
+            // Si la luz está muy cerca o muy lejos, ocultamos la sombra
+            shadow.SetActive(false);
+        }
     }
 }
