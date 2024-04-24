@@ -141,13 +141,11 @@ public class InputManager : MonoBehaviour
     {
         SubscribeToGameManagerGameState();
         SetHolding();
-
     }
 
     private void Update()
     {
         
-        Debug.Log(isHolding);
     }
 
     private void OnDisable()
