@@ -11,10 +11,14 @@ public class Movement : MonoBehaviour
     [SerializeField] private bool isInteracting = false;
     [SerializeField] GameObject interactiveObject;
     private bool isSuscribed = true;
-    private bool isThePlayerCenterToTheBox;
-    private bool canMove = true;
+    
+
+    #region CenterPlayerToABox
+    private bool isThePlayerCenterToTheBox;   
     private bool isMovingToCenterOfTheBox = false;
     private Vector2 positionToCenterThePlayer;
+    #endregion
+    private bool canMove = true;
     private GAME_STATE currentGamestate = default;
     Animator animator;
     [SerializeField]
