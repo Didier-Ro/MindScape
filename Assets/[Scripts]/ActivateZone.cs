@@ -73,10 +73,6 @@ public class ActivateZone : MonoBehaviour
    {
       if (other.CompareTag("Player"))
       {
-         if(PlayerStates.GetInstance().GetCurrentPlayerState() == PLAYER_STATES.MOVINGBOXES)
-         {
-            PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
-         }
          canActivate = false;
          DeactivateCanvas();
       }
