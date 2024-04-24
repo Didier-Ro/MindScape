@@ -16,6 +16,10 @@ public class Falling : MonoBehaviour
     private int frame = 60;
     private bool isFalling;
 
+    public Vector3 fallZonePosition;
+
+    public float distance;
+    public float totalDistance;
     void Start()
     {
         SubscribeToPlayerGameState();
@@ -56,6 +60,12 @@ public class Falling : MonoBehaviour
         totalSpriteSize = 1 / (frame * fallingDuration);
         totalAlpha = 1 / (frame * fallingDuration);
         totalRadious = 3 / (frame * fallingDuration);
+    }
+
+    public void SetFallZonePosition(Vector3 _position)
+    {
+        fallZonePosition = _position;
+        isFalling = true;
     }
 
     private void PlayerFalling()
