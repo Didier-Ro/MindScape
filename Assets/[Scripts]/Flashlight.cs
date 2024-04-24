@@ -228,9 +228,9 @@ public class Flashlight : MonoBehaviour
         ReduceSliderValue(0.1f);
         flashlight.intensity += intensityTimeSpeed;
         flashlight.pointLightOuterRadius = 15;
-        flashlight.pointLightInnerRadius = 3;
+        flashlight.pointLightInnerRadius = 6;
         wallFlashLight.pointLightOuterRadius = 15;
-        wallFlashLight.pointLightInnerRadius = 3;
+        wallFlashLight.pointLightInnerRadius = 6;
         flashlight.pointLightInnerAngle -= 2 * lightInnerAngleTimeSpeed;
         flashlight.pointLightOuterAngle -= 2 * lightOuterAngleTimeSpeed;
         wallFlashLight.pointLightInnerAngle -= 2 * lightInnerAngleTimeSpeed;

@@ -135,7 +135,6 @@ public class GameManager : MonoBehaviour
         string[] dataToLoad = PlayerPrefs.GetString("alldata").Split("*");
         for (int i = 0; i < allConditions.Length; i++)
         {
-            Debug.Log(dataToLoad[i]);
             allConditions[i].LoadData(dataToLoad[i]);
         }
         LoadCurrentGameData(PlayerPrefs.GetInt("GameNumber", 1));
