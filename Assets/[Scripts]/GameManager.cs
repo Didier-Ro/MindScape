@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,7 +17,10 @@ public class GameManager : MonoBehaviour
     private int framesPlayed;
     private GAME_STATE currentGameState = GAME_STATE.EXPLORATION;
     public Action<GAME_STATE> OnGameStateChange;
-    
+
+    [Header("Shadow References")]
+    [SerializeField] private Light2D flashlightReference;
+    [SerializeField] private Material shadowMaterialReference;
 
     private void Awake()
     {
@@ -88,6 +92,16 @@ public class GameManager : MonoBehaviour
     public GAME_STATE GetCurrentGameState()//When called, return the current Game State
     {
         return currentGameState;
+    }
+
+    public Light2D GetLightReference()
+    {
+        return flashlightReference;
+    }
+
+    public Material GetShadowMaterial()
+    {
+        return shadowMaterialReference;
     }
 
     #region WorldConditions
@@ -176,6 +190,7 @@ public class GameManager : MonoBehaviour
     
     #endregion
     
+
 }
 
 public enum GAME_STATE //All possible Game States
