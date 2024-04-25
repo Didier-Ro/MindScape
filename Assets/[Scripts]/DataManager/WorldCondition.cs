@@ -116,7 +116,6 @@ public class WorldCondition : ScriptableObject, IsaveScript
         dataToSave += timePlayed + "/" ;
         dataToSave += nGame.ToString();
         PlayerPrefs.SetString("worldConditions", dataToSave);
-        Debug.Log(dataToSave);
         return dataToSave;
     }
 
