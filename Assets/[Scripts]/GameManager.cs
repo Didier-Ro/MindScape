@@ -64,16 +64,10 @@ public class GameManager : MonoBehaviour
         }
         else if(GetCurrentGameState() != GAME_STATE.PAUSE && framesPlayed >= minuteQuickSaveRate * 3600)
         {
-            QuickSave();
+           SaveAllData();
         }    
     }
-
-    private void QuickSave()
-    {
-        SaveAllData();
-        Debug.Log("se guardo rapidamente");
-        framesPlayed = 0;
-    }
+    
     
     public bool GetFlashing()
     {
@@ -144,6 +138,7 @@ public class GameManager : MonoBehaviour
     private void SaveAllData()
     {
         stageConditions.AddSecondsToTheTimePlayed(framesPlayed);
+        framesPlayed = 0;
         string dataToSave = "";
         for (int i = 0; i < allConditions.Length; i++)
         {
