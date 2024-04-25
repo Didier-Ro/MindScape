@@ -42,11 +42,12 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8320832870263175557}
   - {fileID: 5297800564107809037}
+  - {fileID: 2110865637273811586}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &9140427169719169660
@@ -87,9 +88,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingLayerID: -1241810987
+  m_SortingLayer: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: -694891545, guid: ff98654b74f7018408653729eb12549a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -100,7 +101,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!114 &1914622887189723427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,7 +128,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 128900
+  m_InstanceId: -2410
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0.5, z: 0}
@@ -172,12 +173,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slider: {fileID: 0}
   currentSliderValue: 100
-  flashlight: {fileID: 2776427008835697697}
-  wallFlashLight: {fileID: 0}
+  flashlight: {fileID: 3021169079190101171}
+  wallFlashLight: {fileID: 8715654913658092055}
   maxPointLightInnerAngle: 360
   maxPointLightOuterAngle: 360
-  minPointLightInnerAngle: 26
-  minPointLightOuterAngle: 360
+  minPointLightInnerAngle: 44
+  minPointLightOuterAngle: 70
   maxPointLightOuterRadius: 3
   minPointLightOuterRadius: 3
   maxLightIntensity: 1
@@ -196,7 +197,7 @@ MonoBehaviour:
   radius: 3
   flashLightTransform: {fileID: 8320832870263175557}
   rotationSpeed: 2
-  wallFlashLightTransform: {fileID: 0}
+  wallFlashLightTransform: {fileID: 5297800564107809037}
   camera: {fileID: 0}
 --- !u!95 &6378126534524751285
 Animator:
@@ -334,8 +335,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   input: {x: 0, y: 0}
   isMoving: 1
-  levelConditionCheck: 4
-  initialPosition: {x: 0, y: 0, z: 0}
+  levelConditionCheck: 0
+  initialPosition: {x: 6.01, y: -17.43, z: 0}
   walkSpeed: 2
   canInteract: 0
   isInteracting: 0
@@ -371,9 +372,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fallingDuration: 1.5
   playerSprite: {fileID: 9140427169719169660}
-  flasLight: {fileID: 8715654913658092055}
-  wallFlaslight: {fileID: 2776427008835697697}
+  flasLight: {fileID: 3021169079190101171}
+  wallFlaslight: {fileID: 8715654913658092055}
   healthController: {fileID: -2278262530916522709}
+  fallZonePosition: {x: 0, y: 0, z: 0}
+  distance: 0
+  totalDistance: 0
 --- !u!114 &4435208341411124382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -424,7 +428,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8320832870263175557}
-  - component: {fileID: 2776427008835697697}
+  - component: {fileID: 3021169079190101171}
   m_Layer: 0
   m_Name: Spot Light
   m_TagString: Untagged
@@ -447,7 +451,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7769005239479393648}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
---- !u!114 &2776427008835697697
+--- !u!114 &3021169079190101171
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -462,12 +466,12 @@ MonoBehaviour:
   m_ComponentVersion: 1
   m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 1
+  m_FalloffIntensity: 0.535
   m_Color: {r: 0.89411765, g: 0.61960787, b: 0.2627451, a: 1}
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 00000000
+  m_ApplyToSortingLayers: add149e4d577fbb5
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -485,8 +489,8 @@ MonoBehaviour:
     m_Extent: {x: 0.9985302, y: 0.99853027, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 2.76
-  m_PointLightOuterRadius: 3
+  m_PointLightInnerRadius: 2.5
+  m_PointLightOuterRadius: 6
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -579,3 +583,80 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!1 &8258829107248169197
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2110865637273811586}
+  - component: {fileID: 7370127436077973399}
+  m_Layer: 2
+  m_Name: FeetCollider
+  m_TagString: Feet
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2110865637273811586
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8258829107248169197}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7769005239479393648}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &7370127436077973399
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8258829107248169197}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0011445135, y: -0.34608847}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.22832409, y: 0.09730658}
+  m_EdgeRadius: 0

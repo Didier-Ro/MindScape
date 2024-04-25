@@ -5,8 +5,8 @@ using UnityEngine.Rendering.Universal;
 
 public class ShadowEffect : MonoBehaviour
 {
-    [SerializeField] private Vector3 offset = new Vector3(-0.1f, -0.1f);
-    [SerializeField] private Material material;
+    private Vector3 offset = new Vector3(-0.1f, -0.1f);
+    [SerializeField]private Material material;
     [SerializeField] private Light2D light2D;
 
     GameObject shadow;
@@ -24,8 +24,16 @@ public class ShadowEffect : MonoBehaviour
     float maxDistanceToHideShadow = 10.0f;
     float shadowOpacity = 1.0f;
 
+    private void Awake()
+    {
+        
+    }
+
     void Start()
     {
+        light2D = GameManager.GetInstance().GetLightReference();
+        material = GameManager.GetInstance().GetShadowMaterial();
+
         shadow = new GameObject("Shadow");
         shadow.transform.parent = transform;
 
