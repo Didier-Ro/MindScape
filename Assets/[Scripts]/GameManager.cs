@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    [SerializeField] private float minuteQuickSaveRate;
     private bool isPaused;
     private bool isFlashing;
     private int framesPlayed;
@@ -57,10 +58,21 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (GetCurrentGameState() != GAME_STATE.PAUSE)
+        if (GetCurrentGameState() != GAME_STATE.PAUSE && framesPlayed <= minuteQuickSaveRate * 3600)
         {
             framesPlayed++;
         }
+        else if(GetCurrentGameState() != GAME_STATE.PAUSE && framesPlayed >= minuteQuickSaveRate * 3600)
+        {
+            QuickSave();
+        }    
+    }
+
+    private void QuickSave()
+    {
+        SaveAllData();
+        Debug.Log("se guardo rapidamente");
+        framesPlayed = 0;
     }
     
     public bool GetFlashing()
