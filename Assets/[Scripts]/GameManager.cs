@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
 
     private bool isPaused;
     private bool isFlashing;
+    private int framesPlayed;
     private GAME_STATE currentGameState = GAME_STATE.EXPLORATION;
     public Action<GAME_STATE> OnGameStateChange;
     
@@ -50,6 +51,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (GetCurrentGameState() != GAME_STATE.PAUSE)
+        {
+            framesPlayed++;
+        }
+    }
+    
     public bool GetFlashing()
     {
         return isFlashing;
@@ -108,13 +117,13 @@ public class GameManager : MonoBehaviour
     
     private void SaveAllData()
     {
+        stageConditions.AddSecondsToTheTimePlayed(framesPlayed);
         string dataToSave = "";
         for (int i = 0; i < allConditions.Length; i++)
         {
             dataToSave += allConditions[i].SaveData() + "*";
         }
         PlayerPrefs.SetString("alldata", dataToSave);
-        Debug.Log(dataToSave);
     }
 
     private void ResetAll()
