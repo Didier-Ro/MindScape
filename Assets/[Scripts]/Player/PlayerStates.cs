@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStates : MonoBehaviour
@@ -53,4 +51,5 @@ public enum PLAYER_STATES
 {
     PLAY,
     FALL,
+    MOVINGBOXES,
 }

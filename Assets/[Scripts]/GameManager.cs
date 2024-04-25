@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,7 +16,10 @@ public class GameManager : MonoBehaviour
     private bool isFlashing;
     private GAME_STATE currentGameState = GAME_STATE.EXPLORATION;
     public Action<GAME_STATE> OnGameStateChange;
-    
+
+    [Header("Shadow References")]
+    [SerializeField] private Light2D flashlightReference;
+    [SerializeField] private Material shadowMaterialReference;
 
     private void Awake()
     {
@@ -81,6 +85,16 @@ public class GameManager : MonoBehaviour
         return currentGameState;
     }
 
+    public Light2D GetLightReference()
+    {
+        return flashlightReference;
+    }
+
+    public Material GetShadowMaterial()
+    {
+        return shadowMaterialReference;
+    }
+
     #region WorldConditions
 
     [SerializeField] private WorldCondition stageConditions;
@@ -135,7 +149,6 @@ public class GameManager : MonoBehaviour
         string[] dataToLoad = PlayerPrefs.GetString("alldata").Split("*");
         for (int i = 0; i < allConditions.Length; i++)
         {
-            Debug.Log(dataToLoad[i]);
             allConditions[i].LoadData(dataToLoad[i]);
         }
         LoadCurrentGameData(PlayerPrefs.GetInt("GameNumber", 1));
@@ -168,6 +181,7 @@ public class GameManager : MonoBehaviour
     
     #endregion
     
+
 }
 
 public enum GAME_STATE //All possible Game States
