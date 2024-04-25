@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class DashController : MonoBehaviour
@@ -17,35 +18,36 @@ public class DashController : MonoBehaviour
     private void Start()
     {
         movementScript = GetComponent<Movement>();
-        staminaBar = FindObjectOfType<StaminaBar>();
+        // Buscar StaminaBar en la escena y asignar su referencia
+        staminaBar = FindObjectOfType<StaminaBar> ();
     }
 
     void Update()
     {
         if (InputManager.GetInstance().DashInput() && Time.time > lastDashTime + dashCooldown)
-    {
-        AttemptDash();
-    }
+        {
+            AttemptDash();
+        }
     }
 
     private void AttemptDash()
     {
         if (staminaBar != null && staminaBar.CurrentStamina >= dashStaminaCost)
         {
-            float inputX = Input.GetAxisRaw("Horizontal");
-            float inputY = Input.GetAxisRaw("Vertical");
+            float inputX = InputManager.GetInstance().MovementInput().x;
+            float inputY = InputManager.GetInstance().MovementInput().y;
             if (inputX != 0 || inputY != 0)
             {
                 dashDirection = new Vector2(inputX, inputY).normalized;
                 StartCoroutine(PerformDash());
                 lastDashTime = Time.time;
                 isDashingOnCooldown = true;
-                staminaBar.UseStamina(dashStaminaCost); // Reduce la stamina
+                staminaBar.UseStamina(dashStaminaCost);
             }
         }
     }
 
-    private System.Collections.IEnumerator PerformDash()
+    private IEnumerator PerformDash()
     {
         movementScript.isMoving = false;
         float dashTimer = 0f;
@@ -60,6 +62,6 @@ public class DashController : MonoBehaviour
 
         movementScript.isMoving = true;
         yield return new WaitForSeconds(dashCooldown);
-        isDashingOnCooldown = false; // Restablece el cooldown
+        isDashingOnCooldown = false;
     }
 }
