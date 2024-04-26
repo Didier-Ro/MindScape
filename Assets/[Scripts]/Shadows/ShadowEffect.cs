@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-public class ShadowEffect : MonoBehaviour
+public class ShadowEffect : MonoBehaviour, Ikillable
 {
     private Vector3 offset = new Vector3(-0.1f, -0.1f);
-    [SerializeField]private Material material;
+    [SerializeField] private Material material;
     [SerializeField] private Light2D light2D;
 
     GameObject shadow;
@@ -24,10 +24,9 @@ public class ShadowEffect : MonoBehaviour
     float maxDistanceToHideShadow = 10.0f;
     float shadowOpacity = 1.0f;
 
-    private void Awake()
-    {
-        
-    }
+    public Light_State lightState = Light_State.DEPLOY;
+
+    public bool isIlluminated = false;
 
     void Start()
     {
@@ -49,8 +48,38 @@ public class ShadowEffect : MonoBehaviour
         sr.sortingOrder = renderer.sortingOrder - 1;
 
     }
+    private void Update()
+    {
+        if (!GameManager.GetInstance().GetFlashing())
+        {
+            lightState = Light_State.DEPLOY;
+        }
+        else
+        {
+            lightState = Light_State.CONCETRATE;
+        }
+    }
 
     private void LateUpdate()
+    {
+        if (lightState == Light_State.DEPLOY)
+        {
+            isIlluminated = false;
+            DrawShadow();
+        }
+
+        if (lightState == Light_State.CONCETRATE)
+        {
+            if (isIlluminated)
+                DrawShadow();
+            else
+            {
+                shadow.SetActive(false);
+            }
+        }
+    }
+
+    public void DrawShadow()
     {
         lightDirection = light2D.transform.position - transform.position;
         distanceToLight = lightDirection.magnitude;
@@ -88,4 +117,20 @@ public class ShadowEffect : MonoBehaviour
             shadow.SetActive(false);
         }
     }
+
+    public void Hit(Transform player)
+    {
+        isIlluminated = true;
+        Debug.Log("Iluminado");
+    }
+
+    public void UnHit(Transform player)
+    {
+        isIlluminated = false;
+    }
+}
+public enum Light_State
+{
+    DEPLOY,
+    CONCETRATE
 }

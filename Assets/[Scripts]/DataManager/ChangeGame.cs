@@ -18,7 +18,7 @@ public class ChangeGame : MonoBehaviour
       GetPercentageOfAllGamesCompleted();
    }
 
-   private void GetPercentageOfAllGamesCompleted()
+    private void GetPercentageOfAllGamesCompleted()
    {
       for (int i = 0; i < allConditions.Length; i++)
       {
