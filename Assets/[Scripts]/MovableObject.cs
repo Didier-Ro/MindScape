@@ -12,6 +12,7 @@ public class MovableObject : MonoBehaviour, Istepable
     [SerializeField] private GameObject activateObject;
     [SerializeField] private int distanceToMove;
     [SerializeField] private GameObject boxFalling;
+    [SerializeField] private Animator animator;
     private int finalFramesToReachPoint = default;
     private Transform targetTransfom;
     private float speedPerFrame = default;
@@ -142,11 +143,15 @@ public class MovableObject : MonoBehaviour, Istepable
             if (Mathf.Abs(distance.x) > Mathf.Abs(distance.y))
             {
                 pushDirection = distance.x > 0 ? direction.right : direction.left; 
+                animator.SetBool("IsHoldingRL", true);
+                animator.SetBool("IsHoldingUD", false);
                 vectorToCenter = distance.x > 0 ? vectorsToCenterThePlayer[0].position : vectorsToCenterThePlayer[1].position;
             }
             else
             {
                 pushDirection = distance.y > 0 ? direction.up : direction.down;
+                animator.SetBool("IsHoldingRL", false);
+                animator.SetBool("IsHoldingUD", true);
                 vectorToCenter = distance.y > 0 ? vectorsToCenterThePlayer[2].position : vectorsToCenterThePlayer[3].position;
             }
             if (!playerMovement.IsTheBoxCenter())
