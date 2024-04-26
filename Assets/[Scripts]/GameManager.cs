@@ -164,10 +164,26 @@ public class GameManager : MonoBehaviour
     {
         PlayerPrefs.SetInt("GameNumber", _number);
     }
+    
+    
+    private string RestartAllGamesToNewGames()
+    {
+        ResetAll();
+        for (int i = 0; i <allConditions.Length; i++)
+        {
+            allConditions[i].nGame = i + 1;
+        }
+        string dataToSave = "";
+        for (int i = 0; i < allConditions.Length; i++)
+        {
+            dataToSave += allConditions[i].RestartDataToANewGame() + "*";
+        }
+        return dataToSave;
+    }
 
     private void LoadAllData()
     {
-        string[] dataToLoad = PlayerPrefs.GetString("alldata").Split("*");
+        string[] dataToLoad = PlayerPrefs.GetString("alldata", RestartAllGamesToNewGames()).Split("*");
         for (int i = 0; i < allConditions.Length; i++)
         {
             allConditions[i].LoadData(dataToLoad[i]);
