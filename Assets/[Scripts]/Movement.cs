@@ -20,7 +20,7 @@ public class Movement : MonoBehaviour
     #endregion
     private bool canMove = true;
     private GAME_STATE currentGamestate = default;
-    Animator animator;
+    [SerializeField] Animator animator;
     [SerializeField]
     private Rigidbody2D rb;
     public Rigidbody2D Rb { get { return rb; } }
