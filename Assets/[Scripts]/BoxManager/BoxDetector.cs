@@ -11,6 +11,8 @@ public class BoxDetector : MonoBehaviour
     [SerializeField] private Doors doors;
     [SerializeField] private int conditionId;
 
+    public GameObject clonPrefab;
+
     private void Start()
     {
         if (GameManager.GetInstance().IsConditionCompleted(conditionId))
@@ -29,9 +31,9 @@ public class BoxDetector : MonoBehaviour
                 GameObject parent = parentTransform.gameObject;        
                 colliderParent = parent.GetComponent<BoxCollider2D>();
                 colliderParent.enabled = false;
-                GameObject obj = Instantiate(boxPrefab, new Vector3(spawnPos.x, 27, 0), Quaternion.identity);
-                obj.GetComponent<BoxFalling>().SetSpawnPosition(spawnPos);
-                gameObject.SetActive(false);
+                clonPrefab = Instantiate(boxPrefab, new Vector3(spawnPos.x, 27, 0), Quaternion.identity);
+                clonPrefab.GetComponent<BoxFalling>().SetSpawnPosition(spawnPos);
+                //gameObject.SetActive(false);
                
             }
             else if (typeDetector == TYPE_DETECTOR.BUTTON)

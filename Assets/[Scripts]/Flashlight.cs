@@ -172,6 +172,7 @@ public class Flashlight : MonoBehaviour
             else if (_canSeeTarget)
             {
                 _canSeeTarget = false;
+                col.GetComponent<Ikillable>().UnHit(transform);
             }
         }
     }

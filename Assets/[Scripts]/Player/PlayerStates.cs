@@ -52,4 +52,5 @@ public enum PLAYER_STATES
     PLAY,
     FALL,
     MOVINGBOXES,
+    DASHING,
 }
