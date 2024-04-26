@@ -141,6 +141,7 @@ public class InputManager : MonoBehaviour
     {
         SubscribeToGameManagerGameState();
         SetHolding();
+            
     }
 
     private void Update()
