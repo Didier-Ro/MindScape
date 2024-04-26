@@ -280,4 +280,9 @@ public class Enemy : MonoBehaviour,Ikillable
           color.a = _newOpacity;
           spriteRenderer.color = color;
       }
+
+    public void UnHit(Transform player)
+    {
+        
+    }
 }

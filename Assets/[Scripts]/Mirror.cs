@@ -109,6 +109,9 @@ public class Mirror : MonoBehaviour, Ikillable
             hitParticles.Stop(true);
         }
     }
-    
-   
+
+    public void UnHit(Transform player)
+    {
+        
+    }
 }
