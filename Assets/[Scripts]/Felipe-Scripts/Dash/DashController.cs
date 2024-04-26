@@ -18,7 +18,6 @@ public class DashController : MonoBehaviour
     private void Start()
     {
         movementScript = GetComponent<Movement>();
-        // Buscar StaminaBar en la escena y asignar su referencia
         staminaBar = FindObjectOfType<StaminaBar> ();
     }
 
