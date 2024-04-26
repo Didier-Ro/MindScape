@@ -19,19 +19,19 @@ namespace Assets.SimpleLocalization
         public void Awake()
         {
             LocalizationManager.Read();
-            switch (Application.systemLanguage)
+            switch (PlayerPrefs.GetString("Language", Application.systemLanguage.ToString()))
             {
-                case SystemLanguage.Spanish:
+                case "Spanish":
                     LocalizationManager.Language = "Spanish";
+                    break;
+                case "English":
+                    LocalizationManager.Language = "English";
                     break;
                 default:
                     LocalizationManager.Language = "English";
                     break;
             }
-
-            // This way you can localize and format strings from code.
-            FormattedText.text = LocalizationManager.Localize("Settings.Example.PlayTime", TimeSpan.FromHours(10.5f).TotalHours);
-
+            Debug.Log(Application.systemLanguage.ToString());
             // This way you can subscribe to LocalizationChanged event.
             LocalizationManager.OnLocalizationChanged += () => FormattedText.text = LocalizationManager.Localize("Settings.Example.PlayTime", TimeSpan.FromHours(10.5f).TotalHours);
         }
@@ -42,6 +42,7 @@ namespace Assets.SimpleLocalization
         public void SetLocalization(string localization)
         {
             LocalizationManager.Language = localization;
+            PlayerPrefs.SetString("Language", localization);
         }
         
 

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,11 +12,16 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    [SerializeField] private float minuteQuickSaveRate;
     private bool isPaused;
     private bool isFlashing;
+    private int framesPlayed;
     private GAME_STATE currentGameState = GAME_STATE.EXPLORATION;
     public Action<GAME_STATE> OnGameStateChange;
-    
+
+    [Header("Shadow References")]
+    [SerializeField] private Light2D flashlightReference;
+    [SerializeField] private Material shadowMaterialReference;
 
     private void Awake()
     {
@@ -50,6 +56,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (GetCurrentGameState() != GAME_STATE.PAUSE && framesPlayed <= minuteQuickSaveRate * 3600)
+        {
+            framesPlayed++;
+        }
+        else if(GetCurrentGameState() != GAME_STATE.PAUSE && framesPlayed >= minuteQuickSaveRate * 3600)
+        {
+           SaveAllData();
+        }    
+    }
+    
+    
     public bool GetFlashing()
     {
         return isFlashing;
@@ -81,6 +100,16 @@ public class GameManager : MonoBehaviour
         return currentGameState;
     }
 
+    public Light2D GetLightReference()
+    {
+        return flashlightReference;
+    }
+
+    public Material GetShadowMaterial()
+    {
+        return shadowMaterialReference;
+    }
+
     #region WorldConditions
 
     [SerializeField] private WorldCondition stageConditions;
@@ -108,13 +137,14 @@ public class GameManager : MonoBehaviour
     
     private void SaveAllData()
     {
+        stageConditions.AddSecondsToTheTimePlayed(framesPlayed);
+        framesPlayed = 0;
         string dataToSave = "";
         for (int i = 0; i < allConditions.Length; i++)
         {
             dataToSave += allConditions[i].SaveData() + "*";
         }
         PlayerPrefs.SetString("alldata", dataToSave);
-        Debug.Log(dataToSave);
     }
 
     private void ResetAll()
@@ -135,7 +165,6 @@ public class GameManager : MonoBehaviour
         string[] dataToLoad = PlayerPrefs.GetString("alldata").Split("*");
         for (int i = 0; i < allConditions.Length; i++)
         {
-            Debug.Log(dataToLoad[i]);
             allConditions[i].LoadData(dataToLoad[i]);
         }
         LoadCurrentGameData(PlayerPrefs.GetInt("GameNumber", 1));
@@ -168,6 +197,7 @@ public class GameManager : MonoBehaviour
     
     #endregion
     
+
 }
 
 public enum GAME_STATE //All possible Game States
