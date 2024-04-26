@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Random = System.Random;
 
-public class Enemy : MonoBehaviour,Ikillable
+public class Enemy : MonoBehaviour, Ikillable
 {
     private bool isSuscribed = true;
     private bool CanMove = true; 
@@ -280,4 +280,9 @@ public class Enemy : MonoBehaviour,Ikillable
           color.a = _newOpacity;
           spriteRenderer.color = color;
       }
+
+    public void UnHit(Transform player)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -5,4 +5,6 @@ using UnityEngine;
 public interface Ikillable
 {
    public void Hit(Transform player);
+   public void UnHit(Transform player);
+
 }
