@@ -8,9 +8,9 @@ public class DashController : MonoBehaviour
     public float dashCooldown = 1f;
     public float dashStaminaCost = 25f;
 
-    private float lastDashTime;
+    private float lastDashTime = 0f;
     private Vector2 dashDirection;
-    private bool isDashingOnCooldown = false;
+    private bool isDashing = false;
 
     private Movement movementScript;
     private StaminaBar staminaBar;
@@ -18,15 +18,45 @@ public class DashController : MonoBehaviour
     private void Start()
     {
         movementScript = GetComponent<Movement>();
-        staminaBar = FindObjectOfType<StaminaBar> ();
+        staminaBar = FindObjectOfType<StaminaBar>();
     }
 
-    void Update()
+    private void Update()
     {
         if (InputManager.GetInstance().DashInput() && Time.time > lastDashTime + dashCooldown)
         {
             AttemptDash();
         }
+    }
+
+    private IEnumerator PerformDash()
+    {
+        isDashing = true;
+        Collider2D feetCollider = FindFeetCollider();
+        if (feetCollider != null)
+        {
+            feetCollider.enabled = false; // Desactivar el collider de los pies mientras se hace el dash
+        }
+
+        movementScript.isMoving = false;
+        float dashTimer = 0f;
+
+        while (dashTimer < dashTime)
+        {
+            Vector2 dashMovement = dashDirection * dashSpeed * Time.deltaTime;
+            movementScript.Rb.MovePosition(movementScript.Rb.position + dashMovement);
+            dashTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        if (feetCollider != null)
+        {
+            feetCollider.enabled = true; // Reactivar el collider de los pies después de que termine el dash
+        }
+
+        movementScript.isMoving = true;
+        isDashing = false; // Establecemos que el dash ha terminado
+        lastDashTime = Time.time; // Guardamos el tiempo del último dash
     }
 
     private void AttemptDash()
@@ -39,28 +69,18 @@ public class DashController : MonoBehaviour
             {
                 dashDirection = new Vector2(inputX, inputY).normalized;
                 StartCoroutine(PerformDash());
-                lastDashTime = Time.time;
-                isDashingOnCooldown = true;
                 staminaBar.UseStamina(dashStaminaCost);
             }
         }
     }
 
-    private IEnumerator PerformDash()
+    private Collider2D FindFeetCollider()
     {
-        movementScript.isMoving = false;
-        float dashTimer = 0f;
-
-        while (dashTimer < dashTime)
+        GameObject[] feetObjects = GameObject.FindGameObjectsWithTag("Feet");
+        if (feetObjects.Length > 0)
         {
-            Vector2 dashMovement = dashDirection * dashSpeed * Time.deltaTime;
-            movementScript.Rb.MovePosition(movementScript.Rb.position + dashMovement);
-            dashTimer += Time.deltaTime;
-            yield return null;
+            return feetObjects[0].GetComponent<Collider2D>();
         }
-
-        movementScript.isMoving = true;
-        yield return new WaitForSeconds(dashCooldown);
-        isDashingOnCooldown = false;
+        return null;
     }
 }
