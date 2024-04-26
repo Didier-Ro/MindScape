@@ -7,7 +7,7 @@ public class DashController : MonoBehaviour
     public float dashTime = 0.1f;
     public float dashCooldown = 1f;
     public float dashStaminaCost = 25f;
-
+    public float wallCheckDistance = 0.1f;
     private float lastDashTime = 0f;
     private Vector2 dashDirection;
     private bool isDashing = false;
@@ -25,7 +25,10 @@ public class DashController : MonoBehaviour
     {
         if (InputManager.GetInstance().DashInput() && Time.time > lastDashTime + dashCooldown)
         {
-            AttemptDash();
+            if (!IsTouchingWall())
+            {
+                AttemptDash();
+            }
         }
     }
 
@@ -82,5 +85,11 @@ public class DashController : MonoBehaviour
             return feetObjects[0].GetComponent<Collider2D>();
         }
         return null;
+    }
+    private bool IsTouchingWall()
+    {
+        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, wallCheckDistance);
+        RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, wallCheckDistance);
+        return hitLeft.collider != null || hitRight.collider != null;
     }
 }
