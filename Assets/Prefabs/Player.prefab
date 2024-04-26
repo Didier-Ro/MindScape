@@ -129,7 +129,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 58414
+  m_InstanceId: -5710
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0.5, z: 0}
@@ -250,7 +250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 0}
-  regenSpeed: 1
+  regenSpeed: 5
   delayBeforeRefill: 1.5
   maxStamina: 100
 --- !u!70 &3738076845298650269
@@ -337,11 +337,12 @@ MonoBehaviour:
   input: {x: 0, y: 0}
   isMoving: 1
   levelConditionCheck: 0
-  initialPosition: {x: 6.01, y: -17.43, z: 0}
+  initialPosition: {x: 0.5, y: -11.5, z: 0}
   walkSpeed: 2
   canInteract: 0
   isInteracting: 0
   interactiveObject: {fileID: 0}
+  animator: {fileID: 5287131927239762016}
   rb: {fileID: 0}
 --- !u!114 &3054615977689496595
 MonoBehaviour:
