@@ -129,7 +129,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: -5710
+  m_InstanceId: 70204
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0.5, z: 0}
@@ -188,6 +188,7 @@ MonoBehaviour:
   lightInnerAngleTimeSpeed: 0
   lightOuterAngleTimeSpeed: 0
   energy: 100
+  isInInitialRoom: 1
   angleRange: 0
   obstructionMask:
     serializedVersion: 2
@@ -198,7 +199,7 @@ MonoBehaviour:
   radius: 3
   flashLightTransform: {fileID: 8320832870263175557}
   rotationSpeed: 2
-  wallFlashLightTransform: {fileID: 0}
+  wallFlashLightTransform: {fileID: 5297800564107809037}
   camera: {fileID: 0}
 --- !u!95 &6378126534524751285
 Animator:
