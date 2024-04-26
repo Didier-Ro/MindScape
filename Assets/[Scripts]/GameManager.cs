@@ -12,8 +12,10 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    [SerializeField] private float minuteQuickSaveRate;
     private bool isPaused;
     private bool isFlashing;
+    private int framesPlayed;
     private GAME_STATE currentGameState = GAME_STATE.EXPLORATION;
     public Action<GAME_STATE> OnGameStateChange;
 
@@ -54,6 +56,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (GetCurrentGameState() != GAME_STATE.PAUSE && framesPlayed <= minuteQuickSaveRate * 3600)
+        {
+            framesPlayed++;
+        }
+        else if(GetCurrentGameState() != GAME_STATE.PAUSE && framesPlayed >= minuteQuickSaveRate * 3600)
+        {
+           SaveAllData();
+        }    
+    }
+    
+    
     public bool GetFlashing()
     {
         return isFlashing;
@@ -78,6 +93,11 @@ public class GameManager : MonoBehaviour
         {
             OnGameStateChange.Invoke(currentGameState);
         }
+    }
+
+    public void ResetPreferences()
+    {
+        PlayerPrefs.DeleteAll();
     }
 
     public GAME_STATE GetCurrentGameState()//When called, return the current Game State
@@ -122,13 +142,14 @@ public class GameManager : MonoBehaviour
     
     private void SaveAllData()
     {
+        stageConditions.AddSecondsToTheTimePlayed(framesPlayed);
+        framesPlayed = 0;
         string dataToSave = "";
         for (int i = 0; i < allConditions.Length; i++)
         {
             dataToSave += allConditions[i].SaveData() + "*";
         }
         PlayerPrefs.SetString("alldata", dataToSave);
-        Debug.Log(dataToSave);
     }
 
     private void ResetAll()
@@ -143,10 +164,26 @@ public class GameManager : MonoBehaviour
     {
         PlayerPrefs.SetInt("GameNumber", _number);
     }
+    
+    
+    private string RestartAllGamesToNewGames()
+    {
+        ResetAll();
+        for (int i = 0; i <allConditions.Length; i++)
+        {
+            allConditions[i].nGame = i + 1;
+        }
+        string dataToSave = "";
+        for (int i = 0; i < allConditions.Length; i++)
+        {
+            dataToSave += allConditions[i].RestartDataToANewGame() + "*";
+        }
+        return dataToSave;
+    }
 
     private void LoadAllData()
     {
-        string[] dataToLoad = PlayerPrefs.GetString("alldata").Split("*");
+        string[] dataToLoad = PlayerPrefs.GetString("alldata", RestartAllGamesToNewGames()).Split("*");
         for (int i = 0; i < allConditions.Length; i++)
         {
             allConditions[i].LoadData(dataToLoad[i]);

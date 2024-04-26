@@ -18,8 +18,10 @@ GameObject:
   - component: {fileID: 1645290611106823938}
   - component: {fileID: 778131786726052813}
   - component: {fileID: 4912375885965041146}
+  - component: {fileID: 3764721741659013335}
   - component: {fileID: 4778876794865515053}
   - component: {fileID: 3550017293671543284}
+  - component: {fileID: 5789672179314157926}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -54,6 +56,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60640930b879bc4428c9fee07b208a83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minuteQuickSaveRate: 0
+  flashlightReference: {fileID: 0}
+  shadowMaterialReference: {fileID: 10756, guid: 0000000000000000e000000000000000, type: 0}
   stageConditions: {fileID: 0}
   allConditions:
   - {fileID: 11400000, guid: 15d01da0102d44647b1086550c1b883d, type: 2}
@@ -71,6 +76,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23170e4c79fd94540a3da637c629cfa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actionReference: {fileID: 2509204952999959203, guid: 9b36ccaf464f663409343ce03cf32d84, type: 3}
 --- !u!114 &6748444532156454677
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,7 +183,19 @@ MonoBehaviour:
     m_ActionId: 85e920ab-77bd-4299-8b4b-2c2f77015e89
     m_ActionName: Gameplay/Movement[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/leftStick/right,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2308936402041298355}
+        m_TargetAssemblyTypeName: InputManager, Assembly-CSharp
+        m_MethodName: InteractionContext
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 0370647a-294c-4d68-abd3-01547625ac6a
     m_ActionName: Gameplay/Interact[/XInputControllerWindows/buttonSouth,/Keyboard/f]
   - m_PersistentCalls:
@@ -246,6 +264,20 @@ MonoBehaviour:
   musicSource: {fileID: 4778876794865515053}
   SfxSource: {fileID: 3550017293671543284}
   floorSound: {fileID: 11400000, guid: 0b87435a0ae67b54abfd4e875d8d4037, type: 2}
+--- !u!114 &3764721741659013335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3369258306983447431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25c77d0464ea9624bbf02db3b9484d6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingScreen: {fileID: 0}
+  progressText: {fileID: 0}
 --- !u!82 &4778876794865515053
 AudioSource:
   m_ObjectHideFlags: 0
@@ -438,3 +470,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5789672179314157926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3369258306983447431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b59a2ac7fde695448ed896cfd897f97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FormattedText: {fileID: 0}

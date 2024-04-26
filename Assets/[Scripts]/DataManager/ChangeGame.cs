@@ -6,16 +6,29 @@ public class ChangeGame : MonoBehaviour
    [SerializeField] private WorldCondition stageConditions;
    [SerializeField] private WorldCondition[] allConditions;
    [SerializeField] private string[] levelScenes;
-   [SerializeField] private string animationScene;
    [SerializeField] private int[] conditionsIds;
-   [SerializeField] private string defaultdata;
+   [SerializeField] private int[] currentLevel;
+   [SerializeField] private float[] percentageOfGameCompleted;
 
-   
-
-   private void Start()
+   private void Awake()
    { 
       ResetAll();
       LoadAllData();
+      GetCurrentLevel();
+      GetPercentageOfAllGamesCompleted();
+   }
+
+   private void GetPercentageOfAllGamesCompleted()
+   {
+      for (int i = 0; i < allConditions.Length; i++)
+      {
+         percentageOfGameCompleted[i] = allConditions[i].GetPercentageOfGameCompleted();
+      }
+   }
+
+   public void ResetPlayerPrefs()
+   {
+         PlayerPrefs.DeleteAll();
    }
 
    private void ResetAll()
@@ -69,10 +82,6 @@ public class ChangeGame : MonoBehaviour
       {
          allConditions[i].LoadData(dataToLoad[i]);
       }
-      for (int i = 0; i < dataToLoad.Length; i++)
-      {
-         Debug.Log(dataToLoad[i]); // Print each element individually
-      }
    }
    
    private void LoadCurrentGameData(int _currentGame)
@@ -85,26 +94,39 @@ public class ChangeGame : MonoBehaviour
          }
       }
    }
+
+   private void GetCurrentLevel()
+   {
+      for (int i = 0; i < allConditions.Length; i++)
+      {
+         if (allConditions[i].IsFirstTimePlayed())
+         {
+            currentLevel[i] = 0;
+         }
+         else
+         {
+               for (int index = 0; index < conditionsIds.Length; index++)
+               {
+                  if (allConditions[i].IsConditionCompleted(conditionsIds[index]))
+                  {
+                     currentLevel[index] = index + 1;
+                  }
+               }
+         }
+      }
+     
+         
+         
+         
+   }
    public void SelectGame(int _num)
    {
       PlayerPrefs.SetInt("GameNumber", _num);
       LoadCurrentGameData(_num);
-      string sceneToPlay = default;
-      if (stageConditions.IsFirstTimePlayed())
+      LoadingManager.instance.LoadScene(levelScenes[currentLevel[_num-1]]);
+      if (currentLevel[_num-1] == 0)
       {
-         sceneToPlay = animationScene;
          SaveAllData();
       }
-      else
-      {
-         for (int i = 0; i < conditionsIds.Length; i++)
-         {
-            if (stageConditions.IsConditionCompleted(conditionsIds[i]))
-            {
-               sceneToPlay = levelScenes[i];
-            }
-         }
-      }
-      LoadingManager.instance.LoadScene(sceneToPlay);
    }
 }

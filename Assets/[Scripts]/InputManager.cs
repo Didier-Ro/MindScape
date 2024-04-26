@@ -58,6 +58,10 @@ public class InputManager : MonoBehaviour
             case PLAYER_STATES.PLAY:
                 ActivateGameplay();
                 break;
+            case PLAYER_STATES.DASHING:
+                DeactivateInput();
+                break;
+            
                 
         }   
     }
@@ -141,6 +145,7 @@ public class InputManager : MonoBehaviour
     {
         SubscribeToGameManagerGameState();
         SetHolding();
+            
     }
 
     private void Update()

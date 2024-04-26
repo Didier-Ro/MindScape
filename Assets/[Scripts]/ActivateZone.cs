@@ -37,7 +37,7 @@ public class ActivateZone : MonoBehaviour
          PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.MOVINGBOXES);
          _movableObject.GetDirection(player);
       }
-      else if(!InputManager.GetInstance().HoldingInteract() && !_movableObject.isMoving )
+      else if(!InputManager.GetInstance().HoldingInteract() && !_movableObject.isMoving && PlayerStates.GetInstance().GetCurrentPlayerState() == PLAYER_STATES.MOVINGBOXES )
       {
          PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
       }
