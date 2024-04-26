@@ -35,7 +35,7 @@ public class DashController : MonoBehaviour
         Collider2D feetCollider = FindFeetCollider();
         if (feetCollider != null)
         {
-            feetCollider.enabled = false; // Desactivar el collider de los pies mientras se hace el dash
+            feetCollider.enabled = false;
         }
 
         movementScript.isMoving = false;
@@ -51,12 +51,12 @@ public class DashController : MonoBehaviour
 
         if (feetCollider != null)
         {
-            feetCollider.enabled = true; // Reactivar el collider de los pies después de que termine el dash
+            feetCollider.enabled = true;
         }
 
         movementScript.isMoving = true;
-        isDashing = false; // Establecemos que el dash ha terminado
-        lastDashTime = Time.time; // Guardamos el tiempo del último dash
+        isDashing = false;
+        lastDashTime = Time.time;
     }
 
     private void AttemptDash()
