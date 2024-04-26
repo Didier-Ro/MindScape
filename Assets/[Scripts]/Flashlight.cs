@@ -30,6 +30,7 @@ public class Flashlight : MonoBehaviour
     [SerializeField] private float lightOuterAngleTimeSpeed;
     [SerializeField] private float energy = 100f; // Initial energy value
     private bool isExPloration = false;
+    public bool isInInitialRoom = true;
     
     private float reductionSpeed;
 
@@ -193,7 +194,11 @@ public class Flashlight : MonoBehaviour
 
     private void CircleLight()
     {
-        ReduceSliderValue(0.01f);
+        if (isInInitialRoom)
+        {
+            ReduceSliderValue(0.0f);
+        }else 
+            ReduceSliderValue(0.01f);
         flashlight.intensity -= intensityTimeSpeed; 
         flashlight.pointLightOuterRadius = 6.71f;
         flashlight.pointLightInnerRadius = 2.6f;
@@ -225,7 +230,12 @@ public class Flashlight : MonoBehaviour
     // Set flashlight settings for concentrated light mode
     private void ConcentrateLight()
     {
-        ReduceSliderValue(0.1f);
+        if (isInInitialRoom)
+        {
+            ReduceSliderValue(0.0f);
+        }
+        else
+            ReduceSliderValue(0.1f);
         flashlight.intensity += intensityTimeSpeed;
         flashlight.pointLightOuterRadius = 15;
         flashlight.pointLightInnerRadius = 6;
