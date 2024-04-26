@@ -10,8 +10,6 @@ public class ChangeGame : MonoBehaviour
    [SerializeField] private int[] currentLevel;
    [SerializeField] private float[] percentageOfGameCompleted;
 
-   
-
    private void Awake()
    { 
       ResetAll();
@@ -26,6 +24,11 @@ public class ChangeGame : MonoBehaviour
       {
          percentageOfGameCompleted[i] = allConditions[i].GetPercentageOfGameCompleted();
       }
+   }
+
+   public void ResetPlayerPrefs()
+   {
+         PlayerPrefs.DeleteAll();
    }
 
    private void ResetAll()
