@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class DashController : MonoBehaviour
 {
@@ -6,6 +7,8 @@ public class DashController : MonoBehaviour
     public float dashTime = 0.1f;
     public float dashCooldown = 1f;
     public float dashStaminaCost = 25f;
+
+    [SerializeField] private GameObject feetCollider;
 
     private float lastDashTime;
     private Vector2 dashDirection;
@@ -32,8 +35,8 @@ public class DashController : MonoBehaviour
     {
         if (staminaBar != null && staminaBar.CurrentStamina >= dashStaminaCost)
         {
-            float inputX = Input.GetAxisRaw("Horizontal");
-            float inputY = Input.GetAxisRaw("Vertical");
+            float inputX = InputManager.GetInstance().MovementInput().x;
+            float inputY = InputManager.GetInstance().MovementInput().y;
             if (inputX != 0 || inputY != 0)
             {
                 dashDirection = new Vector2(inputX, inputY).normalized;
@@ -52,14 +55,18 @@ public class DashController : MonoBehaviour
 
         while (dashTimer < dashTime)
         {
+            feetCollider.SetActive(false);
             Vector2 dashMovement = dashDirection * dashSpeed * Time.deltaTime;
             movementScript.Rb.MovePosition(movementScript.Rb.position + dashMovement);
             dashTimer += Time.deltaTime;
             yield return null;
         }
-
+        PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.DASHING);
         movementScript.isMoving = true;
         yield return new WaitForSeconds(dashCooldown);
+        feetCollider.SetActive(true);
         isDashingOnCooldown = false; // Restablece el cooldown
+        PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
+
     }
 }
