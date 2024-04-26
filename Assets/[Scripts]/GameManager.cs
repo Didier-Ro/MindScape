@@ -95,6 +95,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ResetPreferences()
+    {
+        PlayerPrefs.DeleteAll();
+    }
+
     public GAME_STATE GetCurrentGameState()//When called, return the current Game State
     {
         return currentGameState;
