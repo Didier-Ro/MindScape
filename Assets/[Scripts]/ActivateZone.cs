@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ActivateZone : MonoBehaviour
@@ -58,6 +59,11 @@ public class ActivateZone : MonoBehaviour
       else
       {
          _movableObject = gameObjectToActivate.GetComponent<MovableObject>();
+      }
+
+      for (int i = 0; i < PlayerStates.GetInstance().uiObjects.Length; i++)
+      {
+         gameUI[i] = PlayerStates.GetInstance().uiObjects[i];
       }
    }
 

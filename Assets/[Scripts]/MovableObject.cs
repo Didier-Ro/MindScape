@@ -24,6 +24,12 @@ public class MovableObject : MonoBehaviour, Istepable
     private Vector2 startPosition;
     private Vector2 finalPosition;
     private bool boxIsOnPrecipice;
+
+    private void Start()
+    {
+        animator = PlayerStates.GetInstance().buttonsAnimator;
+    }
+
     public void Activate()
     {
         speedPerFrame = finalDistanceToMove / (timeToReachPointInSeconds * 60);
