@@ -394,7 +394,7 @@ MonoBehaviour:
   - {x: 0.50000024, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: -110098
+  m_InstanceId: 93340
   m_LocalBounds:
     m_Center: {x: 0.00000011920929, y: 0, z: 0}
     m_Extent: {x: 0.5000001, y: 0.5, z: 0}
@@ -464,6 +464,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 0}
   light2D: {fileID: 0}
+  lightState: 0
+  isIlluminated: 0
 --- !u!1 &5129893244356878943
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,7 +566,7 @@ MonoBehaviour:
   player: {fileID: 0}
   gameUI:
   - {fileID: 109299438009925974}
-  - {fileID: 0}
+  - {fileID: 1986408752294357752}
   isDeactivateWithCondition: 1
   conditionId: 1
 --- !u!114 &7670232186542982529

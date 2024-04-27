@@ -33,7 +33,6 @@ namespace Assets.SimpleLocalization
             }
             Debug.Log(Application.systemLanguage.ToString());
             // This way you can subscribe to LocalizationChanged event.
-            LocalizationManager.OnLocalizationChanged += () => FormattedText.text = LocalizationManager.Localize("Settings.Example.PlayTime", TimeSpan.FromHours(10.5f).TotalHours);
         }
 
         /// <summary>

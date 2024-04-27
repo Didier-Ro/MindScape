@@ -37,6 +37,7 @@ public class HealthController : MonoBehaviour
             UpdatePlayerHealth();
             healCooldown = maxHealCoolDown;
             startCoolDown = true;
+            PlayerCameraShake.Instance.ShakeCamera(2f, 0.1f);
         }
         else if (currentPlayerHealth <= 0)
         {

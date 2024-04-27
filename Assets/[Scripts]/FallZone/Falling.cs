@@ -81,7 +81,7 @@ public class Falling : MonoBehaviour
             playerSprite.material.color = new Color(1, 1, 1, minSpriteSize);
             flasLight.pointLightInnerRadius = minSpriteSize;
             wallFlaslight.pointLightInnerRadius = minSpriteSize;
-            healthController.currentPlayerHealth -= 100;
+            healthController.currentPlayerHealth -= 50;
             healthController.PlayerTakeDamage();
         }
     }
