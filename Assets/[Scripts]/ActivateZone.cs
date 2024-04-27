@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ActivateZone : MonoBehaviour
@@ -36,9 +37,15 @@ public class ActivateZone : MonoBehaviour
       {
          PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.MOVINGBOXES);
          _movableObject.GetDirection(player);
+         gameUI[0].SetActive(false);
+         gameUI[1].SetActive(false);
+         gameUI[2].SetActive(true);
       }
       else if(!InputManager.GetInstance().HoldingInteract() && !_movableObject.isMoving && PlayerStates.GetInstance().GetCurrentPlayerState() == PLAYER_STATES.MOVINGBOXES )
       {
+         gameUI[0].SetActive(false);
+         gameUI[1].SetActive(true);
+         gameUI[2].SetActive(false);
          PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
       }
    }
@@ -52,6 +59,11 @@ public class ActivateZone : MonoBehaviour
       else
       {
          _movableObject = gameObjectToActivate.GetComponent<MovableObject>();
+      }
+
+      for (int i = 0; i < PlayerStates.GetInstance().uiObjects.Length; i++)
+      {
+         gameUI[i] = PlayerStates.GetInstance().uiObjects[i];
       }
    }
 

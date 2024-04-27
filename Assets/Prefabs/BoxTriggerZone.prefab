@@ -394,7 +394,7 @@ MonoBehaviour:
   - {x: 0.50000024, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 93340
+  m_InstanceId: 206858
   m_LocalBounds:
     m_Center: {x: 0.00000011920929, y: 0, z: 0}
     m_Extent: {x: 0.5000001, y: 0.5, z: 0}
@@ -450,6 +450,7 @@ MonoBehaviour:
   activateObject: {fileID: 5129893244356878943}
   distanceToMove: 1
   boxFalling: {fileID: 7170984737292397245, guid: 08c9ef2affbee00409fd59a0a7cf3682, type: 3}
+  animator: {fileID: 0}
 --- !u!114 &7220489287470138743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -566,6 +567,7 @@ MonoBehaviour:
   player: {fileID: 0}
   gameUI:
   - {fileID: 109299438009925974}
+  - {fileID: 1986408752294357752}
   - {fileID: 1986408752294357752}
   isDeactivateWithCondition: 1
   conditionId: 1

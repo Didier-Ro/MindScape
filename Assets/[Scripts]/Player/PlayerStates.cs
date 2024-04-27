@@ -13,6 +13,8 @@ public class PlayerStates : MonoBehaviour
 
     private PLAYER_STATES currentPlayerState = PLAYER_STATES.PLAY;
     public Action<PLAYER_STATES> OnPlayerStateChanged;
+    public GameObject[] uiObjects;
+    public Animator buttonsAnimator;
 
     private void Awake()
     {

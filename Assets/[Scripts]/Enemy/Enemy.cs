@@ -283,6 +283,6 @@ public class Enemy : MonoBehaviour, Ikillable
 
     public void UnHit(Transform player)
     {
-        throw new NotImplementedException();
+       
     }
 }
