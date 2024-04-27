@@ -39,7 +39,6 @@ public class FuelRegenerationZone : MonoBehaviour, Istepable
             // Check for the "F" key press
             if (InputManager.GetInstance().InteractInput())
             {
-                Debug.Log("Si se apreto");
                 // Set the slider value to the regeneration value
                 Flashlight.GetInstance().currentSliderValue = regenerationValue;
             }
@@ -50,11 +49,13 @@ public class FuelRegenerationZone : MonoBehaviour, Istepable
     {
         isInside = true;
         interactInstruction.SetActive(true);
+        Flashlight.GetInstance().ReduceSliderValue(0f);
     }
 
     public void Deactivate()
     {
         isInside = false;
         interactInstruction.SetActive(false);
+        Flashlight.GetInstance().ReduceSliderValue(0.01f);
     }
 }

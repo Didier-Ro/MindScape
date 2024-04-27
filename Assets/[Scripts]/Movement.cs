@@ -72,7 +72,6 @@ public class Movement : MonoBehaviour
     {
         SubscribeToGameManagerGameState();
         SubscribeToPlayerGameState();
-        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         DialogManager.GetInstance().OnCloseDialog += () =>
         {
