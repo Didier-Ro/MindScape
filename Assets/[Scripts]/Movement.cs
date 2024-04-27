@@ -21,8 +21,7 @@ public class Movement : MonoBehaviour
     private bool canMove = true;
     private GAME_STATE currentGamestate = default;
     [SerializeField] Animator animator;
-    [SerializeField]
-    private Rigidbody2D rb;
+    [SerializeField] private Rigidbody2D rb;
     public Rigidbody2D Rb { get { return rb; } }
 
     #region SubscriptionToGameManager
@@ -108,7 +107,7 @@ public class Movement : MonoBehaviour
         {
             MoveThePlayerToABox();
         }
-       
+        
     }
     
     public void CenterThePlayerToABox(Vector2 positionToMove)
@@ -163,6 +162,7 @@ public class Movement : MonoBehaviour
         {
             animator.SetFloat("x", input.x);
             animator.SetFloat("y", input.y);
+            animator.SetFloat("Speed", input.magnitude);
             Vector2 movement = input.normalized * walkSpeed * Time.fixedDeltaTime;
             if (canMove)
             {
