@@ -10,7 +10,7 @@ public class FirstCheckPoint : MonoBehaviour
     {
         if (GameManager.GetInstance().IsConditionCompleted(levelConditionCheck))
         {
-            transform.position = CheckpointManager.FindNearestCheckpoint(transform.position);
+            PlayerStates.GetInstance().transform.position = CheckpointManager.FindNearestCheckpoint(transform.position);
         }
         else
         {
