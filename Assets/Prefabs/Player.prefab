@@ -129,7 +129,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 211520
+  m_InstanceId: -2488
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0.5, z: 0}
@@ -195,7 +195,7 @@ MonoBehaviour:
     m_Bits: 0
   targetMask:
     serializedVersion: 2
-    m_Bits: 16
+    m_Bits: 24
   radius: 3
   flashLightTransform: {fileID: 8320832870263175557}
   rotationSpeed: 2
@@ -234,11 +234,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78d3bc008c43aa4380561047c55ab38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dashSpeed: 10
+  dashSpeed: 20
   dashTime: 0.1
-  dashCooldown: 1
+  dashCooldown: 0.7
   dashStaminaCost: 25
-  feetCollider: {fileID: 0}
+  wallCheckDistance: 0.1
 --- !u!114 &7933755353333501670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,8 +338,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   input: {x: 0, y: 0}
   isMoving: 1
-  levelConditionCheck: 0
-  initialPosition: {x: 0.5, y: -11.5, z: 0}
   walkSpeed: 2
   canInteract: 0
   isInteracting: 0
@@ -668,7 +666,7 @@ GameObject:
   - component: {fileID: 5835199050560851149}
   - component: {fileID: 5287131927239762016}
   - component: {fileID: 4086915016932078246}
-  - component: {fileID: 6561135512170252268}
+  - component: {fileID: 1659015569260518834}
   m_Layer: 2
   m_Name: Sprite
   m_TagString: Untagged
@@ -742,7 +740,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!95 &5287131927239762016
 Animator:
   serializedVersion: 5
@@ -809,7 +807,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.38206774, y: 0.11429709}
   m_EdgeRadius: 0
---- !u!114 &6561135512170252268
+--- !u!114 &1659015569260518834
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -821,7 +819,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f5c23af3a565904883c2d889f2e66bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floor: {fileID: 0}
 --- !u!1001 &3216185317293887452
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -832,7 +829,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2759638714138145204, guid: 1f4dc1153bd95434abc351d435d3b9a8, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2851298814776536729, guid: 1f4dc1153bd95434abc351d435d3b9a8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -848,7 +845,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6568537309230751571, guid: 1f4dc1153bd95434abc351d435d3b9a8, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6647693972095784156, guid: 1f4dc1153bd95434abc351d435d3b9a8, type: 3}
       propertyPath: m_IsActive
