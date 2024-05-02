@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class BoxFalling : MonoBehaviour
@@ -10,6 +11,9 @@ public class BoxFalling : MonoBehaviour
     [Tooltip("If the box is SINGLE, then there is no need to reference DetectorManager.")]
     [SerializeField] private TYPE_BOX type_Box;
     [SerializeField] private OverlapBoxDetectorManager overlayBoxDetectorManager;
+
+    public BOX_STATE boxState = BOX_STATE.IDLE;
+    public Action<BOX_STATE> OnBoxStateChange;
 
     private bool canMove = false;
     [SerializeField] private int conditionId;
@@ -55,6 +59,7 @@ public class BoxFalling : MonoBehaviour
 
     void Falling()
     {
+        ChangeBoxState(BOX_STATE.FALLING);
         boxColliderParent.enabled = false;
         boxColliderChild.enabled = false;
         box.transform.localScale -= new Vector3(totalSize, totalSize,0);
@@ -70,7 +75,7 @@ public class BoxFalling : MonoBehaviour
             }
             else if(type_Box == TYPE_BOX.SINGLE) 
             {
-                RespawnBox(finalPoint);
+                RespawnBox(finalPoint);;
             }
         }
     }
@@ -81,11 +86,27 @@ public class BoxFalling : MonoBehaviour
         BoxInZone();    
     }
 
+    public void ChangeBoxState(BOX_STATE _newBoxState)
+    {
+        boxState= _newBoxState;
+        if (OnBoxStateChange != null)
+        {
+            OnBoxStateChange.Invoke(boxState);
+        }
+    }
+
+
+    public BOX_STATE GetBoxState()
+    {
+        return boxState;
+    }
+
     void RespawnBox(Vector3 _finalPoint)
     {
         transform.position = _finalPoint;
         box.transform.position = new Vector3(_finalPoint.x, 27,0);
         box.transform.localScale = new Vector3(1, 1, 1);
+        ChangeBoxState(BOX_STATE.SPAWNING);
         spawnPoint = new Vector3(_finalPoint.x, 27, 0);
         finalPoint = _finalPoint;
         canMove = true;
@@ -96,10 +117,12 @@ public class BoxFalling : MonoBehaviour
         float distance = spawnPoint.y - finalPoint.y;
         float destiny = distance / (60 * 1f);
 
+        ChangeBoxState(BOX_STATE.MOVING);
         box.transform.position -= new Vector3(0, destiny, 0);
 
         if (box.transform.position.y <= finalPoint.y)
         {
+            ChangeBoxState(BOX_STATE.IDLE);
             box.transform.position = finalPoint;
             canMove = false;
             boxColliderParent.enabled = true;
@@ -108,8 +131,17 @@ public class BoxFalling : MonoBehaviour
     }
 }
 
+
 public enum TYPE_BOX
 {
     SINGLE,
     DUO,
+}
+
+public enum BOX_STATE
+{
+    IDLE,
+    FALLING,
+    SPAWNING,
+    MOVING
 }
