@@ -178,6 +178,7 @@ public class MovableObject : MonoBehaviour, Istepable
     {
         if (!isMoving && boxIsOnPrecipice)
         {
+            PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
             activateObject.SetActive(false);
             if (boxFalling != null)
             {
