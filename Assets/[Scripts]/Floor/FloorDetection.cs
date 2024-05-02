@@ -4,18 +4,34 @@ using UnityEngine;
 
 public class FloorDetection : MonoBehaviour
 {
-    [SerializeField] private GameObject floor;
+    private List<BoxCollider2D> boxColliders = new List<BoxCollider2D>(); 
+    private GameObject floor;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == ("Floor"))
         {
-            floor = collision.gameObject; 
+            boxColliders.Add(collision.GetComponent<BoxCollider2D>());
+            floor = boxColliders[boxColliders.Count - 1].gameObject;
+
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == ("Floor"))
+        {
+            if(boxColliders.Count > 2)
+            {
+                boxColliders.RemoveAt(0);
+                floor = boxColliders[boxColliders.Count - 1].gameObject;
+            }
         }
     }
 
     public void ActivateFloorSound()
     {
+        
         floor.GetComponent<Fstepable>().FActivate();
     }
 }
