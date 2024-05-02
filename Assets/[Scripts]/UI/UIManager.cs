@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -40,9 +38,9 @@ public class UIManager : MonoBehaviour
             eventSystem.gameObject.AddComponent<StandaloneInputModule>();
         }
     }
-    
     public void ChangeUISelected(GameObject objectToSelect)
     {
+       eventSystem.SetSelectedGameObject(null);
        eventSystem.SetSelectedGameObject(objectToSelect);
     }
 
