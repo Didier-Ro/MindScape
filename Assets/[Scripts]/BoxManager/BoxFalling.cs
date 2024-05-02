@@ -19,9 +19,12 @@ public class BoxFalling : MonoBehaviour
 
     private float size;
     private float totalSize;
+    private ActivateZone activateZone;
 
     void Start()
     {
+        activateZone = GetComponent<ActivateZone>();
+        
         if (GameManager.GetInstance().IsConditionCompleted(conditionId))
         {
             boxColliderParent.enabled = false;
@@ -35,6 +38,7 @@ public class BoxFalling : MonoBehaviour
     {
         if (isFalling)
         {
+            activateZone.DeactivateCanvas();
             Falling();
         }
 
