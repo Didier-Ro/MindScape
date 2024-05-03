@@ -84,6 +84,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1786040425550506852
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1773645014515874127}
+  m_Layer: 3
+  m_Name: Shadow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1773645014515874127
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1786040425550506852}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8927957993797173965}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1986408752294357752
 GameObject:
   m_ObjectHideFlags: 0
@@ -261,7 +292,7 @@ Transform:
   m_GameObject: {fileID: 4589662648250927153}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -5.883491}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -269,6 +300,7 @@ Transform:
   - {fileID: 1056502877148975628}
   - {fileID: 5964562578789124454}
   - {fileID: 4416188850814392825}
+  - {fileID: 1773645014515874127}
   m_Father: {fileID: 5433293601409473899}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &355039503238785952
@@ -394,7 +426,7 @@ MonoBehaviour:
   - {x: 0.50000024, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 206858
+  m_InstanceId: 227304
   m_LocalBounds:
     m_Center: {x: 0.00000011920929, y: 0, z: 0}
     m_Extent: {x: 0.5000001, y: 0.5, z: 0}
@@ -465,8 +497,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 0}
   light2D: {fileID: 0}
+  shadow: {fileID: 1786040425550506852}
+  lightDirection: {x: 0, y: 0, z: 0}
+  distanceToLight: 0
   lightState: 0
   isIlluminated: 0
+  box: {fileID: 3078015373164745333}
+  dis1: 0
+  dis2: 0
 --- !u!1 &5129893244356878943
 GameObject:
   m_ObjectHideFlags: 0
@@ -570,7 +608,7 @@ MonoBehaviour:
   - {fileID: 1986408752294357752}
   - {fileID: 1986408752294357752}
   isDeactivateWithCondition: 1
-  conditionId: 1
+  conditionId: 2
 --- !u!114 &7670232186542982529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -599,12 +637,13 @@ MonoBehaviour:
   box: {fileID: 4589662648250927153}
   boxColliderParent: {fileID: 3405204129822059312}
   boxColliderChild: {fileID: 5168678458890682940}
-  spawnPoint: {x: 0.5, y: 27, z: 0}
-  finalPoint: {x: 0.5, y: 11.5, z: 0}
-  type_Box: 0
+  spawnPoint: {x: 2.5, y: 27, z: 0}
+  finalPoint: {x: 2.5, y: -6.5, z: 0}
+  type_Box: 1
   overlayBoxDetectorManager: {fileID: 0}
-  conditionId: 1
-  positionWhenPuzzleIsCompleted: {x: 0, y: 0, z: 0}
+  boxState: 0
+  conditionId: 2
+  positionWhenPuzzleIsCompleted: {x: 7.5, y: -4.5, z: 0}
   isFalling: 0
 --- !u!1 &6454166384106245769
 GameObject:
