@@ -16,9 +16,9 @@ public class ShadowEffect : MonoBehaviour, Ikillable
 
     public float distanceToLight;
 
-    float minDistanceToShowShadow = 0.5f; // Distancia mínima para que la sombra sea visible
-    float maxDistanceToShowShadow = 2.0f; // Distancia máxima a la que la sombra estará completamente visible
-    float maxShadowScale = 1f; // Escala máxima de la sombra
+    float minDistanceToShowShadow = 0.5f; // Distancia mï¿½nima para que la sombra sea visible
+    float maxDistanceToShowShadow = 2.0f; // Distancia mï¿½xima a la que la sombra estarï¿½ completamente visible
+    float maxShadowScale = 1f; // Escala mï¿½xima de la sombra
     float shadowScale;
     float startFadingDistance = 10.0f;
     float maxDistanceToHideShadow = 10.0f;
@@ -99,7 +99,7 @@ public class ShadowEffect : MonoBehaviour, Ikillable
             shadowScale = Mathf.Clamp01(dis1 / dis2) * maxShadowScale;
 
             Debug.Log("Shadow Scale " + shadowScale);
-            // Calculamos la opacidad de la sombra en función de la distancia
+            // Calculamos la opacidad de la sombra en funciï¿½n de la distancia
 
             if (distanceToLight > startFadingDistance)
             {
@@ -107,20 +107,20 @@ public class ShadowEffect : MonoBehaviour, Ikillable
             }
 
             // Aplicamos la escala y la opacidad a la sombra
-            shadow.transform.localScale = new Vector3(shadowScale, shadowScale, 1f);
+           // shadow.transform.localScale = new Vector3(shadowScale, shadowScale, 1f);
             
             shadowColor.a = shadowOpacity;
             material.color = shadowColor;
 
-            // Calculamos la posición de la sombra detrás del objeto
+            // Calculamos la posiciï¿½n de la sombra detrï¿½s del objeto
             shadowPosition = -lightDirection.normalized * shadowScale * 0.5f;
             shadow.transform.localPosition = shadowPosition;
-            // Ajustamos la rotación de la sombra según la rotación del objeto
+            // Ajustamos la rotaciï¿½n de la sombra segï¿½n la rotaciï¿½n del objeto
             shadow.transform.eulerAngles = transform.eulerAngles;
         }
         else
         {
-            // Si la luz está muy cerca o muy lejos, ocultamos la sombra
+            // Si la luz estï¿½ muy cerca o muy lejos, ocultamos la sombra
             shadow.SetActive(false);
         }
     }

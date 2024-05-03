@@ -89,4 +89,5 @@ public enum OBJECT_TYPE
     FallingBox,
     Box,
     Key,
+    FlyingBox
 }

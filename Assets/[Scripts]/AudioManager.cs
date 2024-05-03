@@ -1,11 +1,14 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class AudioManager : MonoBehaviour
 {
     private static AudioManager _instance;
-    [SerializeField] private AudioSource musicSource, SfxSource = default;
-
-    [SerializeField] private FloorSoundsSO floorSound;
 
     #region SingeTone
     public static AudioManager GetInstance()
@@ -23,6 +26,7 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        selfAudioSource = GetComponent<AudioSource>();
     }
     
     #endregion
@@ -38,10 +42,10 @@ public class AudioManager : MonoBehaviour
         switch (_newGameState)
         {
             case GAME_STATE.PAUSE:
-                StopSound();
+                //StopSound();
                 break;
             case GAME_STATE.EXPLORATION:
-               ResumeSound();
+                //ResumeSound();
                 break;
             case GAME_STATE.READING:
                
@@ -53,42 +57,37 @@ public class AudioManager : MonoBehaviour
     }
     #endregion
 
-    private void ResumeSound()
-    {
-        musicSource.UnPause();
-        SfxSource.UnPause();
-    }
+    [SerializeField] SoundLibrary soundLibrary;
+    AudioSource selfAudioSource;
+    GameObject prefabAudioSource;
+    List<AudioSource> audioSourcesList = new List<AudioSource>();
 
-    private void StopSound()
-    {
-        musicSource.Pause();
-        SfxSource.Pause();
-    }
-    private void Start()
-    {
-       SubscribeToGameManagerGameState();
-    }
 
-    public void PlaySFX(AudioClip clip)
+    public void SetSound(SOUND_TYPE _sound)
     {
-        SfxSource.PlayOneShot(clip);
+        selfAudioSource.PlayOneShot(soundLibrary.GetRandomSoundFromType(_sound));
     }
-    public void PlayMusic(AudioClip music)
+    public void SetSound(SOUND_TYPE _sound, Vector3 _position)
     {
-        musicSource.clip = music;
-        musicSource.Play();
-    }
+        AudioSource audio = GetAudioSource();
 
-    public void FloorSound(FLOOR typeFloor)
+        audio.transform.position = _position;
+        audio.clip = soundLibrary.GetRandomSoundFromType(_sound);
+        audio.Play();
+    }
+    AudioSource GetAudioSource()
     {
-        switch (typeFloor)
+        for (int i = 0; i < audioSourcesList.Count; i++)
         {
-            case FLOOR.WOOD:
-                PlaySFX(floorSound.typeSounds[0].sound[Random.Range(0, floorSound.typeSounds[0].sound.Length)]);
-                break;
-            case FLOOR.CONCRETE:
-                PlaySFX(floorSound.typeSounds[1].sound[Random.Range(0, floorSound.typeSounds[1].sound.Length)]);
-                break;
+            if (!audioSourcesList[i].isPlaying)
+            {
+                return audioSourcesList[i];
+            }
         }
+
+        AudioSource s = Instantiate(prefabAudioSource, transform).GetComponent<AudioSource>();
+        audioSourcesList.Add(s);
+        return s;
     }
 }
+

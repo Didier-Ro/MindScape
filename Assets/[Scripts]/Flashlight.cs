@@ -68,7 +68,7 @@ public class Flashlight : MonoBehaviour
         SubscribeToGameManagerGameState();
         InitializeFlashlight();
         LightSetUp();
-        angleRange = minPointLightInnerAngle / 2;
+        angleRange = minPointLightOuterAngle / 2;
     }
 
     // Update is called once per frame

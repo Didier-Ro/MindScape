@@ -9,7 +9,7 @@ public class Floor : MonoBehaviour, Fstepable
 
     public void FActivate()
     {
-        AudioManager.GetInstance().FloorSound(tFloor);
+        AudioManager.GetInstance().SetSound(SOUND_TYPE.PASOS_MADERA);
     }
 
     public void FDeactivate()
