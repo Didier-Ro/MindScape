@@ -129,7 +129,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 211520
+  m_InstanceId: 51986
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0.5, z: 0}
@@ -167,7 +167,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2329885812725176872}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d80e28ac52e2a034793ba41a702707ae, type: 3}
   m_Name: 
@@ -238,7 +238,7 @@ MonoBehaviour:
   dashTime: 0.1
   dashCooldown: 1
   dashStaminaCost: 25
-  feetCollider: {fileID: 0}
+  wallCheckDistance: 0.1
 --- !u!114 &7933755353333501670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,8 +338,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   input: {x: 0, y: 0}
   isMoving: 1
-  levelConditionCheck: 0
-  initialPosition: {x: 0.5, y: -11.5, z: 0}
   walkSpeed: 2
   canInteract: 0
   isInteracting: 0
