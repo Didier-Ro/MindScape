@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class MovableObject : MonoBehaviour, Istepable
@@ -93,8 +92,9 @@ public class MovableObject : MonoBehaviour, Istepable
             }
             else
             {
-                if (rayhit.collider.CompareTag("Precipice"))
+                if (rayhit.collider.GetComponent<IBoxInteraction>() != null)
                 {
+                    boxFalling = rayhit.collider.gameObject;    
                     finalDistanceToMove = Mathf.Abs(Vector2.Distance(transform.position ,rayhit.collider.transform.position));
                     rayhit.collider.enabled = false;
                     boxIsOnPrecipice = true;
@@ -178,10 +178,9 @@ public class MovableObject : MonoBehaviour, Istepable
     {
         if (!isMoving && boxIsOnPrecipice)
         {
-            activateObject.SetActive(false);
             if (boxFalling != null)
-            {
-                PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.FallingBox, transform.position, Vector2.zero);
+            { 
+                boxFalling.GetComponent<IBoxInteraction>().Activate(activateObject);
             }
         }
         if (!isMoving) return;
