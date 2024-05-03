@@ -105,9 +105,14 @@ public class DashController : MonoBehaviour
 
     private bool IsTouchingWall()
     {
-        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, wallCheckDistance);
-        RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, wallCheckDistance);
-        return hitLeft.collider != null || hitRight.collider != null;
+        int wallLayerMask = LayerMask.GetMask("Wall");
+
+        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, wallCheckDistance, wallLayerMask);
+        RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, wallCheckDistance, wallLayerMask);
+        RaycastHit2D hitUp = Physics2D.Raycast(transform.position, Vector2.up, wallCheckDistance, wallLayerMask);
+        RaycastHit2D hitDown = Physics2D.Raycast(transform.position, Vector2.down, wallCheckDistance, wallLayerMask);
+
+        return (hitLeft.collider != null || hitRight.collider != null || hitUp.collider != null || hitDown.collider != null);
     }
 
     private bool IsPassingOverHole()
