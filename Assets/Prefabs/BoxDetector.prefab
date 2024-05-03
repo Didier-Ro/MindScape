@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8964173727559282484}
   - component: {fileID: 8934036944726193325}
   - component: {fileID: 78966410428359248}
+  - component: {fileID: 2604806083606488254}
   m_Layer: 2
   m_Name: BoxDetector
   m_TagString: Untagged
@@ -94,7 +95,29 @@ MonoBehaviour:
   colliderParent: {fileID: 0}
   spawnPos: {x: 0.5, y: 11.5}
   typeDetector: 0
-  animator: {fileID: 0}
+  animator: {fileID: 2604806083606488254}
   doors: {fileID: 0}
   conditionId: 0
+  transformPoint: {fileID: 0}
   clonPrefab: {fileID: 0}
+--- !u!95 &2604806083606488254
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8748882533824113955}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2a14ba0fb0a49aa4b9488217d9777148, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

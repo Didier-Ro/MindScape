@@ -98,7 +98,6 @@ public class ShadowEffect : MonoBehaviour, Ikillable
             dis2 = maxDistanceToShowShadow - minDistanceToShowShadow;
             shadowScale = Mathf.Clamp01(dis1 / dis2) * maxShadowScale;
 
-            Debug.Log("Shadow Scale " + shadowScale);
             // Calculamos la opacidad de la sombra en funci�n de la distancia
 
             if (distanceToLight > startFadingDistance)
