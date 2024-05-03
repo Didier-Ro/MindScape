@@ -114,8 +114,6 @@ public class DashController : MonoBehaviour
     {
         float radius = 1.0f;
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
-
-        // Verificar si alguno de los colliders encontrados es un vacío
         foreach (Collider2D collider in colliders)
         {
             if (collider.CompareTag("Hole"))
