@@ -32,7 +32,7 @@ public class DashController : MonoBehaviour
         }
     }
 
-    private IEnumerator PerformDash()
+    private IEnumerator PerformDash(bool isJumping)
     {
         isDashing = true;
         Collider2D feetCollider = FindFeetCollider();
@@ -43,6 +43,10 @@ public class DashController : MonoBehaviour
 
         movementScript.isMoving = false;
         float dashTimer = 0f;
+        if (isJumping)
+        {
+            StartCoroutine(JumpAnimation());
+        }
 
         while (dashTimer < dashTime)
         {
@@ -62,6 +66,17 @@ public class DashController : MonoBehaviour
         lastDashTime = Time.time;
     }
 
+
+    private IEnumerator JumpAnimation()
+    {
+        Vector3 originalScale = transform.localScale;
+        Vector3 jumpScale = originalScale * 1.4f;
+        transform.localScale = jumpScale;
+        float jumpDuration = 0.1f;
+        yield return new WaitForSeconds(jumpDuration);
+        transform.localScale = originalScale;
+    }
+
     private void AttemptDash()
     {
         if (staminaBar != null && staminaBar.CurrentStamina >= dashStaminaCost)
@@ -71,7 +86,8 @@ public class DashController : MonoBehaviour
             if (inputX != 0 || inputY != 0)
             {
                 dashDirection = new Vector2(inputX, inputY).normalized;
-                StartCoroutine(PerformDash());
+                bool isJumping = IsPassingOverHole();
+                StartCoroutine(PerformDash(isJumping));
                 staminaBar.UseStamina(dashStaminaCost);
             }
         }
@@ -86,10 +102,25 @@ public class DashController : MonoBehaviour
         }
         return null;
     }
+
     private bool IsTouchingWall()
     {
         RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, wallCheckDistance);
         RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, wallCheckDistance);
         return hitLeft.collider != null || hitRight.collider != null;
+    }
+
+    private bool IsPassingOverHole()
+    {
+        float radius = 1.0f;
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.CompareTag("Hole"))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
