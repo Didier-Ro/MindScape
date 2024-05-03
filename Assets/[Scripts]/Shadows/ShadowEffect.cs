@@ -9,18 +9,18 @@ public class ShadowEffect : MonoBehaviour, Ikillable
     [SerializeField] private Material material;
     [SerializeField] private Light2D light2D;
 
-    GameObject shadow;
+    public GameObject shadow;
 
-    Vector3 lightDirection;
+    public Vector3 lightDirection;
     Vector3 shadowPosition;
 
-    float distanceToLight;
+    public float distanceToLight;
 
     float minDistanceToShowShadow = 0.5f; // Distancia mínima para que la sombra sea visible
     float maxDistanceToShowShadow = 2.0f; // Distancia máxima a la que la sombra estará completamente visible
     float maxShadowScale = 1f; // Escala máxima de la sombra
     float shadowScale;
-    float startFadingDistance = 5.0f;
+    float startFadingDistance = 10.0f;
     float maxDistanceToHideShadow = 10.0f;
     float shadowOpacity = 1.0f;
 
@@ -28,26 +28,22 @@ public class ShadowEffect : MonoBehaviour, Ikillable
 
     public bool isIlluminated = false;
 
+    [SerializeField] private BoxFalling box;
+
+    private bool canCreateOtherShadow = false;
+    Color shadowColor;
+
+    public float dis1;
+    public float dis2;
     void Start()
     {
         light2D = GameManager.GetInstance().GetLightReference();
         material = GameManager.GetInstance().GetShadowMaterial();
-
-        shadow = new GameObject("Shadow");
-        shadow.transform.parent = transform;
-
-        shadow.transform.localPosition = offset;
-        shadow.transform.localRotation = Quaternion.identity;
-
-        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
-        SpriteRenderer sr = shadow.AddComponent<SpriteRenderer>();
-        sr.sprite = renderer.sprite;
-        sr.material = material;
-
-        sr.sortingLayerName = renderer.sortingLayerName;
-        sr.sortingOrder = renderer.sortingOrder - 1;
-
+        shadowColor = material.color;
+        CreateShadow();
+        box.OnBoxStateChange += OnBoxStateChanged;
     }
+
     private void Update()
     {
         if (!GameManager.GetInstance().GetFlashing())
@@ -60,54 +56,65 @@ public class ShadowEffect : MonoBehaviour, Ikillable
         }
     }
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
-        if (lightState == Light_State.DEPLOY)
+        if(shadow != null)
         {
-            isIlluminated = false;
-            DrawShadow();
-        }
-
-        if (lightState == Light_State.CONCETRATE)
-        {
-            if (isIlluminated)
-                DrawShadow();
-            else
+            if (lightState == Light_State.DEPLOY)
             {
-                shadow.SetActive(false);
+                isIlluminated = false;
+                DrawShadow();
+            }
+
+            if (lightState == Light_State.CONCETRATE)
+            {
+                if (isIlluminated)
+                    DrawShadow();
+                else
+                {
+                    shadow.SetActive(false);
+                }
             }
         }
+    }
+
+
+    private void OnDisable()
+    {
+        box.OnBoxStateChange -= OnBoxStateChanged;
     }
 
     public void DrawShadow()
     {
         lightDirection = light2D.transform.position - transform.position;
         distanceToLight = lightDirection.magnitude;
-
+        
         if (distanceToLight > minDistanceToShowShadow && distanceToLight < maxDistanceToHideShadow)
         {
             shadow.SetActive(true);
 
             // Calculamos la escala de la sombra basada en la distancia a la luz
-            shadowScale = Mathf.Clamp01((distanceToLight - minDistanceToShowShadow) / (maxDistanceToShowShadow - minDistanceToShowShadow)) * maxShadowScale;
+            dis1 = distanceToLight - minDistanceToShowShadow;
+            dis2 = maxDistanceToShowShadow - minDistanceToShowShadow;
+            shadowScale = Mathf.Clamp01(dis1 / dis2) * maxShadowScale;
 
+            Debug.Log("Shadow Scale " + shadowScale);
             // Calculamos la opacidad de la sombra en función de la distancia
 
             if (distanceToLight > startFadingDistance)
             {
-                shadowOpacity = 1 - ((distanceToLight - startFadingDistance) / (maxDistanceToHideShadow - startFadingDistance));
+                shadowOpacity = - ((distanceToLight - startFadingDistance) / (maxDistanceToHideShadow - startFadingDistance));
             }
 
             // Aplicamos la escala y la opacidad a la sombra
             shadow.transform.localScale = new Vector3(shadowScale, shadowScale, 1f);
-            Color shadowColor = material.color;
+            
             shadowColor.a = shadowOpacity;
             material.color = shadowColor;
 
             // Calculamos la posición de la sombra detrás del objeto
-            shadowPosition = -lightDirection.normalized * shadowScale;
+            shadowPosition = -lightDirection.normalized * shadowScale * 0.5f;
             shadow.transform.localPosition = shadowPosition;
-
             // Ajustamos la rotación de la sombra según la rotación del objeto
             shadow.transform.eulerAngles = transform.eulerAngles;
         }
@@ -118,10 +125,43 @@ public class ShadowEffect : MonoBehaviour, Ikillable
         }
     }
 
+    private void DeleteShadow()
+    {
+        shadow.SetActive(false);
+    }
+
+    private void ShowShadow()
+    {
+        shadow.SetActive(true);
+    }
+
+    private void CreateShadow()
+    {
+        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+        SpriteRenderer sr = shadow.AddComponent<SpriteRenderer>();
+        sr.sprite = renderer.sprite;
+        sr.material = material;
+
+        sr.sortingLayerName = renderer.sortingLayerName;
+        sr.sortingOrder = renderer.sortingOrder - 1;
+    }
+
+    public void OnBoxStateChanged(BOX_STATE _newwBoxState)
+    {
+        switch (_newwBoxState)
+        {
+            case BOX_STATE.FALLING:
+                DeleteShadow();
+                break;
+            case BOX_STATE.SPAWNING:
+                ShowShadow(); 
+                break;
+        }
+    }
     public void Hit(Transform player)
     {
         isIlluminated = true;
-        Debug.Log("Iluminado");
+        
     }
 
     public void UnHit(Transform player)

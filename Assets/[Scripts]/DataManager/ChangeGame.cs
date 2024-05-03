@@ -7,8 +7,8 @@ public class ChangeGame : MonoBehaviour
    [SerializeField] private WorldCondition[] allConditions;
    [SerializeField] private string[] levelScenes;
    [SerializeField] private int[] conditionsIds;
-   public int[] currentLevel;
-   public float[] percentageOfGameCompleted;
+   [SerializeField] private int[] currentLevel;
+   [SerializeField] private float[] percentageOfGameCompleted;
 
    private void Awake()
    { 
