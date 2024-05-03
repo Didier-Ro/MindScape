@@ -70,8 +70,8 @@ public class BoxDetector : MonoBehaviour
         if (collision.CompareTag("Feet"))
         {
             player = PlayerStates.GetInstance().gameObject;
-            Transform sprtieTransform = player.transform.Find("Sprite");
-            sprtieTransform.position -= new Vector3(0f, 0.1f, 0f);
+            //Transform sprtieTransform = player.transform.Find("Sprite");
+            player.transform.position -= new Vector3(0f, 0.1f, 0f);
             animator.SetBool("Pressed", true );
             if (typeDetector == TYPE_DETECTOR.HOLE)
             {
@@ -91,9 +91,8 @@ public class BoxDetector : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     { 
         animator.SetBool("Pressed", false );
-        player = PlayerStates.GetInstance().gameObject;
-        Transform sprtieTransform = player.transform.Find("Sprite");
-        sprtieTransform.position -= new Vector3(0f, -0.1f, 0f);
+        //Transform sprtieTransform = player.transform.Find("Sprite");
+        player.transform.position -= new Vector3(0f, -0.1f, 0f);
         if (collision.CompareTag("Feet"))
         {
             doors.DecreaseCounter();
