@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Floor : MonoBehaviour, Fstepable
 {
-    [SerializeField] private FLOOR tFloor;
+    [SerializeField] private SOUND_TYPE tFloor;
     
 
     public void FActivate()
     {
-        AudioManager.GetInstance().SetSound(SOUND_TYPE.PASOS_MADERA);
+        AudioManager.GetInstance().SetSound(tFloor);
     }
 
     public void FDeactivate()

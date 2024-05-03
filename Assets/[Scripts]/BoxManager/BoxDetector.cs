@@ -39,7 +39,6 @@ public class BoxDetector : MonoBehaviour
                 clonPrefab = Instantiate(boxPrefab, new Vector3(spawnPos.x, 27, 0), Quaternion.identity);
                 clonPrefab.GetComponent<BoxFalling>().SetSpawnPosition(spawnPos);
                 gameObject.SetActive(false);
-               
             }
             else if (typeDetector == TYPE_DETECTOR.BUTTON)
             { 
