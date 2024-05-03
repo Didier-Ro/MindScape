@@ -144,7 +144,6 @@ public class Boxes : MonoBehaviour
             }
             else
             {
-                Debug.Log("aaaa");
                 push = direction.up;
                 Debug.DrawRay(transform.position + (Vector3.up * cubeBorder), Vector3.up * distanceToMove, Color.red, 1f);
                 rayhit = Physics2D.Raycast(/*transform.position + (Vector3.left * cubeBorder)*/firepoints[3].position, Vector3.up, distanceToMove);
