@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class DashController : MonoBehaviour
 {
+    private TriggerController currentTrigger;
+    public GameObject dashText;
+    public GameObject jumpText;
     public float dashSpeed = 10f;
     public float dashTime = 0.1f;
     public float dashCooldown = 1f;
@@ -64,8 +67,17 @@ public class DashController : MonoBehaviour
         movementScript.isMoving = true;
         isDashing = false;
         lastDashTime = Time.time;
+        if (currentTrigger != null)
+        {
+            currentTrigger.DisableTrigger();
+        }
+
     }
 
+    public void SetCurrentTrigger(TriggerController trigger)
+    {
+        currentTrigger = trigger;
+    }
 
     private IEnumerator JumpAnimation()
     {
