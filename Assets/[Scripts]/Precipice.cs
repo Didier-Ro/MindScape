@@ -3,7 +3,7 @@ using UnityEngine;
 public class Precipice : MonoBehaviour, IBoxInteraction
 {
    [SerializeField] private int conditionId;
-   public OBJECT_TYPE _objectTypeIsSpawned;
+   public OBJECT_TYPE _objectTypeIsSpawned = OBJECT_TYPE.FallingBox;
 
    private void Start()
    {
