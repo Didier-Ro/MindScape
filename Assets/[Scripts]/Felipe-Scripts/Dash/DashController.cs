@@ -43,8 +43,6 @@ public class DashController : MonoBehaviour
 
         movementScript.isMoving = false;
         float dashTimer = 0f;
-
-        // Verificar si se debe ejecutar la animación de salto
         if (isJumping)
         {
             StartCoroutine(JumpAnimation());
@@ -71,22 +69,11 @@ public class DashController : MonoBehaviour
 
     private IEnumerator JumpAnimation()
     {
-        // Escala original del jugador
         Vector3 originalScale = transform.localScale;
-
-        // Escala aumentada para simular el "salto"
         Vector3 jumpScale = originalScale * 1.4f;
-
-        // Aplicar la escala aumentada temporalmente
         transform.localScale = jumpScale;
-
-        // Duración de la animación de "salto"
         float jumpDuration = 0.1f;
-
-        // Esperar el tiempo de la animación de "salto"
         yield return new WaitForSeconds(jumpDuration);
-
-        // Restaurar la escala original del jugador después de la animación de "salto"
         transform.localScale = originalScale;
     }
 
@@ -125,10 +112,7 @@ public class DashController : MonoBehaviour
 
     private bool IsPassingOverHole()
     {
-        // Definir el radio del círculo de detección alrededor del jugador
-        float radius = 1.0f; // Ajusta este valor según sea necesario
-
-        // Obtener todos los colliders de vacío dentro del círculo de detección
+        float radius = 1.0f;
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
 
         // Verificar si alguno de los colliders encontrados es un vacío
@@ -136,12 +120,9 @@ public class DashController : MonoBehaviour
         {
             if (collider.CompareTag("Hole"))
             {
-                // Si el jugador está cerca de un vacío, retornar verdadero para ejecutar la animación de salto
                 return true;
             }
         }
-
-        // Si no se encontraron vacíos cerca del jugador, retornar falso para evitar la animación de salto
         return false;
     }
 }
