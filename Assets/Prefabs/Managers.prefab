@@ -17,10 +17,10 @@ GameObject:
   - component: {fileID: 1674452850697472489}
   - component: {fileID: 1645290611106823938}
   - component: {fileID: 778131786726052813}
-  - component: {fileID: 4912375885965041146}
   - component: {fileID: 3764721741659013335}
   - component: {fileID: 4778876794865515053}
   - component: {fileID: 3550017293671543284}
+  - component: {fileID: 1301642198508350685}
   - component: {fileID: 5789672179314157926}
   m_Layer: 0
   m_Name: Managers
@@ -249,21 +249,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tutorialSO: {fileID: 11400000, guid: 0b5ac2ecb9cc2ce4fb4636fdc53d92ec, type: 2}
   tutorialText: {fileID: 0}
---- !u!114 &4912375885965041146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3369258306983447431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 771de9a02e1233c48a54839f6f8703bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  musicSource: {fileID: 4778876794865515053}
-  SfxSource: {fileID: 3550017293671543284}
-  floorSound: {fileID: 11400000, guid: 0b87435a0ae67b54abfd4e875d8d4037, type: 2}
 --- !u!114 &3764721741659013335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,6 +455,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1301642198508350685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3369258306983447431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 771de9a02e1233c48a54839f6f8703bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundLibrary: {fileID: 11400000, guid: 1d158b944d9132b47901846bf1107468, type: 2}
 --- !u!114 &5789672179314157926
 MonoBehaviour:
   m_ObjectHideFlags: 0
