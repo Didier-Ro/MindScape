@@ -35,6 +35,11 @@ public class Doors : MonoBehaviour
         }
     }
 
+    public void DecreaseCounter()
+    {
+        buttonCounter--;
+    }
+
     public byte ReturnCounter()
     {
         return buttonCounter;
