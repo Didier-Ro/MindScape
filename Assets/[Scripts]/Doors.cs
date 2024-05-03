@@ -25,6 +25,11 @@ public class Doors : MonoBehaviour
         Door.SetActive(false); // Desactiva la puerta
     }
 
+    private void CloseDoor()
+    {
+        Door.SetActive(true);
+    }
+
     public void IncreaseCounter()
     {
         buttonCounter++;
@@ -38,6 +43,10 @@ public class Doors : MonoBehaviour
     public void DecreaseCounter()
     {
         buttonCounter--;
+        if (buttonCounter < 2)
+        {
+            CloseDoor();
+        }
     }
 
     public byte ReturnCounter()
