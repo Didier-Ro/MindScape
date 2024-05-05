@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ public class ActivateZone : MonoBehaviour
    {
       gameUI[0].SetActive(false);
       gameUI[1].SetActive(false);
+      gameUI[2].SetActive(false);
    }
    
    public void SetActiveCanvas()
@@ -89,5 +91,6 @@ public class ActivateZone : MonoBehaviour
          DeactivateCanvas();
       }
    }
+
    
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class BoxDetector : MonoBehaviour
@@ -6,12 +7,15 @@ public class BoxDetector : MonoBehaviour
     [SerializeField] private BoxCollider2D colliderParent;
     [SerializeField] private Vector2 spawnPos;
     [SerializeField] private TYPE_DETECTOR typeDetector;
+    [SerializeField] private Animator animator;
 
 
     [SerializeField] private Doors doors;
     [SerializeField] private int conditionId;
+    [SerializeField] private Transform transformPoint;
 
     public GameObject clonPrefab;
+    private GameObject player;
 
     private void Start()
     {
@@ -25,6 +29,7 @@ public class BoxDetector : MonoBehaviour
     {
         if (collision.CompareTag("Box"))
         {
+            animator.SetBool("Pressed", true );
             if (typeDetector == TYPE_DETECTOR.HOLE)
             {
                 Transform parentTransform = collision.transform.parent;
@@ -33,7 +38,7 @@ public class BoxDetector : MonoBehaviour
                 colliderParent.enabled = false;
                 clonPrefab = Instantiate(boxPrefab, new Vector3(spawnPos.x, 27, 0), Quaternion.identity);
                 clonPrefab.GetComponent<BoxFalling>().SetSpawnPosition(spawnPos);
-                //gameObject.SetActive(false);
+                gameObject.SetActive(false);
                
             }
             else if (typeDetector == TYPE_DETECTOR.BUTTON)
@@ -60,6 +65,37 @@ public class BoxDetector : MonoBehaviour
                 gameObject.SetActive(false);
             }
             
+        }
+
+        if (collision.CompareTag("Feet"))
+        {
+            player = PlayerStates.GetInstance().gameObject;
+            //Transform sprtieTransform = player.transform.Find("Sprite");
+            player.transform.position -= new Vector3(0f, 0.1f, 0f);
+            animator.SetBool("Pressed", true );
+            if (typeDetector == TYPE_DETECTOR.HOLE)
+            {
+               
+            }
+            else if (typeDetector == TYPE_DETECTOR.BUTTON)
+            {
+                doors.IncreaseCounter();
+            }
+            else if (typeDetector == TYPE_DETECTOR.UNIQUE)
+            {
+                doors.IncreaseCounter();
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    { 
+        animator.SetBool("Pressed", false );
+        //Transform sprtieTransform = player.transform.Find("Sprite");
+        player.transform.position -= new Vector3(0f, -0.1f, 0f);
+        if (collision.CompareTag("Feet"))
+        {
+            doors.DecreaseCounter();
         }
     }
 }
