@@ -22,6 +22,7 @@ public class Doors : MonoBehaviour
 
     private void OpenDoor()
     {
+        StartCoroutine(CameraManager.instance.ChangeCameraToThePlayer(1));
         Door.SetActive(false); // Desactiva la puerta
     }
 
@@ -36,6 +37,7 @@ public class Doors : MonoBehaviour
 
         if (buttonCounter == 2)
         {
+            CameraManager.instance.ChangeCameraToAnObject(gameObject);
             OpenDoor();
         }
     }
