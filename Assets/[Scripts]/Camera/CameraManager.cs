@@ -4,6 +4,8 @@ using Cinemachine;
 
 public class CameraManager : MonoBehaviour
 {
+    public CinemachineVirtualCamera objectsCamera;
+    public CinemachineVirtualCamera playerCamera;
     private Vector2 _startingTrackedOffset;
     private CinemachineVirtualCamera currentCamera;
     private CinemachineFramingTransposer framingTransposer;
@@ -117,5 +119,29 @@ public class CameraManager : MonoBehaviour
         }
     }
 
+    public void ChangeCameraToThePlayer()
+    {
+        if (currentCamera == playerCamera)
+            return;
+        foreach (CinemachineVirtualCamera _camera in allVirtualCameras)
+        {
+            _camera.enabled = _camera == playerCamera;
+            currentCamera = playerCamera;
+            framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+        }
+    }
+    
+    public void ChangeCameraToAnObject(GameObject objectToLook)
+    {
+        if (currentCamera == objectsCamera)
+            return;
+        foreach (CinemachineVirtualCamera _camera in allVirtualCameras)
+        {
+            _camera.enabled = _camera == objectsCamera;
+            currentCamera = objectsCamera;
+            objectsCamera.Follow = objectToLook.transform;
+            framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+        }
+    }
     #endregion
 }

@@ -18,7 +18,8 @@ public class FlyingTriggerBox : MonoBehaviour, IBoxInteraction
     {
         boxToDeactivate.SetActive(false);
         PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
-        PoolManager.GetInstance().GetPooledObject(_objectTypeIsSpawned, transform.position, Vector2.zero);
+        GameObject box = PoolManager.GetInstance().GetPooledObject(_objectTypeIsSpawned, transform.position, Vector2.zero);
+        CameraManager.instance.ChangeCameraToAnObject(box);
     }
     
     public void Deactivate()
