@@ -15,7 +15,8 @@ public class BoxDetector : MonoBehaviour
     [SerializeField] private Transform transformPoint;
 
     public GameObject clonPrefab;
-    private GameObject player;
+    private Transform player;
+    private Transform playerSprite;
 
     private void Start()
     {
@@ -69,9 +70,9 @@ public class BoxDetector : MonoBehaviour
 
         if (collision.CompareTag("Feet"))
         {
-            player = PlayerStates.GetInstance().gameObject;
-            //Transform sprtieTransform = player.transform.Find("Sprite");
-            player.transform.position -= new Vector3(0f, 0.1f, 0f);
+            player = PlayerStates.GetInstance().transform;
+            playerSprite = player.transform.Find("Sprite");
+            playerSprite.localPosition = new Vector3(0f, -0.15f, 0f);
             animator.SetBool("Pressed", true );
             if (typeDetector == TYPE_DETECTOR.HOLE)
             {
@@ -91,8 +92,8 @@ public class BoxDetector : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     { 
         animator.SetBool("Pressed", false );
-        //Transform sprtieTransform = player.transform.Find("Sprite");
-        player.transform.position -= new Vector3(0f, -0.1f, 0f);
+        playerSprite = player.Find("Sprite");
+        playerSprite.localPosition = new Vector3(0f, -0.1f, 0f);
         if (collision.CompareTag("Feet"))
         {
             doors.DecreaseCounter();
