@@ -1,8 +1,8 @@
+using System;
 using UnityEngine;
 
 public class Mirror : MonoBehaviour, Ikillable
 {
-
     [SerializeField] private Transform hitPoint;
     [SerializeField] private Transform outPoint;
     [SerializeField] private LayerMask obstructionMask;
@@ -11,28 +11,62 @@ public class Mirror : MonoBehaviour, Ikillable
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private float lightLenght = 10f;
     [SerializeField] private float angleRange = 160f;
-    [SerializeField] private float initialAngleRange;
     [SerializeField] private GameObject parentObject;
-    [SerializeField] private float upperAngleRange;
     [SerializeField] private GameObject lightGoal;
     [SerializeField] private GameObject doorToUnlock;
+    [SerializeField] private Transform[] hitPositions;
+    private Vector2 directionToShotTheRaycast;
     private float parentOffset;
+    private float initialAngleRange;
+    private float mediumAngleRange;
+    private float upperAngleRange;
     private bool startPlayingParticles;
+
+    [SerializeField] private MirrorPosition _mirrorPosition;
 
 
     private void Start()
     {
-       CheckParentRotation();
+        ChangeHitPosition();
     }
 
-    private void CheckParentRotation()
+    private void ChangeHitPosition()
     {
-        parentOffset = parentObject.transform.eulerAngles.z;
-        parentOffset = Mathf.Repeat(parentOffset, 360);
-        initialAngleRange = Mathf.Repeat(parentOffset + initialAngleRange, 360);
-        upperAngleRange = Mathf.Repeat(initialAngleRange + angleRange, 360);
-    }
+        Vector2 positionsToSpawn = Vector2.zero;
+        switch (_mirrorPosition)
+        {
+            case MirrorPosition.UP:
+                positionsToSpawn.x = 0;
+                positionsToSpawn.y = 2;
+                directionToShotTheRaycast = Vector2.right;
+                mediumAngleRange = 90;
+                break;
+            case MirrorPosition.DOWN:
+                positionsToSpawn.x = 1;
+                positionsToSpawn.y = 3;
+                directionToShotTheRaycast = Vector2.left;
+                mediumAngleRange = 270;
+                break;
+            case MirrorPosition.RIGHT:
+                positionsToSpawn.x = 2;
+                positionsToSpawn.y = 1;
+                directionToShotTheRaycast = Vector2.down;
+                mediumAngleRange = 0;
+                break;
+            case MirrorPosition.LEFT:
+                positionsToSpawn.x = 3;
+                positionsToSpawn.y = 0;
+                directionToShotTheRaycast = Vector2.up;
+                mediumAngleRange = 180;
+                break;
+        }
 
+       // outPoint.transform.rotation =  Quaternion.Euler(outPoint.transform.rotation.x, outPoint.transform.rotation.y, mediumAngleRange);
+        hitPoint.position = hitPositions[(int)positionsToSpawn.x].position;
+        outPoint.position = hitPositions[(int)positionsToSpawn.y].position;
+        initialAngleRange = Mathf.Repeat(mediumAngleRange - angleRange/ 2f, 360);
+        upperAngleRange = Mathf.Repeat(mediumAngleRange + angleRange / 2f, 360);
+    }
 
     public void Hit(Transform player)
     {
@@ -58,26 +92,26 @@ public class Mirror : MonoBehaviour, Ikillable
         direction.y = ReduceErrorZero(direction.y);
         float angleRadians = Mathf.Atan2(direction.y, direction.x);
         float angleDegrees = Mathf.Repeat(angleRadians * Mathf.Rad2Deg, 360);
+        Debug.Log(angleDegrees);
         if (initialAngleRange < upperAngleRange)
         {
-            return canSeeTarget = angleDegrees > initialAngleRange  && upperAngleRange  > angleDegrees;
+            return canSeeTarget = upperAngleRange >= angleDegrees && angleDegrees >= initialAngleRange;
         }
         else
         {
-            bool secondSegment = angleDegrees >= initialAngleRange && angleDegrees <= 360;
-            bool firstSegment = angleDegrees >= 0 && angleDegrees <= upperAngleRange;
-            
-          return  canSeeTarget = angleDegrees > initialAngleRange || upperAngleRange  > angleDegrees;
+            bool secondSegment = angleDegrees <= upperAngleRange && initialAngleRange >= 360 - angleRange;
+            bool firstSegment = angleDegrees >= initialAngleRange && upperAngleRange <= angleRange;
+             return  canSeeTarget = secondSegment || firstSegment;
         }
     }
 
     public void MirrorProjection()
     {
-        Vector3 direction = outPoint.TransformDirection(Vector3.left);
-        RaycastHit2D hit = Physics2D.Raycast(outPoint.position, direction, lightLenght, targetMask);
+       // Vector3 direction = outPoint.TransformDirection(Vector3.left);
+        RaycastHit2D hit = Physics2D.Raycast(outPoint.position, directionToShotTheRaycast, lightLenght, targetMask);
         lineRenderer.enabled = true;
         
-        Debug.DrawRay(outPoint.position, outPoint.TransformDirection(Vector3.left), Color.green, 10f, true);
+        Debug.DrawRay(outPoint.position, directionToShotTheRaycast, Color.green, 10f, true);
         lineRenderer.SetPosition(0, outPoint.position);
         
         if (hit.collider != null)
@@ -112,6 +146,14 @@ public class Mirror : MonoBehaviour, Ikillable
 
     public void UnHit(Transform player)
     {
-        throw new System.NotImplementedException();
+        return;
+    }
+    
+    public enum MirrorPosition
+    {
+        UP,
+        DOWN,
+        RIGHT,
+        LEFT
     }
 }
