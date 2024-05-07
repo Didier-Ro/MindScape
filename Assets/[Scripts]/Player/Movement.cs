@@ -119,7 +119,7 @@ public class Movement : MonoBehaviour
         }
         else
         { 
-            Vector2 newPos = Vector2.MoveTowards(transform.position, positionToCenterThePlayer, 0.05f); transform.position = (newPos);
+            Vector2 newPos = Vector2.MoveTowards(transform.position, positionToCenterThePlayer, 0.01f); transform.position = (newPos);
             transform.position = newPos;
         }
     }

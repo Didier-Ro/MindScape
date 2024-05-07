@@ -68,6 +68,7 @@ public class FlyingBox : MonoBehaviour
          transform.position = finalPosition;
          reachToThePoint = true;
          PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Box, transform.position, Vector3.zero);
+         CameraManager.instance.ChangeCameraToThePlayer();
          gameObject.SetActive(false);
       }
    }
