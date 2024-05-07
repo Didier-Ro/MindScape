@@ -33,7 +33,7 @@ public class Flashlight : MonoBehaviour
     public bool isInInitialRoom = true;
     
     private float reductionSpeed;
-
+    [SerializeField] private GameObject cameraView = default;
     [SerializeField] private float angleRange;
     [SerializeField] private LayerMask obstructionMask;
     [SerializeField] private LayerMask targetMask;
@@ -133,6 +133,11 @@ public class Flashlight : MonoBehaviour
         //float difference = lastAngle - angle;
         flashLightTransform.rotation = Quaternion.Slerp(Quaternion.Euler(0,0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
         wallFlashLightTransform.rotation  = Quaternion.Slerp(Quaternion.Euler(0,0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
+       /* if (cameraView != null)
+        {
+            cameraView.transform.rotation = Quaternion.Slerp(Quaternion.Euler(0,0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
+            CameraManager.instance.ChangeCameraToAnObject(cameraView);
+        }*/
         lastAngle = flashLightTransform.rotation.z;
     }
 
@@ -161,18 +166,36 @@ public class Flashlight : MonoBehaviour
             lightAngle = Mathf.Repeat(lightAngle, 360);
             float upperLimitLightAngle = Mathf.Repeat(lightAngle + angleRange, 360);
             float lowerLimitLightAngle = Mathf.Repeat(lightAngle - angleRange, 360);
-          //Debug.Log(angleDegrees + " > " + lowerLimitLightAngle + " && " + upperLimitLightAngle +" < " + angleDegrees);
-            if (angleDegrees > lowerLimitLightAngle && upperLimitLightAngle > angleDegrees)
+            if (lowerLimitLightAngle < upperLimitLightAngle)
             {
-                float distanceToTarget = Vector2.Distance(transform.position, col.transform.position); //Minium distance to see the target
-                _canSeeTarget = !Physics2D.Raycast(transform.position, direction, distanceToTarget, obstructionMask);
-                if (!_canSeeTarget) return;
-                 col.GetComponent<Ikillable>().Hit(transform);
+                if (angleDegrees > lowerLimitLightAngle && upperLimitLightAngle > angleDegrees)
+                {
+                    float distanceToTarget = Vector2.Distance(transform.position, col.transform.position); //Minium distance to see the target
+                    _canSeeTarget = !Physics2D.Raycast(transform.position, direction, distanceToTarget, obstructionMask);
+                    if (!_canSeeTarget) return;
+                    col.GetComponent<Ikillable>().Hit(transform);
+                } else if (_canSeeTarget)
+                {
+                    _canSeeTarget = false;
+                    col.GetComponent<Ikillable>().UnHit(transform);
+                }
             }
-            else if (_canSeeTarget)
+            else
             {
-                _canSeeTarget = false;
-                col.GetComponent<Ikillable>().UnHit(transform);
+                bool secondSegment = angleDegrees < upperLimitLightAngle && lowerLimitLightAngle >= 360-angleRange*2;
+                bool firstSegment = upperLimitLightAngle <= angleRange*2 && angleDegrees  >= lowerLimitLightAngle;
+                if (secondSegment || firstSegment)
+                {
+                    float distanceToTarget = Vector2.Distance(transform.position, col.transform.position); //Minium distance to see the target
+                    _canSeeTarget = !Physics2D.Raycast(transform.position, direction, distanceToTarget, obstructionMask);
+                    if (!_canSeeTarget) return;
+                    col.GetComponent<Ikillable>().Hit(transform);
+                }
+                else if (_canSeeTarget)
+                {
+                    _canSeeTarget = false;
+                    col.GetComponent<Ikillable>().UnHit(transform);
+                }
             }
         }
     }
@@ -195,6 +218,7 @@ public class Flashlight : MonoBehaviour
 
     private void CircleLight()
     {
+        CameraManager.instance.ChangeCameraToThePlayer();
         if (isInInitialRoom)
         {
             ReduceSliderValue(0.0f);
