@@ -43,6 +43,7 @@ public class BoxDetector : MonoBehaviour
                     clonPrefab.GetComponent<BoxFalling>().SetSpawnPosition(spawnPos);
                     gameObject.SetActive(false);
                 }
+                gameObject.SetActive(false);
             }
             else if (typeDetector == TYPE_DETECTOR.BUTTON)
             { 
