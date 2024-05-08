@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ActivateZone : MonoBehaviour
 {
+   [HideInInspector]public bool canActivate;
    [SerializeField] private GameObject gameObjectToActivate;
    private MovableObject _movableObject;
    private string currentControlScheme;
@@ -52,6 +53,7 @@ public class ActivateZone : MonoBehaviour
 
    public void DeactivateBoxProcess()
    {
+      canActivate = true;
       gameUI[0].SetActive(false);
       gameUI[1].SetActive(true);
       gameUI[2].SetActive(false);
@@ -79,6 +81,7 @@ public class ActivateZone : MonoBehaviour
    {
       if (other.CompareTag("Player"))
       {
+         canActivate = true;
          if (player == null)
          {
             player = other.gameObject;

@@ -90,14 +90,14 @@ public class Movement : MonoBehaviour
             DialogManager.GetInstance().HandleUpdate();
             isMoving = false;
         }
-        if (InputManager.GetInstance().HoldingInteract() && _activateZone != null)
+        if (InputManager.GetInstance().HoldingInteract() && _activateZone != null && _activateZone.canActivate)
         {
-            Debug.Log("entro");
             interactiveObject.GetComponent<ActivateZone>().ActivateBoxProcess();
         }
         if (isMovingToCenterOfTheBox)
         {
             MoveThePlayerToABox();
+            
         }
         
         
@@ -153,11 +153,7 @@ public class Movement : MonoBehaviour
             canInteract = false;
             isInteracting = false;
         }
-        if (other.GetComponent<ActivateZone>())
-        {
-            interactiveObject = null;
-            _activateZone = null;
-        }
+       
     }
 
     void HandleMovementInput()
