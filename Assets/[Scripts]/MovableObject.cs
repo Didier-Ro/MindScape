@@ -7,6 +7,7 @@ public class MovableObject : MonoBehaviour, Istepable
     public float timeToReachPointInSeconds = 1;
     [SerializeField] private float offsetX;
     [SerializeField] private float offsetY;
+    [SerializeField] private LayerMask _layerMask;
     [SerializeField] private Transform[] vectorsToCenterThePlayer;
     [SerializeField] private GameObject activateObject;
     [SerializeField] private int distanceToMove;
@@ -76,7 +77,7 @@ public class MovableObject : MonoBehaviour, Istepable
         Vector2 offset = AddOffsetToRayCast(isPushing);
         Debug.Log(offset);
         Debug.DrawRay((Vector2) transform.position + offset, directionToMove * distanceToMove, Color.red, 1f);
-        rayhit = Physics2D.Raycast((Vector2)transform.position + offset, directionToMove, distanceToMove);
+        rayhit = Physics2D.Raycast((Vector2)transform.position + offset, directionToMove, distanceToMove, _layerMask);
         startPosition = activateObject.transform.position;
         if (rayhit.collider == null)
         {
