@@ -17,6 +17,7 @@ public class Movement : MonoBehaviour
     private Vector2 positionToCenterThePlayer;
     #endregion
     private bool canMove = true;
+    public ActivateZone _activateZone;
     private GAME_STATE currentGamestate = default;
     [SerializeField] Animator animator;
     [SerializeField] private Rigidbody2D rb;
@@ -82,7 +83,6 @@ public class Movement : MonoBehaviour
     
     void FixedUpdate()
     {
-
         input = InputManager.GetInstance().MovementInput();
         HandleMovementInput();
         if (currentGamestate == GAME_STATE.READING)
@@ -90,10 +90,16 @@ public class Movement : MonoBehaviour
             DialogManager.GetInstance().HandleUpdate();
             isMoving = false;
         }
+        if (InputManager.GetInstance().HoldingInteract() && _activateZone != null && _activateZone.canActivate)
+        {
+            interactiveObject.GetComponent<ActivateZone>().ActivateBoxProcess();
+        }
         if (isMovingToCenterOfTheBox)
         {
             MoveThePlayerToABox();
+            
         }
+        
         
     }
     
@@ -129,7 +135,13 @@ public class Movement : MonoBehaviour
         if (other.CompareTag("Stepable"))
         {
             interactiveObject = other.gameObject;
+            _activateZone = interactiveObject.GetComponent<ActivateZone>();
             canInteract = true;
+        }
+        if (other.GetComponent<ActivateZone>())
+        {
+            interactiveObject = other.gameObject;
+            _activateZone = interactiveObject.GetComponent<ActivateZone>();
         }
     }
 
@@ -141,6 +153,7 @@ public class Movement : MonoBehaviour
             canInteract = false;
             isInteracting = false;
         }
+       
     }
 
     void HandleMovementInput()
