@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ActivateZone : MonoBehaviour
 {
-   public bool canActivate = false;
    [SerializeField] private GameObject gameObjectToActivate;
    private MovableObject _movableObject;
    private string currentControlScheme;
@@ -35,21 +34,28 @@ public class ActivateZone : MonoBehaviour
 
    private void FixedUpdate()
    {
-      if (canActivate && InputManager.GetInstance().HoldingInteract())
+      if(!InputManager.GetInstance().HoldingInteract() && !_movableObject.isMoving && PlayerStates.GetInstance().GetCurrentPlayerState() == PLAYER_STATES.MOVINGBOXES)
       {
-         PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.MOVINGBOXES);
-         _movableObject.GetDirection(player);
-         gameUI[0].SetActive(false);
-         gameUI[1].SetActive(false);
-         gameUI[2].SetActive(true);
+         Debug.Log("se desactiva");
+         DeactivateBoxProcess();
       }
-      else if(!InputManager.GetInstance().HoldingInteract() && !_movableObject.isMoving && PlayerStates.GetInstance().GetCurrentPlayerState() == PLAYER_STATES.MOVINGBOXES )
-      {
-         gameUI[0].SetActive(false);
-         gameUI[1].SetActive(true);
-         gameUI[2].SetActive(false);
-         PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
-      }
+   }
+
+   public void ActivateBoxProcess()
+   {
+      PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.MOVINGBOXES);
+      _movableObject.GetDirection(player);
+      gameUI[0].SetActive(false);
+      gameUI[1].SetActive(false);
+      gameUI[2].SetActive(true);
+   }
+
+   public void DeactivateBoxProcess()
+   {
+      gameUI[0].SetActive(false);
+      gameUI[1].SetActive(true);
+      gameUI[2].SetActive(false);
+      PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
    }
 
    private void Start()
@@ -77,7 +83,6 @@ public class ActivateZone : MonoBehaviour
          {
             player = other.gameObject;
          }
-         canActivate = true;
          SetActiveCanvas();
       }
        
@@ -87,7 +92,6 @@ public class ActivateZone : MonoBehaviour
    {
       if (other.CompareTag("Player"))
       {
-         canActivate = false;
          DeactivateCanvas();
       }
    }
