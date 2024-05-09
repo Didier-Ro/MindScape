@@ -126,15 +126,16 @@ public class CameraManager : MonoBehaviour
         {
             for (int i = 0; i < delayToStart * 60; i++)
             {
-                foreach (CinemachineVirtualCamera _camera in allVirtualCameras)
-                {
-                    _camera.enabled = _camera == playerCamera;
-                    currentCamera = playerCamera;
-                    framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-                }
+                yield return null;
+            }
+            foreach (CinemachineVirtualCamera _camera in allVirtualCameras)
+            {
+                _camera.enabled = _camera == playerCamera;
+                Debug.Log("cambio de camara");
+                currentCamera = playerCamera;
+                framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
             }
         }
-        yield return null;
     }
     
     public void ChangeCameraToThePlayer()
@@ -168,16 +169,16 @@ public class CameraManager : MonoBehaviour
         {
             for (int i = 0; i < delayToStart * 60; i++)
             {
-                foreach (CinemachineVirtualCamera _camera in allVirtualCameras)
-                {
-                    _camera.enabled = _camera == objectsCamera;
-                    currentCamera = objectsCamera;
-                    objectsCamera.Follow = objectToLook.transform;
-                    framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-                }
+                yield return null;
+            }
+            foreach (CinemachineVirtualCamera _camera in allVirtualCameras)
+            {
+                _camera.enabled = _camera == objectsCamera;
+                currentCamera = objectsCamera;
+                objectsCamera.Follow = objectToLook.transform;
+                framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
             }
         }
-        yield return null;
     }
     #endregion
 }

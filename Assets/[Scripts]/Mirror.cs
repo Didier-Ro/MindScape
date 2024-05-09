@@ -15,7 +15,13 @@ public class Mirror : MonoBehaviour, Ikillable
     [SerializeField] private GameObject lightGoal;
     [SerializeField] private GameObject doorToUnlock;
     [SerializeField] private Transform[] hitPositions;
+    [SerializeField] private float secondsNeedToDisplayRay;
+    [SerializeField] private float recoverTime;
+    private Renderer _renderer;
     private Vector2 directionToShotTheRaycast;
+    private float reflectframes;
+    private float framesHit;
+    private bool canReflect;
     private float parentOffset;
     private float initialAngleRange;
     private float mediumAngleRange;
@@ -27,9 +33,62 @@ public class Mirror : MonoBehaviour, Ikillable
 
     private void Start()
     {
+        _renderer = parentObject.GetComponent<Renderer>();
         ChangeHitPosition();
     }
 
+    private void FixedUpdate()
+    {
+        if (canReflect)
+        {
+            if (reflectframes > secondsNeedToDisplayRay * 60)
+            {
+               framesHit = 0;
+               recoverTime = 60;
+               canReflect = false;
+               reflectframes = 0;
+               lineRenderer.enabled = false;
+               lineRenderer.SetPosition(1, outPoint.position + outPoint.TransformDirection(Vector3.left) * lightLenght);
+               startPlayingParticles = false;
+               hitParticles.Stop(true);
+            }
+            else
+            {
+                reflectframes++;
+                MirrorProjection();
+            }
+        }
+        else
+        {
+            HealObject();
+        }
+        OverheatEffect();
+    }
+
+    private void OverheatEffect()
+    {
+        float normalizedValue = Mathf.Clamp01(framesHit / (secondsNeedToDisplayRay*60f));
+        Color finalColor = Color.Lerp(Color.white, Color.red, normalizedValue);
+        _renderer.material.color = finalColor;
+
+    }
+
+    private void HealObject()
+    {
+        if (framesHit <= 0)
+        {
+            recoverTime = 60;
+        }
+        else if(recoverTime <= 0)
+        {
+            framesHit--;
+        }
+        else
+        {
+            recoverTime--;
+        }
+    }
+    
     private void ChangeHitPosition()
     {
         Vector2 positionsToSpawn = Vector2.zero;
@@ -72,7 +131,15 @@ public class Mirror : MonoBehaviour, Ikillable
     {
         if (AngleCheck(player))
         {
-            MirrorProjection();
+            if (framesHit > secondsNeedToDisplayRay * 60)
+            {
+                canReflect = true;
+            }
+            else
+            {
+                recoverTime = 60;
+                framesHit++;
+            }
         }
     }
 
@@ -125,7 +192,6 @@ public class Mirror : MonoBehaviour, Ikillable
             {
                 doorToUnlock.SetActive(false);
             }
-
             float distance = ((Vector2)hit.point - (Vector2)outPoint.position).magnitude;
             lineRenderer.SetPosition(1, hit.point);
             Mirror reflectedMirror = hit.collider.GetComponent<Mirror>();
@@ -133,8 +199,6 @@ public class Mirror : MonoBehaviour, Ikillable
             {
                 reflectedMirror.GetComponent<Ikillable>().Hit(transform);
             }
-
-            
         }
         else
         {
