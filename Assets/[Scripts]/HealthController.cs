@@ -29,8 +29,10 @@ public class HealthController : MonoBehaviour
         migraineImage.color = imageAlpha;
     }
 
-    public void PlayerTakeDamage()
+    public void PlayerTakeDamage(float damage)
     {
+        currentPlayerHealth -= damage;
+
         if (currentPlayerHealth >= 0)
         {
             canRegen = false;

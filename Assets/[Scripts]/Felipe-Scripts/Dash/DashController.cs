@@ -129,14 +129,17 @@ public class DashController : MonoBehaviour
 
     private bool IsPassingOverHole()
     {
+        PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.DASHING);
         float radius = 1.0f;
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
         foreach (Collider2D collider in colliders)
         {
             if (collider.CompareTag("Hole"))
             {
+                PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
                 return true;
             }
+            PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
         }
         return false;
     }
