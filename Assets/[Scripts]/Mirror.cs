@@ -17,6 +17,7 @@ public class Mirror : MonoBehaviour, Ikillable
     [SerializeField] private Transform[] hitPositions;
     [SerializeField] private float secondsNeedToDisplayRay;
     [SerializeField] private float recoverTime;
+    private Renderer _renderer;
     private Vector2 directionToShotTheRaycast;
     private float reflectframes;
     private float framesHit;
@@ -32,6 +33,7 @@ public class Mirror : MonoBehaviour, Ikillable
 
     private void Start()
     {
+        _renderer = parentObject.GetComponent<Renderer>();
         ChangeHitPosition();
     }
 
@@ -55,6 +57,15 @@ public class Mirror : MonoBehaviour, Ikillable
         {
             HealObject();
         }
+        OverheatEffect();
+    }
+
+    private void OverheatEffect()
+    {
+        float normalizedValue = Mathf.Clamp01(framesHit / (secondsNeedToDisplayRay*60f));
+        Color finalColor = Color.Lerp(Color.white, Color.red, normalizedValue);
+        _renderer.material.color = finalColor;
+
     }
 
     private void HealObject()
@@ -66,7 +77,6 @@ public class Mirror : MonoBehaviour, Ikillable
         else if(recoverTime <= 0)
         {
             framesHit--;
-            Debug.Log(framesHit);
         }
         else
         {
@@ -118,14 +128,12 @@ public class Mirror : MonoBehaviour, Ikillable
         {
             if (framesHit > secondsNeedToDisplayRay * 60)
             {
-                framesHit = 0;
                 canReflect = true;
             }
             else
             {
                 recoverTime = 60;
                 framesHit++;
-                Debug.Log(framesHit);
             }
         }
     }
