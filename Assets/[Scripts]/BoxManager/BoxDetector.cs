@@ -33,7 +33,7 @@ public class BoxDetector : MonoBehaviour
             if (typeDetector == TYPE_DETECTOR.HOLE)
             {
                 doors.IncreaseHoleCounter();
-                if (doors.ReturnHoleCounter() < 4)
+                if (doors.ReturnHoleCounter() < doors.holeNumbers)
                 {
                     Transform parentTransform = collision.transform.parent;
                     GameObject parent = parentTransform.gameObject;        
