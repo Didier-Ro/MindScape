@@ -56,7 +56,6 @@ public class Enemy : MonoBehaviour, Ikillable
     #endregion
         void Start()
         {
-           
             RandomTimer(); 
             recoverTime = recoverTimer;
             animator = GetComponent<Animator>();
@@ -79,7 +78,6 @@ public class Enemy : MonoBehaviour, Ikillable
                 animator.SetBool("Attack" ,true);
                 GetSteering();
             }
-
             if ( changeDirectionTimer < randomTimer)
             {
                 changeDirectionTimer++;
