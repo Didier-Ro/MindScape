@@ -8,8 +8,17 @@ public class TriggerFuel : MonoBehaviour
     public GameObject light2D;
     public Light2D globalLight;
     public Flashlight playerFlashlight;
+    public int conditionID;
 
     private bool isCoroutineRunning = false;
+
+    private void OnDestroy()
+    {
+        Flashlight.GetInstance().isInInitialRoom = false;
+        playerSpotLight.SetActive(true);
+        light2D.SetActive(true);
+        playerFlashlight.enabled = true;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
