@@ -61,7 +61,6 @@ public class MistZone : MonoBehaviour
     private void MakeDamage()
     {
         float totalDamage = damagePerSecond / 60;
-        healthController.currentPlayerHealth -= totalDamage;
-        healthController.PlayerTakeDamage(10.0f);
+        healthController.PlayerTakeDamage(totalDamage);
     }
 }
