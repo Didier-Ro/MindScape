@@ -43,9 +43,14 @@ public class Mirror : MonoBehaviour, Ikillable
         {
             if (reflectframes > secondsNeedToDisplayRay * 60)
             {
-               parentObject.SetActive(false);
                framesHit = 0;
+               recoverTime = 60;
+               canReflect = false;
                reflectframes = 0;
+               lineRenderer.enabled = false;
+               lineRenderer.SetPosition(1, outPoint.position + outPoint.TransformDirection(Vector3.left) * lightLenght);
+               startPlayingParticles = false;
+               hitParticles.Stop(true);
             }
             else
             {
