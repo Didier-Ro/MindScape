@@ -17,8 +17,7 @@ public class EnemyDamageController : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             playerHealthController = other.gameObject.GetComponent<HealthController>();
-            playerHealthController.currentPlayerHealth -= enemyDamage;
-            playerHealthController.PlayerTakeDamage();
+            playerHealthController.PlayerTakeDamage(enemyDamage);
         }
     }
 }
