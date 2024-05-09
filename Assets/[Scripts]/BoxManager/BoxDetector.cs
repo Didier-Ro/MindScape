@@ -32,19 +32,23 @@ public class BoxDetector : MonoBehaviour
             animator.SetBool("Pressed", true );
             if (typeDetector == TYPE_DETECTOR.HOLE)
             {
-                Transform parentTransform = collision.transform.parent;
-                GameObject parent = parentTransform.gameObject;        
-                colliderParent = parent.GetComponent<BoxCollider2D>();
-                colliderParent.enabled = false;
-                clonPrefab = Instantiate(boxPrefab, new Vector3(spawnPos.x, 27, 0), Quaternion.identity);
-                clonPrefab.GetComponent<BoxFalling>().SetSpawnPosition(spawnPos);
+                doors.IncreaseHoleCounter();
+                if (doors.ReturnHoleCounter() < 4)
+                {
+                    Transform parentTransform = collision.transform.parent;
+                    GameObject parent = parentTransform.gameObject;        
+                    colliderParent = parent.GetComponent<BoxCollider2D>();
+                    colliderParent.enabled = false;
+                    clonPrefab = Instantiate(boxPrefab, new Vector3(spawnPos.x, 27, 0), Quaternion.identity);
+                    clonPrefab.GetComponent<BoxFalling>().SetSpawnPosition(spawnPos);
+                    gameObject.SetActive(false);
+                }
                 gameObject.SetActive(false);
-               
             }
             else if (typeDetector == TYPE_DETECTOR.BUTTON)
             { 
                 doors.IncreaseCounter();
-                if (doors.ReturnCounter() != 2)
+                if (doors.ReturnCounter() != 2 || doors.ReturnHoleCounter() != 4)
                 {
                     Transform parentTransform = collision.transform.parent;
                     GameObject parent = parentTransform.gameObject;        

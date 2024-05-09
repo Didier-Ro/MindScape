@@ -129,7 +129,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 51986
+  m_InstanceId: -1578
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0.5, z: 0}
@@ -189,13 +189,14 @@ MonoBehaviour:
   lightOuterAngleTimeSpeed: 0
   energy: 100
   isInInitialRoom: 1
+  cameraView: {fileID: 0}
   angleRange: 0
   obstructionMask:
     serializedVersion: 2
     m_Bits: 0
   targetMask:
     serializedVersion: 2
-    m_Bits: 16
+    m_Bits: 24
   radius: 3
   flashLightTransform: {fileID: 8320832870263175557}
   rotationSpeed: 2
@@ -234,11 +235,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78d3bc008c43aa4380561047c55ab38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dashSpeed: 10
+  dashText: {fileID: 0}
+  jumpText: {fileID: 0}
+  dashSpeed: 20
   dashTime: 0.1
-  dashCooldown: 1
+  dashCooldown: 0.7
   dashStaminaCost: 25
-  wallCheckDistance: 0.1
+  wallCheckDistance: 1.5
 --- !u!114 &7933755353333501670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,9 +377,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fallingDuration: 1.5
   playerSprite: {fileID: 9140427169719169660}
+  spriteTransform: {fileID: 413736250224407902}
   flasLight: {fileID: 2167727847186427669}
   wallFlaslight: {fileID: 8715654913658092055}
   healthController: {fileID: -2278262530916522709}
+  finalPlayerSpawnPosition: {x: 3.5, y: 10.5, z: 0}
   fallZonePosition: {x: 0, y: 0, z: 0}
   distance: 0
   totalDistance: 0
@@ -429,7 +434,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8320832870263175557
 Transform:
   m_ObjectHideFlags: 0
@@ -511,7 +516,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5297800564107809037
 Transform:
   m_ObjectHideFlags: 0
@@ -740,7 +745,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!95 &5287131927239762016
 Animator:
   serializedVersion: 5
@@ -819,7 +824,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f5c23af3a565904883c2d889f2e66bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floor: {fileID: 0}
 --- !u!1001 &3216185317293887452
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -830,7 +834,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2759638714138145204, guid: 1f4dc1153bd95434abc351d435d3b9a8, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2851298814776536729, guid: 1f4dc1153bd95434abc351d435d3b9a8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -846,7 +850,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6568537309230751571, guid: 1f4dc1153bd95434abc351d435d3b9a8, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6647693972095784156, guid: 1f4dc1153bd95434abc351d435d3b9a8, type: 3}
       propertyPath: m_IsActive

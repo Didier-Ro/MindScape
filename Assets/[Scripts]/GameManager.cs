@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour
         return Instance;
     }
     #endregion
-
     [SerializeField] private float minuteQuickSaveRate;
     private bool isPaused;
     private bool isFlashing;
@@ -65,7 +64,7 @@ public class GameManager : MonoBehaviour
         else if(GetCurrentGameState() != GAME_STATE.PAUSE && framesPlayed >= minuteQuickSaveRate * 3600)
         {
            SaveAllData();
-        }    
+        }
     }
     
     
