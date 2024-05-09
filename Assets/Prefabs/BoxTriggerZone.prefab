@@ -224,7 +224,7 @@ Transform:
   m_GameObject: {fileID: 3485292962126280818}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.55, y: 0.1, z: 0}
+  m_LocalPosition: {x: -0.7, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -255,7 +255,7 @@ Transform:
   m_GameObject: {fileID: 3492158240131371989}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.85, z: 0}
+  m_LocalPosition: {x: 0, y: 0.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -426,7 +426,7 @@ MonoBehaviour:
   - {x: 0.50000024, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 227304
+  m_InstanceId: 111354
   m_LocalBounds:
     m_Center: {x: 0.00000011920929, y: 0, z: 0}
     m_Extent: {x: 0.5000001, y: 0.5, z: 0}
@@ -474,6 +474,9 @@ MonoBehaviour:
   timeToReachPointInSeconds: 1
   offsetX: 0.5
   offsetY: 0.5
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 491
   vectorsToCenterThePlayer:
   - {fileID: 4416188850814392825}
   - {fileID: 5964562578789124454}
@@ -586,7 +589,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5, y: 1.5}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!114 &3304416884483056691
 MonoBehaviour:
@@ -608,7 +611,7 @@ MonoBehaviour:
   - {fileID: 1986408752294357752}
   - {fileID: 1986408752294357752}
   isDeactivateWithCondition: 1
-  conditionId: 10
+  conditionId: 3
 --- !u!114 &7670232186542982529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -639,10 +642,10 @@ MonoBehaviour:
   boxColliderChild: {fileID: 5168678458890682940}
   spawnPoint: {x: 2.5, y: 27, z: 0}
   finalPoint: {x: 2.5, y: -6.5, z: 0}
-  type_Box: 1
+  type_Box: 0
   overlayBoxDetectorManager: {fileID: 0}
   boxState: 0
-  conditionId: 10
+  conditionId: 3
   positionWhenPuzzleIsCompleted: {x: 7.5, y: -4.5, z: 0}
   isFalling: 0
 --- !u!1 &6454166384106245769
@@ -701,7 +704,7 @@ Transform:
   m_GameObject: {fileID: 8377089978086211522}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.55, y: 0.1, z: 0}
+  m_LocalPosition: {x: 0.7, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

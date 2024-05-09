@@ -5,9 +5,13 @@ public class Falling : MonoBehaviour
 {
     [SerializeField] private float fallingDuration;
     [SerializeField] private SpriteRenderer playerSprite;
+    [SerializeField] private Transform spriteTransform;
     [SerializeField] private Light2D flasLight;
     [SerializeField] private Light2D wallFlaslight;
     [SerializeField] private HealthController healthController;
+
+    [SerializeField] private Vector3 finalPlayerSpawnPosition;
+    private Vector2 initialSpriteSpawnPosition;
 
     private float minSpriteSize = 0.0f;
     private float totalSpriteSize = 0.0f;
@@ -15,6 +19,7 @@ public class Falling : MonoBehaviour
     private float totalRadious;
     private int frame = 60;
     private bool isFalling;
+    private bool canMove;
 
     public Vector3 fallZonePosition;
 
@@ -31,6 +36,35 @@ public class Falling : MonoBehaviour
         if (isFalling)
         {
             PlayerFalling();
+        }
+
+        if (canMove)
+        {
+            MovePlayer();
+        }
+    }
+
+    private void RespawnPlayer()
+    {
+        transform.position = finalPlayerSpawnPosition;
+        spriteTransform.position = new Vector3(finalPlayerSpawnPosition.x, 27,0);
+        spriteTransform.localScale = new Vector3(1, 1, 1);
+        initialSpriteSpawnPosition = new Vector3(finalPlayerSpawnPosition.x, 27, 0);
+        canMove = true;
+    }
+
+    private void MovePlayer()
+    {
+        float distance = initialSpriteSpawnPosition.y - finalPlayerSpawnPosition.y;
+        float destiny = distance / (60 * 1f);
+
+        spriteTransform.position -= new Vector3(0, destiny, 0);
+
+        if(spriteTransform.position.y <= finalPlayerSpawnPosition.y)
+        {
+            spriteTransform.position = finalPlayerSpawnPosition;
+            canMove = false;
+            PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
         }
     }
 
@@ -70,19 +104,19 @@ public class Falling : MonoBehaviour
 
     private void PlayerFalling()
     {
-        playerSprite.size -= new Vector2(totalSpriteSize, totalSpriteSize);
+        spriteTransform.localScale -= new Vector3(totalSpriteSize, totalSpriteSize);
         //playerSprite.material.color -= new Color(1, 1, 1, totalAlpha);
         flasLight.pointLightInnerRadius -= totalRadious;
         wallFlaslight.pointLightInnerRadius -= totalRadious;
 
-        if (playerSprite.size.x <= minSpriteSize && playerSprite.size.y <= minSpriteSize)
+        if (spriteTransform.localScale.x <= minSpriteSize && spriteTransform.localScale.y <= minSpriteSize)
         {
-            playerSprite.size = new Vector2(minSpriteSize, minSpriteSize);
+            isFalling = false;
+            spriteTransform.localScale = new Vector3(minSpriteSize, minSpriteSize);
             playerSprite.material.color = new Color(1, 1, 1, minSpriteSize);
             flasLight.pointLightInnerRadius = minSpriteSize;
             wallFlaslight.pointLightInnerRadius = minSpriteSize;
-            healthController.currentPlayerHealth -= 50;
-            healthController.PlayerTakeDamage();
+            RespawnPlayer();
         }
     }
 }

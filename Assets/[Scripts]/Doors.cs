@@ -9,6 +9,7 @@ public class Doors : MonoBehaviour
     [SerializeField] private bool boxOnButton = false;
     [SerializeField] private bool doorIsOpen = false;
     private byte buttonCounter = 0;
+    public byte holeCounter = 0;
     [SerializeField] private int conditionId;
 
 
@@ -22,6 +23,7 @@ public class Doors : MonoBehaviour
 
     private void OpenDoor()
     {
+        StartCoroutine(CameraManager.instance.ChangeCameraToThePlayer(1));
         Door.SetActive(false); // Desactiva la puerta
     }
 
@@ -36,8 +38,19 @@ public class Doors : MonoBehaviour
 
         if (buttonCounter == 2)
         {
+            CameraManager.instance.ChangeCameraToAnObject(gameObject);
             OpenDoor();
         }
+    }
+
+    public void IncreaseHoleCounter()
+    {
+        holeCounter++;
+    }
+
+    public byte ReturnHoleCounter()
+    {
+        return holeCounter;
     }
 
     public void DecreaseCounter()

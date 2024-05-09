@@ -39,6 +39,7 @@ public class WorldCondition : ScriptableObject, IsaveScript
                 percentageCompleted++;
             }
         }
+        percentageCompleted--;
         percentageCompleted /= conditions.Length;
         percentageCompleted *= 100;
         return percentageCompleted;
