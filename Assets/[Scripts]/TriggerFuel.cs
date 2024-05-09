@@ -6,11 +6,18 @@ public class TriggerFuel : MonoBehaviour
 {
     public GameObject playerSpotLight;
     public GameObject light2D;
+    public GameObject lantern;
     public Light2D globalLight;
     public Flashlight playerFlashlight;
     public int conditionID;
 
     private bool isCoroutineRunning = false;
+    private bool isPaused = false;
+
+    private void Start()
+    {
+        SubscribeToGameManagerGameState();
+    }
 
     private void OnDestroy()
     {
@@ -18,6 +25,8 @@ public class TriggerFuel : MonoBehaviour
         playerSpotLight.SetActive(true);
         light2D.SetActive(true);
         playerFlashlight.enabled = true;
+        globalLight.intensity = 0.1f;
+        lantern.SetActive(true);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -32,12 +41,16 @@ public class TriggerFuel : MonoBehaviour
             playerSpotLight.SetActive(true);
             light2D.SetActive(true);
             playerFlashlight.enabled = true;
+            lantern.SetActive(true);
         }
     }
 
     IEnumerator LightIntensityFlicker()
     {
-        isCoroutineRunning = true;
+        if (!isPaused) 
+        {
+            isCoroutineRunning = true;
+        }
 
         float flickerDuration = 3f;
         float flickerStartTime = Time.time;
@@ -58,5 +71,17 @@ public class TriggerFuel : MonoBehaviour
         isCoroutineRunning = false;
     }
 
+    private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
+    {
+        if (GameManager.GetInstance() != null)
+        {
+            GameManager.GetInstance().OnGameStateChange += OnGameStateChange;
+            OnGameStateChange(GameManager.GetInstance().GetCurrentGameState());
+        }
+    }
 
+    private void OnGameStateChange(GAME_STATE _newGameState)
+    {
+        isPaused = _newGameState == GAME_STATE.PAUSE;
+    }
 }
