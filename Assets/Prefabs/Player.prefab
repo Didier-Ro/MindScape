@@ -345,6 +345,7 @@ MonoBehaviour:
   canInteract: 0
   isInteracting: 0
   interactiveObject: {fileID: 0}
+  _activateZone: {fileID: 0}
   animator: {fileID: 5287131927239762016}
   rb: {fileID: 0}
 --- !u!114 &3054615977689496595
@@ -381,7 +382,7 @@ MonoBehaviour:
   flasLight: {fileID: 2167727847186427669}
   wallFlaslight: {fileID: 8715654913658092055}
   healthController: {fileID: -2278262530916522709}
-  finalPlayerSpawnPosition: {x: 3.5, y: 10.5, z: 0}
+  playerRespawnPositon: {fileID: 11400000, guid: 588717180adcdfb4b88a7ae51af64d2e, type: 2}
   fallZonePosition: {x: 0, y: 0, z: 0}
   distance: 0
   totalDistance: 0

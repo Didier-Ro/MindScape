@@ -218,7 +218,6 @@ public class Flashlight : MonoBehaviour
 
     private void CircleLight()
     {
-        CameraManager.instance.ChangeCameraToThePlayer();
         if (isInInitialRoom)
         {
             ReduceSliderValue(0.0f);

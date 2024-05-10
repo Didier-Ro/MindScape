@@ -14,8 +14,12 @@ public class BoxDetector : MonoBehaviour
     [SerializeField] private int conditionId;
     [SerializeField] private Transform transformPoint;
 
+    [SerializeField] private Falling fallingScript;
+    [SerializeField] private Vector3 nextPlayerSpawnPosition;
+
     public GameObject clonPrefab;
-    private GameObject player;
+    private Transform player;
+    private Transform playerSprite;
 
     private void Start()
     {
@@ -33,15 +37,16 @@ public class BoxDetector : MonoBehaviour
             if (typeDetector == TYPE_DETECTOR.HOLE)
             {
                 doors.IncreaseHoleCounter();
-                if (doors.ReturnHoleCounter() < 4)
+                if (doors.ReturnHoleCounter() < doors.holeNumbers)
                 {
-                    Transform parentTransform = collision.transform.parent;
+                    /*Transform parentTransform = collision.transform.parent;
                     GameObject parent = parentTransform.gameObject;        
                     colliderParent = parent.GetComponent<BoxCollider2D>();
-                    colliderParent.enabled = false;
+                    colliderParent.enabled = false;*/
                     clonPrefab = Instantiate(boxPrefab, new Vector3(spawnPos.x, 27, 0), Quaternion.identity);
                     clonPrefab.GetComponent<BoxFalling>().SetSpawnPosition(spawnPos);
-                    gameObject.SetActive(false);
+                    fallingScript.SetPlayerRespawnPosition(nextPlayerSpawnPosition);
+                    //gameObject.SetActive(false);
                 }
                 gameObject.SetActive(false);
             }
@@ -50,32 +55,36 @@ public class BoxDetector : MonoBehaviour
                 doors.IncreaseCounter();
                 if (doors.ReturnCounter() != 2 || doors.ReturnHoleCounter() != 4)
                 {
-                    Transform parentTransform = collision.transform.parent;
+                    /*Transform parentTransform = collision.transform.parent;
                     GameObject parent = parentTransform.gameObject;        
                     colliderParent = parent.GetComponent<BoxCollider2D>();
-                    colliderParent.enabled = false;
+                    colliderParent.enabled = false;*/
                     GameObject obj = Instantiate(boxPrefab, new Vector3(spawnPos.x, 27, 0), Quaternion.identity);
                     obj.GetComponent<BoxFalling>().SetSpawnPosition(spawnPos);
-                    gameObject.SetActive(false);
+                    //gameObject.SetActive(false);
                 }
             }
             else if (typeDetector == TYPE_DETECTOR.UNIQUE)
             {
                 doors.IncreaseCounter();
-                Transform parentTransform = collision.transform.parent;
+                /*Transform parentTransform = collision.transform.parent;
                 GameObject parent = parentTransform.gameObject;        
                 colliderParent = parent.GetComponent<BoxCollider2D>();
                 colliderParent.enabled = false;
-                gameObject.SetActive(false);
+                gameObject.SetActive(false);*/
             }
-            
+            Transform parentTransform = collision.transform.parent;
+            GameObject parent = parentTransform.gameObject;
+            colliderParent = parent.GetComponent<BoxCollider2D>();
+            colliderParent.enabled = false;
+            //gameObject.SetActive(false);
         }
 
         if (collision.CompareTag("Feet"))
         {
-            player = PlayerStates.GetInstance().gameObject;
-            //Transform sprtieTransform = player.transform.Find("Sprite");
-            player.transform.position -= new Vector3(0f, 0.1f, 0f);
+            player = PlayerStates.GetInstance().transform;
+            playerSprite = player.transform.Find("Sprite");
+            playerSprite.localPosition = new Vector3(0f, -0.15f, 0f);
             animator.SetBool("Pressed", true );
             if (typeDetector == TYPE_DETECTOR.HOLE)
             {
@@ -95,8 +104,8 @@ public class BoxDetector : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     { 
         animator.SetBool("Pressed", false );
-        //Transform sprtieTransform = player.transform.Find("Sprite");
-        player.transform.position -= new Vector3(0f, -0.1f, 0f);
+        playerSprite = player.Find("Sprite");
+        playerSprite.localPosition = new Vector3(0f, -0.1f, 0f);
         if (collision.CompareTag("Feet"))
         {
             doors.DecreaseCounter();
