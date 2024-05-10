@@ -13,12 +13,14 @@ public class Mirror : MonoBehaviour, Ikillable
     [SerializeField] private float angleRange = 160f;
     [SerializeField] private GameObject parentObject;
     [SerializeField] private GameObject lightGoal;
-    [SerializeField] private GameObject doorToUnlock;
     [SerializeField] private Transform[] hitPositions;
     [SerializeField] private float secondsNeedToDisplayRay;
     [SerializeField] private float recoverTime;
+    [SerializeField] private Renderer goalRenderer;
+    [SerializeField] private Animator goalAnimator;
+    //[SerializeField] private UnityEvent onAnimationEvent;
     private Renderer _renderer;
-    private Vector2 directionToShotTheRaycast;
+    private Vector3 directionToShotTheRaycast;
     private float reflectframes;
     private float framesHit;
     private bool canReflect;
@@ -70,7 +72,6 @@ public class Mirror : MonoBehaviour, Ikillable
         float normalizedValue = Mathf.Clamp01(framesHit / (secondsNeedToDisplayRay*60f));
         Color finalColor = Color.Lerp(Color.white, Color.red, normalizedValue);
         _renderer.material.color = finalColor;
-
     }
 
     private void HealObject()
@@ -97,25 +98,25 @@ public class Mirror : MonoBehaviour, Ikillable
             case MirrorPosition.UP:
                 positionsToSpawn.x = 0;
                 positionsToSpawn.y = 2;
-                directionToShotTheRaycast = Vector2.right;
+                directionToShotTheRaycast = Vector3.right;
                 mediumAngleRange = 90;
                 break;
             case MirrorPosition.DOWN:
                 positionsToSpawn.x = 1;
                 positionsToSpawn.y = 3;
-                directionToShotTheRaycast = Vector2.left;
+                directionToShotTheRaycast = Vector3.left;
                 mediumAngleRange = 270;
                 break;
             case MirrorPosition.RIGHT:
                 positionsToSpawn.x = 2;
                 positionsToSpawn.y = 1;
-                directionToShotTheRaycast = Vector2.down;
+                directionToShotTheRaycast = Vector3.down;
                 mediumAngleRange = 0;
                 break;
             case MirrorPosition.LEFT:
                 positionsToSpawn.x = 3;
                 positionsToSpawn.y = 0;
-                directionToShotTheRaycast = Vector2.up;
+                directionToShotTheRaycast = Vector3.up;
                 mediumAngleRange = 180;
                 break;
         }
@@ -190,7 +191,7 @@ public class Mirror : MonoBehaviour, Ikillable
             }
             if (hit.collider.CompareTag("Goal"))
             {
-                doorToUnlock.SetActive(false);
+                goalAnimator.SetBool("Break", true);
             }
             float distance = ((Vector2)hit.point - (Vector2)outPoint.position).magnitude;
             lineRenderer.SetPosition(1, hit.point);
@@ -202,7 +203,7 @@ public class Mirror : MonoBehaviour, Ikillable
         }
         else
         {
-            lineRenderer.SetPosition(1, outPoint.position + outPoint.TransformDirection(Vector3.left) * lightLenght);
+            lineRenderer.SetPosition(1, outPoint.position + directionToShotTheRaycast * lightLenght);
             startPlayingParticles = false;
             hitParticles.Stop(true);
         }
