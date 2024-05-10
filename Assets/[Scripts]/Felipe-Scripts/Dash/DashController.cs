@@ -35,9 +35,11 @@ public class DashController : MonoBehaviour
         }
     }
 
-    private IEnumerator PerformDash(bool isJumping)
+    private IEnumerator PerformDash(bool isPassingHole)
     {
         isDashing = true;
+        PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.DASHING);
+
         Collider2D feetCollider = FindFeetCollider();
         if (feetCollider != null)
         {
@@ -46,14 +48,15 @@ public class DashController : MonoBehaviour
 
         movementScript.isMoving = false;
         float dashTimer = 0f;
-        if (isJumping)
+
+        if (isPassingHole)
         {
             StartCoroutine(JumpAnimation());
         }
 
         while (dashTimer < dashTime)
         {
-            Vector2 dashMovement = dashDirection * dashSpeed * Time.deltaTime;
+            Vector2 dashMovement = new Vector2(dashDirection.x * dashSpeed * Time.deltaTime, dashDirection.y * dashSpeed * Time.deltaTime);
             movementScript.Rb.MovePosition(movementScript.Rb.position + dashMovement);
             dashTimer += Time.deltaTime;
             yield return null;
@@ -72,21 +75,16 @@ public class DashController : MonoBehaviour
             currentTrigger.DisableTrigger();
         }
 
+        if (isPassingHole)
+        {
+            yield return new WaitForSeconds(0.5f); 
+        }
+        PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
     }
 
     public void SetCurrentTrigger(TriggerController trigger)
     {
         currentTrigger = trigger;
-    }
-
-    private IEnumerator JumpAnimation()
-    {
-        Vector3 originalScale = transform.localScale;
-        Vector3 jumpScale = originalScale * 1.4f;
-        transform.localScale = jumpScale;
-        float jumpDuration = 0.1f;
-        yield return new WaitForSeconds(jumpDuration);
-        transform.localScale = originalScale;
     }
 
     private void AttemptDash()
@@ -97,9 +95,11 @@ public class DashController : MonoBehaviour
             float inputY = InputManager.GetInstance().MovementInput().y;
             if (inputX != 0 || inputY != 0)
             {
+                // Verifica si está pasando por un agujero
+                bool isPassingHole = IsPassingOverHole();
+
                 dashDirection = new Vector2(inputX, inputY).normalized;
-                bool isJumping = IsPassingOverHole();
-                StartCoroutine(PerformDash(isJumping));
+                StartCoroutine(PerformDash(isPassingHole));
                 staminaBar.UseStamina(dashStaminaCost);
             }
         }
@@ -121,26 +121,31 @@ public class DashController : MonoBehaviour
 
         RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, wallCheckDistance, wallLayerMask);
         RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, wallCheckDistance, wallLayerMask);
-        RaycastHit2D hitUp = Physics2D.Raycast(transform.position, Vector2.up, wallCheckDistance, wallLayerMask);
-        RaycastHit2D hitDown = Physics2D.Raycast(transform.position, Vector2.down, wallCheckDistance, wallLayerMask);
 
-        return (hitLeft.collider != null || hitRight.collider != null || hitUp.collider != null || hitDown.collider != null);
+        return (hitLeft.collider != null || hitRight.collider != null);
     }
 
     private bool IsPassingOverHole()
     {
-        PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.DASHING);
         float radius = 1.0f;
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, radius);
         foreach (Collider2D collider in colliders)
         {
             if (collider.CompareTag("Hole"))
             {
-                PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
                 return true;
             }
-            PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
         }
         return false;
+    }
+
+    private IEnumerator JumpAnimation()
+    {
+        Vector3 originalScale = transform.localScale;
+        Vector3 jumpScale = originalScale * 1.4f;
+        transform.localScale = jumpScale;
+        float jumpDuration = 0.1f;
+        yield return new WaitForSeconds(jumpDuration);
+        transform.localScale = originalScale;
     }
 }
