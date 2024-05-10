@@ -128,13 +128,7 @@ public class CameraManager : MonoBehaviour
             {
                 yield return null;
             }
-            foreach (CinemachineVirtualCamera _camera in allVirtualCameras)
-            {
-                _camera.enabled = _camera == playerCamera;
-                Debug.Log("cambio de camara");
-                currentCamera = playerCamera;
-                framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-            }
+            ChangeCameraToThePlayer();
         }
     }
     
@@ -142,25 +136,21 @@ public class CameraManager : MonoBehaviour
     {
         if (currentCamera == playerCamera)
             return;
-        foreach (CinemachineVirtualCamera _camera in allVirtualCameras)
-        {
-            _camera.enabled = _camera == playerCamera;
-            currentCamera = playerCamera;
-            framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-        }
+        playerCamera.enabled = true;
+        objectsCamera.enabled = false;
+        currentCamera = playerCamera;
+        framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
     }
     
     public void ChangeCameraToAnObject(GameObject objectToLook)
     {
         if (currentCamera == objectsCamera)
             return;
-        foreach (CinemachineVirtualCamera _camera in allVirtualCameras)
-        {
-            _camera.enabled = _camera == objectsCamera;
-            currentCamera = objectsCamera;
-            objectsCamera.Follow = objectToLook.transform;
-            framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-        }
+        objectsCamera.enabled = true;
+        playerCamera.enabled = false;
+        currentCamera = objectsCamera;
+        objectsCamera.Follow = objectToLook.transform;
+        framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
     }
     
     public IEnumerator ChangeCameraToAnObject(GameObject objectToLook, float delayToStart)
@@ -171,13 +161,7 @@ public class CameraManager : MonoBehaviour
             {
                 yield return null;
             }
-            foreach (CinemachineVirtualCamera _camera in allVirtualCameras)
-            {
-                _camera.enabled = _camera == objectsCamera;
-                currentCamera = objectsCamera;
-                objectsCamera.Follow = objectToLook.transform;
-                framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-            }
+            ChangeCameraToAnObject(objectToLook);
         }
     }
     #endregion
