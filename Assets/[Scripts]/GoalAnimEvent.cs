@@ -8,12 +8,14 @@ public class GoalAnimEvent : MonoBehaviour
     public void StartAnimEvent()
     {
         Debug.Log("START");
+        Debug.Log(gameObject.transform.position);
         CameraManager.instance.ChangeCameraToAnObject(gameObject);
     }
 
     public void EndAnimEvent()
     {
         Debug.Log("END");
+        CameraManager.instance.ChangeCameraToThePlayer();
         doorToUnlock.SetActive(false);
         gameObject.SetActive(false);
     }
