@@ -14,7 +14,7 @@ public class DoorScript : MonoBehaviour
     float time;
     private void Awake()
     {
-        Instance = this; // Establecer la instancia estática al iniciar
+        Instance = this;
     }
     void Start()
     {
