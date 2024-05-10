@@ -41,6 +41,7 @@ public class MovableObject : MonoBehaviour, Istepable
         }
         else
         {
+            activateObject.GetComponent<ActivateZone>().canActivate = false;
             activateObject.transform.position = finalPosition;
             PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
             isMoving = false;
