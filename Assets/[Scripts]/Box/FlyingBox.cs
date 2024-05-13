@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FlyingBox : MonoBehaviour
 {
-   [SerializeField] private float distanceToMove;
+    private float distanceToMove ;
    [SerializeField] private float sizeToScale;
    [SerializeField] private float delayStart;
    private Vector2 direction;
@@ -13,17 +13,23 @@ public class FlyingBox : MonoBehaviour
    public float timeToReachPointInSeconds = 1;
    private int finalFramesToReachPoint = default;
    private Vector2 finalPosition;
-   private bool reachToThePoint = true;
+   public bool reachToThePoint = true;
    private float speedFrameToScale;
-   
+
    private void Start()
    {
       finalFramesToReachPoint = (int)timeToReachPointInSeconds * 60;
+      delayStart *= 60;
+   }
+
+   private void OnEnable()
+   {
       StartCoroutine(CoroutineToStartFlying());
    }
 
-   public void GetPositionToMove(DirectionToFly directionToFly)
+   public void GetPositionToMove(DirectionToFly directionToFly, float distanceToFly)
    {
+      distanceToMove = distanceToFly;
       switch (directionToFly)
       {
          case DirectionToFly.Up:
@@ -69,11 +75,11 @@ public class FlyingBox : MonoBehaviour
 
    private IEnumerator CoroutineToStartFlying()
    {
-      delayStart *= 60;
       for (int i = 0; i < delayStart; i++)
       {
          yield return null; 
       }
+      frameCounter = 0;
       reachToThePoint = false;
    }
 
