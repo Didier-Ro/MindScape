@@ -5631,18 +5631,19 @@ MonoBehaviour:
     m_Bits: 16
   hitParticles: {fileID: 3355843208073665471}
   lineRenderer: {fileID: 705946858582067389}
-  lightLenght: 4
+  lightLenght: 7
   angleRange: 160
-  initialAngleRange: 180
   parentObject: {fileID: 0}
-  upperAngleRange: -10
   lightGoal: {fileID: 0}
-  doorToUnlock: {fileID: 0}
   hitPositions:
   - {fileID: 1186830341382921737}
   - {fileID: 5811863792292345842}
   - {fileID: 8492946016183926171}
   - {fileID: 929780354272563491}
+  secondsNeedToDisplayRay: 0
+  recoverTime: 0
+  goalRenderer: {fileID: 0}
+  goalAnimator: {fileID: 0}
   _mirrorPosition: 0
 --- !u!58 &6094285126042109808
 CircleCollider2D:

@@ -11,44 +11,52 @@ public class Doors : MonoBehaviour
     [SerializeField] private int conditionId;
     public int holeNumbers;
     [SerializeField] private int buttonNumbers;
-    private byte buttonCounter = 0;
+    [SerializeField] private byte buttonCounter = 0;
     private byte holeCounter = 0;
     private float delayStart = 3;
 
 
     private void Start()
     {
+        delayStart *= 60;
         if (GameManager.GetInstance().IsConditionCompleted(conditionId))
         {
            Destroy(gameObject);
         }
     }
     
-    private IEnumerator CoroutineToReturnCamera()
+    private IEnumerator CoroutineToReturnCamera(bool isOpen)
     {
-        delayStart *= 60;
+        
         for (int i = 0; i < delayStart; i++)
         {
             yield return null; 
         }
         CameraManager.instance.ChangeCameraToThePlayer();
-        Door.SetActive(false);// Desactiva la puerta
+        if (isOpen)
+        {
+         Door.SetActive(false);// Desactiva la puerta
+        }
+        else
+        {
+            Door.SetActive(true);
+        }
     }
 
     private void OpenDoor()
     {
-        StartCoroutine(CoroutineToReturnCamera());
+        StartCoroutine(CoroutineToReturnCamera(true));
     }
 
     private void CloseDoor()
     {
-        Door.SetActive(true);
+        StartCoroutine(CoroutineToReturnCamera(false));
     }
 
     public void IncreaseCounter()
     {
         buttonCounter++;
-        if (buttonCounter == buttonNumbers)
+        if (buttonCounter >= buttonNumbers)
         {
             CameraManager.instance.ChangeCameraToAnObject(gameObject);
             OpenDoor();

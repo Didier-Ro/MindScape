@@ -18,11 +18,21 @@ MonoBehaviour:
   - condition: FirstPuzzleComplete
     isCompleted: 1
   - condition: SecondPuzzleComplete
-    isCompleted: 0
+    isCompleted: 1
   - condition: ThirdPuzzleComplete
     isCompleted: 0
   - condition: IsLevel2Started
     isCompleted: 0
+  - condition: NeverDestroy
+    isCompleted: 0
+  - condition: EnemyCheckpoint
+    isCompleted: 0
+  - condition: FirstMirror
+    isCompleted: 0
+  - condition: SecondMirror
+    isCompleted: 0
+  - condition: ThirdMirror
+    isCompleted: 0
   nGame: 1
-  timePlayed: 0
-  lastPosition: {x: 0.5, y: -8.4, z: 0}
+  timePlayed: 255
+  lastPosition: {x: 8, y: 6.94, z: 0}
