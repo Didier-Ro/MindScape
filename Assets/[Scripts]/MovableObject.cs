@@ -181,7 +181,8 @@ public class MovableObject : MonoBehaviour, Istepable
         if (!isMoving && boxIsOnPrecipice)
         {
             if (boxFalling != null)
-            { 
+            {
+                boxIsOnPrecipice = false;
                 boxFalling.GetComponent<IBoxInteraction>().Activate(activateObject);
             }
         }
