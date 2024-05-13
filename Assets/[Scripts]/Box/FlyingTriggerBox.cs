@@ -3,6 +3,7 @@ using UnityEngine;
 public class FlyingTriggerBox : MonoBehaviour, IBoxInteraction
 {
     [SerializeField] private int conditionId;
+    [SerializeField] private float distanceToFly = 4f;
     public OBJECT_TYPE _objectTypeIsSpawned;
     public DirectionToFly directionToFly = DirectionToFly.Up;
     private Collider2D collider2D;
@@ -25,7 +26,7 @@ public class FlyingTriggerBox : MonoBehaviour, IBoxInteraction
         boxToDeactivate.SetActive(false);
         PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
         GameObject box = PoolManager.GetInstance().GetPooledObject(_objectTypeIsSpawned, transform.position, Vector2.zero);
-        box.GetComponent<FlyingBox>().GetPositionToMove(directionToFly);
+        box.GetComponent<FlyingBox>().GetPositionToMove(directionToFly, distanceToFly);
         collider2D.enabled = true;
         CameraManager.instance.ChangeCameraToAnObject(box);
     }

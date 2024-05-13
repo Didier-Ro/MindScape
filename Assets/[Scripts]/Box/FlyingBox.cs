@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FlyingBox : MonoBehaviour
 {
-   [SerializeField] private float distanceToMove;
+    private float distanceToMove ;
    [SerializeField] private float sizeToScale;
    [SerializeField] private float delayStart;
    private Vector2 direction;
@@ -27,8 +27,9 @@ public class FlyingBox : MonoBehaviour
       StartCoroutine(CoroutineToStartFlying());
    }
 
-   public void GetPositionToMove(DirectionToFly directionToFly)
+   public void GetPositionToMove(DirectionToFly directionToFly, float distanceToFly)
    {
+      distanceToMove = distanceToFly;
       switch (directionToFly)
       {
          case DirectionToFly.Up:
