@@ -39,14 +39,14 @@ public class BoxDetector : MonoBehaviour
                 doors.IncreaseHoleCounter();
                 if (doors.ReturnHoleCounter() < doors.holeNumbers)
                 {
-                    Transform parentTransform = collision.transform.parent;
+                    /*Transform parentTransform = collision.transform.parent;
                     GameObject parent = parentTransform.gameObject;        
                     colliderParent = parent.GetComponent<BoxCollider2D>();
-                    colliderParent.enabled = false;
+                    colliderParent.enabled = false;*/
                     clonPrefab = Instantiate(boxPrefab, new Vector3(spawnPos.x, 27, 0), Quaternion.identity);
                     clonPrefab.GetComponent<BoxFalling>().SetSpawnPosition(spawnPos);
                     fallingScript.SetPlayerRespawnPosition(nextPlayerSpawnPosition);
-                    gameObject.SetActive(false);
+                    //gameObject.SetActive(false);
                 }
                 gameObject.SetActive(false);
             }
@@ -55,25 +55,29 @@ public class BoxDetector : MonoBehaviour
                 doors.IncreaseCounter();
                 if (doors.ReturnCounter() != 2 || doors.ReturnHoleCounter() != 4)
                 {
-                    Transform parentTransform = collision.transform.parent;
+                    /*Transform parentTransform = collision.transform.parent;
                     GameObject parent = parentTransform.gameObject;        
                     colliderParent = parent.GetComponent<BoxCollider2D>();
-                    colliderParent.enabled = false;
+                    colliderParent.enabled = false;*/
                     GameObject obj = Instantiate(boxPrefab, new Vector3(spawnPos.x, 27, 0), Quaternion.identity);
                     obj.GetComponent<BoxFalling>().SetSpawnPosition(spawnPos);
-                    gameObject.SetActive(false);
+                    //gameObject.SetActive(false);
                 }
             }
             else if (typeDetector == TYPE_DETECTOR.UNIQUE)
             {
                 doors.IncreaseCounter();
-                Transform parentTransform = collision.transform.parent;
+                /*Transform parentTransform = collision.transform.parent;
                 GameObject parent = parentTransform.gameObject;        
                 colliderParent = parent.GetComponent<BoxCollider2D>();
                 colliderParent.enabled = false;
-                gameObject.SetActive(false);
+                gameObject.SetActive(false);*/
             }
-            
+            Transform parentTransform = collision.transform.parent;
+            GameObject parent = parentTransform.gameObject;
+            colliderParent = parent.GetComponent<BoxCollider2D>();
+            colliderParent.enabled = false;
+            //gameObject.SetActive(false);
         }
 
         if (collision.CompareTag("Feet"))
