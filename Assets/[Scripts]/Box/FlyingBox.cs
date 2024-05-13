@@ -13,12 +13,17 @@ public class FlyingBox : MonoBehaviour
    public float timeToReachPointInSeconds = 1;
    private int finalFramesToReachPoint = default;
    private Vector2 finalPosition;
-   private bool reachToThePoint = true;
+   public bool reachToThePoint = true;
    private float speedFrameToScale;
-   
+
    private void Start()
    {
       finalFramesToReachPoint = (int)timeToReachPointInSeconds * 60;
+      delayStart *= 60;
+   }
+
+   private void OnEnable()
+   {
       StartCoroutine(CoroutineToStartFlying());
    }
 
@@ -69,11 +74,11 @@ public class FlyingBox : MonoBehaviour
 
    private IEnumerator CoroutineToStartFlying()
    {
-      delayStart *= 60;
       for (int i = 0; i < delayStart; i++)
       {
          yield return null; 
       }
+      frameCounter = 0;
       reachToThePoint = false;
    }
 
