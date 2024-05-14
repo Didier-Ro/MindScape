@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 3406154510643356863}
   - component: {fileID: 8263392157737381081}
   - component: {fileID: 6797698032029243697}
+  - component: {fileID: 6056105095991575695}
+  - component: {fileID: 8985284387979474898}
   m_Layer: 0
   m_Name: Pasos
   m_TagString: Untagged
@@ -26,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 138884709572623554}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.31, y: -0.372, z: 0}
   m_LocalScale: {x: 0.063083, y: 0.063083015, z: 0.063083015}
   m_ConstrainProportionsScale: 0
@@ -4830,3 +4832,28 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &6056105095991575695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 138884709572623554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97cf8be2923946a408010fcd8d1cbd46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _objectType: 15
+--- !u!114 &8985284387979474898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 138884709572623554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 490a4ae130a9aea4d91c50b96cf0268b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
