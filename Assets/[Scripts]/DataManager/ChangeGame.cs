@@ -16,6 +16,7 @@ public class ChangeGame : MonoBehaviour
       LoadAllData();
       GetCurrentLevel();
       GetPercentageOfAllGamesCompleted();
+      Application.targetFrameRate = 60;
    }
 
     private void GetPercentageOfAllGamesCompleted()

@@ -4,7 +4,6 @@ using UnityEngine;
 public class BoxDetector : MonoBehaviour
 {
     [SerializeField] private GameObject boxPrefab;
-    [SerializeField] private BoxCollider2D colliderParent;
     [SerializeField] private Vector2 spawnPos;
     [SerializeField] private TYPE_DETECTOR typeDetector;
     [SerializeField] private Animator animator;
@@ -36,9 +35,10 @@ public class BoxDetector : MonoBehaviour
         if (collision.CompareTag("Box"))
         {
             Transform parentTransform = collision.transform.parent;
-            GameObject parent = parentTransform.gameObject;        
-            colliderParent = parent.GetComponent<BoxCollider2D>();
-            colliderParent.enabled = false;
+            GameObject parent = parentTransform.gameObject;
+            Collider2D collider2D = parent.GetComponent<Collider2D>();
+            collider2D.enabled = false;
+            parent.GetComponent<ActivateZone>().canActivate = false;
             if (typeDetector == TYPE_DETECTOR.HOLE)
             {
                 Debug.Log(collision.name);
