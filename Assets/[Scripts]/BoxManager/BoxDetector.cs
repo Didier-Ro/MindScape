@@ -15,7 +15,9 @@ public class BoxDetector : MonoBehaviour
     [SerializeField] private Transform transformPoint;
 
     [SerializeField] private Falling fallingScript;
+    [SerializeField] private PlayerRespawnPositon playerRespawnPositon;
     [SerializeField] private Vector3 nextPlayerSpawnPosition;
+
 
     public GameObject clonPrefab;
     private Transform player;
@@ -47,9 +49,9 @@ public class BoxDetector : MonoBehaviour
                     if (clonPrefab)
                     {
                         clonPrefab.GetComponent<BoxFalling>().SetSpawnPosition(spawnPos);
-                        fallingScript.SetPlayerRespawnPosition(nextPlayerSpawnPosition);
-                        Debug.Log(clonPrefab);
                     }
+                    playerRespawnPositon.SetCheckPointSpawnPosition(nextPlayerSpawnPosition);
+                    fallingScript.SetPlayerRespawnPosition();
                     gameObject.SetActive(false);
                 }
             }
