@@ -10,9 +10,9 @@ public class Doors : MonoBehaviour
     [SerializeField] private bool doorIsOpen = false;
     [SerializeField] private int conditionId;
     public int holeNumbers;
-    [SerializeField] private int buttonNumbers;
+    public int buttonNumbers;
     [SerializeField] private byte buttonCounter = 0;
-    private byte holeCounter = 0;
+    [SerializeField] private byte holeCounter = 0;
     private float delayStart = 3;
 
 
@@ -56,7 +56,7 @@ public class Doors : MonoBehaviour
     public void IncreaseCounter()
     {
         buttonCounter++;
-        if (buttonCounter >= buttonNumbers)
+        if (buttonCounter == buttonNumbers)
         {
             CameraManager.instance.ChangeCameraToAnObject(gameObject);
             OpenDoor();
