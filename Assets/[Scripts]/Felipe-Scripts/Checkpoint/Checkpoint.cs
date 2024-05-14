@@ -28,6 +28,7 @@ public class Checkpoint : MonoBehaviour
             if (isSavedInGame)
             {
                 GameManager.GetInstance().SavePlayerPosition(checkpointPosition);
+                Debug.Log("entra");
                 GameManager.GetInstance().MarkConditionCompleted(condition);
             }
             playerRespawnPositon.respawnPositionCheckPoint = checkpointPosition;

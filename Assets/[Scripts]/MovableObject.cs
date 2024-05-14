@@ -41,7 +41,7 @@ public class MovableObject : MonoBehaviour, Istepable
         }
         else
         {
-            activateObject.GetComponent<ActivateZone>().canActivate = false;
+            //activateObject.GetComponent<ActivateZone>().canActivate = false;
             activateObject.transform.position = finalPosition;
             PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
             isMoving = false;
@@ -181,7 +181,8 @@ public class MovableObject : MonoBehaviour, Istepable
         if (!isMoving && boxIsOnPrecipice)
         {
             if (boxFalling != null)
-            { 
+            {
+                boxIsOnPrecipice = false;
                 boxFalling.GetComponent<IBoxInteraction>().Activate(activateObject);
             }
         }

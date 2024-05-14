@@ -12,11 +12,18 @@ public class GoalAnimEvent : MonoBehaviour
         CameraManager.instance.ChangeCameraToAnObject(gameObject);
     }
 
+    public void LookAtDoor()
+    {
+        CameraManager.instance.ChangeCameraToAnObject(doorToUnlock);
+       
+    }
+
     public void EndAnimEvent()
     {
         Debug.Log("END");
         CameraManager.instance.ChangeCameraToThePlayer();
         doorToUnlock.SetActive(false);
         gameObject.SetActive(false);
+
     }
 }
