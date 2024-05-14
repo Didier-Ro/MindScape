@@ -18,7 +18,13 @@ public class ActivateZone : MonoBehaviour
       gameUI[1].SetActive(false);
       gameUI[2].SetActive(false);
    }
-   
+
+   private void OnEnable()
+   {
+      Collider2D collider2D = GetComponent<Collider2D>();
+      collider2D.enabled = true;
+   }
+
    public void SetActiveCanvas()
    {
       if (InputManager.GetInstance().ReturnControlScheme(currentControlScheme) == "Gamepad")
