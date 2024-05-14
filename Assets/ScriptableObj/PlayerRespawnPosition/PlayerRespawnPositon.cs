@@ -11,4 +11,9 @@ public class PlayerRespawnPositon : ScriptableObject
     {
         respawnPositionCheckPoint = pos;
     }
+
+    public Vector3 GetCheckPoint()
+    {
+        return respawnPositionCheckPoint;
+    }
 }
