@@ -495,6 +495,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5851723252177869541}
   - component: {fileID: 7428248293340789929}
+  - component: {fileID: 7079186969891595389}
   m_Layer: 5
   m_Name: PauseUI
   m_TagString: Untagged
@@ -544,6 +545,25 @@ MonoBehaviour:
   tabHover: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
   tabSelected: {fileID: -1969451130, guid: 5557b01a92382b94ab591cdc283599e7, type: 3}
   canChangeTab: 1
+--- !u!114 &7079186969891595389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861514652638863548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0102f4c0afce4514faabdd092012e833, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mixer: {fileID: 0}
+  masterSlider: {fileID: 0}
+  sfxSlider: {fileID: 3382172091415183464}
+  musicSlider: {fileID: 0}
+  masterVolumeSet: 1
+  sfxVolumeSet: 1
+  musicVolumeSet: 1
 --- !u!1 &923372373876448847
 GameObject:
   m_ObjectHideFlags: 0
@@ -2488,7 +2508,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7884688183817127853
 RectTransform:
   m_ObjectHideFlags: 0
