@@ -6,4 +6,9 @@ using UnityEngine;
 public class PlayerRespawnPositon : ScriptableObject
 {
     public Vector3 respawnPositionCheckPoint;
+
+    public void SetCheckPointSpawnPosition(Vector3 pos)
+    {
+        respawnPositionCheckPoint = pos;
+    }
 }

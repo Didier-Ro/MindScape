@@ -47,9 +47,8 @@ public class BoxDetector : MonoBehaviour
                     if (clonPrefab)
                     {
                         clonPrefab.GetComponent<BoxFalling>().SetSpawnPosition(spawnPos);
-                        fallingScript.SetPlayerRespawnPosition(nextPlayerSpawnPosition);
-                        Debug.Log(clonPrefab);
                     }
+                    fallingScript.SetPlayerRespawnPosition(nextPlayerSpawnPosition);
                     gameObject.SetActive(false);
                 }
             }
