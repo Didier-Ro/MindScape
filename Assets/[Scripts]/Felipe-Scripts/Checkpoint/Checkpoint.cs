@@ -20,6 +20,7 @@ public class Checkpoint : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            Debug.Log("Checkpoint");
             if (collision.TryGetComponent(out Falling fallingScript))
             {
                 fallingScript.SetPlayerRespawnPosition();
