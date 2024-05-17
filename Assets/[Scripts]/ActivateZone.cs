@@ -91,6 +91,12 @@ public class ActivateZone : MonoBehaviour
        
    }
 
+   private void OnEnable()
+   {
+      Collider2D collider2D = GetComponent<Collider2D>();
+      collider2D.enabled = true;
+   }
+
    private void OnDisable()
    {
       canActivate = false;
