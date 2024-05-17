@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -36,8 +35,6 @@ public class ShadowEffect : MonoBehaviour, Ikillable
 
     public float dis1;
     public float dis2;
-
-
     void Start()
     {
         light2D = GameManager.GetInstance().GetLightReference();
@@ -45,13 +42,12 @@ public class ShadowEffect : MonoBehaviour, Ikillable
         shadowColor = material.color;
         CreateShadow();
         box.OnBoxStateChange += OnBoxStateChanged;
-        SubscribeToFlashlight();
     }
 
     private void Update()
     {
         if (lighEnergy == LIGHT_ENERGY_STATE.ON)
-        {          
+        {
             if (!GameManager.GetInstance().GetFlashing())
             {
                 lightState = Light_State.DEPLOY;
@@ -65,9 +61,9 @@ public class ShadowEffect : MonoBehaviour, Ikillable
 
     private void FixedUpdate()
     {
-        if(lighEnergy == LIGHT_ENERGY_STATE.ON)
+        if (lighEnergy == LIGHT_ENERGY_STATE.ON)
         {
-            if(shadow != null)
+            if (shadow != null)
             {
                 if (lightState == Light_State.DEPLOY)
                 {
