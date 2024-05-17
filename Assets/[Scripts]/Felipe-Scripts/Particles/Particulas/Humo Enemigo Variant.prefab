@@ -22,11 +22,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 33277595102891901, guid: e7bf03fe667e10346b5297d0a2b17976, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.158
+      value: -4.68
       objectReference: {fileID: 0}
     - target: {fileID: 33277595102891901, guid: e7bf03fe667e10346b5297d0a2b17976, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.79
+      value: -5.645529
       objectReference: {fileID: 0}
     - target: {fileID: 33277595102891901, guid: e7bf03fe667e10346b5297d0a2b17976, type: 3}
       propertyPath: m_LocalPosition.z
@@ -61,8 +61,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3482292281878207153, guid: e7bf03fe667e10346b5297d0a2b17976, type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3482292281878207153, guid: e7bf03fe667e10346b5297d0a2b17976, type: 3}
       propertyPath: m_SortingOrder
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3482292281878207153, guid: e7bf03fe667e10346b5297d0a2b17976, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -464924243
       objectReference: {fileID: 0}
     - target: {fileID: 6124806727009984480, guid: e7bf03fe667e10346b5297d0a2b17976, type: 3}
       propertyPath: looping
@@ -102,7 +110,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6124806727009984480, guid: e7bf03fe667e10346b5297d0a2b17976, type: 3}
       propertyPath: InitialModule.maxNumParticles
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6124806727009984480, guid: e7bf03fe667e10346b5297d0a2b17976, type: 3}
       propertyPath: InitialModule.startSize.scalar
@@ -118,11 +126,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6124806727009984480, guid: e7bf03fe667e10346b5297d0a2b17976, type: 3}
       propertyPath: EmissionModule.rateOverTime.scalar
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6124806727009984480, guid: e7bf03fe667e10346b5297d0a2b17976, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6124806727009984480, guid: e7bf03fe667e10346b5297d0a2b17976, type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
