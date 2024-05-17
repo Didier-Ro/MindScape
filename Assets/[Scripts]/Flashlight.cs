@@ -235,7 +235,6 @@ public class Flashlight : MonoBehaviour
             ReduceSliderValue(0.01f);
         }
 
-        // Llamar partículas para el modo círculo
         if (activeCircleParticles == null)
         {
             activeCircleParticles = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.ChispasCirculo, transform.position, new Vector3(0, -90, 0));
@@ -254,14 +253,12 @@ public class Flashlight : MonoBehaviour
             activeConcentratedParticles = null;
         }
 
-        // Configurar la posición y rotación de las partículas de círculo
         if (activeCircleParticles != null)
         {
             activeCircleParticles.transform.position = transform.position;
             activeCircleParticles.transform.rotation = Quaternion.Euler(0, -90, 0);
             activeCircleParticles.SetActive(true);
 
-            // Asegúrate de que el ParticleSystem esté reproduciéndose
             var particleSystem = activeCircleParticles.GetComponent<ParticleSystem>();
             if (particleSystem != null && !particleSystem.isPlaying)
             {
@@ -310,13 +307,12 @@ public class Flashlight : MonoBehaviour
             ReduceSliderValue(0.1f);
         }
 
-        // Llamar partículas para el modo concentrado
         if (activeConcentratedParticles == null)
         {
             activeConcentratedParticles = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Linternacerradaconluz, transform.position, transform.rotation.eulerAngles);
             if (activeConcentratedParticles != null)
             {
-                activeConcentratedParticles.transform.rotation = Quaternion.Euler(0, 0, flashLightTransform.rotation.eulerAngles.z); // Asegúrate de que miren en la misma dirección que la linterna
+                activeConcentratedParticles.transform.rotation = Quaternion.Euler(0, 0, flashLightTransform.rotation.eulerAngles.z);
                 var particleSystem = activeConcentratedParticles.GetComponent<ParticleSystem>();
                 if (particleSystem != null)
                 {
@@ -330,14 +326,12 @@ public class Flashlight : MonoBehaviour
             activeCircleParticles = null;
         }
 
-        // Configurar la posición y otros parámetros de las partículas si es necesario
         if (activeConcentratedParticles != null)
         {
             activeConcentratedParticles.transform.position = transform.position;
             activeConcentratedParticles.transform.rotation = Quaternion.Euler(0, 0, flashLightTransform.rotation.eulerAngles.z);
             activeConcentratedParticles.SetActive(true);
 
-            // Asegúrate de que el ParticleSystem esté reproduciéndose
             var particleSystem = activeConcentratedParticles.GetComponent<ParticleSystem>();
             if (particleSystem != null && !particleSystem.isPlaying)
             {

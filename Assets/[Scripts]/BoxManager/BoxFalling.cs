@@ -11,8 +11,9 @@ public class BoxFalling : MonoBehaviour
     [Tooltip("If the box is SINGLE, then there is no need to reference DetectorManager.")]
     [SerializeField] private TYPE_BOX type_Box;
     [SerializeField] private OverlapBoxDetectorManager overlayBoxDetectorManager;
-    [SerializeField] private GameObject fallingParticles; // Reference to the falling particles prefab
+    [SerializeField] private PoolManager poolManager; // Reference to the PoolManager
     [SerializeField] private Transform groundCheck; // Transform that checks for ground collision
+    [SerializeField] private LayerMask groundLayer; // Layer mask for the ground
 
     public BOX_STATE boxState = BOX_STATE.IDLE;
     public Action<BOX_STATE> OnBoxStateChange;
@@ -20,15 +21,11 @@ public class BoxFalling : MonoBehaviour
     private bool canMove = false;
     [SerializeField] private int conditionId;
     [SerializeField] private Vector3 positionWhenPuzzleIsCompleted;
-
-    [SerializeField] bool isFalling;
+    [SerializeField] private bool isFalling;
 
     private float size;
     private float totalSize;
     private ActivateZone activateZone;
-
-    [SerializeField] private PoolManager poolManager;
-    private bool laCajaTocaElPiso = false;
 
     void Start()
     {
@@ -55,17 +52,11 @@ public class BoxFalling : MonoBehaviour
         {
             MoveBox();
         }
+    }
 
-        // Check for collision with ground
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, 0.1f);
-        foreach (Collider2D collider in colliders)
-        {
-            if (collider.gameObject.CompareTag("Ground"))
-            {
-                // Spawn falling particles when colliding with ground
-                SpawnFallingParticles();
-            }
-        }
+    public void BoxInZone()
+    {
+        isFalling = true;
     }
 
     void Falling()
@@ -86,24 +77,11 @@ public class BoxFalling : MonoBehaviour
             }
             else if (type_Box == TYPE_BOX.SINGLE)
             {
-                RespawnBox(finalPoint); ;
-            }
-        }
-        if (laCajaTocaElPiso)
-        {
-            // Activa la partícula cuando la caja toca el piso
-            GameObject particle = poolManager.GetPooledObject(OBJECT_TYPE.ParticulaCajaCaída2, box.transform.position, Vector3.zero);
-            if (particle != null)
-            {
-                particle.SetActive(true);
-                // Puedes hacer ajustes adicionales a la partícula aquí si es necesario
+                RespawnBox(finalPoint);
             }
         }
     }
-    public void BoxInZone()
-    {
-        isFalling = true;
-    }
+
     public void SetSpawnPosition(Vector3 _finalPoint)
     {
         finalPoint = _finalPoint;
@@ -113,12 +91,8 @@ public class BoxFalling : MonoBehaviour
     public void ChangeBoxState(BOX_STATE _newBoxState)
     {
         boxState = _newBoxState;
-        if (OnBoxStateChange != null)
-        {
-            OnBoxStateChange.Invoke(boxState);
-        }
+        OnBoxStateChange?.Invoke(boxState);
     }
-
 
     public BOX_STATE GetBoxState()
     {
@@ -151,16 +125,25 @@ public class BoxFalling : MonoBehaviour
             canMove = false;
             boxColliderParent.enabled = true;
             boxColliderChild.enabled = true;
+
+            // Spawn falling particles when the box becomes idle
+            SpawnFallingParticles();
         }
     }
 
     void SpawnFallingParticles()
     {
-        // Instantiate the falling particles at the box's position
-        Instantiate(fallingParticles, transform.position, Quaternion.identity);
+        // Get a falling particle object from the pool
+        GameObject particle = poolManager.GetPooledObject(OBJECT_TYPE.ParticulaCajaCaída2, transform.position, Vector3.zero);
+
+        // If a particle object was successfully retrieved from the pool
+        if (particle != null)
+        {
+            // Activate the particle
+            particle.SetActive(true);
+        }
     }
 }
-
 
 public enum TYPE_BOX
 {
