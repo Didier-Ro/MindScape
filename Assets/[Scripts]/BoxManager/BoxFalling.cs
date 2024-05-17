@@ -11,6 +11,8 @@ public class BoxFalling : MonoBehaviour
     [Tooltip("If the box is SINGLE, then there is no need to reference DetectorManager.")]
     [SerializeField] private TYPE_BOX type_Box;
     [SerializeField] private OverlapBoxDetectorManager overlayBoxDetectorManager;
+    [SerializeField] private GameObject fallingParticles; // Reference to the falling particles prefab
+    [SerializeField] private Transform groundCheck; // Transform that checks for ground collision
 
     public BOX_STATE boxState = BOX_STATE.IDLE;
     public Action<BOX_STATE> OnBoxStateChange;
@@ -24,11 +26,13 @@ public class BoxFalling : MonoBehaviour
     private float size;
     private float totalSize;
     private ActivateZone activateZone;
+    
+    private bool laCajaTocaElPiso = false;
 
     void Start()
     {
         activateZone = GetComponent<ActivateZone>();
-        
+
         if (GameManager.GetInstance().IsConditionCompleted(conditionId))
         {
             boxColliderParent.enabled = false;
@@ -50,11 +54,17 @@ public class BoxFalling : MonoBehaviour
         {
             MoveBox();
         }
-    }
 
-    public void BoxInZone()
-    {
-        isFalling = true;
+        // Check for collision with ground
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, 0.1f);
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.gameObject.CompareTag("Ground"))
+            {
+                // Spawn falling particles when colliding with ground
+                SpawnFallingParticles();
+            }
+        }
     }
 
     void Falling()
@@ -62,33 +72,46 @@ public class BoxFalling : MonoBehaviour
         ChangeBoxState(BOX_STATE.FALLING);
         boxColliderParent.enabled = false;
         boxColliderChild.enabled = false;
-        box.transform.localScale -= new Vector3(totalSize, totalSize,0);
+        box.transform.localScale -= new Vector3(totalSize, totalSize, 0);
 
         if (box.transform.localScale.y <= 0 || box.transform.localScale.x <= 0)
         {
             isFalling = false;
-            box.transform.localScale = new Vector3(0,0,0);
+            box.transform.localScale = new Vector3(0, 0, 0);
 
             if (type_Box == TYPE_BOX.DUO)
             {
                 RespawnBox(overlayBoxDetectorManager.FindVoidPlace());
             }
-            else if(type_Box == TYPE_BOX.SINGLE) 
+            else if (type_Box == TYPE_BOX.SINGLE)
             {
-                RespawnBox(finalPoint);;
+                RespawnBox(finalPoint); ;
+            }
+        }
+        if (laCajaTocaElPiso)
+        {
+            // Activa la part�cula cuando la caja toca el piso
+            GameObject particle = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.ParticulaCajaCaída2, box.transform.position, Vector3.zero);
+            if (particle != null)
+            {
+                particle.SetActive(true);
+                // Puedes hacer ajustes adicionales a la part�cula aqu� si es necesario
             }
         }
     }
-
+    public void BoxInZone()
+    {
+        isFalling = true;
+    }
     public void SetSpawnPosition(Vector3 _finalPoint)
     {
         finalPoint = _finalPoint;
-        BoxInZone();    
+        BoxInZone();
     }
 
     public void ChangeBoxState(BOX_STATE _newBoxState)
     {
-        boxState= _newBoxState;
+        boxState = _newBoxState;
         if (OnBoxStateChange != null)
         {
             OnBoxStateChange.Invoke(boxState);
@@ -104,7 +127,7 @@ public class BoxFalling : MonoBehaviour
     void RespawnBox(Vector3 _finalPoint)
     {
         transform.position = _finalPoint;
-        box.transform.position = new Vector3(_finalPoint.x, 27,0);
+        box.transform.position = new Vector3(_finalPoint.x, 27, 0);
         box.transform.localScale = new Vector3(1, 1, 1);
         ChangeBoxState(BOX_STATE.SPAWNING);
         spawnPoint = new Vector3(_finalPoint.x, 27, 0);
@@ -128,6 +151,12 @@ public class BoxFalling : MonoBehaviour
             boxColliderParent.enabled = true;
             boxColliderChild.enabled = true;
         }
+    }
+
+    void SpawnFallingParticles()
+    {
+        // Instantiate the falling particles at the box's position
+        Instantiate(fallingParticles, transform.position, Quaternion.identity);
     }
 }
 
