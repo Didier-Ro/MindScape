@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "WorldConditions", menuName = "ScriptableObjects/WorldConditions", order = 2)]
@@ -8,7 +9,11 @@ public class WorldCondition : ScriptableObject, IsaveScript
     public int nGame;
     public int timePlayed;
     public Vector3 lastPosition;
-    
+
+    public int GetTimePlayed()
+    {
+        return timePlayed;
+    }
     
     public void MarkCondition(int id, bool done = true)
     {
@@ -32,16 +37,12 @@ public class WorldCondition : ScriptableObject, IsaveScript
     public float GetPercentageOfGameCompleted()
     {
         float percentageCompleted = 0;
-        foreach (var condition in conditions)
+        for (int i = 1; i < conditions.Length; i++)
         {
-            if (condition.isCompleted)
+            if (conditions[i].isCompleted)
             {
                 percentageCompleted++;
             }
-        }
-        if (percentageCompleted == 0)
-        {
-            percentageCompleted--;
         }
         percentageCompleted /= conditions.Length;
         percentageCompleted *= 100;

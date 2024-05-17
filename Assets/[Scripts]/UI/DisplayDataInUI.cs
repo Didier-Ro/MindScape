@@ -9,13 +9,14 @@ public class DisplayDataInUI : MonoBehaviour
 
     public TMP_Text percentageCompletedText;
     public TMP_Text currentLevelText;
+    public TMP_Text currentTimePlayedText;
     public int percentage;
     public int level;
 
     private void Start()
     {
         // Verificar si hay al menos un elemento en el arreglo
-        if (displayData.percentageOfGameCompleted.Length > 0)
+        if (displayData.percentageOfGameCompleted.Count > 0)
         {
             // Obtener el valor en la posici�n 0 del arreglo y convertirlo a cadena de texto
             float percentageValue = displayData.percentageOfGameCompleted[percentage];
@@ -40,6 +41,14 @@ public class DisplayDataInUI : MonoBehaviour
         else
         {
             currentLevelText.text = "Nivel no disponible";
+        }
+        
+        if (displayData.gamesTimePlayed != null)
+        {
+            int time = displayData.gamesTimePlayed[level];
+            int minutes = time / 60;
+            int seconds = time % 60;
+            currentTimePlayedText.text = minutes + "m " + seconds + "s";
         }
     }
 }
