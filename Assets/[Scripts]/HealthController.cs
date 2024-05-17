@@ -29,6 +29,11 @@ public class HealthController : MonoBehaviour
     public Transform particleSpawnPoint; // Point to spawn particles
     private bool particlesSpawned = false;
 
+    [Header("Audio")]
+    public AudioSource audioSource; // Referencia al componente de audio
+    public SoundLibrary soundLibrary; // Referencia al SoundLibrary
+    public SOUND_TYPE whisperSoundType;
+
     void UpdatePlayerHealth()
     {
         Color imageAlpha = migraineImage.color;
@@ -83,6 +88,7 @@ public class HealthController : MonoBehaviour
                 currentPlayerHealth = maxPlayerHealth;
                 healCooldown = maxHealCoolDown;
                 canRegen = false;
+                RemoveStressParticles();
             }
         }
     }
@@ -93,13 +99,36 @@ public class HealthController : MonoBehaviour
         {
             SpawnStressParticles();
             particlesSpawned = true;
+            PlayWhisperSound(); // Reproduce el sonido cuando se activan las partículas
         }
         else if (currentPlayerHealth >= maxPlayerHealth && particlesSpawned)
         {
             particlesSpawned = false;
             RemoveStressParticles();
+            StopWhisperSound(); // Detiene el sonido cuando se desactivan las partículas
         }
     }
+    private void PlayWhisperSound()
+    {
+        if (audioSource != null && !audioSource.isPlaying && soundLibrary != null)
+        {
+            AudioClip whisperSound = soundLibrary.GetRandomSoundFromType(whisperSoundType);
+            if (whisperSound != null)
+            {
+                audioSource.clip = whisperSound;
+                audioSource.Play();
+            }
+        }
+    }
+
+    private void StopWhisperSound()
+    {
+        if (audioSource != null && audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
+    }
+
     [SerializeField] private float headHeight = 1.4f; // Ajusta la altura relativa de la cabeza del jugador
 
     void SpawnStressParticles()

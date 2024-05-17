@@ -26,6 +26,8 @@ public class BoxFalling : MonoBehaviour
     private float size;
     private float totalSize;
     private ActivateZone activateZone;
+    [SerializeField] private SoundLibrary soundLibrary;
+
 
     void Start()
     {
@@ -79,9 +81,33 @@ public class BoxFalling : MonoBehaviour
             {
                 RespawnBox(finalPoint);
             }
+
+            // Reproducir sonido de caja impacto
+            PlayRandomImpactSound();
         }
     }
+    void PlayRandomImpactSound()
+    {
+        // Asegúrate de que el SoundLibrary esté asignado
+        if (soundLibrary == null)
+        {
+            Debug.LogError("SoundLibrary is not assigned!");
+            return;
+        }
 
+        // Obtener un sonido aleatorio de caja impacto de la SoundLibrary
+        AudioClip impactSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.ROT_CAJAS_IMPACTO);
+
+        // Reproducir el sonido si se encontró
+        if (impactSound != null)
+        {
+            AudioSource.PlayClipAtPoint(impactSound, transform.position);
+        }
+        else
+        {
+            Debug.LogWarning("Impact sound not found!");
+        }
+    }
     public void SetSpawnPosition(Vector3 _finalPoint)
     {
         finalPoint = _finalPoint;
@@ -128,6 +154,9 @@ public class BoxFalling : MonoBehaviour
 
             // Spawn falling particles when the box becomes idle
             SpawnFallingParticles();
+
+            // Reproducir el sonido de impacto cuando la caja vuelve al estado IDLE después de caer
+            PlayRandomImpactSound();
         }
     }
 

@@ -52,6 +52,9 @@ public class Flashlight : MonoBehaviour
 
     private GameObject activeCircleParticles;
     private GameObject activeConcentratedParticles;
+
+    [SerializeField] private SoundLibrary soundLibrary;
+    [SerializeField] private AudioSource audioSource;
     private void Awake()
     {
         if (Instance == null)
@@ -71,6 +74,15 @@ public class Flashlight : MonoBehaviour
         InitializeFlashlight();
         LightSetUp();
         angleRange = minPointLightOuterAngle / 2;
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null)
+            {
+                // Si no hay un AudioSource adjunto al mismo GameObject, intenta encontrarlo en algún hijo
+                audioSource = GetComponentInChildren<AudioSource>();
+            }
+        }
     }
 
     // Update is called once per frame
@@ -292,6 +304,17 @@ public class Flashlight : MonoBehaviour
             flashlight.pointLightOuterAngle = maxPointLightOuterAngle;
             wallFlashLight.pointLightOuterAngle = maxPointLightOuterAngle;
         }
+        if (activeConcentratedParticles != null)
+        {
+            activeConcentratedParticles.SetActive(false);
+            activeConcentratedParticles = null;
+
+            // Detener la reproducción del sonido si estaba activa
+            if (audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
+        }
     }
 
 
@@ -364,6 +387,28 @@ public class Flashlight : MonoBehaviour
         {
             flashlight.pointLightOuterAngle = minPointLightOuterAngle;
             wallFlashLight.pointLightOuterAngle = minPointLightOuterAngle;
+        }
+        AudioClip rayoDeLuzSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.ROT_RAYO_DE_LUZ_RELOADED);
+        if (rayoDeLuzSound != null)
+        {
+            audioSource.PlayOneShot(rayoDeLuzSound);
+        }
+        if (currentSliderValue > 0)
+        {
+            PlayConcentratedSound(); // Esta función debería manejar la reproducción del sonido concentrado
+        }
+    }
+    private void PlayConcentratedSound()
+    {
+        if (!audioSource.isPlaying) // Verifica si no se está reproduciendo ya el sonido
+        {
+            AudioClip soundClip = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.ROT_RAYO_DE_LUZ_RELOADED);
+            if (soundClip != null)
+            {
+                audioSource.clip = soundClip;
+                audioSource.volume = 0.5f; // Ajusta el volumen según sea necesario
+                audioSource.Play();
+            }
         }
     }
 

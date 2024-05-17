@@ -231,7 +231,61 @@ public class Enemy : MonoBehaviour, Ikillable
 
           }
         ActivateSmokeParticles();
+        Debug.Log("El enemigo ha sido golpeado");
+        PlayDamageSound();
 
+    }
+    [SerializeField] private SoundLibrary soundLibrary;
+    private void PlayDamageSound()
+    {
+        // Asegurarse de que el SoundLibrary esté asignado
+        if (soundLibrary == null)
+        {
+            Debug.LogError("SoundLibrary is not assigned!");
+            return;
+        }
+
+        // Obtener un sonido aleatorio de daño de enemigo de la SoundLibrary
+        AudioClip damageSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.GOLPE_ENEMIGO);
+
+        // Reproducir el sonido si se encontró
+        if (damageSound != null)
+        {
+            AudioSource.PlayClipAtPoint(damageSound, transform.position);
+        }
+        else
+        {
+            Debug.LogWarning("Damage sound not found!");
+        }
+    }
+    public void Die()
+    {
+        // Tu lógica para manejar la muerte del enemigo...
+
+        // Reproducir el sonido de muerte del enemigo
+        PlayDeathSound();
+    }
+    private void PlayDeathSound()
+    {
+        // Asegurarse de que el SoundLibrary esté asignado
+        if (soundLibrary == null)
+        {
+            Debug.LogError("SoundLibrary is not assigned!");
+            return;
+        }
+
+        // Obtener un sonido aleatorio de muerte de enemigo de la SoundLibrary
+        AudioClip deathSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.MUERTE_ENEMIGO);
+
+        // Reproducir el sonido si se encontró
+        if (deathSound != null)
+        {
+            AudioSource.PlayClipAtPoint(deathSound, transform.position);
+        }
+        else
+        {
+            Debug.LogWarning("Death sound not found!");
+        }
     }
 
     private void ActivateSmokeParticles()
