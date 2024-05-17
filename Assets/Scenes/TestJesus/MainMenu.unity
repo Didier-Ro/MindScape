@@ -1079,11 +1079,9 @@ MonoBehaviour:
   - Level1
   - Level2
   conditionsIds: 0000000003000000
-  currentLevel: 000000000000000000000000
-  percentageOfGameCompleted:
-  - 0
-  - 0
-  - 0
+  currentLevel: 
+  percentageOfGameCompleted: []
+  gamesTimePlayed: 
 --- !u!1 &500678122
 GameObject:
   m_ObjectHideFlags: 0
@@ -1444,8 +1442,10 @@ MonoBehaviour:
   displayData: {fileID: 239286898}
   percentageCompletedText: {fileID: 1347627030}
   currentLevelText: {fileID: 153136661}
+  currentTimePlayedText: {fileID: 0}
   percentage: 1
   level: 1
+  timePlayed: 1
 --- !u!1 &700717914
 GameObject:
   m_ObjectHideFlags: 0
@@ -2308,8 +2308,10 @@ MonoBehaviour:
   displayData: {fileID: 239286898}
   percentageCompletedText: {fileID: 1338166560}
   currentLevelText: {fileID: 111463447}
+  currentTimePlayedText: {fileID: 0}
   percentage: 2
   level: 2
+  timePlayed: 2
 --- !u!1 &1071183960
 GameObject:
   m_ObjectHideFlags: 0
@@ -4321,8 +4323,10 @@ MonoBehaviour:
   displayData: {fileID: 239286898}
   percentageCompletedText: {fileID: 700717916}
   currentLevelText: {fileID: 636526437}
+  currentTimePlayedText: {fileID: 0}
   percentage: 0
   level: 0
+  timePlayed: 0
 --- !u!1 &1901566328
 GameObject:
   m_ObjectHideFlags: 0
