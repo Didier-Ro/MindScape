@@ -30,10 +30,12 @@ public class Mirror : MonoBehaviour, Ikillable
     private float mediumAngleRange;
     private float upperAngleRange;
     private bool startPlayingParticles;
+    private bool canReflect = false;
 
 
     private void Start()
     {
+        GameManager.GetInstance().OnFlashingChange += TurnOffLight;
         _renderer = parentObject.GetComponent<Renderer>();
         ChangeHitPosition();
     }
@@ -43,26 +45,28 @@ public class Mirror : MonoBehaviour, Ikillable
         switch (mirrorStates)
         {
             case MirrorStates.IDLE:
+                canReflect = false;
                 break;
             case MirrorStates.REFLECTING:
+                canReflect = true;
                 MirrorProjection();
                 break;
             case MirrorStates.COOLING_TIME:
                 HealObject();
                 break;
             case MirrorStates.RECEIVING_LIGHT:
-                if (framesHit > secondsNeedToDisplayRay * 60)
-                {
-                    mirrorStates = MirrorStates.REFLECTING;
-                }
-                else
-                {
-                    recoverTime = 60;
-                    framesHit++;
-                }
+                canReflect = false;
                 break;
         }
         OverheatEffect();
+    }
+    
+    private void TurnOffLight(bool isFlashing)
+    {
+        if (!isFlashing)
+        {
+            UnHit(transform);
+        }
     }
 
     private void OverheatEffect()
@@ -85,12 +89,18 @@ public class Mirror : MonoBehaviour, Ikillable
         }
         else if(recoverTime <= 0)
         {
-            MirrorProjection();
+            if (canReflect)
+            {
+                MirrorProjection();
+            }
             framesHit--;
         }
         else
         {
-            MirrorProjection();
+            if (canReflect)
+            {
+                MirrorProjection();
+            }
             recoverTime--;
         }
     }
@@ -159,10 +169,15 @@ public class Mirror : MonoBehaviour, Ikillable
     {
         if (AngleCheck(player))
         {
-            if (mirrorStates == MirrorStates.IDLE || mirrorStates == MirrorStates.COOLING_TIME)
-            {
-                mirrorStates = MirrorStates.RECEIVING_LIGHT;
-            }
+                if (framesHit > secondsNeedToDisplayRay * 60)
+                {
+                    mirrorStates = MirrorStates.REFLECTING;
+                }
+                else
+                {
+                    recoverTime = 60;
+                    framesHit++;
+                }
         }
     }
 
