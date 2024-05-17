@@ -154,8 +154,18 @@ public class Flashlight : MonoBehaviour
 
     private void EnemyLanternCheck()
     {
-        if (currentSliderValue <= 0) return;
         Collider2D[] rangeCheck = Physics2D.OverlapCircleAll(transform.position, radius, targetMask);
+        if (currentSliderValue <= 0)
+        {
+            foreach (Collider2D collider2D in rangeCheck)
+            {
+                if (collider2D.GetComponent<Ikillable>() != null)
+                {
+                    collider2D.GetComponent<Ikillable>().UnHit(transform);
+                }
+            }
+            return;
+        }
         if (rangeCheck.Length == 0) return;
         foreach (Collider2D col in rangeCheck)
         {
