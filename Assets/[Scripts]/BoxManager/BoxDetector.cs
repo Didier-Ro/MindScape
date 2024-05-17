@@ -15,6 +15,7 @@ public class BoxDetector : MonoBehaviour
     [SerializeField] private Transform transformPoint;
 
     [SerializeField] private Falling fallingScript;
+    [SerializeField] private PlayerRespawnPositon playerRespawnPositon;
     [SerializeField] private Vector3 nextPlayerSpawnPosition;
 
     public GameObject clonPrefab;
@@ -37,7 +38,7 @@ public class BoxDetector : MonoBehaviour
             if (typeDetector == TYPE_DETECTOR.HOLE)
             {
                 doors.IncreaseHoleCounter();
-                if (doors.ReturnHoleCounter() < doors.holeNumbers)
+                if (doors.ReturnHoleCounter() <= doors.holeNumbers)
                 {
                     /*Transform parentTransform = collision.transform.parent;
                     GameObject parent = parentTransform.gameObject;        
@@ -45,7 +46,8 @@ public class BoxDetector : MonoBehaviour
                     colliderParent.enabled = false;*/
                     clonPrefab = Instantiate(boxPrefab, new Vector3(spawnPos.x, 27, 0), Quaternion.identity);
                     clonPrefab.GetComponent<BoxFalling>().SetSpawnPosition(spawnPos);
-                    fallingScript.SetPlayerRespawnPosition(nextPlayerSpawnPosition);
+                    playerRespawnPositon.SetCheckPointSpawnPosition(nextPlayerSpawnPosition);
+                    fallingScript.SetPlayerRespawnPosition();
                     //gameObject.SetActive(false);
                 }
                 gameObject.SetActive(false);
@@ -53,7 +55,7 @@ public class BoxDetector : MonoBehaviour
             else if (typeDetector == TYPE_DETECTOR.BUTTON)
             { 
                 doors.IncreaseCounter();
-                if (doors.ReturnCounter() != 2 || doors.ReturnHoleCounter() != 4)
+                if (doors.ReturnCounter() != doors.buttonNumbers || doors.ReturnHoleCounter() != doors.holeNumbers)
                 {
                     /*Transform parentTransform = collision.transform.parent;
                     GameObject parent = parentTransform.gameObject;        
@@ -103,12 +105,15 @@ public class BoxDetector : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     { 
-        animator.SetBool("Pressed", false );
-        playerSprite = player.Find("Sprite");
-        playerSprite.localPosition = new Vector3(0f, -0.1f, 0f);
-        if (collision.CompareTag("Feet"))
+        if(typeDetector == TYPE_DETECTOR.BUTTON || typeDetector == TYPE_DETECTOR.UNIQUE)
         {
-            doors.DecreaseCounter();
+            animator.SetBool("Pressed", false );
+            playerSprite = player.Find("Sprite");
+            playerSprite.localPosition = new Vector3(0f, -0.1f, 0f);
+            if (collision.CompareTag("Feet"))
+            {
+                doors.DecreaseCounter();
+            }
         }
     }
 }
