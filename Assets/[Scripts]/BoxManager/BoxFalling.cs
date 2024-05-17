@@ -26,8 +26,7 @@ public class BoxFalling : MonoBehaviour
     private float size;
     private float totalSize;
     private ActivateZone activateZone;
-
-    [SerializeField] private PoolManager poolManager;
+    
     private bool laCajaTocaElPiso = false;
 
     void Start()
@@ -91,12 +90,12 @@ public class BoxFalling : MonoBehaviour
         }
         if (laCajaTocaElPiso)
         {
-            // Activa la partícula cuando la caja toca el piso
-            GameObject particle = poolManager.GetPooledObject(OBJECT_TYPE.ParticulaCajaCaída2, box.transform.position, Vector3.zero);
+            // Activa la partï¿½cula cuando la caja toca el piso
+            GameObject particle = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.ParticulaCajaCaÃ­da2, box.transform.position, Vector3.zero);
             if (particle != null)
             {
                 particle.SetActive(true);
-                // Puedes hacer ajustes adicionales a la partícula aquí si es necesario
+                // Puedes hacer ajustes adicionales a la partï¿½cula aquï¿½ si es necesario
             }
         }
     }
