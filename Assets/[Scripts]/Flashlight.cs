@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
@@ -50,6 +51,9 @@ public class Flashlight : MonoBehaviour
     private float offsetAngle = 270;
     private float lastAngle = 0;
 
+    public Action<LIGHT_ENERGY_STATE> OnLightEnergyChange;
+    public LIGHT_ENERGY_STATE lightEnergyState = LIGHT_ENERGY_STATE.ON;
+
     private void Awake()
     {
         if (Instance == null)
@@ -60,6 +64,33 @@ public class Flashlight : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void OnEnable()
+    {
+        if (flashlight.isActiveAndEnabled)
+        {
+            ChangeEnergyState(LIGHT_ENERGY_STATE.ON);
+        }
+        else
+        {
+            ChangeEnergyState(LIGHT_ENERGY_STATE.OFF);
+        }
+    }
+
+    public void ChangeEnergyState(LIGHT_ENERGY_STATE _energyState)
+    {
+        lightEnergyState = _energyState;
+
+        if (OnLightEnergyChange != null)
+        {
+            OnLightEnergyChange.Invoke(lightEnergyState);
+        }
+    }
+
+    public LIGHT_ENERGY_STATE GetLightEnergyState()
+    {
+        return lightEnergyState;
     }
 
     // Start is called before the first frame update
@@ -320,4 +351,9 @@ public class Flashlight : MonoBehaviour
     {
         return energy;
     }
+}
+public enum LIGHT_ENERGY_STATE
+{
+    ON,
+    OFF
 }

@@ -36,5 +36,4 @@ public enum SOUND_TYPE
     MUERTE_ENEMIGO,
     PASOS_ALFOMBRA = 2,
     GOLPE_ENEMIGO,
-
 }
