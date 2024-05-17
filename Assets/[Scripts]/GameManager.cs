@@ -37,12 +37,7 @@ public class GameManager : MonoBehaviour
         ResetAll();
         LoadAllData();
     }
-
-    private void OnDestroy()
-    {
-        SaveAllData();
-    }
-
+    
     private void Update()
     {
         if (InputManager.GetInstance().FlashligthInput())
@@ -64,7 +59,9 @@ public class GameManager : MonoBehaviour
             framesPlayed++;
         }
         else if(GetCurrentGameState() != GAME_STATE.PAUSE && framesPlayed >= minuteQuickSaveRate * 3600)
-        {
+        { 
+           Debug.Log("guardado automatico se ha hecho");
+           framesPlayed++;
            SaveAllData();
         }
     }
