@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     private int framesPlayed;
     private GAME_STATE currentGameState = GAME_STATE.EXPLORATION;
     public Action<GAME_STATE> OnGameStateChange;
+    public Action<bool> OnFlashingChange;
 
     [Header("Shadow References")]
     [SerializeField] private Light2D flashlightReference;
@@ -84,6 +85,7 @@ public class GameManager : MonoBehaviour
     public void ToggleFlash()
     {
         isFlashing = !isFlashing;
+        OnFlashingChange.Invoke(isFlashing);
     }
 
     public void ChangeGameState(GAME_STATE _newGameState)//When called, the current Game State changes to the new Game State and sends a notification to all subscribers that the Game State changed
