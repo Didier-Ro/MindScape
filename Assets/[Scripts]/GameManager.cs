@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     private int framesPlayed;
     private GAME_STATE currentGameState = GAME_STATE.EXPLORATION;
     public Action<GAME_STATE> OnGameStateChange;
+    public Action<bool> OnFlashingChange;
 
     [Header("Shadow References")]
     [SerializeField] private Light2D flashlightReference;
@@ -49,6 +50,7 @@ public class GameManager : MonoBehaviour
         if (InputManager.GetInstance().FlashligthInput())
         {
            ToggleFlash();
+           OnFlashingChange.Invoke(isFlashing);
         }
         if (InputManager.GetInstance().SetPause())
         {
