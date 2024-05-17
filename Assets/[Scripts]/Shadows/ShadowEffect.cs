@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -25,7 +26,7 @@ public class ShadowEffect : MonoBehaviour, Ikillable
     float shadowOpacity = 1.0f;
 
     public Light_State lightState = Light_State.DEPLOY;
-
+    private LIGHT_ENERGY_STATE lighEnergy;
     public bool isIlluminated = false;
 
     [SerializeField] private BoxFalling box;
@@ -35,6 +36,8 @@ public class ShadowEffect : MonoBehaviour, Ikillable
 
     public float dis1;
     public float dis2;
+
+
     void Start()
     {
         light2D = GameManager.GetInstance().GetLightReference();
@@ -42,37 +45,44 @@ public class ShadowEffect : MonoBehaviour, Ikillable
         shadowColor = material.color;
         CreateShadow();
         box.OnBoxStateChange += OnBoxStateChanged;
+        SubscribeToFlashlight();
     }
 
     private void Update()
     {
-        if (!GameManager.GetInstance().GetFlashing())
-        {
-            lightState = Light_State.DEPLOY;
-        }
-        else
-        {
-            lightState = Light_State.CONCETRATE;
+        if (lighEnergy == LIGHT_ENERGY_STATE.ON)
+        {          
+            if (!GameManager.GetInstance().GetFlashing())
+            {
+                lightState = Light_State.DEPLOY;
+            }
+            else
+            {
+                lightState = Light_State.CONCETRATE;
+            }
         }
     }
 
     private void FixedUpdate()
     {
-        if(shadow != null)
+        if(lighEnergy == LIGHT_ENERGY_STATE.ON)
         {
-            if (lightState == Light_State.DEPLOY)
+            if(shadow != null)
             {
-                isIlluminated = false;
-                DrawShadow();
-            }
-
-            if (lightState == Light_State.CONCETRATE)
-            {
-                if (isIlluminated)
-                    DrawShadow();
-                else
+                if (lightState == Light_State.DEPLOY)
                 {
-                    shadow.SetActive(false);
+                    isIlluminated = false;
+                    DrawShadow();
+                }
+
+                if (lightState == Light_State.CONCETRATE)
+                {
+                    if (isIlluminated)
+                        DrawShadow();
+                    else
+                    {
+                        shadow.SetActive(false);
+                    }
                 }
             }
         }
@@ -82,6 +92,7 @@ public class ShadowEffect : MonoBehaviour, Ikillable
     private void OnDisable()
     {
         box.OnBoxStateChange -= OnBoxStateChanged;
+        DesubscribeToFlashLight();
     }
 
     public void DrawShadow()
@@ -167,7 +178,34 @@ public class ShadowEffect : MonoBehaviour, Ikillable
     {
         isIlluminated = false;
     }
+
+    private void SubscribeToFlashlight()
+    {
+        Flashlight.GetInstance().OnLightEnergyChange += OnLightEnergyChanged;
+        OnLightEnergyChanged(Flashlight.GetInstance().GetLightEnergyState());
+    }
+
+    private void DesubscribeToFlashLight()
+    {
+        Flashlight.GetInstance().OnLightEnergyChange -= OnLightEnergyChanged;
+    }
+
+    private void OnLightEnergyChanged(LIGHT_ENERGY_STATE _energyState)
+    {
+        lighEnergy = _energyState;
+
+        switch (lighEnergy)
+        {
+            case LIGHT_ENERGY_STATE.ON:
+                ShowShadow();
+                break;
+            case LIGHT_ENERGY_STATE.OFF:
+                DeleteShadow();
+                break;
+        }
+    }
 }
+
 public enum Light_State
 {
     DEPLOY,
