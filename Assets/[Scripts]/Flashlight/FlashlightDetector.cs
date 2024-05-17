@@ -41,12 +41,10 @@ public class FlashlightDetector : MonoBehaviour
         if (flashlight.isActiveAndEnabled)
         {
             ChangeEnergyState(LIGHT_ENERGY_STATE.ON);
-            Debug.Log("Encendida");
         }
         else
         {
             ChangeEnergyState(LIGHT_ENERGY_STATE.OFF);
-            Debug.Log("Apagada");
         }
     }
 
