@@ -35,7 +35,6 @@ public class Mirror : MonoBehaviour, Ikillable
     private void Start()
     {
         _renderer = parentObject.GetComponent<Renderer>();
-        GameManager.GetInstance().OnFlashingChange += TurnOffLight;
         ChangeHitPosition();
     }
 
@@ -52,6 +51,15 @@ public class Mirror : MonoBehaviour, Ikillable
                 HealObject();
                 break;
             case MirrorStates.RECEIVING_LIGHT:
+                if (framesHit > secondsNeedToDisplayRay * 60)
+                {
+                    mirrorStates = MirrorStates.REFLECTING;
+                }
+                else
+                {
+                    recoverTime = 60;
+                    framesHit++;
+                }
                 break;
         }
         OverheatEffect();
@@ -62,14 +70,6 @@ public class Mirror : MonoBehaviour, Ikillable
         float normalizedValue = Mathf.Clamp01(framesHit / (secondsNeedToDisplayRay*60f));
         Color finalColor = Color.Lerp(Color.white, Color.red, normalizedValue);
         _renderer.material.color = finalColor;
-    }
-
-    private void TurnOffLight(bool isFlashing)
-    {
-        if (!isFlashing)
-        {
-            UnHit(transform);
-        }
     }
 
     private void HealObject()
@@ -158,16 +158,10 @@ public class Mirror : MonoBehaviour, Ikillable
     public void Hit(Transform player)
     {
         if (AngleCheck(player))
-        { 
-            if (framesHit > secondsNeedToDisplayRay * 60)
-            {
-                mirrorStates = MirrorStates.REFLECTING;
-            }
-            else
+        {
+            if (mirrorStates == MirrorStates.IDLE || mirrorStates == MirrorStates.COOLING_TIME)
             {
                 mirrorStates = MirrorStates.RECEIVING_LIGHT;
-                recoverTime = 60;
-                framesHit++;
             }
         }
     }
