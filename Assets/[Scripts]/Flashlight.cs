@@ -179,6 +179,10 @@ public class Flashlight : MonoBehaviour
                     _canSeeTarget = false;
                     col.GetComponent<Ikillable>().UnHit(transform);
                 }
+                else
+                {
+                    col.GetComponent<Ikillable>().UnHit(transform);
+                }
             }
             else
             {
@@ -194,6 +198,10 @@ public class Flashlight : MonoBehaviour
                 else if (_canSeeTarget)
                 {
                     _canSeeTarget = false;
+                    col.GetComponent<Ikillable>().UnHit(transform);
+                }
+                else
+                {
                     col.GetComponent<Ikillable>().UnHit(transform);
                 }
             }
