@@ -91,7 +91,7 @@ public class BoxFalling : MonoBehaviour
         if (laCajaTocaElPiso)
         {
             // Activa la part�cula cuando la caja toca el piso
-            GameObject particle = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.ParticulaCajaCaída2, box.transform.position, Vector3.zero);
+            GameObject particle = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.ParticulaCajaCaida2, box.transform.position, Vector3.zero);
             if (particle != null)
             {
                 particle.SetActive(true);
