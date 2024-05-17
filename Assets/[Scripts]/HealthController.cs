@@ -21,6 +21,13 @@ public class HealthController : MonoBehaviour
     public float healCooldown = 3.0f;
     public float maxHealCoolDown = 3.0f;
     private bool startCoolDown = false;
+    [SerializeField] private float spawnRadius = 1f;
+    [SerializeField] private int maxParticles = 5;
+
+    [Header("Stress Particles")]
+    public float stressThreshold = 0.5f; // Threshold for health percentage to start showing stress particles
+    public Transform particleSpawnPoint; // Point to spawn particles
+    private bool particlesSpawned = false;
 
     void UpdatePlayerHealth()
     {
@@ -33,20 +40,21 @@ public class HealthController : MonoBehaviour
     {
         currentPlayerHealth -= damage;
 
-        if (currentPlayerHealth >= 0)
+        if (currentPlayerHealth > 0)
         {
             canRegen = false;
             UpdatePlayerHealth();
             healCooldown = maxHealCoolDown;
             startCoolDown = true;
             PlayerCameraShake.Instance.ShakeCamera(2f, 0.1f);
+            CheckStressParticles();
         }
         else if (currentPlayerHealth <= 0)
         {
             GameManager.GetInstance().ChangeGameState(GAME_STATE.DEAD);
             currentPlayerHealth = 0;
-           // gameOverScreen.SetActive(true);
-            Debug.Log("Se murio");
+            // gameOverScreen.SetActive(true);
+            Debug.Log("Player is dead");
         }
     }
 
@@ -68,12 +76,91 @@ public class HealthController : MonoBehaviour
             {
                 currentPlayerHealth += Time.deltaTime * regenRate;
                 UpdatePlayerHealth();
+                CheckStressParticles();
             }
             else
             {
                 currentPlayerHealth = maxPlayerHealth;
                 healCooldown = maxHealCoolDown;
                 canRegen = false;
+            }
+        }
+    }
+
+    void CheckStressParticles()
+    {
+        if (currentPlayerHealth < maxPlayerHealth && !particlesSpawned)
+        {
+            SpawnStressParticles();
+            particlesSpawned = true;
+        }
+        else if (currentPlayerHealth >= maxPlayerHealth && particlesSpawned)
+        {
+            particlesSpawned = false;
+            RemoveStressParticles();
+        }
+    }
+    [SerializeField] private float headHeight = 1.4f; // Ajusta la altura relativa de la cabeza del jugador
+
+    void SpawnStressParticles()
+    {
+        // Verifica si el punto de generación de partículas está asignado
+        if (particleSpawnPoint == null)
+        {
+            Debug.LogError("Particle spawn point not assigned in the Inspector!");
+            return;
+        }
+
+        Debug.Log("Spawning stress particles...");
+
+        // Obtiene la posición de la cabeza del jugador restando un pequeño valor a la altura relativa de la cabeza
+        Vector3 headPosition = transform.position + Vector3.up * (headHeight - 1f); // Resta 0.1 unidades para bajar un poco
+
+        // Genera las partículas
+        GameObject estres1 = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Estres1, headPosition, Vector3.zero);
+        GameObject estres2 = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Estres2Variant, headPosition, Vector3.zero);
+
+        // Configura las partículas generadas
+        if (estres1 != null)
+        {
+            estres1.transform.SetParent(transform); // Establece la partícula como hijo del jugador para seguimiento
+            var particleSystem1 = estres1.GetComponent<ParticleSystem>();
+            if (particleSystem1 != null)
+            {
+                particleSystem1.Play(); // Activa y reproduce el sistema de partículas
+            }
+            else
+            {
+                Debug.LogWarning("Estres1 particle system component not found.");
+            }
+        }
+
+        if (estres2 != null)
+        {
+            estres2.transform.SetParent(transform); // Establece la partícula como hijo del jugador para seguimiento
+            var particleSystem2 = estres2.GetComponent<ParticleSystem>();
+            if (particleSystem2 != null)
+            {
+                particleSystem2.Play(); // Activa y reproduce el sistema de partículas
+            }
+            else
+            {
+                Debug.LogWarning("Estres2Variant particle system component not found.");
+            }
+        }
+    }
+
+    void RemoveStressParticles()
+    {
+        Debug.Log("Removing stress particles...");
+        // Deactivate and stop all child particles
+        foreach (Transform child in transform)
+        {
+            var particleSystem = child.GetComponent<ParticleSystem>();
+            if (particleSystem != null)
+            {
+                particleSystem.Stop();
+                child.gameObject.SetActive(false);
             }
         }
     }

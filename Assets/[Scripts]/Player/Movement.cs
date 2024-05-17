@@ -9,8 +9,8 @@ public class Movement : MonoBehaviour
     [SerializeField] private bool isInteracting = false;
     [SerializeField] GameObject interactiveObject;
     private bool isSuscribed = true;
-    private float timeSinceLastStep = 0f; // Tiempo transcurrido desde el último paso
-    private float stepDelay = 0.5f; // Retraso entre pasos en segundos
+    private float timeSinceLastStep = 0f;
+    private float stepDelay = 0.5f;
 
     #region CenterPlayerToABox
     private bool isThePlayerCenterToTheBox;   
