@@ -19,7 +19,20 @@ public class VolumeController : MonoBehaviour
     {
         sfxVolumeSet = sfxSlider.value;
         float volumeInDB = (1 - Mathf.Sqrt(sfxVolumeSet)) * -80f;
-        mixer.SetFloat("VolumeSfx", volumeInDB);
+        mixer.SetFloat("SFX_Vol", volumeInDB);
     }
 
+    public void ChangeMasterVolume()
+    {
+        masterVolumeSet = masterSlider.value;
+        float volumeInDB = (1 - Mathf.Sqrt(masterVolumeSet)) * -80f;
+        mixer.SetFloat("Master_Vol", volumeInDB);
+    }
+
+    public void ChangeMusicVolume()
+    {
+        musicVolumeSet = musicSlider.value;
+        float volumeInDB = (1 - Mathf.Sqrt(musicVolumeSet)) * -80f;
+        mixer.SetFloat("Music_Vol", volumeInDB);
+    }
 }
