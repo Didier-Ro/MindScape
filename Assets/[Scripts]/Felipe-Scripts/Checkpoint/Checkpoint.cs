@@ -22,7 +22,7 @@ public class Checkpoint : MonoBehaviour
         {
             if (collision.TryGetComponent(out Falling fallingScript))
             {
-                fallingScript.SetPlayerRespawnPosition(checkpointPosition);
+                fallingScript.SetPlayerRespawnPosition();
             }
             CheckpointManager.AddCheckpointPosition(checkpointPosition);
             if (isSavedInGame)
@@ -31,7 +31,7 @@ public class Checkpoint : MonoBehaviour
                 Debug.Log("entra");
                 GameManager.GetInstance().MarkConditionCompleted(condition);
             }
-            playerRespawnPositon.respawnPositionCheckPoint = checkpointPosition;
+            playerRespawnPositon.SetCheckPointSpawnPosition(checkpointPosition);
         }
     }
 }

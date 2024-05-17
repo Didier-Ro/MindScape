@@ -11,7 +11,7 @@ public class Doors : MonoBehaviour
     [SerializeField] private bool doorIsOpen = false;
     [SerializeField] private int conditionId;
     public int holeNumbers;
-    [SerializeField] private int buttonNumbers;
+    public int buttonNumbers;
     [SerializeField] private byte buttonCounter = 0;
     private byte holeCounter = 0;
     private float delayStart = 3;
