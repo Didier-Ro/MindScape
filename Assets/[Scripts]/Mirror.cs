@@ -21,6 +21,7 @@ public class Mirror : MonoBehaviour, Ikillable
     [SerializeField] private Animator goalAnimator;
     [SerializeField] private MirrorPosition _mirrorPosition;
     private MirrorStates mirrorStates = MirrorStates.IDLE;
+    private Mirror hitmirror;
     //[SerializeField] private UnityEvent onAnimationEvent;
     private Renderer _renderer;
     private Vector3 directionToShotTheRaycast;
@@ -46,6 +47,11 @@ public class Mirror : MonoBehaviour, Ikillable
         {
             case MirrorStates.IDLE:
                 canReflect = false;
+                if (hitmirror != null)
+                {
+                    hitmirror.UnHit(transform);
+                    hitmirror = null;
+                }
                 break;
             case MirrorStates.REFLECTING:
                 canReflect = true;
@@ -197,7 +203,6 @@ public class Mirror : MonoBehaviour, Ikillable
         direction.y = ReduceErrorZero(direction.y);
         float angleRadians = Mathf.Atan2(direction.y, direction.x);
         float angleDegrees = Mathf.Repeat(angleRadians * Mathf.Rad2Deg, 360);
-        Debug.Log(angleDegrees);
         if (initialAngleRange < upperAngleRange)
         {
             return canSeeTarget = upperAngleRange >= angleDegrees && angleDegrees >= initialAngleRange;
@@ -232,10 +237,11 @@ public class Mirror : MonoBehaviour, Ikillable
             }
             float distance = ((Vector2)hit.point - (Vector2)outPoint.position).magnitude;
             lineRenderer.SetPosition(1, hit.point);
-            Mirror reflectedMirror = hit.collider.GetComponent<Mirror>();
-            if (reflectedMirror != null)
+            Mirror mirror = hit.collider.GetComponent<Mirror>();
+            if (mirror != null)
             {
-                reflectedMirror.GetComponent<Ikillable>().Hit(transform);
+                hitmirror = mirror;
+                hitmirror.GetComponent<Ikillable>().Hit(transform);
             }
         }
         else
