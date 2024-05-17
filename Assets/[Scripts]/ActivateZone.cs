@@ -91,6 +91,11 @@ public class ActivateZone : MonoBehaviour
        
    }
 
+   private void OnDisable()
+   {
+      canActivate = false;
+   }
+
    private void OnTriggerExit2D(Collider2D other)
    {
       if (other.CompareTag("Player"))
