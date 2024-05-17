@@ -106,10 +106,21 @@ public class Mirror : MonoBehaviour, Ikillable
                 directionToShotTheRaycast = Vector3.right;
                 mediumAngleRange = 90;
                 break;
+            case MirrorPosition.UPL:
+                positionsToSpawn.x = 0;
+                positionsToSpawn.y = 3;
+                directionToShotTheRaycast = Vector3.left;
+                break;
             case MirrorPosition.DOWN:
                 positionsToSpawn.x = 1;
                 positionsToSpawn.y = 3;
                 directionToShotTheRaycast = Vector3.left;
+                mediumAngleRange = 270;
+                break;
+            case MirrorPosition.DOWNL:
+                positionsToSpawn.x = 1;
+                positionsToSpawn.y = 2;
+                directionToShotTheRaycast = Vector3.right;
                 mediumAngleRange = 270;
                 break;
             case MirrorPosition.RIGHT:
@@ -118,10 +129,22 @@ public class Mirror : MonoBehaviour, Ikillable
                 directionToShotTheRaycast = Vector3.down;
                 mediumAngleRange = 0;
                 break;
+            case MirrorPosition.RIGHTL:
+                positionsToSpawn.x = 2;
+                positionsToSpawn.y = 0;
+                directionToShotTheRaycast = Vector3.up;
+                mediumAngleRange = 0;
+                break;
             case MirrorPosition.LEFT:
                 positionsToSpawn.x = 3;
                 positionsToSpawn.y = 0;
                 directionToShotTheRaycast = Vector3.up;
+                mediumAngleRange = 180;
+                break;
+            case MirrorPosition.LEFTL:
+                positionsToSpawn.x = 3;
+                positionsToSpawn.y = 1;
+                directionToShotTheRaycast = Vector3.down;
                 mediumAngleRange = 180;
                 break;
         }
@@ -224,6 +247,11 @@ public class Mirror : MonoBehaviour, Ikillable
         UP,
         DOWN,
         RIGHT,
-        LEFT
+        LEFT,
+        UPL,
+        DOWNL,
+        RIGHTL,
+        LEFTL
+        
     }
 }

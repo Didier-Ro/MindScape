@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class Doors : MonoBehaviour
 {
-    [SerializeField] private GameObject Door;
+    [SerializeField] private SpriteRenderer doorSprite;
+    [SerializeField] private Collider2D doorCollider;
     [SerializeField] private bool boxOnButton = false;
     [SerializeField] private bool doorIsOpen = false;
     [SerializeField] private int conditionId;
@@ -35,11 +36,19 @@ public class Doors : MonoBehaviour
         CameraManager.instance.ChangeCameraToThePlayer();
         if (isOpen)
         {
-         Door.SetActive(false);// Desactiva la puerta
+            if (doorSprite != null)
+                doorSprite.enabled = false;
+            
+            if (doorCollider != null)
+                doorCollider.enabled = false;
         }
         else
         {
-            Door.SetActive(true);
+            if (doorSprite != null)
+                doorSprite.enabled = true;
+
+            if (doorCollider != null)
+                doorCollider.enabled = true;
         }
     }
 
