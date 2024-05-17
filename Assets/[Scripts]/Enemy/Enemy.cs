@@ -40,8 +40,6 @@ public class Enemy : MonoBehaviour, Ikillable
     [SerializeField] private float framesHit = 0f;
     private SpriteRenderer spriteRenderer;
     [SerializeField] private float secondsToDie = 3;
-
-    private GameObject activeSmokeParticles;
     
     #region SubscriptionToGameManager
     private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
@@ -65,80 +63,35 @@ public class Enemy : MonoBehaviour, Ikillable
             rb = GetComponent<Rigidbody2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
-
-    void FixedUpdate()
-    {
-        if (!CanMove) return;
-
-        HealObject();
-
-        if (!GameManager.GetInstance().GetFlashing() && _flashlightTarget.currentSliderValue > 0)
+        
+        void FixedUpdate()
         {
-            animator.SetBool("Attack", false);
-            Chasing();
-        }
-        else
-        {
-            animator.SetBool("Attack", true);
-            GetSteering();
-        }
-
-        if (changeDirectionTimer < randomTimer)
-        {
-            changeDirectionTimer++;
-        }
-        else
-        {
-            changeDirectionTimer = 0;
-            isLurkingToTheRight = !isLurkingToTheRight;
-            RandomTimer();
-        }
-
-        // Activar las partículas solo si el enemigo se está moviendo
-        if (rb.velocity.magnitude > 0.1f)
-        {
-            ActivateSmokeParticles();
-
-        }
-        if (rb.velocity.magnitude > 0.1f)
-        {
-            // Actualizar la posición de las partículas de humo
-            if (activeSmokeParticles != null)
+            if (!CanMove) return;
+            HealObject();
+            if (!GameManager.GetInstance().GetFlashing() && _flashlightTarget.currentSliderValue > 0)
             {
-                activeSmokeParticles.transform.position = transform.position;
+                animator.SetBool("Attack" ,false);
+                Chasing();
             }
-
-            // Actualizar la rotación de las partículas
-            UpdateSmokeParticlesRotation();
+            else
+            {
+                animator.SetBool("Attack" ,true);
+                GetSteering();
+            }
+            if ( changeDirectionTimer < randomTimer)
+            {
+                changeDirectionTimer++;
+            }
+            else
+            {
+                changeDirectionTimer = 0;
+                isLurkingToTheRight = !isLurkingToTheRight;
+                RandomTimer();
+            }
+          
         }
-    }
-
-
-    private void UpdateSmokeParticlesPosition()
-    {
-        // Actualizar la posición de la partícula para que siga al enemigo
-        if (activeSmokeParticles != null)
-        {
-            activeSmokeParticles.transform.position = transform.position;
-        }
-    }
-    private void UpdateSmokeParticlesRotation()
-    {
-        // Obtener la dirección del movimiento del enemigo
-        Vector2 moveDirection = rb.velocity.normalized;
-
-        // Calcular el ángulo de rotación basado en la dirección del movimiento
-        float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
-
-        // Rotar la partícula de humo enemigo variant en esa dirección
-        if (activeSmokeParticles != null)
-        {
-            activeSmokeParticles.transform.rotation = Quaternion.Euler(0, 0, angle);
-        }
-    }
-
-
-    private void RandomTimer()
+        
+        private void RandomTimer()
         {
             Random random = new Random();
             randomTimer = random.Next(30, 90);
@@ -206,7 +159,6 @@ public class Enemy : MonoBehaviour, Ikillable
       
       public void Hit(Transform player)
       {
-
           if (CanMove)
           {
               recoverTime = recoverTimer; 
@@ -228,52 +180,11 @@ public class Enemy : MonoBehaviour, Ikillable
                   float opacitySprite = framesHit * 100 / (secondsToDie * 60)/100;
                   ChangeOpacity(1.0f - opacitySprite); 
               }
-
           }
-        ActivateSmokeParticles();
-
-    }
-
-    private void ActivateSmokeParticles()
-    {
-        // Desactivar partículas activas si hay alguna
-        if (activeSmokeParticles != null && activeSmokeParticles.activeInHierarchy)
-        {
-            // Si ya hay una partícula activa, no necesitamos instanciar otra
-            return;
-        }
-
-        // Obtener una instancia de la partícula de humo enemigo variant desde el PoolManager
-        activeSmokeParticles = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.HumoEnemigoVariant, transform.position, transform.rotation.eulerAngles);
-
-        // Asegurarse de que la partícula esté activada y posicionada correctamente
-        if (activeSmokeParticles != null)
-        {
-            activeSmokeParticles.transform.position = transform.position;
-
-            // Reproducir el ParticleSystem si es necesario
-            var particleSystem = activeSmokeParticles.GetComponent<ParticleSystem>();
-            if (particleSystem != null && !particleSystem.isPlaying)
-            {
-                particleSystem.Play();
-            }
-
-            // Actualizar la rotación inicial
-            UpdateSmokeParticlesRotation();
-        }
-    }
-
-    private void DeactivateSmokeParticles()
-    {
-        // Desactivar la partícula de humo si está activa
-        if (activeSmokeParticles != null && activeSmokeParticles.activeInHierarchy)
-        {
-            activeSmokeParticles.SetActive(false);
-        }
-    }
-
-
-    public virtual void GetSteering() //Gets the Player Direction and Makes a Prediction
+         
+      }
+      
+      public virtual void GetSteering() //Gets the Player Direction and Makes a Prediction
       {
           Vector2 direction =  targetTransform.position - transform.position;
           float distance = direction.magnitude;

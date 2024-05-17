@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class KeyScript : MonoBehaviour
 {
-    public GameObject doorContainer;
+    public GameObject doorContainer; // GameObject vacío que contiene el DoorScript
 
     private void OnTriggerEnter2D(Collider2D other)
     {

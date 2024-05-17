@@ -9,8 +9,7 @@ public class Movement : MonoBehaviour
     [SerializeField] private bool isInteracting = false;
     [SerializeField] GameObject interactiveObject;
     private bool isSuscribed = true;
-    private float timeSinceLastStep = 0f; // Tiempo transcurrido desde el último paso
-    private float stepDelay = 0.5f; // Retraso entre pasos en segundos
+    
 
     #region CenterPlayerToABox
     private bool isThePlayerCenterToTheBox;   
@@ -168,17 +167,6 @@ public class Movement : MonoBehaviour
             if (canMove)
             {
                 rb.MovePosition(rb.position + movement);
-                timeSinceLastStep += Time.fixedDeltaTime;
-                if (timeSinceLastStep > stepDelay)
-                {
-                    GameObject particle = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Pasos, rb.position, Vector3.zero);
-                    ParticleSystem particleSystem = particle.GetComponent<ParticleSystem>();
-                    if (particleSystem != null)
-                    {
-                        particleSystem.Play();
-                    }
-                    timeSinceLastStep = 0f;
-                }
             }
         }
     }

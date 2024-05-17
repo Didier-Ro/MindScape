@@ -26,23 +26,6 @@ public class EnemySpawner : MonoBehaviour
     public GameObject target;
     private int actualRound = 1;
     [SerializeField] private GameObject key;
-    private bool keyAnimating = false;
-    private float keyAnimationTime = 0.5f;
-    private float keyAnimationHeight = 0.5f;
-
-    private void Update()
-    {
-        if (keyAnimating)
-        {
-            float yPos = Mathf.Sin((Time.time / keyAnimationTime) * Mathf.PI) * keyAnimationHeight;
-            key.transform.position = new Vector3(key.transform.position.x, yPos, key.transform.position.z);
-            if (Time.time >= keyAnimationTime)
-            {
-                keyAnimating = false;
-                key.transform.position = new Vector3(key.transform.position.x, 0f, key.transform.position.z);
-            }
-        }
-    }
 
     public void SpawnRound(int _enemiesUWantToSpawn, OBJECT_TYPE _enemyType)
     {
@@ -80,12 +63,9 @@ public class EnemySpawner : MonoBehaviour
             {
                 doorScript.isUnlocked = true;
             }
-            StartKeyAnimation();
+            
+            key.SetActive(true);
+           // PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Key, transform.position, Vector3.zero);
         }
-    }
-
-    private void StartKeyAnimation()
-    {
-        keyAnimating = true;
     }
 }
