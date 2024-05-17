@@ -22,8 +22,6 @@ public class GameManager : MonoBehaviour
     [Header("Shadow References")]
     [SerializeField] private Light2D flashlightReference;
     [SerializeField] private Material shadowMaterialReference;
-    
-    [SerializeField] private PlayerRespawnPositon playerRespawnPositon;
 
     private void Awake()
     {
@@ -192,7 +190,6 @@ public class GameManager : MonoBehaviour
             allConditions[i].LoadData(dataToLoad[i]);
         }
         LoadCurrentGameData(PlayerPrefs.GetInt("GameNumber", 1));
-        playerRespawnPositon.SetCheckPointSpawnPosition(stageConditions.lastPosition); 
     }
 
     public void SaveSpecificGameData(int _gameUWantToReplace)

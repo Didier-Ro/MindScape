@@ -10,9 +10,7 @@ public class Falling : MonoBehaviour
     [SerializeField] private Light2D wallFlaslight;
     [SerializeField] private HealthController healthController;
 
-    [SerializeField] private DashController dashController;
-
-    [SerializeField] private Vector3 finalPlayerSpawnPosition;
+    private Vector3 finalPlayerSpawnPosition;
     [SerializeField] private PlayerRespawnPositon playerRespawnPositon;
     private Vector2 initialSpriteSpawnPosition;
 
@@ -32,7 +30,7 @@ public class Falling : MonoBehaviour
     {
         SubscribeToPlayerGameState();
         FallingSetUp();
-        SetPlayerRespawnPosition();
+        SetPlayerRespawnPosition(playerRespawnPositon.respawnPositionCheckPoint);
     }
 
     private void FixedUpdate()
@@ -48,9 +46,9 @@ public class Falling : MonoBehaviour
         }
     }
 
-    public void SetPlayerRespawnPosition()
+    public void SetPlayerRespawnPosition(Vector3 pos)
     {
-        finalPlayerSpawnPosition = playerRespawnPositon.GetCheckPoint();
+        finalPlayerSpawnPosition = pos;
     }
 
     private void RespawnPlayer()
@@ -113,7 +111,6 @@ public class Falling : MonoBehaviour
 
     private void PlayerFalling()
     {
-        dashController.StopAllCoroutines();
         spriteTransform.localScale -= new Vector3(totalSpriteSize, totalSpriteSize);
         //playerSprite.material.color -= new Color(1, 1, 1, totalAlpha);
         flasLight.pointLightInnerRadius -= totalRadious;
