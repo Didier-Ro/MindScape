@@ -42,6 +42,7 @@ public class ShadowEffect : MonoBehaviour, Ikillable
         shadowColor = material.color;
         CreateShadow();
         box.OnBoxStateChange += OnBoxStateChanged;
+        SubscribeToFlashlight();
     }
 
     private void Update()
@@ -177,13 +178,13 @@ public class ShadowEffect : MonoBehaviour, Ikillable
 
     private void SubscribeToFlashlight()
     {
-        Flashlight.GetInstance().OnLightEnergyChange += OnLightEnergyChanged;
-        OnLightEnergyChanged(Flashlight.GetInstance().GetLightEnergyState());
+        FlashlightDetector.GetInstance().OnLightEnergyChange += OnLightEnergyChanged;
+        OnLightEnergyChanged(FlashlightDetector.GetInstance().GetLightEnergyState());
     }
 
     private void DesubscribeToFlashLight()
     {
-        Flashlight.GetInstance().OnLightEnergyChange -= OnLightEnergyChanged;
+        FlashlightDetector.GetInstance().OnLightEnergyChange -= OnLightEnergyChanged;
     }
 
     private void OnLightEnergyChanged(LIGHT_ENERGY_STATE _energyState)
