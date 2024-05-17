@@ -24,7 +24,6 @@ GameObject:
   - component: {fileID: 3615247757312906683}
   - component: {fileID: 4435208341411124382}
   - component: {fileID: 5089621736467595596}
-  - component: {fileID: 2581954572896572785}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -130,7 +129,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: -4092
+  m_InstanceId: -1578
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0.5, z: 0}
@@ -238,7 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dashText: {fileID: 0}
   jumpText: {fileID: 0}
-  dashSpeed: 25
+  dashSpeed: 20
   dashTime: 0.1
   dashCooldown: 0.7
   dashStaminaCost: 25
@@ -383,8 +382,6 @@ MonoBehaviour:
   flasLight: {fileID: 2167727847186427669}
   wallFlaslight: {fileID: 8715654913658092055}
   healthController: {fileID: -2278262530916522709}
-  dashController: {fileID: 0}
-  finalPlayerSpawnPosition: {x: 0, y: 0, z: 0}
   playerRespawnPositon: {fileID: 11400000, guid: 588717180adcdfb4b88a7ae51af64d2e, type: 2}
   fallZonePosition: {x: 0, y: 0, z: 0}
   distance: 0
@@ -422,20 +419,6 @@ MonoBehaviour:
   - {fileID: 8134475042246843136}
   - {fileID: 8613713043244208271}
   buttonsAnimator: {fileID: 6288319894474418125}
---- !u!114 &2581954572896572785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2329885812725176872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 663a7982488f6554ab15912f9fadda3a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  flashlight: {fileID: 2167727847186427669}
-  lightEnergyState: 1
 --- !u!1 &3093103328976649715
 GameObject:
   m_ObjectHideFlags: 0
