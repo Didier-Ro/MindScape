@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
@@ -51,9 +50,8 @@ public class Flashlight : MonoBehaviour
     private float offsetAngle = 270;
     private float lastAngle = 0;
 
-    public Action<LIGHT_ENERGY_STATE> OnLightEnergyChange;
-    public LIGHT_ENERGY_STATE lightEnergyState = LIGHT_ENERGY_STATE.ON;
-
+    private GameObject activeCircleParticles;
+    private GameObject activeConcentratedParticles;
     private void Awake()
     {
         if (Instance == null)
@@ -75,51 +73,12 @@ public class Flashlight : MonoBehaviour
         angleRange = minPointLightOuterAngle / 2;
     }
 
-    private void Update()
-    {
-        if (flashlight.isActiveAndEnabled)
-        {
-            ChangeEnergyState(LIGHT_ENERGY_STATE.ON);
-        }
-        else
-        {
-            ChangeEnergyState(LIGHT_ENERGY_STATE.OFF);
-        }
-    }
-
     // Update is called once per frame
     void FixedUpdate()
     {
         if (!isExPloration)
             return;
         HandleInput();
-    }
-
-    private void OnEnable()
-    {
-        if (flashlight.isActiveAndEnabled)
-        {
-            ChangeEnergyState(LIGHT_ENERGY_STATE.ON);
-        }
-        else
-        {
-            ChangeEnergyState(LIGHT_ENERGY_STATE.OFF);
-        }
-    }
-
-    public void ChangeEnergyState(LIGHT_ENERGY_STATE _energyState)
-    {
-        lightEnergyState = _energyState;
-
-        if (OnLightEnergyChange != null)
-        {
-            OnLightEnergyChange.Invoke(lightEnergyState);
-        }
-    }
-
-    public LIGHT_ENERGY_STATE GetLightEnergyState()
-    {
-        return lightEnergyState;
     }
 
     private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
@@ -174,14 +133,20 @@ public class Flashlight : MonoBehaviour
         }
         angle += offsetAngle;
         //float difference = lastAngle - angle;
-        flashLightTransform.rotation = Quaternion.Slerp(Quaternion.Euler(0,0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
-        wallFlashLightTransform.rotation  = Quaternion.Slerp(Quaternion.Euler(0,0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
-       /* if (cameraView != null)
+        Quaternion newRotation = Quaternion.Slerp(Quaternion.Euler(0, 0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
+        flashLightTransform.rotation = newRotation;
+        wallFlashLightTransform.rotation = newRotation;
+        /* if (cameraView != null)
+         {
+             cameraView.transform.rotation = Quaternion.Slerp(Quaternion.Euler(0,0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
+             CameraManager.instance.ChangeCameraToAnObject(cameraView);
+         }*/
+        if (activeConcentratedParticles != null)
         {
-            cameraView.transform.rotation = Quaternion.Slerp(Quaternion.Euler(0,0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
-            CameraManager.instance.ChangeCameraToAnObject(cameraView);
-        }*/
-        lastAngle = flashLightTransform.rotation.z;
+            activeConcentratedParticles.transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
+
+        lastAngle = flashLightTransform.rotation.eulerAngles.z;
     }
 
     private float ReduceErrorZero(float value)
@@ -264,9 +229,47 @@ public class Flashlight : MonoBehaviour
         if (isInInitialRoom)
         {
             ReduceSliderValue(0.0f);
-        }else 
+        }
+        else
+        {
             ReduceSliderValue(0.01f);
-        flashlight.intensity -= intensityTimeSpeed; 
+        }
+
+        // Llamar partículas para el modo círculo
+        if (activeCircleParticles == null)
+        {
+            activeCircleParticles = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.ChispasCirculo, transform.position, new Vector3(0, -90, 0));
+            if (activeCircleParticles != null)
+            {
+                var particleSystem = activeCircleParticles.GetComponent<ParticleSystem>();
+                if (particleSystem != null)
+                {
+                    particleSystem.Play();
+                }
+            }
+        }
+        if (activeConcentratedParticles != null)
+        {
+            activeConcentratedParticles.SetActive(false);
+            activeConcentratedParticles = null;
+        }
+
+        // Configurar la posición y rotación de las partículas de círculo
+        if (activeCircleParticles != null)
+        {
+            activeCircleParticles.transform.position = transform.position;
+            activeCircleParticles.transform.rotation = Quaternion.Euler(0, -90, 0);
+            activeCircleParticles.SetActive(true);
+
+            // Asegúrate de que el ParticleSystem esté reproduciéndose
+            var particleSystem = activeCircleParticles.GetComponent<ParticleSystem>();
+            if (particleSystem != null && !particleSystem.isPlaying)
+            {
+                particleSystem.Play();
+            }
+        }
+
+        flashlight.intensity -= intensityTimeSpeed;
         flashlight.pointLightOuterRadius = 6.71f;
         flashlight.pointLightInnerRadius = 2.6f;
         wallFlashLight.pointLightOuterRadius = 6.71f;
@@ -276,7 +279,7 @@ public class Flashlight : MonoBehaviour
         flashlight.pointLightOuterAngle += lightOuterAngleTimeSpeed;
         wallFlashLight.pointLightOuterAngle += lightOuterAngleTimeSpeed;
 
-        if (flashlight.intensity <= minLightIntensity) 
+        if (flashlight.intensity <= minLightIntensity)
         {
             flashlight.intensity = minLightIntensity;
             wallFlashLight.intensity = minLightIntensity;
@@ -294,6 +297,7 @@ public class Flashlight : MonoBehaviour
         }
     }
 
+
     // Set flashlight settings for concentrated light mode
     private void ConcentrateLight()
     {
@@ -302,7 +306,45 @@ public class Flashlight : MonoBehaviour
             ReduceSliderValue(0.0f);
         }
         else
+        {
             ReduceSliderValue(0.1f);
+        }
+
+        // Llamar partículas para el modo concentrado
+        if (activeConcentratedParticles == null)
+        {
+            activeConcentratedParticles = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Linternacerradaconluz, transform.position, transform.rotation.eulerAngles);
+            if (activeConcentratedParticles != null)
+            {
+                activeConcentratedParticles.transform.rotation = Quaternion.Euler(0, 0, flashLightTransform.rotation.eulerAngles.z); // Asegúrate de que miren en la misma dirección que la linterna
+                var particleSystem = activeConcentratedParticles.GetComponent<ParticleSystem>();
+                if (particleSystem != null)
+                {
+                    particleSystem.Play();
+                }
+            }
+        }
+        if (activeCircleParticles != null)
+        {
+            activeCircleParticles.SetActive(false);
+            activeCircleParticles = null;
+        }
+
+        // Configurar la posición y otros parámetros de las partículas si es necesario
+        if (activeConcentratedParticles != null)
+        {
+            activeConcentratedParticles.transform.position = transform.position;
+            activeConcentratedParticles.transform.rotation = Quaternion.Euler(0, 0, flashLightTransform.rotation.eulerAngles.z);
+            activeConcentratedParticles.SetActive(true);
+
+            // Asegúrate de que el ParticleSystem esté reproduciéndose
+            var particleSystem = activeConcentratedParticles.GetComponent<ParticleSystem>();
+            if (particleSystem != null && !particleSystem.isPlaying)
+            {
+                particleSystem.Play();
+            }
+        }
+
         flashlight.intensity += intensityTimeSpeed;
         flashlight.pointLightOuterRadius = 15;
         flashlight.pointLightInnerRadius = 6;
@@ -331,6 +373,7 @@ public class Flashlight : MonoBehaviour
         }
     }
 
+
     public void ReduceSliderValue(float _reductionSpeed)
     {
         reductionSpeed = _reductionSpeed;
@@ -355,9 +398,4 @@ public class Flashlight : MonoBehaviour
     {
         return energy;
     }
-}
-
-public enum LIGHT_ENERGY_STATE{
-    ON,
-    OFF
 }
