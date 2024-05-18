@@ -11,7 +11,7 @@ public class PlayerStates : MonoBehaviour
     }
     #endregion
 
-    private PLAYER_STATES currentPlayerState = PLAYER_STATES.PLAY;
+    public PLAYER_STATES currentPlayerState = PLAYER_STATES.PLAY;
     public Action<PLAYER_STATES> OnPlayerStateChanged;
     public GameObject[] uiObjects;
     public Animator buttonsAnimator;

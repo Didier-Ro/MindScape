@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
@@ -49,6 +50,7 @@ public class Flashlight : MonoBehaviour
     [SerializeField] private Camera camera = default;
     private float offsetAngle = 270;
     private float lastAngle = 0;
+
 
     private void Awake()
     {
@@ -152,8 +154,18 @@ public class Flashlight : MonoBehaviour
 
     private void EnemyLanternCheck()
     {
-        if (currentSliderValue <= 0) return;
         Collider2D[] rangeCheck = Physics2D.OverlapCircleAll(transform.position, radius, targetMask);
+        if (currentSliderValue <= 0)
+        {
+            foreach (Collider2D collider2D in rangeCheck)
+            {
+                if (collider2D.GetComponent<Ikillable>() != null)
+                {
+                    collider2D.GetComponent<Ikillable>().UnHit(transform);
+                }
+            }
+            return;
+        }
         if (rangeCheck.Length == 0) return;
         foreach (Collider2D col in rangeCheck)
         {
@@ -179,6 +191,10 @@ public class Flashlight : MonoBehaviour
                     _canSeeTarget = false;
                     col.GetComponent<Ikillable>().UnHit(transform);
                 }
+                else
+                {
+                    col.GetComponent<Ikillable>().UnHit(transform);
+                }
             }
             else
             {
@@ -194,6 +210,10 @@ public class Flashlight : MonoBehaviour
                 else if (_canSeeTarget)
                 {
                     _canSeeTarget = false;
+                    col.GetComponent<Ikillable>().UnHit(transform);
+                }
+                else
+                {
                     col.GetComponent<Ikillable>().UnHit(transform);
                 }
             }

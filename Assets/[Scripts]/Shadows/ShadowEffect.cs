@@ -25,7 +25,7 @@ public class ShadowEffect : MonoBehaviour, Ikillable
     float shadowOpacity = 1.0f;
 
     public Light_State lightState = Light_State.DEPLOY;
-
+    private LIGHT_ENERGY_STATE lighEnergy;
     public bool isIlluminated = false;
 
     [SerializeField] private BoxFalling box;
@@ -42,37 +42,44 @@ public class ShadowEffect : MonoBehaviour, Ikillable
         shadowColor = material.color;
         CreateShadow();
         box.OnBoxStateChange += OnBoxStateChanged;
+        SubscribeToFlashlight();
     }
 
     private void Update()
     {
-        if (!GameManager.GetInstance().GetFlashing())
+        if (lighEnergy == LIGHT_ENERGY_STATE.ON)
         {
-            lightState = Light_State.DEPLOY;
-        }
-        else
-        {
-            lightState = Light_State.CONCETRATE;
+            if (!GameManager.GetInstance().GetFlashing())
+            {
+                lightState = Light_State.DEPLOY;
+            }
+            else
+            {
+                lightState = Light_State.CONCETRATE;
+            }
         }
     }
 
     private void FixedUpdate()
     {
-        if(shadow != null)
+        if (lighEnergy == LIGHT_ENERGY_STATE.ON)
         {
-            if (lightState == Light_State.DEPLOY)
+            if (shadow != null)
             {
-                isIlluminated = false;
-                DrawShadow();
-            }
-
-            if (lightState == Light_State.CONCETRATE)
-            {
-                if (isIlluminated)
-                    DrawShadow();
-                else
+                if (lightState == Light_State.DEPLOY)
                 {
-                    shadow.SetActive(false);
+                    isIlluminated = false;
+                    DrawShadow();
+                }
+
+                if (lightState == Light_State.CONCETRATE)
+                {
+                    if (isIlluminated)
+                        DrawShadow();
+                    else
+                    {
+                        shadow.SetActive(false);
+                    }
                 }
             }
         }
@@ -82,6 +89,7 @@ public class ShadowEffect : MonoBehaviour, Ikillable
     private void OnDisable()
     {
         box.OnBoxStateChange -= OnBoxStateChanged;
+        DesubscribeToFlashLight();
     }
 
     public void DrawShadow()
@@ -167,7 +175,34 @@ public class ShadowEffect : MonoBehaviour, Ikillable
     {
         isIlluminated = false;
     }
+
+    private void SubscribeToFlashlight()
+    {
+        FlashlightDetector.GetInstance().OnLightEnergyChange += OnLightEnergyChanged;
+        OnLightEnergyChanged(FlashlightDetector.GetInstance().GetLightEnergyState());
+    }
+
+    private void DesubscribeToFlashLight()
+    {
+        FlashlightDetector.GetInstance().OnLightEnergyChange -= OnLightEnergyChanged;
+    }
+
+    private void OnLightEnergyChanged(LIGHT_ENERGY_STATE _energyState)
+    {
+        lighEnergy = _energyState;
+
+        switch (lighEnergy)
+        {
+            case LIGHT_ENERGY_STATE.ON:
+                ShowShadow();
+                break;
+            case LIGHT_ENERGY_STATE.OFF:
+                DeleteShadow();
+                break;
+        }
+    }
 }
+
 public enum Light_State
 {
     DEPLOY,

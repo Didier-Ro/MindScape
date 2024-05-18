@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Mirror : MonoBehaviour, Ikillable
@@ -18,53 +19,60 @@ public class Mirror : MonoBehaviour, Ikillable
     [SerializeField] private float recoverTime;
     [SerializeField] private Renderer goalRenderer;
     [SerializeField] private Animator goalAnimator;
+    [SerializeField] private MirrorPosition _mirrorPosition;
+    private MirrorStates mirrorStates = MirrorStates.IDLE;
+    private Mirror hitmirror;
     //[SerializeField] private UnityEvent onAnimationEvent;
     private Renderer _renderer;
     private Vector3 directionToShotTheRaycast;
-    private float reflectframes;
     private float framesHit;
-    private bool canReflect;
     private float parentOffset;
     private float initialAngleRange;
     private float mediumAngleRange;
     private float upperAngleRange;
     private bool startPlayingParticles;
-
-    [SerializeField] private MirrorPosition _mirrorPosition;
+    private bool canReflect = false;
 
 
     private void Start()
     {
+        GameManager.GetInstance().OnFlashingChange += TurnOffLight;
         _renderer = parentObject.GetComponent<Renderer>();
         ChangeHitPosition();
     }
 
     private void FixedUpdate()
     {
-        if (canReflect)
+        switch (mirrorStates)
         {
-            if (reflectframes > secondsNeedToDisplayRay * 60)
-            {
-               framesHit = 0;
-               recoverTime = 60;
-               canReflect = false;
-               reflectframes = 0;
-               lineRenderer.enabled = false;
-               lineRenderer.SetPosition(1, outPoint.position + outPoint.TransformDirection(Vector3.left) * lightLenght);
-               startPlayingParticles = false;
-               hitParticles.Stop(true);
-            }
-            else
-            {
-                reflectframes++;
+            case MirrorStates.IDLE:
+                canReflect = false;
+                if (hitmirror != null)
+                {
+                    hitmirror.UnHit(transform);
+                    hitmirror = null;
+                }
+                break;
+            case MirrorStates.REFLECTING:
+                canReflect = true;
                 MirrorProjection();
-            }
-        }
-        else
-        {
-            HealObject();
+                break;
+            case MirrorStates.COOLING_TIME:
+                HealObject();
+                break;
+            case MirrorStates.RECEIVING_LIGHT:
+                canReflect = false;
+                break;
         }
         OverheatEffect();
+    }
+    
+    private void TurnOffLight(bool isFlashing)
+    {
+        if (!isFlashing)
+        {
+            UnHit(transform);
+        }
     }
 
     private void OverheatEffect()
@@ -78,14 +86,27 @@ public class Mirror : MonoBehaviour, Ikillable
     {
         if (framesHit <= 0)
         {
+            mirrorStates = MirrorStates.IDLE;
             recoverTime = 60;
+            lineRenderer.enabled = false;
+            lineRenderer.SetPosition(1, outPoint.position + outPoint.TransformDirection(Vector3.left) * lightLenght);
+            startPlayingParticles = false;
+            hitParticles.Stop(true);
         }
         else if(recoverTime <= 0)
         {
+            if (canReflect)
+            {
+                MirrorProjection();
+            }
             framesHit--;
         }
         else
         {
+            if (canReflect)
+            {
+                MirrorProjection();
+            }
             recoverTime--;
         }
     }
@@ -101,10 +122,21 @@ public class Mirror : MonoBehaviour, Ikillable
                 directionToShotTheRaycast = Vector3.right;
                 mediumAngleRange = 90;
                 break;
+            case MirrorPosition.UPL:
+                positionsToSpawn.x = 0;
+                positionsToSpawn.y = 3;
+                directionToShotTheRaycast = Vector3.left;
+                break;
             case MirrorPosition.DOWN:
                 positionsToSpawn.x = 1;
                 positionsToSpawn.y = 3;
                 directionToShotTheRaycast = Vector3.left;
+                mediumAngleRange = 270;
+                break;
+            case MirrorPosition.DOWNL:
+                positionsToSpawn.x = 1;
+                positionsToSpawn.y = 2;
+                directionToShotTheRaycast = Vector3.right;
                 mediumAngleRange = 270;
                 break;
             case MirrorPosition.RIGHT:
@@ -113,14 +145,25 @@ public class Mirror : MonoBehaviour, Ikillable
                 directionToShotTheRaycast = Vector3.down;
                 mediumAngleRange = 0;
                 break;
+            case MirrorPosition.RIGHTL:
+                positionsToSpawn.x = 2;
+                positionsToSpawn.y = 0;
+                directionToShotTheRaycast = Vector3.up;
+                mediumAngleRange = 0;
+                break;
             case MirrorPosition.LEFT:
                 positionsToSpawn.x = 3;
                 positionsToSpawn.y = 0;
                 directionToShotTheRaycast = Vector3.up;
                 mediumAngleRange = 180;
                 break;
+            case MirrorPosition.LEFTL:
+                positionsToSpawn.x = 3;
+                positionsToSpawn.y = 1;
+                directionToShotTheRaycast = Vector3.down;
+                mediumAngleRange = 180;
+                break;
         }
-
        // outPoint.transform.rotation =  Quaternion.Euler(outPoint.transform.rotation.x, outPoint.transform.rotation.y, mediumAngleRange);
         hitPoint.position = hitPositions[(int)positionsToSpawn.x].position;
         outPoint.position = hitPositions[(int)positionsToSpawn.y].position;
@@ -132,15 +175,15 @@ public class Mirror : MonoBehaviour, Ikillable
     {
         if (AngleCheck(player))
         {
-            if (framesHit > secondsNeedToDisplayRay * 60)
-            {
-                canReflect = true;
-            }
-            else
-            {
-                recoverTime = 60;
-                framesHit++;
-            }
+                if (framesHit > secondsNeedToDisplayRay * 60)
+                {
+                    mirrorStates = MirrorStates.REFLECTING;
+                }
+                else
+                {
+                    recoverTime = 60;
+                    framesHit++;
+                }
         }
     }
 
@@ -160,7 +203,6 @@ public class Mirror : MonoBehaviour, Ikillable
         direction.y = ReduceErrorZero(direction.y);
         float angleRadians = Mathf.Atan2(direction.y, direction.x);
         float angleDegrees = Mathf.Repeat(angleRadians * Mathf.Rad2Deg, 360);
-        Debug.Log(angleDegrees);
         if (initialAngleRange < upperAngleRange)
         {
             return canSeeTarget = upperAngleRange >= angleDegrees && angleDegrees >= initialAngleRange;
@@ -195,10 +237,11 @@ public class Mirror : MonoBehaviour, Ikillable
             }
             float distance = ((Vector2)hit.point - (Vector2)outPoint.position).magnitude;
             lineRenderer.SetPosition(1, hit.point);
-            Mirror reflectedMirror = hit.collider.GetComponent<Mirror>();
-            if (reflectedMirror != null)
+            Mirror mirror = hit.collider.GetComponent<Mirror>();
+            if (mirror != null)
             {
-                reflectedMirror.GetComponent<Ikillable>().Hit(transform);
+                hitmirror = mirror;
+                hitmirror.GetComponent<Ikillable>().Hit(transform);
             }
         }
         else
@@ -211,14 +254,25 @@ public class Mirror : MonoBehaviour, Ikillable
 
     public void UnHit(Transform player)
     {
-        return;
+        mirrorStates = MirrorStates.COOLING_TIME;
     }
-    
+    enum MirrorStates
+    {
+        RECEIVING_LIGHT,
+        REFLECTING,
+        IDLE,
+        COOLING_TIME
+    }
     public enum MirrorPosition
     {
         UP,
         DOWN,
         RIGHT,
-        LEFT
+        LEFT,
+        UPL,
+        DOWNL,
+        RIGHTL,
+        LEFTL
+        
     }
 }

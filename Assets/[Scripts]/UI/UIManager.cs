@@ -43,6 +43,7 @@ public class UIManager : MonoBehaviour
     
     public void ChangeUISelected(GameObject objectToSelect)
     {
+       eventSystem.SetSelectedGameObject(null);
        eventSystem.SetSelectedGameObject(objectToSelect);
     }
 

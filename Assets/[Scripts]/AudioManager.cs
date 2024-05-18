@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -67,6 +66,7 @@ public class AudioManager : MonoBehaviour
     {
         selfAudioSource.PlayOneShot(soundLibrary.GetRandomSoundFromType(_sound));
     }
+
     public void SetSound(SOUND_TYPE _sound, Vector3 _position)
     {
         AudioSource audio = GetAudioSource();

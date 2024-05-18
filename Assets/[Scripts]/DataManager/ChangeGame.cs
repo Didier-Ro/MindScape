@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ChangeGame : MonoBehaviour
@@ -7,8 +8,10 @@ public class ChangeGame : MonoBehaviour
    [SerializeField] private WorldCondition[] allConditions;
    [SerializeField] private string[] levelScenes;
    [SerializeField] private int[] conditionsIds;
-   public int[] currentLevel;
-   public float[] percentageOfGameCompleted;
+   public List<int> currentLevel = new List<int>();
+   public List<float> percentageOfGameCompleted = new List<float>();
+   public List<int> gamesTimePlayed = new List<int>();
+  
 
    private void Awake()
    { 
@@ -16,13 +19,23 @@ public class ChangeGame : MonoBehaviour
       LoadAllData();
       GetCurrentLevel();
       GetPercentageOfAllGamesCompleted();
+      ReturnTimePlayed();
+      Application.targetFrameRate = 60;
    }
 
     private void GetPercentageOfAllGamesCompleted()
    {
-      for (int i = 0; i < allConditions.Length; i++)
+      foreach (var condition in allConditions)
       {
-         percentageOfGameCompleted[i] = allConditions[i].GetPercentageOfGameCompleted();
+         percentageOfGameCompleted.Add(condition.GetPercentageOfGameCompleted());
+      }
+   }
+
+   private void ReturnTimePlayed()
+   {
+      foreach (var conditions in allConditions)
+      {
+         gamesTimePlayed.Add(conditions.timePlayed);  
       }
    }
 
@@ -98,26 +111,16 @@ public class ChangeGame : MonoBehaviour
    private void GetCurrentLevel()
    {
       for (int i = 0; i < allConditions.Length; i++)
-      {
-         if (allConditions[i].IsFirstTimePlayed())
+      { 
+         currentLevel.Add(0);
+         for (int j = 0; j < conditionsIds.Length; j++)
          {
-            currentLevel[i] = 0;
-         }
-         else
-         {
-               for (int index = 0; index < conditionsIds.Length; index++)
-               {
-                  if (allConditions[i].IsConditionCompleted(conditionsIds[index]))
-                  {
-                     currentLevel[index] = index + 1;
-                  }
-               }
+            if (allConditions[i].IsConditionCompleted(conditionsIds[j]))
+            {
+               currentLevel[i]++;
+            }
          }
       }
-     
-         
-         
-         
    }
    public void SelectGame(int _num)
    {
