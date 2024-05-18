@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour
         return stageConditions.IsConditionCompleted(_id);
     }
     
-    private void SaveAllData()
+    public void SaveAllData()
     {
         stageConditions.AddSecondsToTheTimePlayed(framesPlayed);
         framesPlayed = 0;
