@@ -6,7 +6,6 @@ public class Checkpoint : MonoBehaviour
     public Vector3 checkpointPosition;
     [SerializeField] private int condition;
     [SerializeField] private bool isSavedInGame = false;
-    [SerializeField] private PlayerRespawnPositon playerRespawnPositon;
 
     private void Start()
     {
@@ -20,11 +19,6 @@ public class Checkpoint : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            playerRespawnPositon.SetCheckPointSpawnPosition(checkpointPosition);
-            if (collision.TryGetComponent(out Falling fallingScript))
-            {
-                fallingScript.SetPlayerRespawnPosition();
-            }
             CheckpointManager.AddCheckpointPosition(checkpointPosition);
             if (isSavedInGame)
             {
