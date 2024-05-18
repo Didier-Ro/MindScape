@@ -110,20 +110,14 @@ public class ChangeGame : MonoBehaviour
 
    private void GetCurrentLevel()
    {
-      foreach (var condition in allConditions)
-      {
-         if (condition.IsFirstTimePlayed())
+      for (int i = 0; i < allConditions.Length; i++)
+      { 
+         currentLevel.Add(0);
+         for (int j = 0; j < conditionsIds.Length; j++)
          {
-            currentLevel.Add(0);
-         }
-         else
-         {
-            for (int i = 0; i < conditionsIds.Length; i++)
+            if (allConditions[i].IsConditionCompleted(conditionsIds[j]))
             {
-               if (condition.IsConditionCompleted(conditionsIds[i]))
-               {
-                  currentLevel.Add(i+1);
-               }
+               currentLevel[i]++;
             }
          }
       }
