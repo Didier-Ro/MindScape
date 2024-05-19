@@ -11,6 +11,7 @@ public class BoxFalling : MonoBehaviour
     [Tooltip("If the box is SINGLE, then there is no need to reference DetectorManager.")]
     [SerializeField] private TYPE_BOX type_Box;
     [SerializeField] private OverlapBoxDetectorManager overlayBoxDetectorManager;
+    
 
     public BOX_STATE boxState = BOX_STATE.IDLE;
     public Action<BOX_STATE> OnBoxStateChange;
@@ -28,6 +29,7 @@ public class BoxFalling : MonoBehaviour
     void Start()
     {
         activateZone = GetComponent<ActivateZone>();
+        audioSource = GameManager.GetInstance().audioSource;
 
         if (GameManager.GetInstance().IsConditionCompleted(conditionId))
         {
