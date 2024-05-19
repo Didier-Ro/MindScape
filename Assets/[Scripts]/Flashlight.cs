@@ -51,7 +51,11 @@ public class Flashlight : MonoBehaviour
     private float offsetAngle = 270;
     private float lastAngle = 0;
 
+    private GameObject activeCircleParticles;
+    private GameObject activeConcentratedParticles;
 
+    [SerializeField] private SoundLibrary soundLibrary;
+    [SerializeField] private AudioSource audioSource;
     private void Awake()
     {
         if (Instance == null)
@@ -71,6 +75,14 @@ public class Flashlight : MonoBehaviour
         InitializeFlashlight();
         LightSetUp();
         angleRange = minPointLightOuterAngle / 2;
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null)
+            {
+                audioSource = GetComponentInChildren<AudioSource>();
+            }
+        }
     }
 
     // Update is called once per frame
@@ -135,11 +147,15 @@ public class Flashlight : MonoBehaviour
         //float difference = lastAngle - angle;
         flashLightTransform.rotation = Quaternion.Slerp(Quaternion.Euler(0,0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
         wallFlashLightTransform.rotation  = Quaternion.Slerp(Quaternion.Euler(0,0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
-       /* if (cameraView != null)
+        /* if (cameraView != null)
+         {
+             cameraView.transform.rotation = Quaternion.Slerp(Quaternion.Euler(0,0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
+             CameraManager.instance.ChangeCameraToAnObject(cameraView);
+         }*/
+        if (activeConcentratedParticles != null)
         {
-            cameraView.transform.rotation = Quaternion.Slerp(Quaternion.Euler(0,0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
-            CameraManager.instance.ChangeCameraToAnObject(cameraView);
-        }*/
+            activeConcentratedParticles.transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
         lastAngle = flashLightTransform.rotation.z;
     }
 
@@ -243,6 +259,36 @@ public class Flashlight : MonoBehaviour
             ReduceSliderValue(0.0f);
         }else 
             ReduceSliderValue(0.01f);
+        if (activeCircleParticles == null)
+        {
+            activeCircleParticles = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.ChispasCirculo, transform.position, new Vector3(0, -90, 0));
+            if (activeCircleParticles != null)
+            {
+                var particleSystem = activeCircleParticles.GetComponent<ParticleSystem>();
+                if (particleSystem != null)
+                {
+                    particleSystem.Play();
+                }
+            }
+        }
+        if (activeConcentratedParticles != null)
+        {
+            activeConcentratedParticles.SetActive(false);
+            activeConcentratedParticles = null;
+        }
+
+        if (activeCircleParticles != null)
+        {
+            activeCircleParticles.transform.position = transform.position;
+            activeCircleParticles.transform.rotation = Quaternion.Euler(0, -90, 0);
+            activeCircleParticles.SetActive(true);
+
+            var particleSystem = activeCircleParticles.GetComponent<ParticleSystem>();
+            if (particleSystem != null && !particleSystem.isPlaying)
+            {
+                particleSystem.Play();
+            }
+        }
         flashlight.intensity -= intensityTimeSpeed; 
         flashlight.pointLightOuterRadius = 6.71f;
         flashlight.pointLightInnerRadius = 2.6f;
@@ -269,6 +315,15 @@ public class Flashlight : MonoBehaviour
             flashlight.pointLightOuterAngle = maxPointLightOuterAngle;
             wallFlashLight.pointLightOuterAngle = maxPointLightOuterAngle;
         }
+        if (activeConcentratedParticles != null)
+        {
+            activeConcentratedParticles.SetActive(false);
+            activeConcentratedParticles = null;
+            if (audioSource.isPlaying)
+            {
+                audioSource.Stop();
+            }
+        }
     }
 
     // Set flashlight settings for concentrated light mode
@@ -280,6 +335,37 @@ public class Flashlight : MonoBehaviour
         }
         else
             ReduceSliderValue(0.1f);
+        if (activeConcentratedParticles == null)
+        {
+            activeConcentratedParticles = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Linternacerradaconluz, transform.position, transform.rotation.eulerAngles);
+            if (activeConcentratedParticles != null)
+            {
+                activeConcentratedParticles.transform.rotation = Quaternion.Euler(0, 0, flashLightTransform.rotation.eulerAngles.z);
+                var particleSystem = activeConcentratedParticles.GetComponent<ParticleSystem>();
+                if (particleSystem != null)
+                {
+                    particleSystem.Play();
+                }
+            }
+        }
+        if (activeCircleParticles != null)
+        {
+            activeCircleParticles.SetActive(false);
+            activeCircleParticles = null;
+        }
+
+        if (activeConcentratedParticles != null)
+        {
+            activeConcentratedParticles.transform.position = transform.position;
+            activeConcentratedParticles.transform.rotation = Quaternion.Euler(0, 0, flashLightTransform.rotation.eulerAngles.z);
+            activeConcentratedParticles.SetActive(true);
+
+            var particleSystem = activeConcentratedParticles.GetComponent<ParticleSystem>();
+            if (particleSystem != null && !particleSystem.isPlaying)
+            {
+                particleSystem.Play();
+            }
+        }
         flashlight.intensity += intensityTimeSpeed;
         flashlight.pointLightOuterRadius = 15;
         flashlight.pointLightInnerRadius = 6;
@@ -305,6 +391,28 @@ public class Flashlight : MonoBehaviour
         {
             flashlight.pointLightOuterAngle = minPointLightOuterAngle;
             wallFlashLight.pointLightOuterAngle = minPointLightOuterAngle;
+        }
+        AudioClip rayoDeLuzSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.ROT_RAYO_DE_LUZ_RELOADED);
+        if (rayoDeLuzSound != null)
+        {
+            audioSource.PlayOneShot(rayoDeLuzSound);
+        }
+        if (currentSliderValue > 0)
+        {
+            PlayConcentratedSound();
+        }
+    }
+    private void PlayConcentratedSound()
+    {
+        if (!audioSource.isPlaying)
+        {
+            AudioClip soundClip = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.ROT_RAYO_DE_LUZ_RELOADED);
+            if (soundClip != null)
+            {
+                audioSource.clip = soundClip;
+                audioSource.volume = 0.5f;
+                audioSource.Play();
+            }
         }
     }
 
