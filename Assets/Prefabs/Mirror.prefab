@@ -118,7 +118,7 @@ Transform:
   m_GameObject: {fileID: 1942096902853330016}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.66, y: 0, z: 0}
+  m_LocalPosition: {x: -0.447, y: -0.096, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -343,9 +343,9 @@ LineRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingLayerID: -1241810987
+  m_SortingLayer: 2
+  m_SortingOrder: 1
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 3, y: 0, z: 1}
@@ -523,7 +523,7 @@ SpriteRenderer:
   m_SortingLayerID: -1241810987
   m_SortingLayer: 2
   m_SortingOrder: 1
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 298f1cf1f6c9f8941a1b4f9ec859ba9c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -591,7 +591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c168e060c9ccddf47930b972aca0147c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushDirection: 0
+  pushDirection: 3
   isMoving: 0
   timeToReachPointInSeconds: 1
   offsetX: 0.5
@@ -5602,7 +5602,7 @@ Transform:
   m_GameObject: {fileID: 8191185961983485430}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.33, z: 0}
+  m_LocalPosition: {x: 0.037, y: -0.32999992, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5633,18 +5633,36 @@ MonoBehaviour:
   lineRenderer: {fileID: 705946858582067389}
   lightLenght: 7
   angleRange: 160
-  parentObject: {fileID: 0}
+  parentObject: {fileID: 4676937200241693025}
   lightGoal: {fileID: 0}
   hitPositions:
   - {fileID: 1186830341382921737}
   - {fileID: 5811863792292345842}
   - {fileID: 8492946016183926171}
   - {fileID: 929780354272563491}
-  secondsNeedToDisplayRay: 0
-  recoverTime: 0
+  secondsNeedToDisplayRay: 3
+  recoverTime: 1
   goalRenderer: {fileID: 0}
   goalAnimator: {fileID: 0}
-  _mirrorPosition: 0
+  _mirrorPosition: 4
+  possibleSprites:
+  - {fileID: -180747497, guid: dbf83afefa78bd84bb53df5a3c54ad0c, type: 3}
+  - {fileID: 1787228069, guid: dbf83afefa78bd84bb53df5a3c54ad0c, type: 3}
+  - {fileID: -969698867, guid: dbf83afefa78bd84bb53df5a3c54ad0c, type: 3}
+  - {fileID: 27377613, guid: dbf83afefa78bd84bb53df5a3c54ad0c, type: 3}
+  - {fileID: -1402549378, guid: dbf83afefa78bd84bb53df5a3c54ad0c, type: 3}
+  - {fileID: -1529619553, guid: dbf83afefa78bd84bb53df5a3c54ad0c, type: 3}
+  - {fileID: 2097730838, guid: dbf83afefa78bd84bb53df5a3c54ad0c, type: 3}
+  - {fileID: 415921409, guid: dbf83afefa78bd84bb53df5a3c54ad0c, type: 3}
+  - {fileID: -1770964388, guid: dbf83afefa78bd84bb53df5a3c54ad0c, type: 3}
+  - {fileID: 1225593615, guid: dbf83afefa78bd84bb53df5a3c54ad0c, type: 3}
+  - {fileID: 1889396295, guid: dbf83afefa78bd84bb53df5a3c54ad0c, type: 3}
+  - {fileID: 2075791987, guid: dbf83afefa78bd84bb53df5a3c54ad0c, type: 3}
+  - {fileID: 461378322, guid: dbf83afefa78bd84bb53df5a3c54ad0c, type: 3}
+  - {fileID: 1377331271, guid: dbf83afefa78bd84bb53df5a3c54ad0c, type: 3}
+  - {fileID: -555999686, guid: dbf83afefa78bd84bb53df5a3c54ad0c, type: 3}
+  - {fileID: 1659799285, guid: dbf83afefa78bd84bb53df5a3c54ad0c, type: 3}
+  spriteRenderer: {fileID: 1593255040233215743}
 --- !u!58 &6094285126042109808
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -5674,7 +5692,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

@@ -20,6 +20,8 @@ public class Mirror : MonoBehaviour, Ikillable
     [SerializeField] private Renderer goalRenderer;
     [SerializeField] private Animator goalAnimator;
     [SerializeField] private MirrorPosition _mirrorPosition;
+    [SerializeField] private Sprite[] possibleSprites;
+    [SerializeField] private SpriteRenderer spriteRenderer;
     private MirrorStates mirrorStates = MirrorStates.IDLE;
     private Mirror hitmirror;
     //[SerializeField] private UnityEvent onAnimationEvent;
@@ -121,47 +123,56 @@ public class Mirror : MonoBehaviour, Ikillable
                 positionsToSpawn.y = 2;
                 directionToShotTheRaycast = Vector3.right;
                 mediumAngleRange = 90;
+                spriteRenderer.sprite = possibleSprites[0];
                 break;
             case MirrorPosition.UPL:
                 positionsToSpawn.x = 0;
                 positionsToSpawn.y = 3;
                 directionToShotTheRaycast = Vector3.left;
+                mediumAngleRange = 90;
+                spriteRenderer.sprite = possibleSprites[10];
                 break;
             case MirrorPosition.DOWN:
                 positionsToSpawn.x = 1;
                 positionsToSpawn.y = 3;
                 directionToShotTheRaycast = Vector3.left;
                 mediumAngleRange = 270;
+                spriteRenderer.sprite = possibleSprites[14];
                 break;
             case MirrorPosition.DOWNL:
                 positionsToSpawn.x = 1;
                 positionsToSpawn.y = 2;
                 directionToShotTheRaycast = Vector3.right;
                 mediumAngleRange = 270;
+                spriteRenderer.sprite = possibleSprites[12];
                 break;
             case MirrorPosition.RIGHT:
                 positionsToSpawn.x = 2;
                 positionsToSpawn.y = 1;
                 directionToShotTheRaycast = Vector3.down;
                 mediumAngleRange = 0;
+                spriteRenderer.sprite = possibleSprites[8];
                 break;
             case MirrorPosition.RIGHTL:
                 positionsToSpawn.x = 2;
                 positionsToSpawn.y = 0;
                 directionToShotTheRaycast = Vector3.up;
                 mediumAngleRange = 0;
+                spriteRenderer.sprite = possibleSprites[4];
                 break;
             case MirrorPosition.LEFT:
                 positionsToSpawn.x = 3;
                 positionsToSpawn.y = 0;
                 directionToShotTheRaycast = Vector3.up;
                 mediumAngleRange = 180;
+                spriteRenderer.sprite = possibleSprites[6];
                 break;
             case MirrorPosition.LEFTL:
                 positionsToSpawn.x = 3;
                 positionsToSpawn.y = 1;
                 directionToShotTheRaycast = Vector3.down;
                 mediumAngleRange = 180;
+                spriteRenderer.sprite = possibleSprites[2];
                 break;
         }
        // outPoint.transform.rotation =  Quaternion.Euler(outPoint.transform.rotation.x, outPoint.transform.rotation.y, mediumAngleRange);
