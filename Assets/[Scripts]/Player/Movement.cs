@@ -33,8 +33,11 @@ public class Movement : MonoBehaviour
     }
     private void OnGameStateChange(GAME_STATE _newGameState)//Analyze the Game State type and makes differents behaviour
     {
-        Debug.Log(_newGameState.ToString());
        isMoving = _newGameState == GAME_STATE.EXPLORATION;
+       if (!isMoving)
+       {
+           rb.velocity = Vector2.zero;
+       }
     }
 
     #endregion

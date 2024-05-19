@@ -130,7 +130,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: -4092
+  m_InstanceId: -40682
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0.5, z: 0}
@@ -383,9 +383,9 @@ MonoBehaviour:
   flasLight: {fileID: 2167727847186427669}
   wallFlaslight: {fileID: 8715654913658092055}
   healthController: {fileID: -2278262530916522709}
-  dashController: {fileID: 0}
   finalPlayerSpawnPosition: {x: 0, y: 0, z: 0}
   playerRespawnPositon: {fileID: 11400000, guid: 588717180adcdfb4b88a7ae51af64d2e, type: 2}
+  spawnHeight: 27
   fallZonePosition: {x: 0, y: 0, z: 0}
   distance: 0
   totalDistance: 0
@@ -417,6 +417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e5c4d50beb8eae41beaf2f27d202c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentPlayerState: 0
   uiObjects:
   - {fileID: 7558446520987293522}
   - {fileID: 8134475042246843136}

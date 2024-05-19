@@ -5,6 +5,7 @@ public class Falling : MonoBehaviour
 {
     [SerializeField] private float fallingDuration;
     [SerializeField] private SpriteRenderer playerSprite;
+    [SerializeField] private Material spriteMaterial;
     [SerializeField] private Transform spriteTransform;
     [SerializeField] private Light2D flasLight;
     [SerializeField] private Light2D wallFlaslight;
@@ -12,6 +13,7 @@ public class Falling : MonoBehaviour
 
     public Vector3 finalPlayerSpawnPosition;
     [SerializeField] private PlayerRespawnPositon playerRespawnPositon;
+    [SerializeField] private int spawnHeight = 27;
     private Vector2 initialSpriteSpawnPosition;
 
     private float minSpriteSize = 0.0f;
@@ -54,9 +56,10 @@ public class Falling : MonoBehaviour
     private void RespawnPlayer()
     {
         transform.position = finalPlayerSpawnPosition;
-        spriteTransform.position = new Vector3(finalPlayerSpawnPosition.x, 27,0);
+        playerSprite.material = spriteMaterial;
+        spriteTransform.position = new Vector3(finalPlayerSpawnPosition.x, spawnHeight,0);
         spriteTransform.localScale = new Vector3(1, 1, 1);
-        initialSpriteSpawnPosition = new Vector3(finalPlayerSpawnPosition.x, 27, 0);
+        initialSpriteSpawnPosition = new Vector3(finalPlayerSpawnPosition.x, spawnHeight, 0);
         canMove = true;
     }
 
