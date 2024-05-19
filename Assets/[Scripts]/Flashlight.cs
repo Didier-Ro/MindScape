@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
@@ -50,11 +51,7 @@ public class Flashlight : MonoBehaviour
     private float offsetAngle = 270;
     private float lastAngle = 0;
 
-    private GameObject activeCircleParticles;
-    private GameObject activeConcentratedParticles;
 
-    [SerializeField] private SoundLibrary soundLibrary;
-    [SerializeField] private AudioSource audioSource;
     private void Awake()
     {
         if (Instance == null)
@@ -74,15 +71,6 @@ public class Flashlight : MonoBehaviour
         InitializeFlashlight();
         LightSetUp();
         angleRange = minPointLightOuterAngle / 2;
-        if (audioSource == null)
-        {
-            audioSource = GetComponent<AudioSource>();
-            if (audioSource == null)
-            {
-                // Si no hay un AudioSource adjunto al mismo GameObject, intenta encontrarlo en algún hijo
-                audioSource = GetComponentInChildren<AudioSource>();
-            }
-        }
     }
 
     // Update is called once per frame
@@ -145,20 +133,14 @@ public class Flashlight : MonoBehaviour
         }
         angle += offsetAngle;
         //float difference = lastAngle - angle;
-        Quaternion newRotation = Quaternion.Slerp(Quaternion.Euler(0, 0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
-        flashLightTransform.rotation = newRotation;
-        wallFlashLightTransform.rotation = newRotation;
-        /* if (cameraView != null)
-         {
-             cameraView.transform.rotation = Quaternion.Slerp(Quaternion.Euler(0,0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
-             CameraManager.instance.ChangeCameraToAnObject(cameraView);
-         }*/
-        if (activeConcentratedParticles != null)
+        flashLightTransform.rotation = Quaternion.Slerp(Quaternion.Euler(0,0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
+        wallFlashLightTransform.rotation  = Quaternion.Slerp(Quaternion.Euler(0,0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
+       /* if (cameraView != null)
         {
-            activeConcentratedParticles.transform.rotation = Quaternion.Euler(0, 0, angle);
-        }
-
-        lastAngle = flashLightTransform.rotation.eulerAngles.z;
+            cameraView.transform.rotation = Quaternion.Slerp(Quaternion.Euler(0,0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
+            CameraManager.instance.ChangeCameraToAnObject(cameraView);
+        }*/
+        lastAngle = flashLightTransform.rotation.z;
     }
 
     private float ReduceErrorZero(float value)
@@ -172,8 +154,18 @@ public class Flashlight : MonoBehaviour
 
     private void EnemyLanternCheck()
     {
-        if (currentSliderValue <= 0) return;
         Collider2D[] rangeCheck = Physics2D.OverlapCircleAll(transform.position, radius, targetMask);
+        if (currentSliderValue <= 0)
+        {
+            foreach (Collider2D collider2D in rangeCheck)
+            {
+                if (collider2D.GetComponent<Ikillable>() != null)
+                {
+                    collider2D.GetComponent<Ikillable>().UnHit(transform);
+                }
+            }
+            return;
+        }
         if (rangeCheck.Length == 0) return;
         foreach (Collider2D col in rangeCheck)
         {
@@ -199,6 +191,10 @@ public class Flashlight : MonoBehaviour
                     _canSeeTarget = false;
                     col.GetComponent<Ikillable>().UnHit(transform);
                 }
+                else
+                {
+                    col.GetComponent<Ikillable>().UnHit(transform);
+                }
             }
             else
             {
@@ -214,6 +210,10 @@ public class Flashlight : MonoBehaviour
                 else if (_canSeeTarget)
                 {
                     _canSeeTarget = false;
+                    col.GetComponent<Ikillable>().UnHit(transform);
+                }
+                else
+                {
                     col.GetComponent<Ikillable>().UnHit(transform);
                 }
             }
@@ -241,44 +241,9 @@ public class Flashlight : MonoBehaviour
         if (isInInitialRoom)
         {
             ReduceSliderValue(0.0f);
-        }
-        else
-        {
+        }else 
             ReduceSliderValue(0.01f);
-        }
-
-        if (activeCircleParticles == null)
-        {
-            activeCircleParticles = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.ChispasCirculo, transform.position, new Vector3(0, -90, 0));
-            if (activeCircleParticles != null)
-            {
-                var particleSystem = activeCircleParticles.GetComponent<ParticleSystem>();
-                if (particleSystem != null)
-                {
-                    particleSystem.Play();
-                }
-            }
-        }
-        if (activeConcentratedParticles != null)
-        {
-            activeConcentratedParticles.SetActive(false);
-            activeConcentratedParticles = null;
-        }
-
-        if (activeCircleParticles != null)
-        {
-            activeCircleParticles.transform.position = transform.position;
-            activeCircleParticles.transform.rotation = Quaternion.Euler(0, -90, 0);
-            activeCircleParticles.SetActive(true);
-
-            var particleSystem = activeCircleParticles.GetComponent<ParticleSystem>();
-            if (particleSystem != null && !particleSystem.isPlaying)
-            {
-                particleSystem.Play();
-            }
-        }
-
-        flashlight.intensity -= intensityTimeSpeed;
+        flashlight.intensity -= intensityTimeSpeed; 
         flashlight.pointLightOuterRadius = 6.71f;
         flashlight.pointLightInnerRadius = 2.6f;
         wallFlashLight.pointLightOuterRadius = 6.71f;
@@ -288,7 +253,7 @@ public class Flashlight : MonoBehaviour
         flashlight.pointLightOuterAngle += lightOuterAngleTimeSpeed;
         wallFlashLight.pointLightOuterAngle += lightOuterAngleTimeSpeed;
 
-        if (flashlight.intensity <= minLightIntensity)
+        if (flashlight.intensity <= minLightIntensity) 
         {
             flashlight.intensity = minLightIntensity;
             wallFlashLight.intensity = minLightIntensity;
@@ -304,19 +269,7 @@ public class Flashlight : MonoBehaviour
             flashlight.pointLightOuterAngle = maxPointLightOuterAngle;
             wallFlashLight.pointLightOuterAngle = maxPointLightOuterAngle;
         }
-        if (activeConcentratedParticles != null)
-        {
-            activeConcentratedParticles.SetActive(false);
-            activeConcentratedParticles = null;
-
-            // Detener la reproducción del sonido si estaba activa
-            if (audioSource.isPlaying)
-            {
-                audioSource.Stop();
-            }
-        }
     }
-
 
     // Set flashlight settings for concentrated light mode
     private void ConcentrateLight()
@@ -326,42 +279,7 @@ public class Flashlight : MonoBehaviour
             ReduceSliderValue(0.0f);
         }
         else
-        {
             ReduceSliderValue(0.1f);
-        }
-
-        if (activeConcentratedParticles == null)
-        {
-            activeConcentratedParticles = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Linternacerradaconluz, transform.position, transform.rotation.eulerAngles);
-            if (activeConcentratedParticles != null)
-            {
-                activeConcentratedParticles.transform.rotation = Quaternion.Euler(0, 0, flashLightTransform.rotation.eulerAngles.z);
-                var particleSystem = activeConcentratedParticles.GetComponent<ParticleSystem>();
-                if (particleSystem != null)
-                {
-                    particleSystem.Play();
-                }
-            }
-        }
-        if (activeCircleParticles != null)
-        {
-            activeCircleParticles.SetActive(false);
-            activeCircleParticles = null;
-        }
-
-        if (activeConcentratedParticles != null)
-        {
-            activeConcentratedParticles.transform.position = transform.position;
-            activeConcentratedParticles.transform.rotation = Quaternion.Euler(0, 0, flashLightTransform.rotation.eulerAngles.z);
-            activeConcentratedParticles.SetActive(true);
-
-            var particleSystem = activeConcentratedParticles.GetComponent<ParticleSystem>();
-            if (particleSystem != null && !particleSystem.isPlaying)
-            {
-                particleSystem.Play();
-            }
-        }
-
         flashlight.intensity += intensityTimeSpeed;
         flashlight.pointLightOuterRadius = 15;
         flashlight.pointLightInnerRadius = 6;
@@ -388,30 +306,7 @@ public class Flashlight : MonoBehaviour
             flashlight.pointLightOuterAngle = minPointLightOuterAngle;
             wallFlashLight.pointLightOuterAngle = minPointLightOuterAngle;
         }
-        AudioClip rayoDeLuzSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.ROT_RAYO_DE_LUZ_RELOADED);
-        if (rayoDeLuzSound != null)
-        {
-            audioSource.PlayOneShot(rayoDeLuzSound);
-        }
-        if (currentSliderValue > 0)
-        {
-            PlayConcentratedSound(); // Esta función debería manejar la reproducción del sonido concentrado
-        }
     }
-    private void PlayConcentratedSound()
-    {
-        if (!audioSource.isPlaying) // Verifica si no se está reproduciendo ya el sonido
-        {
-            AudioClip soundClip = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.ROT_RAYO_DE_LUZ_RELOADED);
-            if (soundClip != null)
-            {
-                audioSource.clip = soundClip;
-                audioSource.volume = 0.5f; // Ajusta el volumen según sea necesario
-                audioSource.Play();
-            }
-        }
-    }
-
 
     public void ReduceSliderValue(float _reductionSpeed)
     {

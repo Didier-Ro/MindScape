@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     private int framesPlayed;
     private GAME_STATE currentGameState = GAME_STATE.EXPLORATION;
     public Action<GAME_STATE> OnGameStateChange;
+    public Action<bool> OnFlashingChange;
 
     [Header("Shadow References")]
     [SerializeField] private Light2D flashlightReference;
@@ -36,17 +37,13 @@ public class GameManager : MonoBehaviour
         ResetAll();
         LoadAllData();
     }
-
-    private void OnDestroy()
-    {
-        SaveAllData();
-    }
-
+    
     private void Update()
     {
         if (InputManager.GetInstance().FlashligthInput())
         {
            ToggleFlash();
+           OnFlashingChange.Invoke(isFlashing);
         }
         if (InputManager.GetInstance().SetPause())
         {
@@ -62,7 +59,9 @@ public class GameManager : MonoBehaviour
             framesPlayed++;
         }
         else if(GetCurrentGameState() != GAME_STATE.PAUSE && framesPlayed >= minuteQuickSaveRate * 3600)
-        {
+        { 
+           Debug.Log("guardado automatico se ha hecho");
+           framesPlayed++;
            SaveAllData();
         }
     }
@@ -139,7 +138,7 @@ public class GameManager : MonoBehaviour
         return stageConditions.IsConditionCompleted(_id);
     }
     
-    private void SaveAllData()
+    public void SaveAllData()
     {
         stageConditions.AddSecondsToTheTimePlayed(framesPlayed);
         framesPlayed = 0;

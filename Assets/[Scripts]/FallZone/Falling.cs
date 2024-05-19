@@ -10,7 +10,7 @@ public class Falling : MonoBehaviour
     [SerializeField] private Light2D wallFlaslight;
     [SerializeField] private HealthController healthController;
 
-    private Vector3 finalPlayerSpawnPosition;
+    public Vector3 finalPlayerSpawnPosition;
     [SerializeField] private PlayerRespawnPositon playerRespawnPositon;
     private Vector2 initialSpriteSpawnPosition;
 
@@ -30,7 +30,7 @@ public class Falling : MonoBehaviour
     {
         SubscribeToPlayerGameState();
         FallingSetUp();
-        SetPlayerRespawnPosition(playerRespawnPositon.respawnPositionCheckPoint);
+        SetPlayerRespawnPosition();
     }
 
     private void FixedUpdate()
@@ -46,9 +46,9 @@ public class Falling : MonoBehaviour
         }
     }
 
-    public void SetPlayerRespawnPosition(Vector3 pos)
+    public void SetPlayerRespawnPosition()
     {
-        finalPlayerSpawnPosition = pos;
+        finalPlayerSpawnPosition = playerRespawnPositon.GetCheckPoint();
     }
 
     private void RespawnPlayer()

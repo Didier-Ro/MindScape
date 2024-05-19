@@ -14,8 +14,6 @@ public class BoxDetector : MonoBehaviour
     [SerializeField] private int conditionId;
     [SerializeField] private Transform transformPoint;
 
-    [SerializeField] private Falling fallingScript;
-    [SerializeField] private Vector3 nextPlayerSpawnPosition;
 
     public GameObject clonPrefab;
     private Transform player;
@@ -33,48 +31,52 @@ public class BoxDetector : MonoBehaviour
     {
         if (collision.CompareTag("Box"))
         {
-            Transform parentTransform = collision.transform.parent;
-            GameObject parent = parentTransform.gameObject;        
-            colliderParent = parent.GetComponent<BoxCollider2D>();
-            colliderParent.enabled = false;
+            animator.SetBool("Pressed", true );
             if (typeDetector == TYPE_DETECTOR.HOLE)
             {
-                Debug.Log(collision.name);
                 doors.IncreaseHoleCounter();
                 if (doors.ReturnHoleCounter() <= doors.holeNumbers)
                 {
+                    /*Transform parentTransform = collision.transform.parent;
+                    GameObject parent = parentTransform.gameObject;        
+                    colliderParent = parent.GetComponent<BoxCollider2D>();
+                    colliderParent.enabled = false;*/
                     clonPrefab = Instantiate(boxPrefab, new Vector3(spawnPos.x, 27, 0), Quaternion.identity);
-                    if (clonPrefab)
-                    {
-                        clonPrefab.GetComponent<BoxFalling>().SetSpawnPosition(spawnPos);
-                        fallingScript.SetPlayerRespawnPosition(nextPlayerSpawnPosition);
-                        Debug.Log(clonPrefab);
-                    }
-                    gameObject.SetActive(false);
+                    clonPrefab.GetComponent<BoxFalling>().SetSpawnPosition(spawnPos);
+                    //gameObject.SetActive(false);
                 }
+                gameObject.SetActive(false);
             }
             else if (typeDetector == TYPE_DETECTOR.BUTTON)
             { 
-                animator.SetBool("Pressed", true );
                 doors.IncreaseCounter();
                 if (doors.ReturnCounter() != doors.buttonNumbers || doors.ReturnHoleCounter() != doors.holeNumbers)
                 {
                     /*Transform parentTransform = collision.transform.parent;
-                    GameObject parent = parentTransform.gameObject;*/        
+                    GameObject parent = parentTransform.gameObject;        
+                    colliderParent = parent.GetComponent<BoxCollider2D>();
+                    colliderParent.enabled = false;*/
                     GameObject obj = Instantiate(boxPrefab, new Vector3(spawnPos.x, 27, 0), Quaternion.identity);
                     obj.GetComponent<BoxFalling>().SetSpawnPosition(spawnPos);
-                    gameObject.SetActive(false);
+                    //gameObject.SetActive(false);
                 }
             }
             else if (typeDetector == TYPE_DETECTOR.UNIQUE)
             {
-                animator.SetBool("Pressed", true );
                 doors.IncreaseCounter();
                 /*Transform parentTransform = collision.transform.parent;
-                GameObject parent = parentTransform.gameObject;*/        
-                gameObject.SetActive(false);
+                GameObject parent = parentTransform.gameObject;        
+                colliderParent = parent.GetComponent<BoxCollider2D>();
+                colliderParent.enabled = false;
+                gameObject.SetActive(false);*/
             }
+            Transform parentTransform = collision.transform.parent;
+            GameObject parent = parentTransform.gameObject;
+            colliderParent = parent.GetComponent<BoxCollider2D>();
+            colliderParent.enabled = false;
+            //gameObject.SetActive(false);
         }
+
         if (collision.CompareTag("Feet"))
         {
             player = PlayerStates.GetInstance().transform;
@@ -97,8 +99,8 @@ public class BoxDetector : MonoBehaviour
     }
 
     private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (typeDetector == TYPE_DETECTOR.BUTTON || typeDetector == TYPE_DETECTOR.UNIQUE)
+    { 
+        if(typeDetector == TYPE_DETECTOR.BUTTON || typeDetector == TYPE_DETECTOR.UNIQUE)
         {
             animator.SetBool("Pressed", false );
             playerSprite = player.Find("Sprite");

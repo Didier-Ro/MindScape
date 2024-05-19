@@ -5,14 +5,15 @@ using UnityEngine;
 
 public class Doors : MonoBehaviour
 {
-    [SerializeField] private GameObject Door;
+    [SerializeField] private SpriteRenderer doorSprite;
+    [SerializeField] private Collider2D doorCollider;
     [SerializeField] private bool boxOnButton = false;
     [SerializeField] private bool doorIsOpen = false;
     [SerializeField] private int conditionId;
     public int holeNumbers;
     public int buttonNumbers;
     [SerializeField] private byte buttonCounter = 0;
-    [SerializeField] private byte holeCounter = 0;
+    private byte holeCounter = 0;
     private float delayStart = 3;
 
 
@@ -35,11 +36,19 @@ public class Doors : MonoBehaviour
         CameraManager.instance.ChangeCameraToThePlayer();
         if (isOpen)
         {
-         Door.SetActive(false);// Desactiva la puerta
+            if (doorSprite != null)
+                doorSprite.enabled = false;
+            
+            if (doorCollider != null)
+                doorCollider.enabled = false;
         }
         else
         {
-            Door.SetActive(true);
+            if (doorSprite != null)
+                doorSprite.enabled = true;
+
+            if (doorCollider != null)
+                doorCollider.enabled = true;
         }
     }
 
@@ -56,7 +65,7 @@ public class Doors : MonoBehaviour
     public void IncreaseCounter()
     {
         buttonCounter++;
-        if (buttonCounter == buttonNumbers)
+        if (buttonCounter >= buttonNumbers)
         {
             CameraManager.instance.ChangeCameraToAnObject(gameObject);
             OpenDoor();

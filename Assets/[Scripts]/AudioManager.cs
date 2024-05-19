@@ -66,6 +66,7 @@ public class AudioManager : MonoBehaviour
     {
         selfAudioSource.PlayOneShot(soundLibrary.GetRandomSoundFromType(_sound));
     }
+
     public void SetSound(SOUND_TYPE _sound, Vector3 _position)
     {
         AudioSource audio = GetAudioSource();

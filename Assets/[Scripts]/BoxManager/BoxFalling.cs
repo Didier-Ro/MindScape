@@ -11,9 +11,8 @@ public class BoxFalling : MonoBehaviour
     [Tooltip("If the box is SINGLE, then there is no need to reference DetectorManager.")]
     [SerializeField] private TYPE_BOX type_Box;
     [SerializeField] private OverlapBoxDetectorManager overlayBoxDetectorManager;
-    [SerializeField] private PoolManager poolManager; // Reference to the PoolManager
+    [SerializeField] private GameObject fallingParticles; // Reference to the falling particles prefab
     [SerializeField] private Transform groundCheck; // Transform that checks for ground collision
-    [SerializeField] private LayerMask groundLayer; // Layer mask for the ground
 
     public BOX_STATE boxState = BOX_STATE.IDLE;
     public Action<BOX_STATE> OnBoxStateChange;
@@ -21,13 +20,14 @@ public class BoxFalling : MonoBehaviour
     private bool canMove = false;
     [SerializeField] private int conditionId;
     [SerializeField] private Vector3 positionWhenPuzzleIsCompleted;
-    [SerializeField] private bool isFalling;
+
+    [SerializeField] bool isFalling;
 
     private float size;
     private float totalSize;
     private ActivateZone activateZone;
-    [SerializeField] private SoundLibrary soundLibrary;
-
+    
+    private bool laCajaTocaElPiso = false;
 
     void Start()
     {
@@ -54,11 +54,17 @@ public class BoxFalling : MonoBehaviour
         {
             MoveBox();
         }
-    }
 
-    public void BoxInZone()
-    {
-        isFalling = true;
+        // Check for collision with ground
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, 0.1f);
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.gameObject.CompareTag("Ground"))
+            {
+                // Spawn falling particles when colliding with ground
+                SpawnFallingParticles();
+            }
+        }
     }
 
     void Falling()
@@ -79,34 +85,23 @@ public class BoxFalling : MonoBehaviour
             }
             else if (type_Box == TYPE_BOX.SINGLE)
             {
-                RespawnBox(finalPoint);
+                RespawnBox(finalPoint); ;
             }
-
-            // Reproducir sonido de caja impacto
-            PlayRandomImpactSound();
+        }
+        if (laCajaTocaElPiso)
+        {
+            // Activa la partï¿½cula cuando la caja toca el piso
+            GameObject particle = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.ParticulaCajaCaida2, box.transform.position, Vector3.zero);
+            if (particle != null)
+            {
+                particle.SetActive(true);
+                // Puedes hacer ajustes adicionales a la partï¿½cula aquï¿½ si es necesario
+            }
         }
     }
-    void PlayRandomImpactSound()
+    public void BoxInZone()
     {
-        // Asegúrate de que el SoundLibrary esté asignado
-        if (soundLibrary == null)
-        {
-            Debug.LogError("SoundLibrary is not assigned!");
-            return;
-        }
-
-        // Obtener un sonido aleatorio de caja impacto de la SoundLibrary
-        AudioClip impactSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.ROT_CAJAS_IMPACTO);
-
-        // Reproducir el sonido si se encontró
-        if (impactSound != null)
-        {
-            AudioSource.PlayClipAtPoint(impactSound, transform.position);
-        }
-        else
-        {
-            Debug.LogWarning("Impact sound not found!");
-        }
+        isFalling = true;
     }
     public void SetSpawnPosition(Vector3 _finalPoint)
     {
@@ -117,8 +112,12 @@ public class BoxFalling : MonoBehaviour
     public void ChangeBoxState(BOX_STATE _newBoxState)
     {
         boxState = _newBoxState;
-        OnBoxStateChange?.Invoke(boxState);
+        if (OnBoxStateChange != null)
+        {
+            OnBoxStateChange.Invoke(boxState);
+        }
     }
+
 
     public BOX_STATE GetBoxState()
     {
@@ -151,28 +150,16 @@ public class BoxFalling : MonoBehaviour
             canMove = false;
             boxColliderParent.enabled = true;
             boxColliderChild.enabled = true;
-
-            // Spawn falling particles when the box becomes idle
-            SpawnFallingParticles();
-
-            // Reproducir el sonido de impacto cuando la caja vuelve al estado IDLE después de caer
-            PlayRandomImpactSound();
         }
     }
 
     void SpawnFallingParticles()
     {
-        // Get a falling particle object from the pool
-        GameObject particle = poolManager.GetPooledObject(OBJECT_TYPE.ParticulaCajaCaída2, transform.position, Vector3.zero);
-
-        // If a particle object was successfully retrieved from the pool
-        if (particle != null)
-        {
-            // Activate the particle
-            particle.SetActive(true);
-        }
+        // Instantiate the falling particles at the box's position
+        Instantiate(fallingParticles, transform.position, Quaternion.identity);
     }
 }
+
 
 public enum TYPE_BOX
 {
