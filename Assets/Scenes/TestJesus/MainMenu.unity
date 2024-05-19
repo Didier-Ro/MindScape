@@ -1080,7 +1080,7 @@ MonoBehaviour:
   - Level2
   conditionsIds: 0000000003000000
   currentLevel: 
-  percentageOfGameCompleted: []
+  percentageOfGameCompleted: 
   gamesTimePlayed: 
 --- !u!1 &275283480
 GameObject:
@@ -1578,8 +1578,7 @@ MonoBehaviour:
   percentageCompletedText: {fileID: 1347627030}
   currentLevelText: {fileID: 153136661}
   currentTimePlayedText: {fileID: 2016422265}
-  percentage: 1
-  level: 1
+  index: 1
 --- !u!1 &700717914
 GameObject:
   m_ObjectHideFlags: 0
@@ -2444,8 +2443,7 @@ MonoBehaviour:
   percentageCompletedText: {fileID: 1338166560}
   currentLevelText: {fileID: 111463447}
   currentTimePlayedText: {fileID: 1873800402}
-  percentage: 2
-  level: 2
+  index: 2
 --- !u!1 &1071183960
 GameObject:
   m_ObjectHideFlags: 0
@@ -3491,6 +3489,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 1740819769}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1443238513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4319,6 +4329,7 @@ GameObject:
   - component: {fileID: 1768315258}
   - component: {fileID: 1768315257}
   - component: {fileID: 1768315260}
+  - component: {fileID: 1768315261}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -4459,8 +4470,20 @@ MonoBehaviour:
   percentageCompletedText: {fileID: 700717916}
   currentLevelText: {fileID: 636526437}
   currentTimePlayedText: {fileID: 275283481}
-  percentage: 0
-  level: 0
+  index: 0
+--- !u!114 &1768315261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768315255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b646fb8bca5c56489f16510cc023056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventSystem: {fileID: 1605413656}
 --- !u!1 &1873800400
 GameObject:
   m_ObjectHideFlags: 0

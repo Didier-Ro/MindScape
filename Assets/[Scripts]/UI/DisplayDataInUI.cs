@@ -10,8 +10,7 @@ public class DisplayDataInUI : MonoBehaviour
     public TMP_Text percentageCompletedText;
     public TMP_Text currentLevelText;
     public TMP_Text currentTimePlayedText;
-    public int percentage;
-    public int level;
+    public int index;
 
     private void Start()
     {
@@ -19,7 +18,7 @@ public class DisplayDataInUI : MonoBehaviour
         if (displayData.percentageOfGameCompleted.Count > 0)
         {
             // Obtener el valor en la posici�n 0 del arreglo y convertirlo a cadena de texto
-            float percentageValue = displayData.percentageOfGameCompleted[percentage];
+            float percentageValue = displayData.percentageOfGameCompleted[index];
             string percentageText = percentageValue.ToString();
 
             // Asignar la cadena resultante al campo de texto
@@ -34,7 +33,7 @@ public class DisplayDataInUI : MonoBehaviour
         // Mostrar el nivel actual
         if (displayData.currentLevel != null)
         {
-            int currentLevelValue = displayData.currentLevel[level];
+            int currentLevelValue = displayData.currentLevel[index];
             string currentLevelTextString = currentLevelValue.ToString();
             currentLevelText.text = "Current Level: " + currentLevelTextString;
         }
@@ -45,7 +44,7 @@ public class DisplayDataInUI : MonoBehaviour
         
         if (displayData.gamesTimePlayed != null)
         {
-            int time = displayData.gamesTimePlayed[level];
+            int time = displayData.gamesTimePlayed[index];
             int minutes = time / 60;
             int seconds = time % 60;
             currentTimePlayedText.text = minutes + "m " + seconds + "s";

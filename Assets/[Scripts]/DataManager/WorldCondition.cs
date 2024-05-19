@@ -34,7 +34,7 @@ public class WorldCondition : ScriptableObject, IsaveScript
         return dataToSave;
     }
 
-    public float GetPercentageOfGameCompleted()
+    public int GetPercentageOfGameCompleted()
     {
         float percentageCompleted = 0;
         for (int i = 1; i < conditions.Length; i++)
@@ -46,7 +46,7 @@ public class WorldCondition : ScriptableObject, IsaveScript
         }
         percentageCompleted /= conditions.Length;
         percentageCompleted *= 100;
-        return percentageCompleted;
+        return (int)percentageCompleted;
     }
 
     public string GetData(int _gameNumber)

@@ -9,7 +9,7 @@ public class ChangeGame : MonoBehaviour
    [SerializeField] private string[] levelScenes;
    [SerializeField] private int[] conditionsIds;
    public List<int> currentLevel = new List<int>();
-   public List<float> percentageOfGameCompleted = new List<float>();
+   public List<int> percentageOfGameCompleted = new List<int>();
    public List<int> gamesTimePlayed = new List<int>();
   
 
@@ -110,20 +110,14 @@ public class ChangeGame : MonoBehaviour
 
    private void GetCurrentLevel()
    {
-      foreach (var condition in allConditions)
-      {
-         if (condition.IsFirstTimePlayed())
+      for (int i = 0; i < allConditions.Length; i++)
+      { 
+         currentLevel.Add(0);
+         for (int j = 0; j < conditionsIds.Length; j++)
          {
-            currentLevel.Add(0);
-         }
-         else
-         {
-            for (int i = 0; i < conditionsIds.Length; i++)
+            if (allConditions[i].IsConditionCompleted(conditionsIds[j]))
             {
-               if (condition.IsConditionCompleted(conditionsIds[i]))
-               {
-                  currentLevel.Add(i+1);
-               }
+               currentLevel[i]++;
             }
          }
       }
