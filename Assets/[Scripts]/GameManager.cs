@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     private GAME_STATE currentGameState = GAME_STATE.EXPLORATION;
     public Action<GAME_STATE> OnGameStateChange;
     public Action<bool> OnFlashingChange;
+    public AudioSource audioSource;
 
     [Header("Shadow References")]
     [SerializeField] private Light2D flashlightReference;
