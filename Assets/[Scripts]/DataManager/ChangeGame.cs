@@ -9,7 +9,7 @@ public class ChangeGame : MonoBehaviour
    [SerializeField] private string[] levelScenes;
    [SerializeField] private int[] conditionsIds;
    public List<int> currentLevel = new List<int>();
-   public List<float> percentageOfGameCompleted = new List<float>();
+   public List<int> percentageOfGameCompleted = new List<int>();
    public List<int> gamesTimePlayed = new List<int>();
   
 
