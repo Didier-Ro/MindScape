@@ -7,10 +7,10 @@ public class DashController : MonoBehaviour
     public GameObject dashText;
     public GameObject jumpText;
     public float dashSpeed = 10f;
-    public float dashCooldownFrames = 60f; // Número de frames de enfriamiento
+    public float dashCooldownFrames = 60f; // Numero de frames de enfriamiento
     public float dashStaminaCost = 25f;
     public float wallCheckDistance = 0.1f;
-    private int lastDashFrame = 0; // Último frame en que se realizó un dash
+    private int lastDashFrame = 0; // Ultimo frame en que se realizo un dash
     private Vector2 dashDirection;
     private bool isDashing = false;
 
@@ -50,7 +50,7 @@ public class DashController : MonoBehaviour
         movementScript.Rb.MovePosition(movementScript.Rb.position + dashMovement);
 
         // Verificar si el dash ha terminado
-        if (Time.frameCount >= lastDashFrame + 1) // Se realiza una iteración del dash por frame
+        if (Time.frameCount >= lastDashFrame + 1) // Se realiza una iteracion del dash por frame
         {
             isDashing = false;
             movementScript.isMoving = true;
@@ -79,7 +79,7 @@ public class DashController : MonoBehaviour
             float inputY = InputManager.GetInstance().MovementInput().y;
             if (inputX != 0 || inputY != 0)
             {
-                // Verifica si está pasando por un agujero
+                // Verifica si esta pasando por un agujero
                 bool isPassingHole = IsPassingOverHole();
 
                 dashDirection = new Vector2(inputX, inputY).normalized;
