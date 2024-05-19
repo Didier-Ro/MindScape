@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class HealthController : MonoBehaviour
@@ -21,18 +22,17 @@ public class HealthController : MonoBehaviour
     public float healCooldown = 3.0f;
     public float maxHealCoolDown = 3.0f;
     private bool startCoolDown = false;
-    [SerializeField] private float spawnRadius = 1f;
-    [SerializeField] private int maxParticles = 5;
 
     [Header("Stress Particles")]
-    public float stressThreshold = 0.5f; // Threshold for health percentage to start showing stress particles
-    public Transform particleSpawnPoint; // Point to spawn particles
+    public float stressThreshold = 0.5f;
+    public Transform particleSpawnPoint;
     private bool particlesSpawned = false;
 
     [Header("Audio")]
-    public AudioSource audioSource; // Referencia al componente de audio
-    public SoundLibrary soundLibrary; // Referencia al SoundLibrary
+    public AudioSource audioSource;
+    public SoundLibrary soundLibrary;
     public SOUND_TYPE whisperSoundType;
+    public AudioMixer masterMixer;
 
     void UpdatePlayerHealth()
     {
@@ -58,7 +58,6 @@ public class HealthController : MonoBehaviour
         {
             GameManager.GetInstance().ChangeGameState(GAME_STATE.DEAD);
             currentPlayerHealth = 0;
-            // gameOverScreen.SetActive(true);
             Debug.Log("Player is dead");
         }
     }
@@ -99,24 +98,31 @@ public class HealthController : MonoBehaviour
         {
             SpawnStressParticles();
             particlesSpawned = true;
-            PlayWhisperSound(); // Reproduce el sonido cuando se activan las partículas
+            PlayWhisperSound();
         }
         else if (currentPlayerHealth >= maxPlayerHealth && particlesSpawned)
         {
             particlesSpawned = false;
             RemoveStressParticles();
-            StopWhisperSound(); // Detiene el sonido cuando se desactivan las partículas
+            StopWhisperSound();
         }
     }
+
     private void PlayWhisperSound()
     {
-        if (audioSource != null && !audioSource.isPlaying && soundLibrary != null)
+        if (audioSource != null && soundLibrary != null)
         {
             AudioClip whisperSound = soundLibrary.GetRandomSoundFromType(whisperSoundType);
             if (whisperSound != null)
             {
                 audioSource.clip = whisperSound;
+                audioSource.loop = true;
                 audioSource.Play();
+                masterMixer.SetFloat("WhisperVolume", 0.0f);
+            }
+            else
+            {
+                Debug.LogWarning("Whisper sound not found in the SoundLibrary.");
             }
         }
     }
@@ -125,15 +131,14 @@ public class HealthController : MonoBehaviour
     {
         if (audioSource != null && audioSource.isPlaying)
         {
+            audioSource.loop = false;
             audioSource.Stop();
+            masterMixer.SetFloat("WhisperVolume", -80.0f);
         }
     }
 
-    [SerializeField] private float headHeight = 1.4f; // Ajusta la altura relativa de la cabeza del jugador
-
     void SpawnStressParticles()
     {
-        // Verifica si el punto de generación de partículas está asignado
         if (particleSpawnPoint == null)
         {
             Debug.LogError("Particle spawn point not assigned in the Inspector!");
@@ -142,21 +147,18 @@ public class HealthController : MonoBehaviour
 
         Debug.Log("Spawning stress particles...");
 
-        // Obtiene la posición de la cabeza del jugador restando un pequeño valor a la altura relativa de la cabeza
-        Vector3 headPosition = transform.position + Vector3.up * (headHeight - 1f); // Resta 0.1 unidades para bajar un poco
+        Vector3 spawnPosition = particleSpawnPoint.position;
 
-        // Genera las partículas
-        GameObject estres1 = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Estres1, headPosition, Vector3.zero);
-        GameObject estres2 = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Estres2Variant, headPosition, Vector3.zero);
+        GameObject estres1 = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Estres1, spawnPosition, Vector3.zero);
+        GameObject estres2 = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Estres2Variant, spawnPosition, Vector3.zero);
 
-        // Configura las partículas generadas
         if (estres1 != null)
         {
-            estres1.transform.SetParent(transform); // Establece la partícula como hijo del jugador para seguimiento
+            estres1.transform.SetParent(particleSpawnPoint); 
             var particleSystem1 = estres1.GetComponent<ParticleSystem>();
             if (particleSystem1 != null)
             {
-                particleSystem1.Play(); // Activa y reproduce el sistema de partículas
+                particleSystem1.Play();
             }
             else
             {
@@ -166,11 +168,11 @@ public class HealthController : MonoBehaviour
 
         if (estres2 != null)
         {
-            estres2.transform.SetParent(transform); // Establece la partícula como hijo del jugador para seguimiento
+            estres2.transform.SetParent(particleSpawnPoint);
             var particleSystem2 = estres2.GetComponent<ParticleSystem>();
             if (particleSystem2 != null)
             {
-                particleSystem2.Play(); // Activa y reproduce el sistema de partículas
+                particleSystem2.Play();
             }
             else
             {
@@ -182,8 +184,7 @@ public class HealthController : MonoBehaviour
     void RemoveStressParticles()
     {
         Debug.Log("Removing stress particles...");
-        // Deactivate and stop all child particles
-        foreach (Transform child in transform)
+        foreach (Transform child in particleSpawnPoint)
         {
             var particleSystem = child.GetComponent<ParticleSystem>();
             if (particleSystem != null)
