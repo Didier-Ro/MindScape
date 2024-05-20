@@ -8,6 +8,7 @@ public class FlyingBox : MonoBehaviour
    [SerializeField] private float sizeToScale;
    [SerializeField] private float delayStart;
    private Vector2 direction;
+   [HideInInspector] public Vector2 finalPoint;
    private float speedPerFrame = default;
    private int frameCounter = 0;
    public float timeToReachPointInSeconds = 1;
@@ -95,7 +96,8 @@ public class FlyingBox : MonoBehaviour
       {
          transform.position = finalPosition;
          reachToThePoint = true;
-         PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Box, transform.position, Vector3.zero);
+         GameObject box = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Box, transform.position, Vector3.zero);
+         box.GetComponent<BoxFalling>().finalPoint = finalPoint;
          CameraManager.instance.ChangeCameraToThePlayer();
          gameObject.SetActive(false);
       }

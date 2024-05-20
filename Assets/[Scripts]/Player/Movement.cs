@@ -59,7 +59,6 @@ public class Movement : MonoBehaviour
         if (_newPlayerState == PLAYER_STATES.PLAY)
         {
             canMove = true;
-            isThePlayerCenterToTheBox = false;
         }
         else
         {
@@ -98,16 +97,9 @@ public class Movement : MonoBehaviour
         {
             interactiveObject.GetComponent<ActivateZone>().ActivateBoxProcess();
         }
-        if (isMovingToCenterOfTheBox)
-        {
-            MoveThePlayerToABox();
-            
-        }
-        
-        
     }
     
-    public void CenterThePlayerToABox(Vector2 positionToMove)
+    /*public void CenterThePlayerToABox(Vector2 positionToMove)
     {
         positionToCenterThePlayer = positionToMove;
         isMovingToCenterOfTheBox = true;
@@ -132,7 +124,7 @@ public class Movement : MonoBehaviour
             Vector2 newPos = Vector2.MoveTowards(transform.position, positionToCenterThePlayer, 0.01f); transform.position = (newPos);
             transform.position = newPos;
         }
-    }
+    }*/
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -144,7 +136,7 @@ public class Movement : MonoBehaviour
         }
         if (other.GetComponent<ActivateZone>())
         {
-            interactiveObject = other.gameObject;
+                interactiveObject = other.gameObject;
             _activateZone = interactiveObject.GetComponent<ActivateZone>();
         }
     }
@@ -162,27 +154,25 @@ public class Movement : MonoBehaviour
 
     void HandleMovementInput()
     {
-        if (isMoving)
+        if (isMoving && canMove)
         {
             animator.SetFloat("x", input.x);
             animator.SetFloat("y", input.y);
             animator.SetFloat("Speed", input.magnitude);
             Vector2 movement = input.normalized * walkSpeed * Time.fixedDeltaTime;
-            if (canMove)
-            {
-                rb.MovePosition(rb.position + movement);
-                timeSinceLastStep += Time.fixedDeltaTime;
-                if (timeSinceLastStep > stepDelay)
+            rb.MovePosition(rb.position + movement); 
+            timeSinceLastStep += Time.fixedDeltaTime; 
+            if (timeSinceLastStep > stepDelay)
+            { 
+                GameObject particle = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Pasos, rb.position, Vector3.zero); 
+                ParticleSystem particleSystem = particle.GetComponent<ParticleSystem>();
+                if (particleSystem != null)
                 {
-                    GameObject particle = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Pasos, rb.position, Vector3.zero);
-                    ParticleSystem particleSystem = particle.GetComponent<ParticleSystem>();
-                    if (particleSystem != null)
-                    {
-                        particleSystem.Play();
-                    }
-                    timeSinceLastStep = 0f;
-                }
+                    particleSystem.Play();
+                } 
+                timeSinceLastStep = 0f; 
             }
+            
         }
     }
 }

@@ -41,9 +41,8 @@ public class MovableObject : MonoBehaviour, Istepable
         }
         else
         {
-            //activateObject.GetComponent<ActivateZone>().canActivate = false;
+            targetTransfom.Translate(finalPosition - (Vector2)activateObject.transform.position); 
             activateObject.transform.position = finalPosition;
-            PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
             isMoving = false;
         }
     }
@@ -76,7 +75,6 @@ public class MovableObject : MonoBehaviour, Istepable
     private void RayCastCheck(bool isPushing)
     {
         Vector2 offset = AddOffsetToRayCast(isPushing);
-        Debug.Log(offset);
         Debug.DrawRay((Vector2) transform.position + offset, directionToMove * distanceToMove, Color.red, 1f);
         rayhit = Physics2D.Raycast((Vector2)transform.position + offset, directionToMove, distanceToMove, _layerMask);
         startPosition = activateObject.transform.position;
@@ -161,17 +159,10 @@ public class MovableObject : MonoBehaviour, Istepable
                 animator.SetBool("IsHoldingRL", false);
                 animator.SetBool("IsHoldingUD", true);
                 vectorToCenter = distance.y > 0 ? vectorsToCenterThePlayer[2].position : vectorsToCenterThePlayer[3].position;
-            }
-            if (!playerMovement.IsTheBoxCenter())
+            } 
+            if (Mathf.Abs(GetDirectionToMove()) > 0)
             {
-                playerMovement.CenterThePlayerToABox(vectorToCenter);
-            }
-            else
-            {
-                if (Mathf.Abs(GetDirectionToMove()) > 0)
-                {
-                    RayCastCheck(GetDirectionToMove() > 0);
-                }
+                RayCastCheck(GetDirectionToMove() > 0); 
             }
         }
     }
@@ -187,7 +178,9 @@ public class MovableObject : MonoBehaviour, Istepable
                 boxFalling.GetComponent<IBoxInteraction>().Activate(activateObject);
             }
         }
-        if (!isMoving) return;
+
+        if (!isMoving)
+            return;
         Activate();
     }
     public void Deactivate()
