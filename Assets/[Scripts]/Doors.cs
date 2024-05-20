@@ -28,9 +28,12 @@ public class Doors : MonoBehaviour
     
     private IEnumerator CoroutineToReturnCamera(bool isOpen)
     {
-        
         for (int i = 0; i < delayStart; i++)
         {
+            if (i == 58)
+            {
+                AudioManager.GetInstance().SetSound(SOUND_TYPE.PUERTA_PIEDRA_ABRIENDOSE); 
+            }
             yield return null; 
         }
         CameraManager.instance.ChangeCameraToThePlayer();

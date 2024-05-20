@@ -1,4 +1,4 @@
-using System;
+ using System;
 using UnityEngine;
 
 public class BoxFalling : MonoBehaviour
@@ -7,7 +7,7 @@ public class BoxFalling : MonoBehaviour
     [SerializeField] private BoxCollider2D boxColliderParent;
     [SerializeField] private BoxCollider2D boxColliderChild;
     [SerializeField] private Vector3 spawnPoint;
-    [SerializeField] private Vector3 finalPoint;
+    public Vector3 finalPoint;
     [Tooltip("If the box is SINGLE, then there is no need to reference DetectorManager.")]
     [SerializeField] private TYPE_BOX type_Box;
     [SerializeField] private OverlapBoxDetectorManager overlayBoxDetectorManager;
@@ -24,11 +24,9 @@ public class BoxFalling : MonoBehaviour
 
     private float size;
     private float totalSize;
-    private ActivateZone activateZone;
 
     void Start()
     {
-        activateZone = GetComponent<ActivateZone>();
         audioSource = GameManager.GetInstance().audioSource;
 
         if (GameManager.GetInstance().IsConditionCompleted(conditionId))
