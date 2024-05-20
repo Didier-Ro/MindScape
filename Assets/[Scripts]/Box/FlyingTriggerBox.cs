@@ -32,7 +32,7 @@ public class FlyingTriggerBox : MonoBehaviour, IBoxInteraction
     {
         directionToSpawnBox = boxToDeactivate.GetComponent<BoxFalling>().finalPoint;
         boxToDeactivate.SetActive(false);
-        PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
+        PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.THROWBOX);
         StartCoroutine(ChangingFirstSprite());
         GameObject box = PoolManager.GetInstance().GetPooledObject(_objectTypeIsSpawned, transform.position, Vector2.zero);
         box.GetComponent<FlyingBox>().finalPoint = directionToSpawnBox;
@@ -45,8 +45,10 @@ public class FlyingTriggerBox : MonoBehaviour, IBoxInteraction
     {
         yield return new WaitForSeconds(1.25f);
         _spriteRenderer.sprite = finalSprite;
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(1f);
         _spriteRenderer.sprite = initialSprite;
+        yield return new WaitForSeconds(1.5f);
+        PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
     }
     
     
