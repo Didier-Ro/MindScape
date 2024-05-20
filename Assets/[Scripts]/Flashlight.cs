@@ -8,12 +8,12 @@ public class Flashlight : MonoBehaviour
 {
     #region Singletone
     private static Flashlight Instance;
-    public static Flashlight GetInstance() 
-    { 
+    public static Flashlight GetInstance()
+    {
         return Instance;
     }
     #endregion
-    
+
     public Slider slider;
     public float currentSliderValue = 100f;
     [SerializeField] private Light2D flashlight;
@@ -32,7 +32,7 @@ public class Flashlight : MonoBehaviour
     [SerializeField] private float energy = 100f; // Initial energy value
     private bool isExPloration = false;
     public bool isInInitialRoom = true;
-    
+
     private float reductionSpeed;
     [SerializeField] private GameObject cameraView = default;
     [SerializeField] private float angleRange;
@@ -40,8 +40,8 @@ public class Flashlight : MonoBehaviour
     [SerializeField] private LayerMask targetMask;
     [SerializeField] private float radius;
     private bool _canSeeTarget = false;
-   
-    
+
+
     [Header("RotateLight")]
     private Vector2 lastMousePosition = Vector2.zero;
     [SerializeField] private Transform flashLightTransform;
@@ -145,8 +145,8 @@ public class Flashlight : MonoBehaviour
         }
         angle += offsetAngle;
         //float difference = lastAngle - angle;
-        flashLightTransform.rotation = Quaternion.Slerp(Quaternion.Euler(0,0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
-        wallFlashLightTransform.rotation  = Quaternion.Slerp(Quaternion.Euler(0,0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
+        flashLightTransform.rotation = Quaternion.Slerp(Quaternion.Euler(0, 0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
+        wallFlashLightTransform.rotation = Quaternion.Slerp(Quaternion.Euler(0, 0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
         /* if (cameraView != null)
          {
              cameraView.transform.rotation = Quaternion.Slerp(Quaternion.Euler(0,0, lastAngle), Quaternion.Euler(0, 0, angle), rotationSpeed);
@@ -202,7 +202,8 @@ public class Flashlight : MonoBehaviour
                     _canSeeTarget = !Physics2D.Raycast(transform.position, direction, distanceToTarget, obstructionMask);
                     if (!_canSeeTarget) return;
                     col.GetComponent<Ikillable>().Hit(transform);
-                } else if (_canSeeTarget)
+                }
+                else if (_canSeeTarget)
                 {
                     _canSeeTarget = false;
                     col.GetComponent<Ikillable>().UnHit(transform);
@@ -214,8 +215,8 @@ public class Flashlight : MonoBehaviour
             }
             else
             {
-                bool secondSegment = angleDegrees < upperLimitLightAngle && lowerLimitLightAngle >= 360-angleRange*2;
-                bool firstSegment = upperLimitLightAngle <= angleRange*2 && angleDegrees  >= lowerLimitLightAngle;
+                bool secondSegment = angleDegrees < upperLimitLightAngle && lowerLimitLightAngle >= 360 - angleRange * 2;
+                bool firstSegment = upperLimitLightAngle <= angleRange * 2 && angleDegrees >= lowerLimitLightAngle;
                 if (secondSegment || firstSegment)
                 {
                     float distanceToTarget = Vector2.Distance(transform.position, col.transform.position); //Minium distance to see the target
@@ -235,10 +236,10 @@ public class Flashlight : MonoBehaviour
             }
         }
     }
-    
+
 
     // Set flashlight settings for circle light mode
-    private void LightSetUp() 
+    private void LightSetUp()
     {
         float time = 0.3f;
         int frame = 60;
@@ -249,7 +250,7 @@ public class Flashlight : MonoBehaviour
 
         intensityTimeSpeed = totalIntensityValue / (frame * time);
         lightInnerAngleTimeSpeed = totalLightInnerAngle / (frame * time);
-        lightOuterAngleTimeSpeed = totalLightOuterAngle / (frame * time);   
+        lightOuterAngleTimeSpeed = totalLightOuterAngle / (frame * time);
     }
 
     private void CircleLight()
@@ -257,8 +258,12 @@ public class Flashlight : MonoBehaviour
         if (isInInitialRoom)
         {
             ReduceSliderValue(0.0f);
-        }else 
+        }
+        else
+        {
             ReduceSliderValue(0.01f);
+        }
+        StopConcentratedSound();
         if (activeCircleParticles == null)
         {
             activeCircleParticles = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.ChispasCirculo, transform.position, new Vector3(0, -90, 0));
@@ -289,7 +294,7 @@ public class Flashlight : MonoBehaviour
                 particleSystem.Play();
             }
         }
-        flashlight.intensity -= intensityTimeSpeed; 
+        flashlight.intensity -= intensityTimeSpeed;
         flashlight.pointLightOuterRadius = 6.71f;
         flashlight.pointLightInnerRadius = 2.6f;
         wallFlashLight.pointLightOuterRadius = 6.71f;
@@ -299,7 +304,7 @@ public class Flashlight : MonoBehaviour
         flashlight.pointLightOuterAngle += lightOuterAngleTimeSpeed;
         wallFlashLight.pointLightOuterAngle += lightOuterAngleTimeSpeed;
 
-        if (flashlight.intensity <= minLightIntensity) 
+        if (flashlight.intensity <= minLightIntensity)
         {
             flashlight.intensity = minLightIntensity;
             wallFlashLight.intensity = minLightIntensity;
@@ -324,6 +329,15 @@ public class Flashlight : MonoBehaviour
                 audioSource.Stop();
             }
         }
+
+    }
+    private void StopConcentratedSound()
+    {
+        if (audioSource.isPlaying && audioSource.loop)
+        {
+            audioSource.Stop();
+            audioSource.loop = false;
+        }
     }
 
     // Set flashlight settings for concentrated light mode
@@ -334,7 +348,10 @@ public class Flashlight : MonoBehaviour
             ReduceSliderValue(0.0f);
         }
         else
+        {
             ReduceSliderValue(0.1f);
+        }
+        PlayConcentratedSound();
         if (activeConcentratedParticles == null)
         {
             activeConcentratedParticles = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Linternacerradaconluz, transform.position, transform.rotation.eulerAngles);
@@ -392,25 +409,17 @@ public class Flashlight : MonoBehaviour
             flashlight.pointLightOuterAngle = minPointLightOuterAngle;
             wallFlashLight.pointLightOuterAngle = minPointLightOuterAngle;
         }
-        AudioClip rayoDeLuzSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.ROT_RAYO_DE_LUZ_RELOADED);
-        if (rayoDeLuzSound != null)
-        {
-            audioSource.PlayOneShot(rayoDeLuzSound);
-        }
-        if (currentSliderValue > 0)
-        {
-            PlayConcentratedSound();
-        }
     }
     private void PlayConcentratedSound()
     {
         if (!audioSource.isPlaying)
         {
-            AudioClip soundClip = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.ROT_RAYO_DE_LUZ_RELOADED);
+            AudioClip soundClip = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.RAYO_DE_LUZ_RELOADED);
             if (soundClip != null)
             {
                 audioSource.clip = soundClip;
-                audioSource.volume = 0.5f;
+                audioSource.volume = 0.1f;
+                audioSource.loop = true;
                 audioSource.Play();
             }
         }
@@ -421,18 +430,39 @@ public class Flashlight : MonoBehaviour
         reductionSpeed = _reductionSpeed;
         currentSliderValue -= reductionSpeed;
         slider.value = currentSliderValue;
+
         if (currentSliderValue <= 0)
         {
-            flashlight.gameObject.SetActive(false);
-            wallFlashLight.gameObject.SetActive(false);
-            currentSliderValue = 0;
+            // Detener el sonido concentrado si está activo
+            StopConcentratedSound();
+
+            // Reproducir el sonido de apagado de la linterna si la linterna está encendida
+            if (flashlight.gameObject.activeSelf)
+            {
+                if (audioSource != null && soundLibrary != null && !audioSource.isPlaying)
+                {
+                    AudioClip lampOffSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.LAMP_OFF);
+                    if (lampOffSound != null)
+                    {
+                        audioSource.PlayOneShot(lampOffSound);
+                    }
+                }
+            }
+
+            // Apagar la linterna
+            if (flashlight.gameObject.activeSelf)
+            {
+                flashlight.gameObject.SetActive(false);
+                wallFlashLight.gameObject.SetActive(false);
+                currentSliderValue = 0;
+            }
         }
         else
         {
+            // Si la linterna no está apagada, asegurarse de que esté encendida
             flashlight.gameObject.SetActive(true);
             wallFlashLight.gameObject.SetActive(true);
         }
-            
     }
 
     // Function to get current energy level
