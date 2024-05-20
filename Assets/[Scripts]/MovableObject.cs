@@ -114,6 +114,7 @@ public class MovableObject : MonoBehaviour, Istepable
         finalFramesToReachPoint = (int)timeToReachPointInSeconds * 60;
         finalPosition = startPosition + finalDistanceToMove * directionToMove;
         frameCounter = 0;
+        AudioManager.GetInstance().SetSound(SOUND_TYPE.CAJA_ARRASTRANDOSE);
         isMoving = true;
     }
 

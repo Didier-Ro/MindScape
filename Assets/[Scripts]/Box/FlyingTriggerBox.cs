@@ -39,20 +39,16 @@ public class FlyingTriggerBox : MonoBehaviour, IBoxInteraction
         box.GetComponent<FlyingBox>().GetPositionToMove(directionToFly, distanceToFly);
         collider2D.enabled = true;
         CameraManager.instance.ChangeCameraToAnObject(box);
-        StartCoroutine(ChangingSprite());
     }
 
     private IEnumerator ChangingFirstSprite()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(1.25f);
         _spriteRenderer.sprite = finalSprite;
-    }
-
-    private IEnumerator ChangingSprite()
-    {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.25f);
         _spriteRenderer.sprite = initialSprite;
     }
+    
     
     public void Deactivate()
     {
