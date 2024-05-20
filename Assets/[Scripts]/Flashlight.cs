@@ -257,8 +257,12 @@ public class Flashlight : MonoBehaviour
         if (isInInitialRoom)
         {
             ReduceSliderValue(0.0f);
-        }else 
+        }
+        else
+        {
             ReduceSliderValue(0.01f);
+        }
+        StopConcentratedSound();
         if (activeCircleParticles == null)
         {
             activeCircleParticles = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.ChispasCirculo, transform.position, new Vector3(0, -90, 0));
@@ -324,6 +328,15 @@ public class Flashlight : MonoBehaviour
                 audioSource.Stop();
             }
         }
+
+    }
+    private void StopConcentratedSound()
+    {
+        if (audioSource.isPlaying && audioSource.loop)
+        {
+            audioSource.Stop();
+            audioSource.loop = false;
+        }
     }
 
     // Set flashlight settings for concentrated light mode
@@ -334,7 +347,10 @@ public class Flashlight : MonoBehaviour
             ReduceSliderValue(0.0f);
         }
         else
+        {
             ReduceSliderValue(0.1f);
+        }
+        PlayConcentratedSound();
         if (activeConcentratedParticles == null)
         {
             activeConcentratedParticles = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Linternacerradaconluz, transform.position, transform.rotation.eulerAngles);
@@ -392,25 +408,17 @@ public class Flashlight : MonoBehaviour
             flashlight.pointLightOuterAngle = minPointLightOuterAngle;
             wallFlashLight.pointLightOuterAngle = minPointLightOuterAngle;
         }
-        AudioClip rayoDeLuzSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.ROT_RAYO_DE_LUZ_RELOADED);
-        if (rayoDeLuzSound != null)
-        {
-            audioSource.PlayOneShot(rayoDeLuzSound);
-        }
-        if (currentSliderValue > 0)
-        {
-            PlayConcentratedSound();
-        }
     }
     private void PlayConcentratedSound()
     {
         if (!audioSource.isPlaying)
         {
-            AudioClip soundClip = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.ROT_RAYO_DE_LUZ_RELOADED);
+            AudioClip soundClip = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.RAYO_DE_LUZ_RELOADED);
             if (soundClip != null)
             {
                 audioSource.clip = soundClip;
-                audioSource.volume = 0.5f;
+                audioSource.volume = 0.1f;
+                audioSource.loop = true;
                 audioSource.Play();
             }
         }
@@ -423,16 +431,28 @@ public class Flashlight : MonoBehaviour
         slider.value = currentSliderValue;
         if (currentSliderValue <= 0)
         {
-            flashlight.gameObject.SetActive(false);
-            wallFlashLight.gameObject.SetActive(false);
-            currentSliderValue = 0;
+            if (flashlight.gameObject.activeSelf)
+            {
+                flashlight.gameObject.SetActive(false);
+                wallFlashLight.gameObject.SetActive(false);
+                currentSliderValue = 0;
+
+                if (audioSource != null && soundLibrary != null && !audioSource.isPlaying)
+                {
+                    AudioClip lampOffSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.LAMP_OFF);
+                    if (lampOffSound != null)
+                    {
+                        audioSource.PlayOneShot(lampOffSound);
+                    }
+                }
+            }
         }
         else
         {
+            // Si la linterna no está apagada, asegurarse de que esté encendida
             flashlight.gameObject.SetActive(true);
             wallFlashLight.gameObject.SetActive(true);
         }
-            
     }
 
     // Function to get current energy level
