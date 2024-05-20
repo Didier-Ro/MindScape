@@ -112,7 +112,7 @@ public class HealthController : MonoBehaviour
     {
         if (audioSource != null && soundLibrary != null)
         {
-            AudioClip whisperSound = soundLibrary.GetRandomSoundFromType(whisperSoundType);
+            AudioClip whisperSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.ROT_SUSURROS_ENEMIGO);
             if (whisperSound != null)
             {
                 audioSource.clip = whisperSound;
