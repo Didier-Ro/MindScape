@@ -69,6 +69,8 @@ public class TriggerFuel : MonoBehaviour
         // Asegúrate de que la intensidad sea 0.1 al final
         globalLight.intensity = 0.1f;
         isCoroutineRunning = false;
+
+        gameObject.SetActive(false);
     }
 
     private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
