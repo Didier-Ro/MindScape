@@ -39,7 +39,8 @@ public class ActivateZone : MonoBehaviour
       if(!InputManager.GetInstance().HoldingInteract() && !_movableObject.isMoving && PlayerStates.GetInstance().GetCurrentPlayerState() == PLAYER_STATES.MOVINGBOXES)
       {
             DeactivateBoxProcess();
-      }
+      } 
+      
    }
 
    public void ActivateBoxProcess()
@@ -99,6 +100,7 @@ public class ActivateZone : MonoBehaviour
    private void OnDisable()
    {
       canActivate = false;
+      DeactivateCanvas();
    }
 
    private void OnTriggerExit2D(Collider2D other)
