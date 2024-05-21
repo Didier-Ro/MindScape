@@ -53,6 +53,10 @@ public class Enemy : MonoBehaviour, Ikillable
     private void OnGameStateChange(GAME_STATE _newGameState)//Analyze the Game State type and makes differents behaviour
     {
         CanMove = _newGameState == GAME_STATE.EXPLORATION;
+        if (!CanMove)
+        {
+            rb.velocity = Vector2.zero;
+        }
     }
 
     #endregion
@@ -231,17 +235,17 @@ public class Enemy : MonoBehaviour, Ikillable
     [SerializeField] private SoundLibrary soundLibrary;
     private void PlayDamageSound()
     {
-        // Asegurarse de que el SoundLibrary esté asignado
+        // Asegurarse de que el SoundLibrary estï¿½ asignado
         if (soundLibrary == null)
         {
             Debug.LogError("SoundLibrary is not assigned!");
             return;
         }
 
-        // Obtener un sonido aleatorio de daño de enemigo de la SoundLibrary
+        // Obtener un sonido aleatorio de daï¿½o de enemigo de la SoundLibrary
         AudioClip damageSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.GOLPE_ENEMIGO);
 
-        // Reproducir el sonido si se encontró
+        // Reproducir el sonido si se encontrï¿½
         if (damageSound != null)
         {
             AudioSource.PlayClipAtPoint(damageSound, transform.position);
@@ -253,14 +257,14 @@ public class Enemy : MonoBehaviour, Ikillable
     }
     public void Die()
     {
-        // Tu lógica para manejar la muerte del enemigo...
+        // Tu lï¿½gica para manejar la muerte del enemigo...
 
         // Reproducir el sonido de muerte del enemigo
         PlayDeathSound();
     }
     private void PlayDeathSound()
     {
-        // Asegurarse de que el SoundLibrary esté asignado
+        // Asegurarse de que el SoundLibrary estï¿½ asignado
         if (soundLibrary == null)
         {
             Debug.LogError("SoundLibrary is not assigned!");
@@ -270,7 +274,7 @@ public class Enemy : MonoBehaviour, Ikillable
         // Obtener un sonido aleatorio de muerte de enemigo de la SoundLibrary
         AudioClip deathSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.MUERTE_ENEMIGO);
 
-        // Reproducir el sonido si se encontró
+        // Reproducir el sonido si se encontrï¿½
         if (deathSound != null)
         {
             AudioSource.PlayClipAtPoint(deathSound, transform.position);
@@ -283,17 +287,17 @@ public class Enemy : MonoBehaviour, Ikillable
 
     private void ActivateSmokeParticles()
     {
-        // Desactivar partículas activas si hay alguna
+        // Desactivar partï¿½culas activas si hay alguna
         if (activeSmokeParticles != null && activeSmokeParticles.activeInHierarchy)
         {
-            // Si ya hay una partícula activa, no necesitamos instanciar otra
+            // Si ya hay una partï¿½cula activa, no necesitamos instanciar otra
             return;
         }
 
-        // Obtener una instancia de la partícula de humo enemigo variant desde el PoolManager
+        // Obtener una instancia de la partï¿½cula de humo enemigo variant desde el PoolManager
         activeSmokeParticles = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.HumoEnemigoVariant, transform.position, transform.rotation.eulerAngles);
 
-        // Asegurarse de que la partícula esté activada y posicionada correctamente
+        // Asegurarse de que la partï¿½cula estï¿½ activada y posicionada correctamente
         if (activeSmokeParticles != null)
         {
             activeSmokeParticles.transform.position = transform.position;
@@ -305,14 +309,14 @@ public class Enemy : MonoBehaviour, Ikillable
                 particleSystem.Play();
             }
 
-            // Actualizar la rotación inicial
+            // Actualizar la rotaciï¿½n inicial
             UpdateSmokeParticlesRotation();
         }
     }
 
     private void DeactivateSmokeParticles()
     {
-        // Desactivar la partícula de humo si está activa
+        // Desactivar la partï¿½cula de humo si estï¿½ activa
         if (activeSmokeParticles != null && activeSmokeParticles.activeInHierarchy)
         {
             activeSmokeParticles.SetActive(false);
