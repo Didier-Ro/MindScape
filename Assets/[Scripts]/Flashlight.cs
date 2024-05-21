@@ -56,6 +56,8 @@ public class Flashlight : MonoBehaviour
 
     [SerializeField] private SoundLibrary soundLibrary;
     [SerializeField] private AudioSource audioSource;
+
+    [SerializeField] private FlashlightEnergy flashlightEnergy;
     private void Awake()
     {
         if (Instance == null)
@@ -93,6 +95,11 @@ public class Flashlight : MonoBehaviour
         HandleInput();
     }
 
+    public void SetFlashlightEnergy()
+    {
+        currentSliderValue = flashlightEnergy.GetEnergy();
+    }
+
     private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
     {
         if (GameManager.GetInstance() != null)
@@ -110,7 +117,7 @@ public class Flashlight : MonoBehaviour
     private void InitializeFlashlight()
     {
         CircleLight();
-        energy = slider.maxValue;
+        SetFlashlightEnergy();
     }
 
     // Handle input to toggle flashlight mode
@@ -482,6 +489,6 @@ public class Flashlight : MonoBehaviour
     // Function to get current energy level
     public float GetEnergy()
     {
-        return energy;
+        return currentSliderValue;
     }
 }
