@@ -62,6 +62,7 @@ public class DialogCutscene : MonoBehaviour
                 DeactivateCanvas();
             }
         }
+        Debug.Log("AYUDA NECESITO PENE");
     }
 
     public void ActivateChatbox()
