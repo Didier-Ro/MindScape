@@ -44,4 +44,5 @@ public enum SOUND_TYPE
     PUERTA_PIEDRA_CERRANDOSE,
     LAMP_OFF,
     LAMP_JIGGLE,
+    LAMP_ON,
 }
