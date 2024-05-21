@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class KeyScript : MonoBehaviour
@@ -46,6 +43,7 @@ public class KeyScript : MonoBehaviour
 
     private void OnDestroy()
     {
+        GameManager.GetInstance().MarkConditionCompleted(conditionId);
         UIindicator.SetActive(true);
     }
 }

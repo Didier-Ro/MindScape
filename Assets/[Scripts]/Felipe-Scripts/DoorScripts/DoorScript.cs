@@ -7,6 +7,7 @@ public class DoorScript : MonoBehaviour
     public Transform door;
     public float doorSpeed = 1f;
     public int conditionId;
+    public bool keyUnlocked = true;
     public static DoorScript Instance { get; private set; }
     public Transform openTransform;
     public Transform closeTransform;
@@ -19,11 +20,24 @@ public class DoorScript : MonoBehaviour
     void Start()
     {
         targetPosition = closeTransform.position;
+        if (GameManager.GetInstance().IsConditionCompleted(conditionId))
+        {
+            keyUnlocked = true;
+        }
+        GameManager.GetInstance().OnConditionCompleted += ChangingKeyValue;
+    }
+
+    public void ChangingKeyValue(int condition)
+    {
+        if (condition == conditionId)
+        {
+            keyUnlocked = true;
+        }
     }
 
     void Update()
     {
-        if (GameManager.GetInstance().IsConditionCompleted(conditionId) && door.position != targetPosition)
+        if (keyUnlocked && door.position != targetPosition)
         {
             door.transform.position = Vector3.Lerp(door.transform.position, targetPosition, time);
             time += Time.deltaTime * doorSpeed;
