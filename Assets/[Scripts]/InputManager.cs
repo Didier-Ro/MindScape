@@ -61,6 +61,9 @@ public class InputManager : MonoBehaviour
             case PLAYER_STATES.DASHING:
                 DeactivateInput();
                 break;
+            case PLAYER_STATES.THROWBOX:
+                DeactivateInput();
+                break;
             
                 
         }   

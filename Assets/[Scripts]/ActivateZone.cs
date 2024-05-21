@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class ActivateZone : MonoBehaviour
 {
-   [HideInInspector]public bool canActivate;
+   public bool canActivate;
    [SerializeField] private GameObject gameObjectToActivate;
    private MovableObject _movableObject;
    private string currentControlScheme;
    public GameObject player;
    [SerializeField] private GameObject[] gameUI;
    [SerializeField] private bool isDeactivateWithCondition;
-   [SerializeField] private int conditionId;
+   [SerializeField] private int conditionId; 
+   
    public void DeactivateCanvas()
    {
       gameUI[0].SetActive(false);
@@ -37,9 +38,9 @@ public class ActivateZone : MonoBehaviour
    {
       if(!InputManager.GetInstance().HoldingInteract() && !_movableObject.isMoving && PlayerStates.GetInstance().GetCurrentPlayerState() == PLAYER_STATES.MOVINGBOXES)
       {
-         Debug.Log("se desactiva");
-         DeactivateBoxProcess();
-      }
+            DeactivateBoxProcess();
+      } 
+      
    }
 
    public void ActivateBoxProcess()
@@ -51,9 +52,8 @@ public class ActivateZone : MonoBehaviour
       gameUI[2].SetActive(true);
    }
 
-   public void DeactivateBoxProcess()
+   private void DeactivateBoxProcess()
    {
-      canActivate = true;
       gameUI[0].SetActive(false);
       gameUI[1].SetActive(true);
       gameUI[2].SetActive(false);
@@ -81,12 +81,12 @@ public class ActivateZone : MonoBehaviour
    {
       if (other.CompareTag("Player"))
       {
+         SetActiveCanvas();
          canActivate = true;
          if (player == null)
          {
             player = other.gameObject;
          }
-         SetActiveCanvas();
       }
        
    }
@@ -100,6 +100,7 @@ public class ActivateZone : MonoBehaviour
    private void OnDisable()
    {
       canActivate = false;
+      DeactivateCanvas();
    }
 
    private void OnTriggerExit2D(Collider2D other)
@@ -107,8 +108,13 @@ public class ActivateZone : MonoBehaviour
       if (other.CompareTag("Player"))
       {
          DeactivateCanvas();
+         canActivate = false;
       }
    }
 
-   
+   public enum ObjectState
+   {
+      IDLE,
+      MOVING,
+   }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Movement : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class Movement : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] private Rigidbody2D rb;
     public Rigidbody2D Rb { get { return rb; } }
+    [SerializeField] private SoundLibrary soundLibrary;
 
     #region SubscriptionToGameManager
     private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
@@ -59,7 +61,6 @@ public class Movement : MonoBehaviour
         if (_newPlayerState == PLAYER_STATES.PLAY)
         {
             canMove = true;
-            isThePlayerCenterToTheBox = false;
         }
         else
         {
@@ -98,16 +99,9 @@ public class Movement : MonoBehaviour
         {
             interactiveObject.GetComponent<ActivateZone>().ActivateBoxProcess();
         }
-        if (isMovingToCenterOfTheBox)
-        {
-            MoveThePlayerToABox();
-            
-        }
-        
-        
     }
     
-    public void CenterThePlayerToABox(Vector2 positionToMove)
+    /*public void CenterThePlayerToABox(Vector2 positionToMove)
     {
         positionToCenterThePlayer = positionToMove;
         isMovingToCenterOfTheBox = true;
@@ -132,7 +126,7 @@ public class Movement : MonoBehaviour
             Vector2 newPos = Vector2.MoveTowards(transform.position, positionToCenterThePlayer, 0.01f); transform.position = (newPos);
             transform.position = newPos;
         }
-    }
+    }*/
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -144,7 +138,7 @@ public class Movement : MonoBehaviour
         }
         if (other.GetComponent<ActivateZone>())
         {
-            interactiveObject = other.gameObject;
+                interactiveObject = other.gameObject;
             _activateZone = interactiveObject.GetComponent<ActivateZone>();
         }
     }
@@ -160,30 +154,48 @@ public class Movement : MonoBehaviour
        
     }
 
+    private bool isPlayingSound = false; // Variable para controlar si se está reproduciendo un sonido
+
     void HandleMovementInput()
     {
-        if (isMoving)
+        if (isMoving && canMove)
         {
             animator.SetFloat("x", input.x);
             animator.SetFloat("y", input.y);
             animator.SetFloat("Speed", input.magnitude);
             Vector2 movement = input.normalized * walkSpeed * Time.fixedDeltaTime;
-            if (canMove)
+            rb.MovePosition(rb.position + movement);
+            timeSinceLastStep += Time.fixedDeltaTime;
+            if (timeSinceLastStep > stepDelay)
             {
-                rb.MovePosition(rb.position + movement);
-                timeSinceLastStep += Time.fixedDeltaTime;
-                if (timeSinceLastStep > stepDelay)
+                GameObject particle = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Pasos, rb.position, Vector3.zero);
+                ParticleSystem particleSystem = particle.GetComponent<ParticleSystem>();
+                if (particleSystem != null)
                 {
-                    GameObject particle = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Pasos, rb.position, Vector3.zero);
-                    ParticleSystem particleSystem = particle.GetComponent<ParticleSystem>();
-                    if (particleSystem != null)
+                    particleSystem.Play();
+                }
+                timeSinceLastStep = 0f;
+
+                // Reproducir el sonido LAMP_JIGGLE si no se está reproduciendo actualmente
+                if (!isPlayingSound && soundLibrary != null)
+                {
+                    AudioClip jiggleSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.LAMP_JIGGLE);
+                    if (jiggleSound != null)
                     {
-                        particleSystem.Play();
+                        isPlayingSound = true; // Marcar que se está reproduciendo un sonido
+                        AudioSource.PlayClipAtPoint(jiggleSound, transform.position, 1f);
+                        StartCoroutine(ResetSoundFlag(jiggleSound.length)); // Restablecer la bandera después de que termine el sonido
                     }
-                    timeSinceLastStep = 0f;
                 }
             }
         }
+    }
+
+    // Corrutina para restablecer la bandera después de que termine el sonido
+    private IEnumerator ResetSoundFlag(float soundLength)
+    {
+        yield return new WaitForSeconds(soundLength);
+        isPlayingSound = false; // Restablecer la bandera
     }
 }
 

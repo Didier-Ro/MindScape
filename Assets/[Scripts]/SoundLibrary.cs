@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SoundLibrary", menuName = "Scriptables/SoundLibrary", order = 1)]
@@ -37,6 +35,13 @@ public enum SOUND_TYPE
     PASOS_ALFOMBRA = 2,
     GOLPE_ENEMIGO,
     ROT_CAJAS_IMPACTO,
-    ROT_RAYO_DE_LUZ_RELOADED,
+    RAYO_DE_LUZ_RELOADED,
     ROT_SUSURROS_ENEMIGO,
+    ROT_PLACA_DE_PRESION,
+    RAYO_DE_LUZ,
+    CAJA_ARRASTRANDOSE,
+    PUERTA_PIEDRA_ABRIENDOSE,
+    PUERTA_PIEDRA_CERRANDOSE,
+    LAMP_OFF,
+    LAMP_JIGGLE,
 }

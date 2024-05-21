@@ -26,7 +26,7 @@ public class BoxDetector : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
-
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Box"))
@@ -79,6 +79,7 @@ public class BoxDetector : MonoBehaviour
 
         if (collision.CompareTag("Feet"))
         {
+            AudioManager.GetInstance().SetSound(SOUND_TYPE.ROT_PLACA_DE_PRESION);
             player = PlayerStates.GetInstance().transform;
             playerSprite = player.transform.Find("Sprite");
             playerSprite.localPosition = new Vector3(0f, -0.15f, 0f);

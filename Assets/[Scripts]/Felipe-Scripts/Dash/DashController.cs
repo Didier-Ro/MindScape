@@ -7,17 +7,16 @@ public class DashController : MonoBehaviour
     public GameObject dashText;
     public GameObject jumpText;
     public float dashSpeed = 10f;
-    public float dashCooldownFrames = 60f; // Numero de frames de enfriamiento
+    public float dashTime = 0.1f;
+    public float dashCooldown = 1f;
     public float dashStaminaCost = 25f;
     public float wallCheckDistance = 0.1f;
-    private int lastDashFrame = 0; // Ultimo frame en que se realizo un dash
+    private float lastDashTime = 0f;
     private Vector2 dashDirection;
     private bool isDashing = false;
 
     private Movement movementScript;
     private StaminaBar staminaBar;
-
-    private bool isControllable = true;
 
     private void Start()
     {
@@ -27,7 +26,7 @@ public class DashController : MonoBehaviour
 
     private void Update()
     {
-        if (InputManager.GetInstance().DashInput() && Time.frameCount > lastDashFrame + dashCooldownFrames)
+        if (InputManager.GetInstance().DashInput() && Time.time > lastDashTime + dashCooldown)
         {
             if (!IsTouchingWall())
             {
@@ -36,36 +35,53 @@ public class DashController : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    private IEnumerator PerformDash(bool isPassingHole)
     {
-        if (isDashing)
+        isDashing = true;
+        PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.DASHING);
+
+        Collider2D feetCollider = FindFeetCollider();
+        if (feetCollider != null)
         {
-            PerformDash();
+            feetCollider.enabled = false;
         }
+
+        movementScript.isMoving = false;
+        float dashTimer = 0f;
+
+        if (isPassingHole)
+        {
+            StartCoroutine(JumpAnimation());
+        }
+
+        while (dashTimer < dashTime)
+        {
+            Vector2 dashMovement = new Vector2(dashDirection.x * dashSpeed * Time.deltaTime, dashDirection.y * dashSpeed * Time.deltaTime);
+            movementScript.Rb.MovePosition(movementScript.Rb.position + dashMovement);
+            dashTimer += Time.deltaTime;
+            yield return null;
+        }
+
+        if (feetCollider != null)
+        {
+            feetCollider.enabled = true;
+        }
+
+        movementScript.isMoving = true;
+        isDashing = false;
+        lastDashTime = Time.time;
+        if (currentTrigger != null)
+        {
+            currentTrigger.DisableTrigger();
+        }
+
+        if (isPassingHole)
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
+        PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
     }
 
-    private void PerformDash()
-    {
-        Vector2 dashMovement = new Vector2(dashDirection.x * dashSpeed * Time.fixedDeltaTime, dashDirection.y * dashSpeed * Time.fixedDeltaTime);
-        movementScript.Rb.MovePosition(movementScript.Rb.position + dashMovement);
-
-        // Verificar si el dash ha terminado
-        if (Time.frameCount >= lastDashFrame + 1) // Se realiza una iteracion del dash por frame
-        {
-            isDashing = false;
-            movementScript.isMoving = true;
-
-            // Activar los controles
-            isControllable = true;
-
-            if (currentTrigger != null)
-            {
-                currentTrigger.DisableTrigger();
-            }
-
-            PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
-        }
-    }
     public void SetCurrentTrigger(TriggerController trigger)
     {
         currentTrigger = trigger;
@@ -79,25 +95,24 @@ public class DashController : MonoBehaviour
             float inputY = InputManager.GetInstance().MovementInput().y;
             if (inputX != 0 || inputY != 0)
             {
-                // Verifica si esta pasando por un agujero
+                // Verifica si está pasando por un agujero
                 bool isPassingHole = IsPassingOverHole();
 
                 dashDirection = new Vector2(inputX, inputY).normalized;
-                isDashing = true;
-                movementScript.isMoving = false;
-                lastDashFrame = Time.frameCount;
+                StartCoroutine(PerformDash(isPassingHole));
                 staminaBar.UseStamina(dashStaminaCost);
-                PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.DASHING);
-
-                // Desactivar los controles
-                isControllable = false;
-
-                if (isPassingHole)
-                {
-                    StartCoroutine(JumpAnimation());
-                }
             }
         }
+    }
+
+    private Collider2D FindFeetCollider()
+    {
+        GameObject[] feetObjects = GameObject.FindGameObjectsWithTag("Feet");
+        if (feetObjects.Length > 0)
+        {
+            return feetObjects[0].GetComponent<Collider2D>();
+        }
+        return null;
     }
 
     private bool IsTouchingWall()

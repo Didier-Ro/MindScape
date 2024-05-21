@@ -32,7 +32,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
-        if (keyAnimating)
+        /*if (keyAnimating)
         {
             float yPos = Mathf.Sin((Time.time / keyAnimationTime) * Mathf.PI) * keyAnimationHeight;
             key.transform.position = new Vector3(key.transform.position.x, yPos, key.transform.position.z);
@@ -41,7 +41,7 @@ public class EnemySpawner : MonoBehaviour
                 keyAnimating = false;
                 key.transform.position = new Vector3(key.transform.position.x, 0f, key.transform.position.z);
             }
-        }
+        }*/
     }
 
     public void SpawnRound(int _enemiesUWantToSpawn, OBJECT_TYPE _enemyType)
@@ -87,5 +87,6 @@ public class EnemySpawner : MonoBehaviour
     private void StartKeyAnimation()
     {
         keyAnimating = true;
+        key.SetActive(true);
     }
 }
