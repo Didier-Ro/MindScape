@@ -130,7 +130,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: -40682
+  m_InstanceId: 79192
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0.5, z: 0}
@@ -203,6 +203,8 @@ MonoBehaviour:
   rotationSpeed: 2
   wallFlashLightTransform: {fileID: 5297800564107809037}
   camera: {fileID: 0}
+  soundLibrary: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!95 &6378126534524751285
 Animator:
   serializedVersion: 5
@@ -322,12 +324,18 @@ MonoBehaviour:
   currentPlayerHealth: 100
   maxPlayerHealth: 100
   gameOverScreen: {fileID: 0}
-  regenRate: 1
+  regenRate: 2
   migraineImage: {fileID: 0}
   migraineFlashImage: {fileID: 0}
   hurtTimer: 0.1
   healCooldown: 3
   maxHealCoolDown: 3
+  stressThreshold: 0.5
+  particleSpawnPoint: {fileID: 0}
+  audioSource: {fileID: 0}
+  soundLibrary: {fileID: 0}
+  whisperSoundType: 0
+  masterMixer: {fileID: 0}
 --- !u!114 &1410288976761826958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,6 +357,7 @@ MonoBehaviour:
   _activateZone: {fileID: 0}
   animator: {fileID: 5287131927239762016}
   rb: {fileID: 0}
+  soundLibrary: {fileID: 0}
 --- !u!114 &3054615977689496595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,6 +388,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fallingDuration: 1.5
   playerSprite: {fileID: 9140427169719169660}
+  spriteMaterial: {fileID: 0}
   spriteTransform: {fileID: 413736250224407902}
   flasLight: {fileID: 2167727847186427669}
   wallFlaslight: {fileID: 8715654913658092055}
