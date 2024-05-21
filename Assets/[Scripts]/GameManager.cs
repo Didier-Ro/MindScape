@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 using UnityEngine.Rendering.Universal;
 
 public class GameManager : MonoBehaviour
@@ -19,6 +20,11 @@ public class GameManager : MonoBehaviour
     public Action<GAME_STATE> OnGameStateChange;
     public Action<bool> OnFlashingChange;
     public AudioSource audioSource;
+    
+    [SerializeField] private int[] conditionsIds;
+    public List<int> currentLevel = new List<int>();
+    public List<int> percentageOfGameCompleted = new List<int>();
+    public List<int> gamesTimePlayed = new List<int>();
 
     [Header("Shadow References")]
     [SerializeField] private Light2D flashlightReference;
@@ -137,6 +143,37 @@ public class GameManager : MonoBehaviour
     public bool IsConditionCompleted(int _id)
     {
         return stageConditions.IsConditionCompleted(_id);
+    }
+    
+    public void GetPercentageOfAllGamesCompleted()
+    {
+        foreach (var condition in allConditions)
+        {
+            percentageOfGameCompleted.Add(condition.GetPercentageOfGameCompleted());
+        }
+    }
+
+    public void ReturnTimePlayed()
+    {
+        foreach (var conditions in allConditions)
+        {
+            gamesTimePlayed.Add(conditions.timePlayed);  
+        }
+    }
+    
+    public void GetCurrentLevel()
+    {
+        for (int i = 0; i < allConditions.Length; i++)
+        { 
+            currentLevel.Add(0);
+            for (int j = 0; j < conditionsIds.Length; j++)
+            {
+                if (allConditions[i].IsConditionCompleted(conditionsIds[j]))
+                {
+                    currentLevel[i]++;
+                }
+            }
+        }
     }
     
     public void SaveAllData()
