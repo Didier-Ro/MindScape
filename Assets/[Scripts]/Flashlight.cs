@@ -93,6 +93,11 @@ public class Flashlight : MonoBehaviour
         HandleInput();
     }
 
+    public void SetFlashlightEnergy(float _energy)
+    {
+        energy = _energy;
+    }
+
     private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
     {
         if (GameManager.GetInstance() != null)
@@ -110,7 +115,7 @@ public class Flashlight : MonoBehaviour
     private void InitializeFlashlight()
     {
         CircleLight();
-        energy = slider.maxValue;
+        
     }
 
     // Handle input to toggle flashlight mode
