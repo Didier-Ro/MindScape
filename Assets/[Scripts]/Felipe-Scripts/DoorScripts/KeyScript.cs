@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,15 @@ public class KeyScript : MonoBehaviour
 {
     public GameObject doorContainer;
     public GameObject UIindicator;
+    public int conditionId = 6;
+
+    private void Start()
+    {
+        if (!GameManager.GetInstance().IsConditionCompleted(conditionId))
+        {
+           gameObject.SetActive(false);
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -17,7 +27,6 @@ public class KeyScript : MonoBehaviour
                 DoorScript doorScript = doorContainer.GetComponent<DoorScript>();
                 if (doorScript != null)
                 {
-                    doorScript.isUnlocked = true;
                     UIindicator.SetActive(true);
                 }
                 else
@@ -32,5 +41,11 @@ public class KeyScript : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+
+    private void OnDestroy()
+    {
+        UIindicator.SetActive(true);
     }
 }

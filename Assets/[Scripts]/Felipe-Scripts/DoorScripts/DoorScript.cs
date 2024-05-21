@@ -6,8 +6,8 @@ public class DoorScript : MonoBehaviour
 {
     public Transform door;
     public float doorSpeed = 1f;
+    public int conditionId;
     public static DoorScript Instance { get; private set; }
-    public bool isUnlocked = true;
     public Transform openTransform;
     public Transform closeTransform;
     Vector3 targetPosition;
@@ -23,7 +23,7 @@ public class DoorScript : MonoBehaviour
 
     void Update()
     {
-        if (isUnlocked && door.position != targetPosition)
+        if (GameManager.GetInstance().IsConditionCompleted(conditionId) && door.position != targetPosition)
         {
             door.transform.position = Vector3.Lerp(door.transform.position, targetPosition, time);
             time += Time.deltaTime * doorSpeed;
