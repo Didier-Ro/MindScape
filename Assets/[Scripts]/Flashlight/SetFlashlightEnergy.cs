@@ -11,7 +11,8 @@ public class SetFlashlightEnergy : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-
+            Debug.Log("linterna");
+            flashlightEnergy.SetEnergy(flashlight.GetEnergy());
         }
     }
 }
