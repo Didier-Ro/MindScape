@@ -5,7 +5,7 @@ using UnityEngine;
 public class FloorDetection : MonoBehaviour
 {
     private List<BoxCollider2D> boxColliders = new List<BoxCollider2D>();
-    private GameObject floor;
+    public GameObject floor;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

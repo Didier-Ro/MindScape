@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using TMPro;
+using UnityEngine.UI;
 
 public class DialogCutscene : MonoBehaviour
 {
@@ -36,6 +38,7 @@ public class DialogCutscene : MonoBehaviour
     [SerializeField] private Dialog dialog;
     [SerializeField] private GameObject background;
     [SerializeField] private GameObject text;
+    [SerializeField] private TextMeshProUGUI textColor;
     [SerializeField] private GameObject[] gameUI;
 
     public PlayableDirector director;
@@ -55,14 +58,13 @@ public class DialogCutscene : MonoBehaviour
         {
             if (InputManager.GetInstance().NextInput())
             {
-                Destroy(background);
-                Destroy(text);
+                background.SetActive(false);
+                textColor.text = "";
                 director.Play();
                 chatboxActive = false;
                 DeactivateCanvas();
             }
         }
-        Debug.Log("AYUDA NECESITO PENE");
     }
 
     public void ActivateChatbox()
