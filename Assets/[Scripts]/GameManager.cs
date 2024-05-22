@@ -157,6 +157,7 @@ public class GameManager : MonoBehaviour
     
     public void GetPercentageOfAllGamesCompleted()
     {
+        percentageOfGameCompleted.Clear();
         foreach (var condition in allConditions)
         {
             percentageOfGameCompleted.Add(condition.GetPercentageOfGameCompleted());
@@ -165,6 +166,7 @@ public class GameManager : MonoBehaviour
 
     public void ReturnTimePlayed()
     {
+        gamesTimePlayed.Clear();
         foreach (var conditions in allConditions)
         {
             gamesTimePlayed.Add(conditions.timePlayed);  
@@ -173,6 +175,7 @@ public class GameManager : MonoBehaviour
     
     public void GetCurrentLevel()
     {
+        currentLevel.Clear();
         for (int i = 0; i < allConditions.Length; i++)
         { 
             currentLevel.Add(0);
@@ -248,6 +251,7 @@ public class GameManager : MonoBehaviour
             }
         }
         SaveAllData();
+        LoadingData(GAME_STATE.PAUSE);
     }
     private void LoadCurrentGameData(int _currentGame)
     {
