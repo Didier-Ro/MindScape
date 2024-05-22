@@ -45,4 +45,5 @@ public enum SOUND_TYPE
     LAMP_OFF,
     LAMP_JIGGLE,
     LAMP_ON,
+    ORBE_DE_CRISTAL,
 }
