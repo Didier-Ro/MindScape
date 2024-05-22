@@ -390,6 +390,60 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 332818129}
   m_CullTransparentMesh: 1
+--- !u!1 &335612261
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 335612262}
+  - component: {fileID: 335612263}
+  m_Layer: 0
+  m_Name: Dialog5
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &335612262
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335612261}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2143955596}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &335612263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335612261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ad3d39caa3a3e541b95e2096b6c716a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialog:
+    lines:
+    - Espero si poder dormir hoy.
+  background: {fileID: 2078204388}
+  text: {fileID: 853618968}
+  textColor: {fileID: 853618969}
+  gameUI:
+  - {fileID: 332818129}
+  - {fileID: 1946310850}
+  director: {fileID: 709462649}
 --- !u!1 &384183999
 GameObject:
   m_ObjectHideFlags: 0
@@ -607,6 +661,7 @@ GameObject:
   m_Component:
   - component: {fileID: 706650961}
   - component: {fileID: 706650960}
+  - component: {fileID: 706650962}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
@@ -626,7 +681,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 330456bcc38975b4cbd0c43e7f3ac3a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  changeTime: 500000
   sceneName: Level1
 --- !u!4 &706650961
 Transform:
@@ -643,6 +697,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1219699075}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &706650962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706650959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 5ceefc6e7f9af9b4bbe2bcbd2c511b80, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 706650960}
+          m_TargetAssemblyTypeName: LoadCutscene, Assembly-CSharp
+          m_MethodName: ChangeToGameplay
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &709462648
 GameObject:
   m_ObjectHideFlags: 0
@@ -691,6 +775,8 @@ PlayableDirector:
     value: {fileID: 1763238819}
   - key: {fileID: -3629726910628738947, guid: 2bb19592972071e409562b71dd6c86d1, type: 2}
     value: {fileID: 1724008645}
+  - key: {fileID: -1952568953695725086, guid: 2bb19592972071e409562b71dd6c86d1, type: 2}
+    value: {fileID: 706650962}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &709462650
@@ -2714,6 +2800,61 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1381803256
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1381803258}
+  - component: {fileID: 1381803257}
+  m_Layer: 0
+  m_Name: Dialog3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1381803257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381803256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ad3d39caa3a3e541b95e2096b6c716a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialog:
+    lines:
+    - "Supongo que debo llamar a mi mam\xE1, pero ser\xE1 mejor descansar primero,
+      no quiero revivir esos recuerdos asi de cansado."
+  background: {fileID: 2078204388}
+  text: {fileID: 853618968}
+  textColor: {fileID: 853618969}
+  gameUI:
+  - {fileID: 332818129}
+  - {fileID: 1946310850}
+  director: {fileID: 709462649}
+--- !u!4 &1381803258
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381803256}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2143955596}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1460572698
 GameObject:
   m_ObjectHideFlags: 0
@@ -3045,6 +3186,62 @@ MonoBehaviour:
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!1 &1663446723
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1663446725}
+  - component: {fileID: 1663446724}
+  m_Layer: 0
+  m_Name: Letter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1663446724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1663446723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ad3d39caa3a3e541b95e2096b6c716a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialog:
+    lines:
+    - "\"Miguel, espero que te est\xE9 yendo bien, nunca podr\xE9 disculparme lo
+      suficiente por todo lo que pas\xF3 pero por favor mantente en contacto conmigo.
+      Te ama Mam\xE1\""
+  background: {fileID: 2078204388}
+  text: {fileID: 853618968}
+  textColor: {fileID: 853618969}
+  gameUI:
+  - {fileID: 332818129}
+  - {fileID: 1946310850}
+  director: {fileID: 709462649}
+--- !u!4 &1663446725
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1663446723}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2143955596}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1724008644
 GameObject:
   m_ObjectHideFlags: 0
@@ -3363,6 +3560,14 @@ MonoBehaviour:
     - {fileID: 11400000, guid: bd5286c1d72a98a46ac461291f7e8083, type: 2}
     - {fileID: 11400000, guid: 4d82ea9283ead524ea9dbd136428a8d2, type: 2}
     - {fileID: 11400000, guid: c860cce8d5ee2534b89e4b18cc990e3d, type: 2}
+    - {fileID: 11400000, guid: a2d794e2f3bee074d8b55db213ba5ac3, type: 2}
+    - {fileID: 11400000, guid: 8d9e89aa4283a7d4fb91d875aa906282, type: 2}
+    - {fileID: 11400000, guid: 74a0f11f99555414eab35cc48614f2f6, type: 2}
+    - {fileID: 11400000, guid: 1ebe7ae9c16ad2647a95e21c041165e8, type: 2}
+    - {fileID: 11400000, guid: 0ef3fc27ee966164d9ae36887593de94, type: 2}
+    - {fileID: 11400000, guid: ac27ed1aa4e52704085f668e7bb1f45e, type: 2}
+    - {fileID: 11400000, guid: 8b0d192d031bed94ca9e245f8c7263e5, type: 2}
+    - {fileID: 11400000, guid: 5d93a4944adc7ba4e83f8905e9c776b2, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -3409,6 +3614,118 @@ MonoBehaviour:
     - m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 1934061443}
+          m_TargetAssemblyTypeName: DialogCutscene, Assembly-CSharp
+          m_MethodName: DeactivateChatbox
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1663446724}
+          m_TargetAssemblyTypeName: DialogCutscene, Assembly-CSharp
+          m_MethodName: ActivateChatbox
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1663446724}
+          m_TargetAssemblyTypeName: DialogCutscene, Assembly-CSharp
+          m_MethodName: DeactivateChatbox
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1381803257}
+          m_TargetAssemblyTypeName: DialogCutscene, Assembly-CSharp
+          m_MethodName: ActivateChatbox
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1381803257}
+          m_TargetAssemblyTypeName: DialogCutscene, Assembly-CSharp
+          m_MethodName: DeactivateChatbox
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2006926165}
+          m_TargetAssemblyTypeName: DialogCutscene, Assembly-CSharp
+          m_MethodName: ActivateChatbox
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2006926165}
+          m_TargetAssemblyTypeName: DialogCutscene, Assembly-CSharp
+          m_MethodName: DeactivateChatbox
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 335612263}
+          m_TargetAssemblyTypeName: DialogCutscene, Assembly-CSharp
+          m_MethodName: ActivateChatbox
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 335612263}
           m_TargetAssemblyTypeName: DialogCutscene, Assembly-CSharp
           m_MethodName: DeactivateChatbox
           m_Mode: 1
@@ -4038,6 +4355,61 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &2006926164
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2006926166}
+  - component: {fileID: 2006926165}
+  m_Layer: 0
+  m_Name: Dialog4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2006926165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2006926164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ad3d39caa3a3e541b95e2096b6c716a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialog:
+    lines:
+    - "Me encantaria retomar la lectura, lo veo imposible con tanto trabajo pero
+      debo seguir investigando que es lo que me pas\xF3"
+  background: {fileID: 2078204388}
+  text: {fileID: 853618968}
+  textColor: {fileID: 853618969}
+  gameUI:
+  - {fileID: 332818129}
+  - {fileID: 1946310850}
+  director: {fileID: 709462649}
+--- !u!4 &2006926166
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2006926164}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2143955596}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2078204388
 GameObject:
   m_ObjectHideFlags: 0
@@ -4144,6 +4516,10 @@ Transform:
   m_Children:
   - {fileID: 1784706240}
   - {fileID: 1934061442}
+  - {fileID: 1381803258}
+  - {fileID: 2006926166}
+  - {fileID: 335612262}
+  - {fileID: 1663446725}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807

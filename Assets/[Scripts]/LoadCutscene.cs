@@ -3,15 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class LoadCutscene : MonoBehaviour
 {
-    public float changeTime;
     public string sceneName;
 
-    public void Update()
+    public void ChangeToGameplay()
     {
-        changeTime -= Time.deltaTime;
-        if(changeTime <= 0)
-        {
-            SceneManager.LoadScene(sceneName);
-        }
+        SceneManager.LoadScene(sceneName);
     }
+
 }
