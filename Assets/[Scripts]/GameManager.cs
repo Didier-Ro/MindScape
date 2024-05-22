@@ -22,9 +22,9 @@ public class GameManager : MonoBehaviour
     public AudioSource audioSource;
     
     [SerializeField] private int[] conditionsIds;
-    public List<int> currentLevel = new List<int>();
-    public List<int> percentageOfGameCompleted = new List<int>();
-    public List<int> gamesTimePlayed = new List<int>();
+    [HideInInspector] public List<int> currentLevel = new List<int>();
+    [HideInInspector] public List<int> percentageOfGameCompleted = new List<int>();
+    [HideInInspector] public List<int> gamesTimePlayed = new List<int>();
 
     [Header("Shadow References")]
     [SerializeField] private Light2D flashlightReference;
@@ -41,8 +41,18 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         Application.targetFrameRate = 60;
+        LoadingData(GAME_STATE.EXPLORATION);
+    }
+
+    private void LoadingData(GAME_STATE finalState)
+    {
+        ChangeGameState(GAME_STATE.LOADING);
         ResetAll();
         LoadAllData();
+        GetCurrentLevel();
+        GetPercentageOfAllGamesCompleted();
+        ReturnTimePlayed();
+        ChangeGameState(finalState);
     }
     
     private void Update()
@@ -265,5 +275,6 @@ public enum GAME_STATE //All possible Game States
     CUTSCENES,
     FLASBACKS,
     FALLING,
+    LOADING,
     DEAD
 }

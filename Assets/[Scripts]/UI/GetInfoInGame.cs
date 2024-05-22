@@ -19,15 +19,11 @@ public class GetInfoInGame : MonoBehaviour
 
     private void GetInfoInText()
     {
-        GameManager.GetInstance().GetPercentageOfAllGamesCompleted();
-        GameManager.GetInstance().GetCurrentLevel();
-        GameManager.GetInstance().ReturnTimePlayed();
-        
         int percentageCompleted =  GameManager.GetInstance().percentageOfGameCompleted[index];
         percentageCompletedText.text = "Completed: " + percentageCompleted;
         
-        int currentLevel =  GameManager.GetInstance().percentageOfGameCompleted[index];
-        percentageCompletedText.text = "Current Level: " + currentLevel;
+        int currentLevel =  GameManager.GetInstance().currentLevel[index];
+        currentLevelText.text = "Current Level: " + currentLevel;
         
         int time = GameManager.GetInstance().gamesTimePlayed[index];
         int minutes = time / 60;
