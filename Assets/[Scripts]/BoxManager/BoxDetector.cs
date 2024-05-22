@@ -14,8 +14,12 @@ public class BoxDetector : MonoBehaviour
     [SerializeField] private int conditionId;
     [SerializeField] private Transform transformPoint;
 
+    [SerializeField] private GameObject boxJail;
+    [SerializeField] private Collider2D collider1;
+    [SerializeField] private Collider2D collider2;
+    [SerializeField] private BoxFalling boxFalling;
 
-    public GameObject clonPrefab;
+    private GameObject clonPrefab;
     private Transform player;
     private Transform playerSprite;
 
@@ -37,13 +41,10 @@ public class BoxDetector : MonoBehaviour
                 doors.IncreaseHoleCounter();
                 if (doors.ReturnHoleCounter() <= doors.holeNumbers)
                 {
-                    /*Transform parentTransform = collision.transform.parent;
-                    GameObject parent = parentTransform.gameObject;        
-                    colliderParent = parent.GetComponent<BoxCollider2D>();
-                    colliderParent.enabled = false;*/
-                    clonPrefab = Instantiate(boxPrefab, new Vector3(spawnPos.x, 27, 0), Quaternion.identity);
-                    clonPrefab.GetComponent<BoxFalling>().SetSpawnPosition(spawnPos);
-                    //gameObject.SetActive(false);
+                    boxJail.SetActive(false);
+                    collider1.enabled = true;
+                    collider2.enabled = true;
+                    boxFalling.finalPoint = spawnPos;
                 }
                 gameObject.SetActive(false);
             }
