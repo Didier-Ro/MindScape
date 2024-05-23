@@ -31,6 +31,7 @@ public class Level1Manager : MonoBehaviour
     #endregion
 
     public GameObject player;
+    public GameObject playerCutscene;
 
     void Start()
     {
@@ -40,15 +41,12 @@ public class Level1Manager : MonoBehaviour
         player.SetActive(false);
     }
 
-    private void Update()
-    {
-        Debug.Log(GameManager.GetInstance().GetCurrentGameState());
-    }
-
     public void ChangeGameStateInTimeline()
     {
         GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
-        PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
         player.SetActive(true);
+        player.transform.position = playerCutscene.transform.position;
+        playerCutscene.SetActive(false);
+        PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
     }
 }
