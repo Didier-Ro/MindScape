@@ -112,7 +112,7 @@ public class Movement : MonoBehaviour
         {
             interactiveObject.GetComponent<ActivateZone>().ActivateBoxProcess();
         }
-        if (canWatchTarget && Input.GetKeyDown(KeyCode.Y))
+        if (canWatchTarget && InputManager.GetInstance().FocusNextGoal())
         {
             FocusNextTarget();
         }
