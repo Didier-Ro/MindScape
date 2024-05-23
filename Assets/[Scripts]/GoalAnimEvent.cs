@@ -5,11 +5,13 @@ using UnityEngine;
 public class GoalAnimEvent : MonoBehaviour
 {
     [SerializeField] private GameObject doorToUnlock;
+    [SerializeField] private SoundLibrary soundLibrary;
     public void StartAnimEvent()
     {
         Debug.Log("START");
         Debug.Log(gameObject.transform.position);
         CameraManager.instance.ChangeCameraToAnObject(gameObject);
+        AudioClip soundClip = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.ORBE_DE_CRISTAL);
     }
 
     public void LookAtDoor()
