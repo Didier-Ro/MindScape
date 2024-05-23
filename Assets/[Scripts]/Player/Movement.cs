@@ -1,9 +1,11 @@
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class Movement : MonoBehaviour
 {
     public Vector2 input;
+    private bool canWatchTarget = true;
     public bool isMoving = true;
     [SerializeField] private float walkSpeed = 1.5f;
     [SerializeField] bool canInteract = false;
@@ -58,13 +60,24 @@ public class Movement : MonoBehaviour
     
     private void OnPlayerStateChange(PLAYER_STATES _newPlayerState)
     {
-        if (_newPlayerState == PLAYER_STATES.PLAY)
+        switch (_newPlayerState)
         {
-            canMove = true;
-        }
-        else
-        {
-            canMove = false;
+            case PLAYER_STATES.PLAY:
+                canMove = true;
+                canWatchTarget = true;
+                break;
+            case PLAYER_STATES.TARGET_CAMERA:
+                canMove = false;
+                canWatchTarget = true;
+                break;
+            case PLAYER_STATES.MOVING_CAMERA:
+                canMove = false;
+                canWatchTarget = true;
+                break;
+            default:
+                canMove = false;
+                canWatchTarget = false;
+                break;
         }
     }
 
@@ -99,6 +112,37 @@ public class Movement : MonoBehaviour
         {
             interactiveObject.GetComponent<ActivateZone>().ActivateBoxProcess();
         }
+        if (canWatchTarget && InputManager.GetInstance().FocusNextGoal())
+        {
+            FocusNextTarget();
+        }
+        if (PlayerStates.GetInstance().GetCurrentPlayerState() != PLAYER_STATES.MOVING_CAMERA)
+            return;
+        if (CameraManager.instance.HasCameraArrive(PlayerStates.GetInstance().gameObject))
+        {
+            PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
+        }
+        else if(CameraManager.instance.HasCameraArrive(CameraManager.instance.targetPuzzle))
+        {
+            PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.TARGET_CAMERA);
+        }
+    }
+
+    private void FocusNextTarget()
+    {
+        if (PlayerStates.GetInstance().GetCurrentPlayerState() == PLAYER_STATES.PLAY)
+        {
+            if (CameraManager.instance.targetPuzzle != null)
+            {
+                CameraManager.instance.ChangeCameraToAnObject(CameraManager.instance.targetPuzzle);
+            }
+            
+        }
+        else if(PlayerStates.GetInstance().GetCurrentPlayerState() == PLAYER_STATES.TARGET_CAMERA)
+        {
+            CameraManager.instance.ChangeCameraToThePlayer();
+        }
+        PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.MOVING_CAMERA);
     }
     
     /*public void CenterThePlayerToABox(Vector2 positionToMove)

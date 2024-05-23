@@ -199,7 +199,5 @@ public class HealthController : MonoBehaviour
     private void Update()
     {
         Regen();
-        Debug.Log(PlayerStates.GetInstance().GetCurrentPlayerState());
-        Debug.Log(GameManager.GetInstance().GetCurrentGameState());
     }
 }

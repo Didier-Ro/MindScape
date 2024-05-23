@@ -57,7 +57,6 @@ public class InputManager : MonoBehaviour
             case PLAYER_STATES.FALL:
                 DeactivateInput();
                 break;
-            
             case PLAYER_STATES.PLAY:
                 ActivateGameplay();
                 break;
