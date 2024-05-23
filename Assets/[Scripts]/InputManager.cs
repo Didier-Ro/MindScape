@@ -57,7 +57,6 @@ public class InputManager : MonoBehaviour
             case PLAYER_STATES.FALL:
                 DeactivateInput();
                 break;
-            
             case PLAYER_STATES.PLAY:
                 ActivateGameplay();
                 break;
@@ -91,6 +90,7 @@ public class InputManager : MonoBehaviour
     private InputAction lightInput = default;
     private InputAction dashInput = default;
     private InputAction moveLightInput = default;
+    private InputAction focusInput = default;
     
 
     [Header("UIInputs")] 
@@ -140,6 +140,8 @@ public class InputManager : MonoBehaviour
         nextUIInput.Enable();
         backUIInput = playerControls.UI.Back;
         backUIInput.Enable();
+        focusInput = playerControls.Gameplay.FocusNext;
+        focusInput.Enable();
         playerControls.Gameplay.Pause.performed += _ => SetPause();
         actionReference.action.Enable();
 
@@ -216,6 +218,11 @@ public class InputManager : MonoBehaviour
     public bool HoldingInteract()
     {
         return isHolding;
+    }
+
+    public bool FocusNextGoal()
+    {
+        return focusInput.triggered;
     }
 
     public void SwitchControls(PlayerInput input)

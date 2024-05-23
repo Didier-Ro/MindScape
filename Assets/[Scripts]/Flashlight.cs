@@ -68,6 +68,7 @@ public class Flashlight : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        GameManager.GetInstance().GetFlashlightReferecen(this);
     }
 
     // Start is called before the first frame update
@@ -97,7 +98,7 @@ public class Flashlight : MonoBehaviour
 
     public void SetFlashlightEnergy()
     {
-        currentSliderValue = flashlightEnergy.GetEnergy();
+        currentSliderValue = GameManager.GetInstance().GetFlashligthEnergy();
     }
 
     private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes

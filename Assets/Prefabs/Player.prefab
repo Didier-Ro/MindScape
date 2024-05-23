@@ -130,7 +130,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: -40682
+  m_InstanceId: 70710
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0.5, z: 0}
@@ -310,8 +310,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneToLoad: Camera
-  flashlightEnergy: {fileID: 0}
-  Flashlight: {fileID: 0}
 --- !u!114 &-2278262530916522709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,7 +325,7 @@ MonoBehaviour:
   currentPlayerHealth: 100
   maxPlayerHealth: 100
   gameOverScreen: {fileID: 0}
-  regenRate: 1
+  regenRate: 5
   migraineImage: {fileID: 0}
   migraineFlashImage: {fileID: 0}
   hurtTimer: 0.1

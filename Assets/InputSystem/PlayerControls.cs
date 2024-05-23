@@ -89,6 +89,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""FocusNext"",
+                    ""type"": ""Button"",
+                    ""id"": ""ae63eece-43b1-4b46-b14c-a5cc7c967a8e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -421,6 +430,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""MoveLight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""49b8fbab-733c-4f95-b52a-8169e13efb8f"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""FocusNext"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fcd287fb-433d-44b0-af16-52cae93b1cb0"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""FocusNext"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -573,6 +604,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Gameplay_Protect = m_Gameplay.FindAction("Protect", throwIfNotFound: true);
         m_Gameplay_ToggleLight = m_Gameplay.FindAction("ToggleLight", throwIfNotFound: true);
         m_Gameplay_MoveLight = m_Gameplay.FindAction("MoveLight", throwIfNotFound: true);
+        m_Gameplay_FocusNext = m_Gameplay.FindAction("FocusNext", throwIfNotFound: true);
         // Reading
         m_Reading = asset.FindActionMap("Reading", throwIfNotFound: true);
         m_Reading_Next = m_Reading.FindAction("Next", throwIfNotFound: true);
@@ -648,6 +680,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Protect;
     private readonly InputAction m_Gameplay_ToggleLight;
     private readonly InputAction m_Gameplay_MoveLight;
+    private readonly InputAction m_Gameplay_FocusNext;
     public struct GameplayActions
     {
         private @PlayerControls m_Wrapper;
@@ -659,6 +692,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Protect => m_Wrapper.m_Gameplay_Protect;
         public InputAction @ToggleLight => m_Wrapper.m_Gameplay_ToggleLight;
         public InputAction @MoveLight => m_Wrapper.m_Gameplay_MoveLight;
+        public InputAction @FocusNext => m_Wrapper.m_Gameplay_FocusNext;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -689,6 +723,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @MoveLight.started += instance.OnMoveLight;
             @MoveLight.performed += instance.OnMoveLight;
             @MoveLight.canceled += instance.OnMoveLight;
+            @FocusNext.started += instance.OnFocusNext;
+            @FocusNext.performed += instance.OnFocusNext;
+            @FocusNext.canceled += instance.OnFocusNext;
         }
 
         private void UnregisterCallbacks(IGameplayActions instance)
@@ -714,6 +751,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @MoveLight.started -= instance.OnMoveLight;
             @MoveLight.performed -= instance.OnMoveLight;
             @MoveLight.canceled -= instance.OnMoveLight;
+            @FocusNext.started -= instance.OnFocusNext;
+            @FocusNext.performed -= instance.OnFocusNext;
+            @FocusNext.canceled -= instance.OnFocusNext;
         }
 
         public void RemoveCallbacks(IGameplayActions instance)
@@ -858,6 +898,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnProtect(InputAction.CallbackContext context);
         void OnToggleLight(InputAction.CallbackContext context);
         void OnMoveLight(InputAction.CallbackContext context);
+        void OnFocusNext(InputAction.CallbackContext context);
     }
     public interface IReadingActions
     {

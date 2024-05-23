@@ -9,6 +9,7 @@ public class WorldCondition : ScriptableObject, IsaveScript
     public int nGame;
     public int timePlayed;
     public Vector3 lastPosition;
+    public float flashLightEnergy;
 
     public int GetTimePlayed()
     {
@@ -30,6 +31,7 @@ public class WorldCondition : ScriptableObject, IsaveScript
         dataToSave += 0 + "/";
         dataToSave += 0 + "/";
         dataToSave += 0 + "/";
+        dataToSave += 100 + "/";
         dataToSave += nGame.ToString();
         return dataToSave;
     }
@@ -59,6 +61,7 @@ public class WorldCondition : ScriptableObject, IsaveScript
         dataToSave += lastPosition.x+ "/";
         dataToSave += lastPosition.y+ "/";
         dataToSave += timePlayed + "/";
+        dataToSave += flashLightEnergy + "/";
         dataToSave += _gameNumber.ToString();
         Debug.Log(dataToSave);
         return dataToSave;
@@ -70,9 +73,10 @@ public class WorldCondition : ScriptableObject, IsaveScript
         {
             conditions[i].isCompleted = int.Parse(conditionsS[i]) >= 1;
         }
-        lastPosition.x = float.Parse(conditionsS[conditionsS.Length - 4]);
-        lastPosition.y = float.Parse(conditionsS[conditionsS.Length - 3]);
-        timePlayed = int.Parse(conditionsS[conditionsS.Length - 2]);
+        lastPosition.x = float.Parse(conditionsS[conditionsS.Length - 5]);
+        lastPosition.y = float.Parse(conditionsS[conditionsS.Length - 4]);
+        timePlayed = int.Parse(conditionsS[conditionsS.Length - 3]);
+        flashLightEnergy = float.Parse(conditionsS[conditionsS.Length - 2]);
         nGame = int.Parse(conditionsS[conditionsS.Length-1]);
     }
 
@@ -84,6 +88,11 @@ public class WorldCondition : ScriptableObject, IsaveScript
     public void SavePlayerPosition(Vector3 position)
     {
         lastPosition = position;
+    }
+
+    public void SaveFlashlightEnergy(float energy)
+    {
+        flashLightEnergy = energy;
     }
 
     public bool IsFirstTimePlayed()
@@ -119,6 +128,7 @@ public class WorldCondition : ScriptableObject, IsaveScript
         dataToSave += lastPosition.x + "/";
         dataToSave += lastPosition.y + "/";
         dataToSave += timePlayed + "/" ;
+        dataToSave += flashLightEnergy + "/";
         dataToSave += nGame.ToString();
         PlayerPrefs.SetString("worldConditions", dataToSave);
         return dataToSave;
@@ -131,6 +141,8 @@ public class WorldCondition : ScriptableObject, IsaveScript
             conditions[i].isCompleted = false;
         }
         lastPosition = Vector3.zero;
+        timePlayed = 0;
+        flashLightEnergy = 100f;
     }
 }
 [Serializable]
