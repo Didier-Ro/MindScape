@@ -4,9 +4,11 @@ using UnityEngine.Rendering.Universal;
 
 public class TriggerFuel : MonoBehaviour
 {
+    public GameObject player;
     public GameObject playerSpotLight;
     public GameObject light2D;
     public GameObject lantern;
+    public GameObject timeline;
     public Light2D globalLight;
     public Flashlight playerFlashlight;
     public int conditionID;
@@ -21,12 +23,16 @@ public class TriggerFuel : MonoBehaviour
 
     private void OnDestroy()
     {
+        player.SetActive(true);
         Flashlight.GetInstance().isInInitialRoom = false;
         playerSpotLight.SetActive(true);
         light2D.SetActive(true);
         playerFlashlight.enabled = true;
         globalLight.intensity = 0.1f;
         lantern.SetActive(true);
+        Destroy(timeline);
+        PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
+        GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
