@@ -417,6 +417,20 @@ public class Flashlight : MonoBehaviour
             wallFlashLight.pointLightOuterAngle = minPointLightOuterAngle;
         }
     }
+    /*private void OnEnable()
+    {
+        if (!audioSource.isPlaying)
+        {
+            AudioClip soundClip = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.LAMP_ON);
+            if (soundClip != null)
+            {
+                audioSource.clip = soundClip;
+                audioSource.volume = 0.1f;
+                audioSource.loop = true;
+                audioSource.Play();
+            }
+        }
+    }*/
     private void PlayConcentratedSound()
     {
         if (!audioSource.isPlaying)
