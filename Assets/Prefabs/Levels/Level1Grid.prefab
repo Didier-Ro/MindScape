@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 3197928924351658027}
   - component: {fileID: 2732807081899135669}
   - component: {fileID: 8834347571155499799}
-  - component: {fileID: 228709553129713738}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (2)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -91,18 +90,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &228709553129713738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 94161411641292720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &130357820175209084
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,8 +101,7 @@ GameObject:
   - component: {fileID: 747901260188582080}
   - component: {fileID: 3841654096540260335}
   - component: {fileID: 9004600966703203840}
-  - component: {fileID: 6628453745576366255}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (17)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -169,7 +155,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 2.5733829, y: -2.44234}
+  m_Offset: {x: 2.5733829, y: -2.347414}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -180,7 +166,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.5133553, y: 7.576742}
+  m_Size: {x: 2.5133553, y: 7.766594}
   m_EdgeRadius: 0
 --- !u!114 &9004600966703203840
 MonoBehaviour:
@@ -194,18 +180,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6628453745576366255
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 130357820175209084}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &130744275537874238
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,9 +190,8 @@ GameObject:
   m_Component:
   - component: {fileID: 645359960301626710}
   - component: {fileID: 8080132393246127774}
-  - component: {fileID: 4858912507142618432}
   - component: {fileID: 2097993161018490769}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (39)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -250,18 +223,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4858912507142618432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 130744275537874238}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!70 &2097993161018490769
@@ -310,8 +271,7 @@ GameObject:
   - component: {fileID: 4988421361146539236}
   - component: {fileID: 1598693383118867646}
   - component: {fileID: 8343765821759454047}
-  - component: {fileID: 3195636459558298596}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (24)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -390,18 +350,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3195636459558298596
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 150937707702006002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &158422887807064221
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,8 +361,7 @@ GameObject:
   - component: {fileID: 5405909811042554360}
   - component: {fileID: 4827290378573041463}
   - component: {fileID: 1499945197081514246}
-  - component: {fileID: 220731374486994209}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (14)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -468,7 +415,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.7420883, y: -3.7927675}
+  m_Offset: {x: 1.7420883, y: -3.6642654}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -479,7 +426,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.0946426, y: 3.0157776}
+  m_Size: {x: 4.0946426, y: 3.2727818}
   m_EdgeRadius: 0
 --- !u!114 &1499945197081514246
 MonoBehaviour:
@@ -491,18 +438,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &220731374486994209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 158422887807064221}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &367551934064792905
@@ -747,8 +682,7 @@ GameObject:
   - component: {fileID: 1792412003420485651}
   - component: {fileID: 9137828871027232340}
   - component: {fileID: 4914132244667760392}
-  - component: {fileID: 8660165561193670222}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (8)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -827,18 +761,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8660165561193670222
-MonoBehaviour:
+--- !u!1 &918871118393801566
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 882762125165119878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5924188696313529670}
+  m_Layer: 0
+  m_Name: VoidBoxes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5924188696313529670
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918871118393801566}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7250953935947575532}
+  - {fileID: 7674735037755349656}
+  - {fileID: 1497250825126088447}
+  - {fileID: 5714581761578217649}
+  - {fileID: 6480099967643690333}
+  - {fileID: 690954510442044387}
+  - {fileID: 5428966717136654696}
+  - {fileID: 2108948042185189874}
+  m_Father: {fileID: 8233445508036062417}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &982522035925988474
 GameObject:
   m_ObjectHideFlags: 0
@@ -850,8 +811,7 @@ GameObject:
   - component: {fileID: 7858479659831544277}
   - component: {fileID: 5704718985148676426}
   - component: {fileID: 3985364012665706153}
-  - component: {fileID: 6192691213990417604}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (7)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -905,7 +865,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.40508056, y: -1.3992801}
+  m_Offset: {x: 0.40508056, y: -1.1440129}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -916,7 +876,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.3121943, y: 0.83072376}
+  m_Size: {x: 2.3121943, y: 1.3412579}
   m_EdgeRadius: 0
 --- !u!114 &3985364012665706153
 MonoBehaviour:
@@ -928,18 +888,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6192691213990417604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 982522035925988474}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &993416351915059223
@@ -6446,9 +6394,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8117727281717847363}
   - component: {fileID: 1539480562893014949}
-  - component: {fileID: 1629196128651005586}
   - component: {fileID: 4226264622145154006}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (40)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -6480,18 +6427,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1629196128651005586
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1189214256183061182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!70 &4226264622145154006
@@ -6529,6 +6464,186 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.5, y: 0.37}
   m_Direction: 1
+--- !u!1 &1327129805858449969
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7250953935947575532}
+  - component: {fileID: 5121011198551173492}
+  - component: {fileID: 8087744366451607059}
+  m_Layer: 0
+  m_Name: VoidBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7250953935947575532
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1327129805858449969}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.28, y: -7.98, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5924188696313529670}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5121011198551173492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1327129805858449969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &8087744366451607059
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1327129805858449969}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.1770947, y: 0.047379494}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.1207776, y: 1.9995852}
+  m_EdgeRadius: 0
+--- !u!1 &1389218436569496871
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5428966717136654696}
+  - component: {fileID: 630761937472381529}
+  - component: {fileID: 1387955972646622091}
+  m_Layer: 0
+  m_Name: VoidBox (6)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5428966717136654696
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389218436569496871}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.25, y: -8.59, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5924188696313529670}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &630761937472381529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389218436569496871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &1387955972646622091
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389218436569496871}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.74262106, y: 0.6940336}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.27313018, y: 2.1667728}
+  m_EdgeRadius: 0
 --- !u!1 &1656229915011649530
 GameObject:
   m_ObjectHideFlags: 0
@@ -6694,8 +6809,7 @@ GameObject:
   - component: {fileID: 2892493562155395642}
   - component: {fileID: 6222241573851486793}
   - component: {fileID: 1523565644925191109}
-  - component: {fileID: 6466492197037983368}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (9)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -6774,18 +6888,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6466492197037983368
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2054669987000052157}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2164621299394836016
 GameObject:
   m_ObjectHideFlags: 0
@@ -6797,8 +6899,7 @@ GameObject:
   - component: {fileID: 6104560021456452044}
   - component: {fileID: 5227791171288644232}
   - component: {fileID: 2796660451771977425}
-  - component: {fileID: 4548884692463836816}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -6852,7 +6953,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.20629883}
+  m_Offset: {x: 0, y: 0.4089594}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -6863,7 +6964,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.65, y: 2.132598}
+  m_Size: {x: 3.65, y: 2.537919}
   m_EdgeRadius: 0
 --- !u!114 &2796660451771977425
 MonoBehaviour:
@@ -6877,18 +6978,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4548884692463836816
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2164621299394836016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2168662577571104037
 GameObject:
   m_ObjectHideFlags: 0
@@ -6900,8 +6989,7 @@ GameObject:
   - component: {fileID: 948740916100540974}
   - component: {fileID: 8310958168591413513}
   - component: {fileID: 2278961280796420789}
-  - component: {fileID: 2200193298963816196}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (10)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -6955,7 +7043,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.4449846, y: -2.210948}
+  m_Offset: {x: 1.4449846, y: -1.9193959}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -6966,7 +7054,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.3319552, y: 4.9801064}
+  m_Size: {x: 3.3319552, y: 5.5632105}
   m_EdgeRadius: 0
 --- !u!114 &2278961280796420789
 MonoBehaviour:
@@ -6978,18 +7066,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2200193298963816196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2168662577571104037}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2321468208740619099
@@ -7080,8 +7156,7 @@ GameObject:
   - component: {fileID: 6366623417670651167}
   - component: {fileID: 7896126948663651247}
   - component: {fileID: 6555714449659245691}
-  - component: {fileID: 2622506943217082907}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (32)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -7160,18 +7235,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2622506943217082907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2336870458877889160}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2531406156742722096
 GameObject:
   m_ObjectHideFlags: 0
@@ -7182,9 +7245,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2439619340400418331}
   - component: {fileID: 7085896885250970964}
-  - component: {fileID: 6046101365154169032}
   - component: {fileID: 2435493492543371765}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (35)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -7216,18 +7278,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6046101365154169032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2531406156742722096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!70 &2435493492543371765
@@ -7276,8 +7326,7 @@ GameObject:
   - component: {fileID: 1174664814386073398}
   - component: {fileID: 5294921468111573348}
   - component: {fileID: 9020332765378707511}
-  - component: {fileID: 3415887733451863346}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (29)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -7356,18 +7405,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3415887733451863346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2752839679003027606}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2989293816121110765
 GameObject:
   m_ObjectHideFlags: 0
@@ -7379,8 +7416,7 @@ GameObject:
   - component: {fileID: 8430355602210983018}
   - component: {fileID: 5863729096698513554}
   - component: {fileID: 5383801026381524578}
-  - component: {fileID: 1611879978712290509}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (30)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -7457,18 +7493,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1611879978712290509
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2989293816121110765}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3199286177565829288
@@ -7712,9 +7736,8 @@ GameObject:
   m_Component:
   - component: {fileID: 9162362537768207280}
   - component: {fileID: 1052081060559178080}
-  - component: {fileID: 4965437696426443944}
   - component: {fileID: 2485703573667705820}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (38)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -7746,18 +7769,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4965437696426443944
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3410870988819536766}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!70 &2485703573667705820
@@ -7806,8 +7817,7 @@ GameObject:
   - component: {fileID: 54058489508742354}
   - component: {fileID: 7509771278619214838}
   - component: {fileID: 9090637359128498240}
-  - component: {fileID: 2605017335278100023}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (4)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -7886,18 +7896,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2605017335278100023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3433427201487969895}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3537076038829501750
 GameObject:
   m_ObjectHideFlags: 0
@@ -7909,8 +7907,7 @@ GameObject:
   - component: {fileID: 5490337394848323334}
   - component: {fileID: 347772315537688421}
   - component: {fileID: 5972197904011865447}
-  - component: {fileID: 2086890404950544080}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (16)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -7964,7 +7961,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.8097743, y: -4.413994}
+  m_Offset: {x: 1.8097743, y: -4.300442}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -7975,7 +7972,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.2856734, y: 1.3735561}
+  m_Size: {x: 1.2856734, y: 1.6006594}
   m_EdgeRadius: 0
 --- !u!114 &5972197904011865447
 MonoBehaviour:
@@ -7987,18 +7984,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2086890404950544080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3537076038829501750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3661420479652679364
@@ -8232,6 +8217,96 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 6.1614003, y: 0.31582165}
   m_EdgeRadius: 0
+--- !u!1 &4019041846097960891
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 690954510442044387}
+  - component: {fileID: 7283801512010919292}
+  - component: {fileID: 8534271041690458726}
+  m_Layer: 0
+  m_Name: VoidBox (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &690954510442044387
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4019041846097960891}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.748, y: -4.841, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5924188696313529670}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7283801512010919292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4019041846097960891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &8534271041690458726
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4019041846097960891}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.72641206, y: 0.8248416}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.24071217, y: 0.98896575}
+  m_EdgeRadius: 0
 --- !u!1 &4031008933441895598
 GameObject:
   m_ObjectHideFlags: 0
@@ -8243,8 +8318,7 @@ GameObject:
   - component: {fileID: 4940742870896780714}
   - component: {fileID: 9060190770186161941}
   - component: {fileID: 7691701898961549079}
-  - component: {fileID: 8246945708890255505}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (6)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -8298,7 +8372,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.29214054, y: -1.3992801}
+  m_Offset: {x: 0.29214054, y: -1.1484828}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -8309,7 +8383,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.928198, y: 0.83072376}
+  m_Size: {x: 1.928198, y: 1.3323183}
   m_EdgeRadius: 0
 --- !u!114 &7691701898961549079
 MonoBehaviour:
@@ -8323,18 +8397,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8246945708890255505
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4031008933441895598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4034784326733147875
 GameObject:
   m_ObjectHideFlags: 0
@@ -8346,8 +8408,7 @@ GameObject:
   - component: {fileID: 7012496776162075765}
   - component: {fileID: 5150775618091043864}
   - component: {fileID: 1193739530011953260}
-  - component: {fileID: 4506068528098914614}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (11)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -8426,18 +8487,186 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4506068528098914614
+--- !u!1 &4038296951081734497
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2108948042185189874}
+  - component: {fileID: 8583004109242150232}
+  - component: {fileID: 255274734437542206}
+  m_Layer: 0
+  m_Name: VoidBox (7)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2108948042185189874
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4038296951081734497}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.76, y: -8.99, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5924188696313529670}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8583004109242150232
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4034784326733147875}
+  m_GameObject: {fileID: 4038296951081734497}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!61 &255274734437542206
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4038296951081734497}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.7027378, y: 0.5751691}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.097601, y: 1.1077929}
+  m_EdgeRadius: 0
+--- !u!1 &4083175207601303771
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5714581761578217649}
+  - component: {fileID: 2943719444958825429}
+  - component: {fileID: 2806804181646747615}
+  m_Layer: 0
+  m_Name: VoidBox (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5714581761578217649
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4083175207601303771}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.07, y: -2.543, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5924188696313529670}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2943719444958825429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4083175207601303771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &2806804181646747615
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4083175207601303771}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.07557118, y: 0.49233246}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.0446918, y: 0.22823524}
+  m_EdgeRadius: 0
 --- !u!1 &4267018682092663567
 GameObject:
   m_ObjectHideFlags: 0
@@ -8449,8 +8678,7 @@ GameObject:
   - component: {fileID: 3096375091811680570}
   - component: {fileID: 2165453443660671594}
   - component: {fileID: 8780248331855015686}
-  - component: {fileID: 9004547577247168670}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (26)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -8504,7 +8732,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 3.0448258, y: -0.39910984}
+  m_Offset: {x: 3.0448258, y: -0.24053955}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -8515,7 +8743,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5.726109, y: 1.485178}
+  m_Size: {x: 5.726109, y: 1.8023186}
   m_EdgeRadius: 0
 --- !u!114 &8780248331855015686
 MonoBehaviour:
@@ -8527,18 +8755,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &9004547577247168670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4267018682092663567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4328520792877451499
@@ -8695,6 +8911,96 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 33.29, y: 0.51}
   m_EdgeRadius: 0
+--- !u!1 &4573732869625619795
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7674735037755349656}
+  - component: {fileID: 4676894559890027808}
+  - component: {fileID: 6151009782731810023}
+  m_Layer: 0
+  m_Name: VoidBox (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7674735037755349656
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4573732869625619795}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.7, y: -5.85, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5924188696313529670}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4676894559890027808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4573732869625619795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &6151009782731810023
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4573732869625619795}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.3393101, y: 0.34596324}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.50766766, y: 1.745151}
+  m_EdgeRadius: 0
 --- !u!1 &4651366740201395731
 GameObject:
   m_ObjectHideFlags: 0
@@ -8706,8 +9012,7 @@ GameObject:
   - component: {fileID: 2133304443774959665}
   - component: {fileID: 7464890690128460198}
   - component: {fileID: 8452193285542598162}
-  - component: {fileID: 6267597749666717314}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (12)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -8761,7 +9066,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.16959095, y: -3.4339604}
+  m_Offset: {x: 0.16959095, y: -3.319014}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -8772,7 +9077,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 11.395523, y: 2.5340815}
+  m_Size: {x: 11.395523, y: 2.7639742}
   m_EdgeRadius: 0
 --- !u!114 &8452193285542598162
 MonoBehaviour:
@@ -8784,18 +9089,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6267597749666717314
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4651366740201395731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4713421217707557739
@@ -8886,8 +9179,7 @@ GameObject:
   - component: {fileID: 1413234553122122191}
   - component: {fileID: 6060901487970366205}
   - component: {fileID: 7241603385961722424}
-  - component: {fileID: 4719907749028897280}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (3)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -8966,18 +9258,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4719907749028897280
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4820739962914089084}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5026749534747998346
 GameObject:
   m_ObjectHideFlags: 0
@@ -8989,8 +9269,7 @@ GameObject:
   - component: {fileID: 6559663560735432284}
   - component: {fileID: 3384034733301512981}
   - component: {fileID: 416707821688342549}
-  - component: {fileID: 5493671015233042351}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (18)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -9044,7 +9323,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 2.9659662, y: -1.871592}
+  m_Offset: {x: 2.9659662, y: -1.7495441}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -9055,7 +9334,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.7281885, y: 2.3801928}
+  m_Size: {x: 1.7281885, y: 2.6242886}
   m_EdgeRadius: 0
 --- !u!114 &416707821688342549
 MonoBehaviour:
@@ -9067,18 +9346,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5493671015233042351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5026749534747998346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5038646726914530750
@@ -9349,6 +9616,7 @@ Transform:
   - {fileID: 907163353361326130}
   - {fileID: 3131343863915703444}
   - {fileID: 6754786636678142471}
+  - {fileID: 5924188696313529670}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!156049354 &5509969747811587485
@@ -9441,8 +9709,7 @@ GameObject:
   - component: {fileID: 6574403954311590555}
   - component: {fileID: 4975358673360536243}
   - component: {fileID: 8042515381763655906}
-  - component: {fileID: 5456319555568450468}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (23)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -9519,18 +9786,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5456319555568450468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5695671837401085646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5947279489804238067
@@ -9621,8 +9876,7 @@ GameObject:
   - component: {fileID: 4949817512905266775}
   - component: {fileID: 3331991481796398953}
   - component: {fileID: 1559322887844377706}
-  - component: {fileID: 7350487178455549898}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (22)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -9701,18 +9955,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7350487178455549898
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6273752505041378547}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6285233379211938527
 GameObject:
   m_ObjectHideFlags: 0
@@ -9724,8 +9966,7 @@ GameObject:
   - component: {fileID: 7163595425829204866}
   - component: {fileID: 4979160500500590486}
   - component: {fileID: 2127454807011703153}
-  - component: {fileID: 500227032088540226}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (20)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -9804,18 +10045,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &500227032088540226
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6285233379211938527}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6355662471029316486
 GameObject:
   m_ObjectHideFlags: 0
@@ -9827,8 +10056,7 @@ GameObject:
   - component: {fileID: 8831353448238547134}
   - component: {fileID: 8543766707856038962}
   - component: {fileID: 5888453448619011150}
-  - component: {fileID: 7765117315823737992}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (33)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -9882,7 +10110,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 4.0091863, y: -2.1694012}
+  m_Offset: {x: 4.0091863, y: -2.0190034}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -9893,7 +10121,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.8583632, y: 1.3841381}
+  m_Size: {x: 3.8583632, y: 1.6849337}
   m_EdgeRadius: 0
 --- !u!114 &5888453448619011150
 MonoBehaviour:
@@ -9905,18 +10133,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7765117315823737992
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6355662471029316486}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6545530232286614941
@@ -10007,8 +10223,7 @@ GameObject:
   - component: {fileID: 4210012307061021567}
   - component: {fileID: 1047158580053019503}
   - component: {fileID: 7934833544582816078}
-  - component: {fileID: 3781860710896853204}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (5)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -10062,7 +10277,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.4840114, y: -0.88678694}
+  m_Offset: {x: 0.4840114, y: -0.6062665}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -10073,7 +10288,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.5444562, y: 1.85571}
+  m_Size: {x: 1.5444562, y: 2.416751}
   m_EdgeRadius: 0
 --- !u!114 &7934833544582816078
 MonoBehaviour:
@@ -10085,18 +10300,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3781860710896853204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6601547105407508222}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6613724544545760939
@@ -10555,8 +10758,7 @@ GameObject:
   - component: {fileID: 4170568786202347923}
   - component: {fileID: 4733729268604315741}
   - component: {fileID: 4749486493386406322}
-  - component: {fileID: 765322689020230816}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (19)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -10610,7 +10812,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 1.5510101, y: 0.5402641}
+  m_Offset: {x: 1.5510101, y: 0.6719427}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -10621,7 +10823,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4.286809, y: 7.203905}
+  m_Size: {x: 4.286809, y: 7.4672623}
   m_EdgeRadius: 0
 --- !u!114 &4749486493386406322
 MonoBehaviour:
@@ -10633,18 +10835,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &765322689020230816
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7005498783143204087}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7272553085533297795
@@ -10811,9 +11001,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3312490207658822627}
   - component: {fileID: 204536118273393390}
-  - component: {fileID: 3584995255193834476}
   - component: {fileID: 6440305183670551202}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (34)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -10845,18 +11034,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3584995255193834476
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7369612487922188477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!70 &6440305183670551202
@@ -11038,6 +11215,96 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 4.64, y: 0.94}
   m_Direction: 1
+--- !u!1 &7566421748410060389
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1497250825126088447}
+  - component: {fileID: 3462171175751261333}
+  - component: {fileID: 7225034572223064616}
+  m_Layer: 0
+  m_Name: VoidBox (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1497250825126088447
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7566421748410060389}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.5, y: -4.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5924188696313529670}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3462171175751261333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7566421748410060389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &7225034572223064616
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7566421748410060389}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.045256376, y: 0.03763199}
+  m_EdgeRadius: 0
 --- !u!1 &7639374425892806901
 GameObject:
   m_ObjectHideFlags: 0
@@ -11914,8 +12181,7 @@ GameObject:
   - component: {fileID: 1187482033117150852}
   - component: {fileID: 4332442233138739598}
   - component: {fileID: 8852503108630451821}
-  - component: {fileID: 8737847045857147192}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (28)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -11992,18 +12258,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8737847045857147192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8028028177946132066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8210374262253142764
@@ -14533,8 +14787,7 @@ GameObject:
   - component: {fileID: 4022895824467368499}
   - component: {fileID: 293163256526863648}
   - component: {fileID: 2317979614873919001}
-  - component: {fileID: 4396291964835773762}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (21)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -14613,18 +14866,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4396291964835773762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8605044099118979837}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8630293842138998880
 GameObject:
   m_ObjectHideFlags: 0
@@ -14636,8 +14877,7 @@ GameObject:
   - component: {fileID: 6690440910008711915}
   - component: {fileID: 3994622856772309623}
   - component: {fileID: 8113677878813374416}
-  - component: {fileID: 2682341359818439675}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (15)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -14691,7 +14931,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 2.2751157, y: -4.299797}
+  m_Offset: {x: 2.2751157, y: -4.216732}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -14702,7 +14942,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 5.1606975, y: 0.93566513}
+  m_Size: {x: 5.1606975, y: 1.1017947}
   m_EdgeRadius: 0
 --- !u!114 &8113677878813374416
 MonoBehaviour:
@@ -14716,18 +14956,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2682341359818439675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8630293842138998880}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8646222410711179947
 GameObject:
   m_ObjectHideFlags: 0
@@ -14738,9 +14966,8 @@ GameObject:
   m_Component:
   - component: {fileID: 59477870426439789}
   - component: {fileID: 4705707497536817649}
-  - component: {fileID: 7326404361392286083}
   - component: {fileID: 1159575746682612877}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (37)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -14772,18 +14999,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7326404361392286083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8646222410711179947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!70 &1159575746682612877
@@ -14832,8 +15047,7 @@ GameObject:
   - component: {fileID: 3255919335250830530}
   - component: {fileID: 525170515481468008}
   - component: {fileID: 8249387229646019267}
-  - component: {fileID: 2634340899596893362}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (27)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -14887,7 +15101,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 3.059833, y: -1.5613408}
+  m_Offset: {x: 3.059833, y: -1.4556279}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -14898,7 +15112,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.694662, y: 5.463723}
+  m_Size: {x: 2.694662, y: 5.675149}
   m_EdgeRadius: 0
 --- !u!114 &8249387229646019267
 MonoBehaviour:
@@ -14912,18 +15126,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2634340899596893362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8655817454169282612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8850286317979091055
 GameObject:
   m_ObjectHideFlags: 0
@@ -14935,8 +15137,7 @@ GameObject:
   - component: {fileID: 5360302193246238232}
   - component: {fileID: 4307810336765272579}
   - component: {fileID: 2657381276091598850}
-  - component: {fileID: 744019638381479128}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (13)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -14990,7 +15191,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.16959095, y: -3.5256152}
+  m_Offset: {x: 0.16959095, y: -3.3265872}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -15001,7 +15202,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 11.395523, y: 2.350772}
+  m_Size: {x: 11.395523, y: 2.748828}
   m_EdgeRadius: 0
 --- !u!114 &2657381276091598850
 MonoBehaviour:
@@ -15015,18 +15216,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &744019638381479128
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8850286317979091055}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8895366155850053757
 GameObject:
   m_ObjectHideFlags: 0
@@ -15037,9 +15226,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2151730727601086872}
   - component: {fileID: 2948714873602756477}
-  - component: {fileID: 576243070021182210}
   - component: {fileID: 1404076949646087870}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (36)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -15071,18 +15259,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &576243070021182210
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8895366155850053757}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!70 &1404076949646087870
@@ -24268,6 +24444,96 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
+--- !u!1 &9099513285628501127
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6480099967643690333}
+  - component: {fileID: 2977680074107869257}
+  - component: {fileID: 660470456501267668}
+  m_Layer: 0
+  m_Name: VoidBox (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6480099967643690333
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9099513285628501127}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.892, y: -3.53, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5924188696313529670}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2977680074107869257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9099513285628501127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!61 &660470456501267668
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9099513285628501127}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.7934104, y: 0.7010788}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.4803703, y: 0.74144006}
+  m_EdgeRadius: 0
 --- !u!1 &9129870658160584163
 GameObject:
   m_ObjectHideFlags: 0
@@ -24279,8 +24545,7 @@ GameObject:
   - component: {fileID: 1609794835572125867}
   - component: {fileID: 6331193146485788410}
   - component: {fileID: 5461406659261201425}
-  - component: {fileID: 833150514501953007}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: VoidCollider (25)
   m_TagString: Hole
   m_Icon: {fileID: 0}
@@ -24334,7 +24599,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 4.1960087, y: -0.346735}
+  m_Offset: {x: 4.1960087, y: -0.21137238}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -24345,7 +24610,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 8.028477, y: 1.5899277}
+  m_Size: {x: 8.028477, y: 1.8606529}
   m_EdgeRadius: 0
 --- !u!114 &5461406659261201425
 MonoBehaviour:
@@ -24357,17 +24622,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f8d6eaa7b1553d4c82f5e2de1ea07b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &833150514501953007
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9129870658160584163}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 398bbefd9a2004b44a4fe5d668e91a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
