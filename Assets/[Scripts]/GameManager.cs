@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Light2D flashlightReference;
     [SerializeField] private Material shadowMaterialReference;
 
+    [SerializeField] private Flashlight flashlight;
+
     private void Awake()
     {
         if (Instance == null)
@@ -150,6 +152,16 @@ public class GameManager : MonoBehaviour
         stageConditions.SavePlayerPosition(position);
     }
     
+    public void SetFlashlightEnergy(float energy)
+    {
+        stageConditions.SaveFlashlightEnergy(energy);
+    }
+
+    public float GetFlashligthEnergy()
+    {
+        return stageConditions.flashLightEnergy;
+    }
+
     public bool IsConditionCompleted(int _id)
     {
         return stageConditions.IsConditionCompleted(_id);
@@ -188,12 +200,18 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
+    public void GetFlashlightReferecen(Flashlight _flashlight)
+    {
+        flashlight = _flashlight;
+    }
     
     public void SaveAllData()
     {
         stageConditions.AddSecondsToTheTimePlayed(framesPlayed);
         framesPlayed = 0;
         string dataToSave = "";
+        SetFlashlightEnergy(flashlight.GetEnergy());
         for (int i = 0; i < allConditions.Length; i++)
         {
             dataToSave += allConditions[i].SaveData() + "*";
