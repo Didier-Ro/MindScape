@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using Cinemachine;
@@ -6,13 +7,13 @@ public class CameraManager : MonoBehaviour
 {
     public CinemachineVirtualCamera objectsCamera;
     public CinemachineVirtualCamera playerCamera;
-    [SerializeField] private GameObject targetPuzzle;
+    public GameObject targetPuzzle;
     private Vector2 _startingTrackedOffset;
     private CinemachineVirtualCamera currentCamera;
     private CinemachineFramingTransposer framingTransposer;
     private Coroutine panCameraCoroutine;
     public static CameraManager instance;
-    [SerializeField] private float arrivalTreshHold;
+    [SerializeField] private float arrivalTreshHold = 1f;
     [SerializeField] private CinemachineVirtualCamera[] allVirtualCameras = default;
     
     private void Awake()
@@ -33,6 +34,7 @@ public class CameraManager : MonoBehaviour
         _startingTrackedOffset = framingTransposer.m_TrackedObjectOffset;
     }
     
+
     #region PanCamera
 
     public void PanCameraOnContact(float _panDistance, float _panTime, PanDirection _panDirection, bool _panToStartingPos)
@@ -88,6 +90,11 @@ public class CameraManager : MonoBehaviour
 
     #endregion
 
+    public void ChangeTargetCamera(GameObject nextTarget)
+    {
+        targetPuzzle = nextTarget;
+    }
+
     #region Swap Cameras
 
     public void SwapCamera(CinemachineVirtualCamera _cameraFromLeft, CinemachineVirtualCamera _cameraFromRight, Vector2 _triggerExitDirection)
@@ -138,27 +145,21 @@ public class CameraManager : MonoBehaviour
     {
         if (currentCamera == playerCamera)
             return;
-        if (HasCameraArrive(PlayerStates.GetInstance().gameObject))
-        {
-            playerCamera.enabled = true;
-            objectsCamera.enabled = false;
-            currentCamera = playerCamera;
-            framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-        }
+        playerCamera.enabled = true; 
+        objectsCamera.enabled = false; 
+        currentCamera = playerCamera; 
+        framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
     }
     
     public void ChangeCameraToAnObject(GameObject objectToLook)
     {
         if (currentCamera == objectsCamera)
             return;
-        if (HasCameraArrive(objectToLook))
-        {
-            objectsCamera.enabled = true;
-            playerCamera.enabled = false;
-            currentCamera = objectsCamera;
-            objectsCamera.Follow = objectToLook.transform;
-            framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
-        }
+        objectsCamera.enabled = true; 
+        playerCamera.enabled = false; 
+        currentCamera = objectsCamera; 
+        objectsCamera.Follow = objectToLook.transform;
+        framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
     }
     
     public IEnumerator ChangeCameraToAnObject(GameObject objectToLook, float delayToStart)
@@ -173,12 +174,12 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-    private bool HasCameraArrive(GameObject target)
+    public bool HasCameraArrive(GameObject target)
     {
-        Vector3 cameraPosition = currentCamera.transform.position;
-        Vector3 objectPosition = target.transform.position;
+        Vector2 cameraPosition = currentCamera.transform.position;
+        Vector2 objectPosition = target.transform.position;
 
-        float distance = Vector3.Distance(cameraPosition, objectPosition);
+        float distance = Vector2.Distance(cameraPosition, objectPosition);
         return distance <= arrivalTreshHold;
     }
     #endregion
