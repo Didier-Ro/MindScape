@@ -4,6 +4,7 @@ using System.Collections;
 public class Movement : MonoBehaviour
 {
     public Vector2 input;
+    private bool canWatchTarget;
     public bool isMoving = true;
     [SerializeField] private float walkSpeed = 1.5f;
     [SerializeField] bool canInteract = false;
@@ -58,13 +59,24 @@ public class Movement : MonoBehaviour
     
     private void OnPlayerStateChange(PLAYER_STATES _newPlayerState)
     {
-        if (_newPlayerState == PLAYER_STATES.PLAY)
+        switch (_newPlayerState)
         {
-            canMove = true;
-        }
-        else
-        {
-            canMove = false;
+            case PLAYER_STATES.PLAY:
+                canMove = true;
+                canWatchTarget = true;
+                break;
+            case PLAYER_STATES.OBJECTIVE_CAMERA:
+                canMove = false;
+                canWatchTarget = false;
+                break;
+            case PLAYER_STATES.MOVING_CAMERA:
+                canMove = false;
+                canWatchTarget = true;
+                break;
+            default:
+                canMove = false;
+                canWatchTarget = false;
+                break;
         }
     }
 

@@ -6,11 +6,13 @@ public class CameraManager : MonoBehaviour
 {
     public CinemachineVirtualCamera objectsCamera;
     public CinemachineVirtualCamera playerCamera;
+    [SerializeField] private GameObject targetPuzzle;
     private Vector2 _startingTrackedOffset;
     private CinemachineVirtualCamera currentCamera;
     private CinemachineFramingTransposer framingTransposer;
     private Coroutine panCameraCoroutine;
     public static CameraManager instance;
+    [SerializeField] private float arrivalTreshHold;
     [SerializeField] private CinemachineVirtualCamera[] allVirtualCameras = default;
     
     private void Awake()
@@ -136,26 +138,32 @@ public class CameraManager : MonoBehaviour
     {
         if (currentCamera == playerCamera)
             return;
-        playerCamera.enabled = true;
-        objectsCamera.enabled = false;
-        currentCamera = playerCamera;
-        framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+        if (HasCameraArrive(PlayerStates.GetInstance().gameObject))
+        {
+            playerCamera.enabled = true;
+            objectsCamera.enabled = false;
+            currentCamera = playerCamera;
+            framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+        }
     }
     
     public void ChangeCameraToAnObject(GameObject objectToLook)
     {
         if (currentCamera == objectsCamera)
             return;
-        objectsCamera.enabled = true;
-        playerCamera.enabled = false;
-        currentCamera = objectsCamera;
-        objectsCamera.Follow = objectToLook.transform;
-        framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+        if (HasCameraArrive(objectToLook))
+        {
+            objectsCamera.enabled = true;
+            playerCamera.enabled = false;
+            currentCamera = objectsCamera;
+            objectsCamera.Follow = objectToLook.transform;
+            framingTransposer = currentCamera.GetCinemachineComponent<CinemachineFramingTransposer>();
+        }
     }
     
     public IEnumerator ChangeCameraToAnObject(GameObject objectToLook, float delayToStart)
     {
-        if (currentCamera != objectsCamera)
+        if (currentCamera != objectsCamera && HasCameraArrive(objectToLook))
         {
             for (int i = 0; i < delayToStart * 60; i++)
             {
@@ -163,6 +171,15 @@ public class CameraManager : MonoBehaviour
             }
             ChangeCameraToAnObject(objectToLook);
         }
+    }
+
+    private bool HasCameraArrive(GameObject target)
+    {
+        Vector3 cameraPosition = currentCamera.transform.position;
+        Vector3 objectPosition = target.transform.position;
+
+        float distance = Vector3.Distance(cameraPosition, objectPosition);
+        return distance <= arrivalTreshHold;
     }
     #endregion
 }
