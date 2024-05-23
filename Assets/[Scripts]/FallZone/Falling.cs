@@ -37,6 +37,9 @@ public class Falling : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (PlayerStates.GetInstance().GetCurrentPlayerState() == PLAYER_STATES.DASHING)
+            return;
+
         if (isFalling)
         {
             PlayerFalling();

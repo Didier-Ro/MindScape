@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
     private static EnemySpawner Instance;
-
+    public int conditionId = 6;
     [SerializeField] private DoorScript doorScript;
 
     private void Awake()
@@ -12,6 +13,14 @@ public class EnemySpawner : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+        }
+    }
+
+    private void Start()
+    {
+        if (GameManager.GetInstance().IsConditionCompleted(conditionId))
+        {
+            
         }
     }
 
@@ -76,10 +85,10 @@ public class EnemySpawner : MonoBehaviour
     {
         if (enemiesActive.Count == 0)
         {
-            if (doorScript != null)
+          /*  if (doorScript != null)
             {
                 doorScript.isUnlocked = true;
-            }
+            }*/
             StartKeyAnimation();
         }
     }

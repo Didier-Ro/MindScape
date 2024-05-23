@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 using UnityEngine.Rendering.Universal;
 
 public class GameManager : MonoBehaviour
@@ -19,10 +20,17 @@ public class GameManager : MonoBehaviour
     public Action<GAME_STATE> OnGameStateChange;
     public Action<bool> OnFlashingChange;
     public AudioSource audioSource;
+    
+    [SerializeField] private int[] conditionsIds;
+    [HideInInspector] public List<int> currentLevel = new List<int>();
+    [HideInInspector] public List<int> percentageOfGameCompleted = new List<int>();
+    [HideInInspector] public List<int> gamesTimePlayed = new List<int>();
 
     [Header("Shadow References")]
     [SerializeField] private Light2D flashlightReference;
     [SerializeField] private Material shadowMaterialReference;
+
+    [SerializeField] private Flashlight flashlight;
 
     private void Awake()
     {
@@ -35,8 +43,18 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         Application.targetFrameRate = 60;
+        LoadingData(GAME_STATE.EXPLORATION);
+    }
+
+    private void LoadingData(GAME_STATE finalState)
+    {
+        ChangeGameState(GAME_STATE.LOADING);
         ResetAll();
         LoadAllData();
+        GetCurrentLevel();
+        GetPercentageOfAllGamesCompleted();
+        ReturnTimePlayed();
+        ChangeGameState(finalState);
     }
     
     private void Update()
@@ -134,9 +152,58 @@ public class GameManager : MonoBehaviour
         stageConditions.SavePlayerPosition(position);
     }
     
+    public void SetFlashlightEnergy(float energy)
+    {
+        stageConditions.SaveFlashlightEnergy(energy);
+    }
+
+    public float GetFlashligthEnergy()
+    {
+        return stageConditions.flashLightEnergy;
+    }
+
     public bool IsConditionCompleted(int _id)
     {
         return stageConditions.IsConditionCompleted(_id);
+    }
+    
+    public void GetPercentageOfAllGamesCompleted()
+    {
+        percentageOfGameCompleted.Clear();
+        foreach (var condition in allConditions)
+        {
+            percentageOfGameCompleted.Add(condition.GetPercentageOfGameCompleted());
+        }
+    }
+
+    public void ReturnTimePlayed()
+    {
+        gamesTimePlayed.Clear();
+        foreach (var conditions in allConditions)
+        {
+            gamesTimePlayed.Add(conditions.timePlayed);  
+        }
+    }
+    
+    public void GetCurrentLevel()
+    {
+        currentLevel.Clear();
+        for (int i = 0; i < allConditions.Length; i++)
+        { 
+            currentLevel.Add(0);
+            for (int j = 0; j < conditionsIds.Length; j++)
+            {
+                if (allConditions[i].IsConditionCompleted(conditionsIds[j]))
+                {
+                    currentLevel[i]++;
+                }
+            }
+        }
+    }
+
+    public void GetFlashlightReferecen(Flashlight _flashlight)
+    {
+        flashlight = _flashlight;
     }
     
     public void SaveAllData()
@@ -144,6 +211,7 @@ public class GameManager : MonoBehaviour
         stageConditions.AddSecondsToTheTimePlayed(framesPlayed);
         framesPlayed = 0;
         string dataToSave = "";
+        SetFlashlightEnergy(flashlight.GetEnergy());
         for (int i = 0; i < allConditions.Length; i++)
         {
             dataToSave += allConditions[i].SaveData() + "*";
@@ -201,6 +269,7 @@ public class GameManager : MonoBehaviour
             }
         }
         SaveAllData();
+        LoadingData(GAME_STATE.PAUSE);
     }
     private void LoadCurrentGameData(int _currentGame)
     {
@@ -228,5 +297,6 @@ public enum GAME_STATE //All possible Game States
     CUTSCENES,
     FLASBACKS,
     FALLING,
+    LOADING,
     DEAD
 }
