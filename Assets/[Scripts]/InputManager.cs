@@ -44,6 +44,9 @@ public class InputManager : MonoBehaviour
             case GAME_STATE.FALLING:
                 DeactivateInput();
                 break;
+            case GAME_STATE.LOADING:
+                DeactivateInput();
+                break;
         }   
     }
     

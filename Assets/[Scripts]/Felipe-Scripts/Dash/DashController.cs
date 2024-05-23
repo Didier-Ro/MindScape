@@ -40,11 +40,11 @@ public class DashController : MonoBehaviour
         isDashing = true;
         PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.DASHING);
 
-        Collider2D feetCollider = FindFeetCollider();
-        if (feetCollider != null)
-        {
-            feetCollider.enabled = false;
-        }
+        // Collider2D feetCollider = FindFeetCollider();
+        // if (feetCollider != null)
+        // {
+        //     feetCollider.enabled = false;
+        // }
 
         movementScript.isMoving = false;
         float dashTimer = 0f;
@@ -62,10 +62,10 @@ public class DashController : MonoBehaviour
             yield return null;
         }
 
-        if (feetCollider != null)
-        {
-            feetCollider.enabled = true;
-        }
+        // if (feetCollider != null)
+        // {
+        //     feetCollider.enabled = true;
+        // }
 
         movementScript.isMoving = true;
         isDashing = false;
@@ -95,7 +95,6 @@ public class DashController : MonoBehaviour
             float inputY = InputManager.GetInstance().MovementInput().y;
             if (inputX != 0 || inputY != 0)
             {
-                // Verifica si está pasando por un agujero
                 bool isPassingHole = IsPassingOverHole();
 
                 dashDirection = new Vector2(inputX, inputY).normalized;
@@ -105,15 +104,15 @@ public class DashController : MonoBehaviour
         }
     }
 
-    private Collider2D FindFeetCollider()
-    {
-        GameObject[] feetObjects = GameObject.FindGameObjectsWithTag("Feet");
-        if (feetObjects.Length > 0)
-        {
-            return feetObjects[0].GetComponent<Collider2D>();
-        }
-        return null;
-    }
+    // private Collider2D FindFeetCollider()
+    // {
+    //     GameObject[] feetObjects = GameObject.FindGameObjectsWithTag("Feet");
+    //     if (feetObjects.Length > 0)
+    //     {
+    //         return feetObjects[0].GetComponent<Collider2D>();
+    //     }
+    //     return null;
+    // }
 
     private bool IsTouchingWall()
     {

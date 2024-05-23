@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -198,5 +199,7 @@ public class HealthController : MonoBehaviour
     private void Update()
     {
         Regen();
+        Debug.Log(PlayerStates.GetInstance().GetCurrentPlayerState());
+        Debug.Log(GameManager.GetInstance().GetCurrentGameState());
     }
 }

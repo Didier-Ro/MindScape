@@ -68,6 +68,7 @@ public class Flashlight : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        GameManager.GetInstance().GetFlashlightReferecen(this);
     }
 
     // Start is called before the first frame update
@@ -97,7 +98,7 @@ public class Flashlight : MonoBehaviour
 
     public void SetFlashlightEnergy()
     {
-        currentSliderValue = flashlightEnergy.GetEnergy();
+        currentSliderValue = GameManager.GetInstance().GetFlashligthEnergy();
     }
 
     private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
@@ -417,6 +418,20 @@ public class Flashlight : MonoBehaviour
             wallFlashLight.pointLightOuterAngle = minPointLightOuterAngle;
         }
     }
+    /*private void OnEnable()
+    {
+        if (!audioSource.isPlaying)
+        {
+            AudioClip soundClip = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.LAMP_ON);
+            if (soundClip != null)
+            {
+                audioSource.clip = soundClip;
+                audioSource.volume = 0.1f;
+                audioSource.loop = true;
+                audioSource.Play();
+            }
+        }
+    }*/
     private void PlayConcentratedSound()
     {
         if (!audioSource.isPlaying)
