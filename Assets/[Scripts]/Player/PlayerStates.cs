@@ -53,6 +53,7 @@ public enum PLAYER_STATES
 {
     PLAY,
     FALL,
+    RESPAWN,
     MOVINGBOXES,
     DASHING,
     THROWBOX,
