@@ -101,6 +101,11 @@ public class Flashlight : MonoBehaviour
         currentSliderValue = GameManager.GetInstance().GetFlashligthEnergy();
     }
 
+    public void PunishmentEnergy(float power)
+    {
+        currentSliderValue -= power;
+    }
+
     private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
     {
         if (GameManager.GetInstance() != null)
@@ -357,7 +362,7 @@ public class Flashlight : MonoBehaviour
         }
         else
         {
-            ReduceSliderValue(0.1f);
+            ReduceSliderValue(0.08f);
         }
         PlayConcentratedSound();
         if (activeConcentratedParticles == null)
