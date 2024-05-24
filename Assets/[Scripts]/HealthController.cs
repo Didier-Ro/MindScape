@@ -147,7 +147,7 @@ public class HealthController : MonoBehaviour
             return;
         }
 
-        Debug.Log("Spawning stress particles...");
+        //Debug.Log("Spawning stress particles...");
 
         Vector3 spawnPosition = particleSpawnPoint.position;
 
@@ -185,7 +185,7 @@ public class HealthController : MonoBehaviour
 
     void RemoveStressParticles()
     {
-        Debug.Log("Removing stress particles...");
+//        Debug.Log("Removing stress particles...");
         foreach (Transform child in particleSpawnPoint)
         {
             var particleSystem = child.GetComponent<ParticleSystem>();

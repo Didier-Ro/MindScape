@@ -66,7 +66,7 @@ public class InputManager : MonoBehaviour
             case PLAYER_STATES.THROWBOX:
                 DeactivateInput();
                 break;
-            case PLAYER_STATES.DEAD:
+            case PLAYER_STATES.RESPAWN:
                 DeactivatePause();
                 break;
             
@@ -176,6 +176,7 @@ public class InputManager : MonoBehaviour
     {
         if (GameManager.GetInstance().GetCurrentGameState() != GAME_STATE.EXPLORATION || GameManager.GetInstance().GetCurrentGameState() != GAME_STATE.PAUSE)
         {
+            Debug.Log(pauseInput.triggered);
             return pauseInput.triggered;
         }
 
@@ -221,6 +222,7 @@ public class InputManager : MonoBehaviour
 
     public bool DashInput()
     {
+        Debug.Log(dashInput.triggered);
         return dashInput.triggered;
     }
 
@@ -250,7 +252,6 @@ public class InputManager : MonoBehaviour
     {
         actionReference.action.started += context =>
         {
-            Debug.Log("Holi");
             if (context.interaction is HoldInteraction)
             {
                // Debug.Log(context.interaction + "Started");
