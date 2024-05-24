@@ -74,6 +74,10 @@ public class Movement : MonoBehaviour
                 canMove = false;
                 canWatchTarget = true;
                 break;
+            case PLAYER_STATES.RESPAWN:
+                canMove= false;
+                canWatchTarget = true;
+                break;
             default:
                 canMove = false;
                 canWatchTarget = false;
