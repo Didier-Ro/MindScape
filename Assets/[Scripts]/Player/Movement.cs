@@ -224,15 +224,14 @@ public class Movement : MonoBehaviour
                 }
                 timeSinceLastStep = 0f;
 
-                // Reproducir el sonido LAMP_JIGGLE si no se está reproduciendo actualmente
                 if (!isPlayingSound && soundLibrary != null)
                 {
                     AudioClip jiggleSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.LAMP_JIGGLE);
                     if (jiggleSound != null)
                     {
-                        isPlayingSound = true; // Marcar que se está reproduciendo un sonido
-                        AudioSource.PlayClipAtPoint(jiggleSound, transform.position, 1f);
-                        StartCoroutine(ResetSoundFlag(jiggleSound.length)); // Restablecer la bandera después de que termine el sonido
+                        isPlayingSound = true;
+                        AudioSource.PlayClipAtPoint(jiggleSound, transform.position, 5f);
+                        StartCoroutine(ResetSoundFlag(jiggleSound.length));
                     }
                 }
             }

@@ -452,18 +452,23 @@ public class Flashlight : MonoBehaviour
         }
     }
 
+    private bool lampOnSoundPlayed = false;
+    private bool calledAt99 = false;
+
     public void ReduceSliderValue(float _reductionSpeed)
     {
+        if (calledAt99 && currentSliderValue == 99)
+        {
+            return;
+        }
         reductionSpeed = _reductionSpeed;
         currentSliderValue -= reductionSpeed;
         slider.value = currentSliderValue;
 
         if (currentSliderValue <= 0)
         {
-            // Detener el sonido concentrado si está activo
             StopConcentratedSound();
 
-            // Reproducir el sonido de apagado de la linterna si la linterna está encendida
             if (flashlight.gameObject.activeSelf)
             {
                 if (audioSource != null && soundLibrary != null && !audioSource.isPlaying)
@@ -476,7 +481,6 @@ public class Flashlight : MonoBehaviour
                 }
             }
 
-            // Apagar la linterna
             if (flashlight.gameObject.activeSelf)
             {
                 flashlight.gameObject.SetActive(false);
@@ -486,13 +490,32 @@ public class Flashlight : MonoBehaviour
         }
         else
         {
-            // Si la linterna no está apagada, asegurarse de que esté encendida
             flashlight.gameObject.SetActive(true);
             wallFlashLight.gameObject.SetActive(true);
         }
+
+        if (currentSliderValue >= 99 && !lampOnSoundPlayed && audioSource != null && soundLibrary != null && !audioSource.isPlaying)
+        {
+            AudioClip lampOnSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.LAMP_ON);
+            if (lampOnSound != null)
+            {
+                audioSource.volume = 0.5f;
+                audioSource.PlayOneShot(lampOnSound);
+                lampOnSoundPlayed = true;
+            }
+        }
+
+        if (currentSliderValue > 99)
+        {
+            lampOnSoundPlayed = false;
+            calledAt99 = false;
+        }
+        if (currentSliderValue == 99)
+        {
+            calledAt99 = true;
+        }
     }
 
-    // Function to get current energy level
     public float GetEnergy()
     {
         return currentSliderValue;
