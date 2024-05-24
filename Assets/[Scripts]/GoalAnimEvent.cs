@@ -6,12 +6,24 @@ public class GoalAnimEvent : MonoBehaviour
     [SerializeField] private SoundLibrary soundLibrary;
     public AudioSource audioSource;
 
+    private AudioSource playerAudioSource;
+
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+        {
+            playerAudioSource = player.GetComponent<AudioSource>();
+            if (playerAudioSource == null)
+            {
+                playerAudioSource = player.AddComponent<AudioSource>();
+            }
         }
     }
 
@@ -32,9 +44,16 @@ public class GoalAnimEvent : MonoBehaviour
     {
         Debug.Log("END");
         CameraManager.instance.ChangeCameraToThePlayer();
+
+        // Detener el sonido de orbe de cristal
+        audioSource.Stop();
+
+        // Reproducir el sonido roto inmediatamente después de detener el sonido de orbe de cristal
+        PlayObjectBreakSound();
+
+        // Desactivar los objetos
         doorToUnlock.SetActive(false);
         gameObject.SetActive(false);
-        PlayObjectBreakSound();
     }
 
     private void PlayOrbDestructionSound()
@@ -42,6 +61,7 @@ public class GoalAnimEvent : MonoBehaviour
         AudioClip orbSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.ORBE_DE_CRISTAL);
         if (orbSound != null)
         {
+            // Reproducir sonido en el audioSource
             audioSource.PlayOneShot(orbSound);
         }
     }
@@ -49,9 +69,10 @@ public class GoalAnimEvent : MonoBehaviour
     private void PlayObjectBreakSound()
     {
         AudioClip breakSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.ORBE_DE_CRISTAL_ROTO);
-        if (breakSound != null)
+        if (breakSound != null && playerAudioSource != null)
         {
-            audioSource.PlayOneShot(breakSound);
+            // Reproducir el sonido roto inmediatamente
+            playerAudioSource.PlayOneShot(breakSound);
         }
     }
 }
