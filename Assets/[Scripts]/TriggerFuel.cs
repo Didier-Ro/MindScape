@@ -53,6 +53,8 @@ public class TriggerFuel : MonoBehaviour
 
     IEnumerator LightIntensityFlicker()
     {
+        PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.DASHING);
+        GameManager.GetInstance().ChangeGameState(GAME_STATE.READING);
         if (!isPaused) 
         {
             isCoroutineRunning = true;
@@ -77,6 +79,8 @@ public class TriggerFuel : MonoBehaviour
         isCoroutineRunning = false;
 
         gameObject.SetActive(false);
+        PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
+        GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
     }
 
     private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
