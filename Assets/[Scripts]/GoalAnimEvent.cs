@@ -44,11 +44,9 @@ public class GoalAnimEvent : MonoBehaviour
     {
         Debug.Log("END");
         CameraManager.instance.ChangeCameraToThePlayer();
-
-        // Detener el sonido de orbe de cristal
         audioSource.Stop();
 
-        // Reproducir el sonido roto inmediatamente después de detener el sonido de orbe de cristal
+
         PlayObjectBreakSound();
 
         // Desactivar los objetos
@@ -61,7 +59,7 @@ public class GoalAnimEvent : MonoBehaviour
         AudioClip orbSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.ORBE_DE_CRISTAL);
         if (orbSound != null)
         {
-            // Reproducir sonido en el audioSource
+ 
             audioSource.PlayOneShot(orbSound);
         }
     }
@@ -71,7 +69,6 @@ public class GoalAnimEvent : MonoBehaviour
         AudioClip breakSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.ORBE_DE_CRISTAL_ROTO);
         if (breakSound != null && playerAudioSource != null)
         {
-            // Reproducir el sonido roto inmediatamente
             playerAudioSource.PlayOneShot(breakSound);
         }
     }
