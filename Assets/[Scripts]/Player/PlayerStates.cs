@@ -52,6 +52,7 @@ public class PlayerStates : MonoBehaviour
 public enum PLAYER_STATES
 {
     PLAY,
+    DEAD,
     FALL,
     RESPAWN,
     MOVINGBOXES,

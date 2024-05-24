@@ -58,6 +58,7 @@ public class HealthController : MonoBehaviour
         else if (currentPlayerHealth <= 0)
         {
             GameManager.GetInstance().ChangeGameState(GAME_STATE.DEAD);
+            PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.DEAD);
             currentPlayerHealth = 0;
             Debug.Log("Player is dead");
         }
