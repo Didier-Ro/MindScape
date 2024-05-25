@@ -42,7 +42,7 @@ public class InputManager : MonoBehaviour
                 ActivateReading();
                 break;
             case GAME_STATE.DEAD:
-                //DeadUI();
+                DeactivatePause();
                 break;
             case GAME_STATE.FALLING:
                 DeactivateInput();
@@ -68,6 +68,9 @@ public class InputManager : MonoBehaviour
                 break;
             case PLAYER_STATES.THROWBOX:
                 DeactivateInput();
+                break;
+            case PLAYER_STATES.RESPAWN:
+                DeactivatePause();
                 break;
             
                 
@@ -164,7 +167,8 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        
+        Debug.Log(GameManager.GetInstance().GetCurrentGameState());
+        Debug.Log(PlayerStates.GetInstance().GetCurrentPlayerState());
     }
 
     private void OnDisable()
@@ -176,7 +180,13 @@ public class InputManager : MonoBehaviour
     
     public bool SetPause()
     {
-        return pauseInput.triggered;
+        if (GameManager.GetInstance().GetCurrentGameState() != GAME_STATE.EXPLORATION || GameManager.GetInstance().GetCurrentGameState() != GAME_STATE.PAUSE)
+        {
+            Debug.Log(pauseInput.triggered);
+            return pauseInput.triggered;
+        }
+
+        return false;
     }
     
     public Vector2 MovementInput()
@@ -218,6 +228,7 @@ public class InputManager : MonoBehaviour
 
     public bool DashInput()
     {
+        Debug.Log(dashInput.triggered);
         return dashInput.triggered;
     }
 
@@ -247,7 +258,6 @@ public class InputManager : MonoBehaviour
     {
         actionReference.action.started += context =>
         {
-            Debug.Log("Holi");
             if (context.interaction is HoldInteraction)
             {
                // Debug.Log(context.interaction + "Started");
@@ -304,6 +314,11 @@ public class InputManager : MonoBehaviour
     {
         playerControls.Gameplay.Disable();
         playerControls.Reading.Disable();
+    }
+
+    private void DeactivatePause()
+    {
+        playerControls.Gameplay.Disable();
     }
     
 }

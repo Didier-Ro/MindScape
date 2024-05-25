@@ -64,10 +64,12 @@ public class Falling : MonoBehaviour
         spriteTransform.localScale = new Vector3(1, 1, 1);
         initialSpriteSpawnPosition = new Vector3(finalPlayerSpawnPosition.x, spawnHeight, 0);
         canMove = true;
+
     }
 
     private void MovePlayer()
     {
+        PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.RESPAWN);
         float distance = initialSpriteSpawnPosition.y - finalPlayerSpawnPosition.y;
         float destiny = distance / (60 * 1f);
 
@@ -77,7 +79,12 @@ public class Falling : MonoBehaviour
         {
             spriteTransform.position = finalPlayerSpawnPosition;
             canMove = false;
-            PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
+            healthController.PlayerTakeDamage(50f);
+            if (healthController.currentPlayerHealth > 0)
+            {
+                PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
+            }
+
         }
     }
 
@@ -129,7 +136,6 @@ public class Falling : MonoBehaviour
             playerSprite.material.color = new Color(1, 1, 1, minSpriteSize);
             flasLight.pointLightInnerRadius = minSpriteSize;
             wallFlaslight.pointLightInnerRadius = minSpriteSize;
-            healthController.PlayerTakeDamage(50f);
             RespawnPlayer();
         }
     }

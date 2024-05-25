@@ -58,6 +58,7 @@ public class HealthController : MonoBehaviour
         else if (currentPlayerHealth <= 0)
         {
             GameManager.GetInstance().ChangeGameState(GAME_STATE.DEAD);
+            PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.DEAD);
             currentPlayerHealth = 0;
             Debug.Log("Player is dead");
         }
@@ -146,7 +147,7 @@ public class HealthController : MonoBehaviour
             return;
         }
 
-        Debug.Log("Spawning stress particles...");
+        //Debug.Log("Spawning stress particles...");
 
         Vector3 spawnPosition = particleSpawnPoint.position;
 
@@ -184,7 +185,7 @@ public class HealthController : MonoBehaviour
 
     void RemoveStressParticles()
     {
-        Debug.Log("Removing stress particles...");
+//        Debug.Log("Removing stress particles...");
         foreach (Transform child in particleSpawnPoint)
         {
             var particleSystem = child.GetComponent<ParticleSystem>();

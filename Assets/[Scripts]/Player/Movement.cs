@@ -74,6 +74,10 @@ public class Movement : MonoBehaviour
                 canMove = false;
                 canWatchTarget = true;
                 break;
+            case PLAYER_STATES.RESPAWN:
+                canMove= false;
+                canWatchTarget = true;
+                break;
             default:
                 canMove = false;
                 canWatchTarget = false;
@@ -120,7 +124,7 @@ public class Movement : MonoBehaviour
             return;
         if (CameraManager.instance.HasCameraArrive(PlayerStates.GetInstance().gameObject))
         {
-            PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
+            //PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
         }
         else if(CameraManager.instance.HasCameraArrive(CameraManager.instance.targetPuzzle))
         {
