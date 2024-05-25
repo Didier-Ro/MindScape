@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Flashlight flashlight;
 
+    public bool isCinematic =false;
+
     private void Awake()
     {
         if (Instance == null)
@@ -43,7 +45,10 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         Application.targetFrameRate = 60;
-        LoadingData(GAME_STATE.EXPLORATION);
+        if (!isCinematic)
+        {
+            LoadingData(GAME_STATE.EXPLORATION);
+        }
     }
 
     private void LoadingData(GAME_STATE finalState)
@@ -285,7 +290,6 @@ public class GameManager : MonoBehaviour
                 stageConditions = stageCondition.GetNumOfGame();
             }
         }
-        Debug.Log(stageConditions.lastPosition);
         CheckpointManager.AddCheckpointPosition(stageConditions.lastPosition);
     }
     

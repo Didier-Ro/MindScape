@@ -14,15 +14,18 @@ public class InputManager : MonoBehaviour
     }
     #endregion
     #region SubscribeToGamestate
-    
-    
+
+    public bool isCinematic = false;
 
     private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
     {
         GameManager.GetInstance().OnGameStateChange += OnGameStateChange;
         OnGameStateChange(GameManager.GetInstance().GetCurrentGameState());
-        PlayerStates.GetInstance().OnPlayerStateChanged += PlayerStateChange;
-        PlayerStateChange(PlayerStates.GetInstance().GetCurrentPlayerState());
+        if (!isCinematic)
+        {
+            PlayerStates.GetInstance().OnPlayerStateChanged += PlayerStateChange;
+            PlayerStateChange(PlayerStates.GetInstance().GetCurrentPlayerState());
+        }
     }
 
     private void OnGameStateChange(GAME_STATE _newGameState)//Analyze the Game State type and shows a different UI
@@ -116,7 +119,10 @@ public class InputManager : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            if (!isCinematic)
+            {
+                Destroy(gameObject);
+            }
         }
 
         playerInput = GetComponent<PlayerInput>();
