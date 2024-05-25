@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FallZone : MonoBehaviour
 {
+    [SerializeField] HealthController healthController;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == "Feet")
@@ -26,9 +27,18 @@ public class FallZone : MonoBehaviour
     {
         if (collision.tag == "Feet")
         {
+            collision.GetComponentInParent<HealthController>();
             if (PlayerStates.GetInstance().GetCurrentPlayerState() != PLAYER_STATES.DASHING)
             {
-                PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
+                if (healthController.currentPlayerHealth <= 0)
+                {
+                    PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.DEAD);
+                }
+                else
+                {
+                    PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
+                }
+
             }
         }
     }

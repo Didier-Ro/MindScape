@@ -124,6 +124,7 @@ public class HealthController : MonoBehaviour
             }
             else
             {
+                Debug.LogWarning("Whisper sound not found in the SoundLibrary.");
             }
         }
     }
@@ -142,9 +143,11 @@ public class HealthController : MonoBehaviour
     {
         if (particleSpawnPoint == null)
         {
+            Debug.LogError("Particle spawn point not assigned in the Inspector!");
             return;
         }
 
+        //Debug.Log("Spawning stress particles...");
 
         Vector3 spawnPosition = particleSpawnPoint.position;
 
@@ -153,7 +156,7 @@ public class HealthController : MonoBehaviour
 
         if (estres1 != null)
         {
-            estres1.transform.SetParent(particleSpawnPoint);
+            estres1.transform.SetParent(particleSpawnPoint); 
             var particleSystem1 = estres1.GetComponent<ParticleSystem>();
             if (particleSystem1 != null)
             {
@@ -161,7 +164,7 @@ public class HealthController : MonoBehaviour
             }
             else
             {
-
+                Debug.LogWarning("Estres1 particle system component not found.");
             }
         }
 
@@ -175,13 +178,14 @@ public class HealthController : MonoBehaviour
             }
             else
             {
-
+                Debug.LogWarning("Estres2Variant particle system component not found.");
             }
         }
     }
 
     void RemoveStressParticles()
     {
+//        Debug.Log("Removing stress particles...");
         foreach (Transform child in particleSpawnPoint)
         {
             var particleSystem = child.GetComponent<ParticleSystem>();

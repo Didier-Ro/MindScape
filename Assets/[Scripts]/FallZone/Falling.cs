@@ -80,7 +80,11 @@ public class Falling : MonoBehaviour
             spriteTransform.position = finalPlayerSpawnPosition;
             canMove = false;
             healthController.PlayerTakeDamage(50f);
-            PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
+            if (healthController.currentPlayerHealth > 0)
+            {
+                PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
+            }
+
         }
     }
 
