@@ -5,7 +5,7 @@ using UnityEngine;
 public class MistZone : MonoBehaviour
 {
     [SerializeField] private float damagePerSecond;
-    private GameObject playerRef;
+    [SerializeField]private GameObject playerRef;
     private Flashlight flashLight;
     private HealthController healthController;
     private bool playerInZone;
