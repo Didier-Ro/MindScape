@@ -12,8 +12,8 @@ public class Movement : MonoBehaviour
     [SerializeField] private bool isInteracting = false;
     [SerializeField] GameObject interactiveObject;
     private bool isSuscribed = true;
-    private float timeSinceLastStep = 0f; // Tiempo transcurrido desde el último paso
-    private float stepDelay = 0.5f; // Retraso entre pasos en segundos
+    private float timeSinceLastStep = 0f;
+    private float stepDelay = 0.5f;
 
     #region CenterPlayerToABox
     private bool isThePlayerCenterToTheBox;   
@@ -202,7 +202,7 @@ public class Movement : MonoBehaviour
        
     }
 
-    private bool isPlayingSound = false; // Variable para controlar si se está reproduciendo un sonido
+    private bool isPlayingSound = false;
 
     void HandleMovementInput()
     {
@@ -238,11 +238,10 @@ public class Movement : MonoBehaviour
         }
     }
 
-    // Corrutina para restablecer la bandera después de que termine el sonido
     private IEnumerator ResetSoundFlag(float soundLength)
     {
         yield return new WaitForSeconds(soundLength);
-        isPlayingSound = false; // Restablecer la bandera
+        isPlayingSound = false;
     }
 }
 

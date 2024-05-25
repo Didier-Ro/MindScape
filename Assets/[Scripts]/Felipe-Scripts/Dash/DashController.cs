@@ -13,6 +13,7 @@ public class DashController : MonoBehaviour
     public float wallCheckDistance = 0.1f;
     private float lastDashTime = 0f;
     private Vector2 dashDirection;
+    private GAME_STATE currentGamestate = default;
     private bool isDashing = false;
 
     private Movement movementScript;
@@ -33,6 +34,11 @@ public class DashController : MonoBehaviour
                 AttemptDash();
             }
         }
+    }
+
+    private void FixedUpdate()
+    {
+        
     }
 
     private IEnumerator PerformDash(bool isPassingHole)
