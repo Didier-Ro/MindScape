@@ -68,12 +68,13 @@ public class Flashlight : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        GameManager.GetInstance().GetFlashlightReferecen(this);
+        
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        GameManager.GetInstance().GetFlashlightReferecen(this);
         SubscribeToGameManagerGameState();
         InitializeFlashlight();
         LightSetUp();
@@ -460,10 +461,10 @@ public class Flashlight : MonoBehaviour
 
         if (currentSliderValue <= 0)
         {
-            // Detener el sonido concentrado si está activo
+            // Detener el sonido concentrado si estï¿½ activo
             StopConcentratedSound();
 
-            // Reproducir el sonido de apagado de la linterna si la linterna está encendida
+            // Reproducir el sonido de apagado de la linterna si la linterna estï¿½ encendida
             if (flashlight.gameObject.activeSelf)
             {
                 if (audioSource != null && soundLibrary != null && !audioSource.isPlaying)
@@ -486,7 +487,7 @@ public class Flashlight : MonoBehaviour
         }
         else
         {
-            // Si la linterna no está apagada, asegurarse de que esté encendida
+            // Si la linterna no estï¿½ apagada, asegurarse de que estï¿½ encendida
             flashlight.gameObject.SetActive(true);
             wallFlashLight.gameObject.SetActive(true);
         }

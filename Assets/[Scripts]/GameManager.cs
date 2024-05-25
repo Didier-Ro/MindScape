@@ -216,7 +216,11 @@ public class GameManager : MonoBehaviour
         stageConditions.AddSecondsToTheTimePlayed(framesPlayed);
         framesPlayed = 0;
         string dataToSave = "";
-        SetFlashlightEnergy(flashlight.GetEnergy());
+        if (flashlight != null)
+        {
+            SetFlashlightEnergy(flashlight.GetEnergy());
+            
+        }
         for (int i = 0; i < allConditions.Length; i++)
         {
             dataToSave += allConditions[i].SaveData() + "*";
