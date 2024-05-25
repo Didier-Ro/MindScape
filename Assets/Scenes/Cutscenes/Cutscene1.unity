@@ -437,6 +437,7 @@ MonoBehaviour:
   dialog:
     lines:
     - Espero si poder dormir hoy.
+    localize: {fileID: 0}
   background: {fileID: 2078204388}
   text: {fileID: 853618968}
   textColor: {fileID: 853618969}
@@ -2880,6 +2881,7 @@ MonoBehaviour:
     lines:
     - "Supongo que debo llamar a mi mam\xE1, pero ser\xE1 mejor descansar primero,
       no quiero revivir esos recuerdos asi de cansado."
+    localize: {fileID: 0}
   background: {fileID: 2078204388}
   text: {fileID: 853618968}
   textColor: {fileID: 853618969}
@@ -3268,6 +3270,7 @@ MonoBehaviour:
     - "\"Miguel, espero que te est\xE9 yendo bien, nunca podr\xE9 disculparme lo
       suficiente por todo lo que pas\xF3 pero por favor mantente en contacto conmigo.
       Te ama Mam\xE1\""
+    localize: {fileID: 0}
   background: {fileID: 2078204388}
   text: {fileID: 853618968}
   textColor: {fileID: 853618969}
@@ -3846,7 +3849,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialog:
     lines:
-    - "Vaya d\xEDa, ser\xE1 mejor que descanse un rato."
+    - 
+    localize: {fileID: 1784706241}
   background: {fileID: 2078204388}
   text: {fileID: 853618968}
   textColor: {fileID: 853618969}
@@ -3886,7 +3890,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   texts: []
-  localizationKey: []
+  localizationKey:
+  - Letter.1.4
 --- !u!1 &1922463742
 GameObject:
   m_ObjectHideFlags: 0
@@ -4184,6 +4189,7 @@ MonoBehaviour:
   dialog:
     lines:
     - "Ahora si podr\xE9 ver la carta que dej\xF3 mi mam\xE1"
+    localize: {fileID: 0}
   background: {fileID: 2078204388}
   text: {fileID: 853618968}
   textColor: {fileID: 853618969}
@@ -4470,6 +4476,7 @@ MonoBehaviour:
     lines:
     - "Me encantaria retomar la lectura, lo veo imposible con tanto trabajo pero
       debo seguir investigando que es lo que me pas\xF3"
+    localize: {fileID: 0}
   background: {fileID: 2078204388}
   text: {fileID: 853618968}
   textColor: {fileID: 853618969}

@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Serialization;
 
+
 public class DialogManager : MonoBehaviour
 {
     public event Action OnCloseDialog;

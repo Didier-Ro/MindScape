@@ -167,14 +167,16 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(GameManager.GetInstance().GetCurrentGameState());
-        Debug.Log(PlayerStates.GetInstance().GetCurrentPlayerState());
+
     }
 
     private void OnDisable()
     {
-        playerControls.Disable();
-        actionReference.action.Disable();
+        if (!isCinematic)
+        {
+            playerControls.Disable();
+            actionReference.action.Disable();
+        }
     }
     
     

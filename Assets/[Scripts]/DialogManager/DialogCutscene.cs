@@ -6,6 +6,7 @@ using UnityEngine.Playables;
 using UnityEngine.Timeline;
 using TMPro;
 using UnityEngine.UI;
+using Assets.SimpleLocalization.Scripts;
 
 public class DialogCutscene : MonoBehaviour
 {
@@ -69,6 +70,7 @@ public class DialogCutscene : MonoBehaviour
 
     public void ActivateChatbox()
     {
+        dialog.Localize();
         StartCoroutine(DialogManager.GetInstance().ShowDialog(dialog));
     }
 
