@@ -1,8 +1,8 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
+using UnityEngine.InputSystem.Utilities;
 
 public class InputManager : MonoBehaviour
 {
@@ -101,6 +101,7 @@ public class InputManager : MonoBehaviour
 
     [Header("UIInputs")] 
     private InputAction nextUIInput = default;
+    public static IObservable<InputControl> onAnyButtonPress { get; }
 
     private InputAction backUIInput = default;
 
@@ -112,6 +113,7 @@ public class InputManager : MonoBehaviour
     private Vector2 vectorLightValue = default;
     private bool isPaused = false;
     private bool isHolding = false;
+    private bool anyButton = true;
 
     private void Awake()
     {
@@ -165,10 +167,20 @@ public class InputManager : MonoBehaviour
             
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        Debug.Log(GameManager.GetInstance().GetCurrentGameState());
-        Debug.Log(PlayerStates.GetInstance().GetCurrentPlayerState());
+        if (GameManager.GetInstance().GetCurrentGameState() == GAME_STATE.DEAD)
+        {
+            InputSystem.onAnyButtonPress.CallOnce(ctrl => anyButton = ctrl.IsPressed());
+        }
+        if (!anyButton)
+        {
+            Debug.Log("ENTRO");
+            anyButton = true;
+        }
+        Debug.Log(anyButton);
+
+        
     }
 
     private void OnDisable()
@@ -182,7 +194,6 @@ public class InputManager : MonoBehaviour
     {
         if (GameManager.GetInstance().GetCurrentGameState() != GAME_STATE.EXPLORATION || GameManager.GetInstance().GetCurrentGameState() != GAME_STATE.PAUSE)
         {
-            Debug.Log(pauseInput.triggered);
             return pauseInput.triggered;
         }
 
@@ -228,7 +239,6 @@ public class InputManager : MonoBehaviour
 
     public bool DashInput()
     {
-        Debug.Log(dashInput.triggered);
         return dashInput.triggered;
     }
 
@@ -240,6 +250,11 @@ public class InputManager : MonoBehaviour
     public bool FocusNextGoal()
     {
         return focusInput.triggered;
+    }
+
+    public void ReturnAnyButton()
+    {
+        
     }
 
     public void SwitchControls(PlayerInput input)
@@ -321,4 +336,10 @@ public class InputManager : MonoBehaviour
         playerControls.Gameplay.Disable();
     }
     
+}
+
+public enum ACTIVECONTROLSCHEME
+{
+    CONTROL,
+    KEYBOARD
 }
