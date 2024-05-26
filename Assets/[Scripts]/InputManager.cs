@@ -316,3 +316,9 @@ public class InputManager : MonoBehaviour
     }
     
 }
+
+public enum ACTIVECONTROLSCHEME
+{
+    CONTROL,
+    KEYBOARD
+}
