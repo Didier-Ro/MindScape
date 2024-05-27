@@ -178,9 +178,6 @@ public class InputManager : MonoBehaviour
             LoadingManager.instance.LoadScene("MainMenu");
             anyButton = true;
         }
-        Debug.Log(anyButton);
-
-        
     }
 
     private void OnDisable()

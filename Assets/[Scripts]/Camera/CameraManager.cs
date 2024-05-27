@@ -133,9 +133,11 @@ public class CameraManager : MonoBehaviour
     {
         if (currentCamera != playerCamera)
         {
-            for (int i = 0; i < delayToStart * 60; i++)
+            int counter = 0;
+            while (counter >= delayToStart * 60)
             {
-                yield return null;
+                counter++;
+                yield return new WaitForEndOfFrame();
             }
             ChangeCameraToThePlayer();
         }
@@ -164,11 +166,13 @@ public class CameraManager : MonoBehaviour
     
     public IEnumerator ChangeCameraToAnObject(GameObject objectToLook, float delayToStart)
     {
-        if (currentCamera != objectsCamera && HasCameraArrive(objectToLook))
+        if (currentCamera != objectsCamera)
         {
-            for (int i = 0; i < delayToStart * 60; i++)
+            int counter = 0;
+            while (counter >= delayToStart * 60)
             {
-                yield return null;
+                counter++;
+                yield return new WaitForEndOfFrame();
             }
             ChangeCameraToAnObject(objectToLook);
         }
