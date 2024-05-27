@@ -175,7 +175,7 @@ public class InputManager : MonoBehaviour
         }
         if (!anyButton)
         {
-            Debug.Log("ENTRO");
+            LoadingManager.instance.LoadScene("MainMenu");
             anyButton = true;
         }
         Debug.Log(anyButton);
