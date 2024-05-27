@@ -124,7 +124,7 @@ public class Movement : MonoBehaviour
             return;
         if (CameraManager.instance.HasCameraArrive(PlayerStates.GetInstance().gameObject))
         {
-            //PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
+            PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
         }
         else if(CameraManager.instance.HasCameraArrive(CameraManager.instance.targetPuzzle))
         {
