@@ -86,7 +86,7 @@ public class UIManager : MonoBehaviour
     }
     private void ExploringUI() 
     {
-       pauseUI.SetActive(false);
+            pauseUI.SetActive(false);
     }
 
     private void ReadingUI() 

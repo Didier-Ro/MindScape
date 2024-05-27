@@ -97,6 +97,5 @@ public class DialogCutscene : MonoBehaviour
     {
         gameUI[0].SetActive(false);
         gameUI[1].SetActive(false);
-        gameUI[2].SetActive(false);
     }
 }
