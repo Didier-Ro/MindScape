@@ -42,6 +42,12 @@ public class TabGroup : MonoBehaviour
         button.background.sprite = tabHover;
     }
 
+    public void ModifyCounter(int tabValue)
+    {
+        counter = tabValue;
+        OnTabSelected(tabButtons[counter]);
+    }
+
     public void ResetAll()
     {
         counter = 0;
