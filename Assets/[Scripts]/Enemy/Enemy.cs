@@ -18,7 +18,6 @@ public class Enemy : MonoBehaviour, Ikillable
     [SerializeField] private bool isLurkingToTheRight;
     private int changeDirectionTimer;
     private int randomTimer;
-    private float angle = 30;
     #endregion
     [SerializeField] private float chasingSpeed = default;
     [SerializeField] private float fleeSpeed;
