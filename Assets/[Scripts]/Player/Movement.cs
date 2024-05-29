@@ -43,7 +43,6 @@ public class Movement : MonoBehaviour
            rb.velocity = Vector2.zero;
        }
     }
-
     #endregion
 
 
@@ -66,16 +65,13 @@ public class Movement : MonoBehaviour
                 canMove = true;
                 canWatchTarget = true;
                 break;
-            case PLAYER_STATES.TARGET_CAMERA:
-                canMove = false;
-                canWatchTarget = true;
-                break;
             case PLAYER_STATES.MOVING_CAMERA:
                 canMove = false;
-                canWatchTarget = true;
+                canWatchTarget = false;
+                Invoke("ChangeToPlayer", 3f);
                 break;
-            case PLAYER_STATES.RESPAWN:
-                canMove= false;
+            case PLAYER_STATES.TUTORIAL:
+                canMove = false;
                 canWatchTarget = true;
                 break;
             default:
@@ -120,33 +116,24 @@ public class Movement : MonoBehaviour
         {
             FocusNextTarget();
         }
-        if (PlayerStates.GetInstance().GetCurrentPlayerState() != PLAYER_STATES.MOVING_CAMERA)
-            return;
-        if (CameraManager.instance.HasCameraArrive(PlayerStates.GetInstance().gameObject))
-        {
-            PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
-        }
-        else if(CameraManager.instance.HasCameraArrive(CameraManager.instance.targetPuzzle))
-        {
-            PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.TARGET_CAMERA);
-        }
     }
 
     private void FocusNextTarget()
     {
-        if (PlayerStates.GetInstance().GetCurrentPlayerState() == PLAYER_STATES.PLAY)
-        {
-            if (CameraManager.instance.targetPuzzle != null)
-            {
-                CameraManager.instance.ChangeCameraToAnObject(CameraManager.instance.targetPuzzle);
-            }
-            
-        }
-        else if(PlayerStates.GetInstance().GetCurrentPlayerState() == PLAYER_STATES.TARGET_CAMERA)
-        {
-            CameraManager.instance.ChangeCameraToThePlayer();
-        }
+        Debug.Log("entr2a");
+        CameraManager.instance.ChangeCameraToAnObject(CameraManager.instance.targetPuzzle);
         PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.MOVING_CAMERA);
+    }
+
+    private void ChangeToPlayer()
+    {
+        CameraManager.instance.ChangeCameraToThePlayer();
+        Invoke("CanWatchTarget", 2f);
+    }
+
+    private void CanWatchTarget()
+    {
+        PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
     }
     
     /*public void CenterThePlayerToABox(Vector2 positionToMove)

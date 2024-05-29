@@ -311,5 +311,6 @@ public enum GAME_STATE //All possible Game States
     FLASBACKS,
     FALLING,
     LOADING,
-    DEAD
+    DEAD,
+    TUTORIAL
 }
