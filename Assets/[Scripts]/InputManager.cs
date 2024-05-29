@@ -50,6 +50,10 @@ public class InputManager : MonoBehaviour
             case GAME_STATE.LOADING:
                 DeactivateInput();
                 break;
+            case GAME_STATE.TUTORIAL:
+                DeactivateInput();
+                DeactivatePause();
+                break;
         }   
     }
     
@@ -72,8 +76,10 @@ public class InputManager : MonoBehaviour
             case PLAYER_STATES.RESPAWN:
                 DeactivatePause();
                 break;
-            
-                
+            case PLAYER_STATES.TUTORIAL:
+                DeactivateInput();
+                DeactivatePause();
+                break;
         }   
     }
     
@@ -87,7 +93,7 @@ public class InputManager : MonoBehaviour
     
     [SerializeField] private InputActionReference actionReference;
 
-    private PlayerControls playerControls = default;
+    [HideInInspector] public PlayerControls playerControls = default;
     
     [Header("GameplayInputs")]
     private InputAction moveInput = default;
@@ -97,6 +103,7 @@ public class InputManager : MonoBehaviour
     private InputAction dashInput = default;
     private InputAction moveLightInput = default;
     private InputAction focusInput = default;
+    [HideInInspector] public InputAction tutorialInput = default;
     
 
     [Header("UIInputs")] 
@@ -253,7 +260,7 @@ public class InputManager : MonoBehaviour
     {
         
     }
-
+    
     public void SwitchControls(PlayerInput input)
     {
         currentControlScheme = input.currentControlScheme;
