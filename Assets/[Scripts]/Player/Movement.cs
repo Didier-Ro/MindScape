@@ -41,11 +41,13 @@ public class Movement : MonoBehaviour
         if (_newGameState == GAME_STATE.EXPLORATION)
         {
             isMoving = true;
+            actualSpeed = walkSpeed;
         }
         else if (_newGameState == GAME_STATE.TUTORIAL)
         {
             isMoving = true;
             rb.velocity /= 2;
+            actualSpeed /= 2f;
         }
         else
         {
@@ -83,7 +85,6 @@ public class Movement : MonoBehaviour
             case PLAYER_STATES.TUTORIAL:
                 canMove = false;
                 canWatchTarget = true;
-                actualSpeed /= 2f;
                 break;
             default:
                 canMove = false;
