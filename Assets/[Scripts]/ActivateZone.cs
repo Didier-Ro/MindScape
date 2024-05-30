@@ -11,26 +11,27 @@ public class ActivateZone : MonoBehaviour
    public GameObject player;
    [SerializeField] private GameObject[] gameUI;
    [SerializeField] private bool isDeactivateWithCondition;
-   [SerializeField] private int conditionId; 
+   [SerializeField] private int conditionId;
+   private Animator animator;
    
+  
    public void DeactivateCanvas()
    {
       gameUI[0].SetActive(false);
       gameUI[1].SetActive(false);
-      gameUI[2].SetActive(false);
    }
    
    public void SetActiveCanvas()
    {
       if (InputManager.GetInstance().ReturnControlScheme(currentControlScheme) == "Gamepad")
       {
-         gameUI[0].SetActive(false);
-         gameUI[1].SetActive(true);
+         gameUI[0].SetActive(true);
+         gameUI[1].SetActive(false);
       }
       else if(InputManager.GetInstance().ReturnControlScheme(currentControlScheme) == "Keyboard")
       {
-         gameUI[0].SetActive(true);
-         gameUI[1].SetActive(false);
+         gameUI[0].SetActive(false);
+         gameUI[1].SetActive(true);
       }
    }
 
@@ -47,21 +48,24 @@ public class ActivateZone : MonoBehaviour
    {
       PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.MOVINGBOXES);
       _movableObject.GetDirection(player);
-      gameUI[0].SetActive(false);
-      gameUI[1].SetActive(false);
-      gameUI[2].SetActive(true);
+      //gameUI[0].SetActive(false);
+      //gameUI[1].SetActive(false);
+      //gameUI[2].SetActive(true);
    }
 
    private void DeactivateBoxProcess()
    {
-      gameUI[0].SetActive(false);
-      gameUI[1].SetActive(true);
-      gameUI[2].SetActive(false);
+      //gameUI[0].SetActive(false);
+      //gameUI[1].SetActive(true);
+      //gameUI[2].SetActive(false);
+      animator.SetBool("IsHoldingUD", false);
+      animator.SetBool("IsHoldingRL", false);
       PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
    }
 
    private void Start()
    {
+      animator = PlayerStates.GetInstance().buttonsAnimator;
       if (GameManager.GetInstance().IsConditionCompleted(conditionId) && isDeactivateWithCondition)
       {
          Destroy(gameObject);
