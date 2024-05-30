@@ -60,7 +60,10 @@ public class BoxDetector : MonoBehaviour
                     colliderParent = parent.GetComponent<BoxCollider2D>();
                     colliderParent.enabled = false;*/
                     clonPrefab = Instantiate(boxPrefab, new Vector3(spawnPos.x, 27, 0), Quaternion.identity);
-                    tutorial.SetActive(true);
+                    if (tutorial != null)
+                    {
+                        clonPrefab.GetComponent<BoxFalling>().tutorial = tutorial;
+                    }
                     clonPrefab.GetComponent<BoxFalling>().SetSpawnPosition(spawnPos);
                     CameraManager.instance.ChangeTargetCamera(clonPrefab);
                     //gameObject.SetActive(false);
