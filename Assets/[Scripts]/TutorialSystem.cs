@@ -16,7 +16,8 @@ public class TutorialSystem : MonoBehaviour
                 if (InputManager.GetInstance().FocusNextGoal())
                 {
                     GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
-                    gameObject.SetActive(false);
+                    Destroy(gameObject);
+                   
                 }
                 break;
             case InputReturnValue.CHANGING_LIGHT:
@@ -25,23 +26,29 @@ public class TutorialSystem : MonoBehaviour
                 {
                     GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
                     PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
-                    gameObject.SetActive(false);
+                    Destroy(gameObject);
                 }
                 break;
         }
     }
-
-
+    
+    
     private void OnEnable()
     {
-        GameManager.GetInstance().ChangeGameState(GAME_STATE.CUTSCENES);
+        if (inputValue == InputReturnValue.FOCUS)
+        {
+            GameManager.GetInstance().ChangeGameState(GAME_STATE.CUTSCENES);
+        }
+        else if (inputValue == InputReturnValue.CHANGING_LIGHT)
+        {
+            GameManager.GetInstance().ChangeGameState(GAME_STATE.TUTORIAL);
+        }
         PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.TUTORIAL);
     }
     
 
     enum InputReturnValue
     {
-        DASHING,
         FOCUS,
         CHANGING_LIGHT
     }
