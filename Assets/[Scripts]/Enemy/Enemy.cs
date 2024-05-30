@@ -64,10 +64,9 @@ public class Enemy : MonoBehaviour, Ikillable
         else if (_newGameState == GAME_STATE.TUTORIAL)
         {
             CanMove = true;
-            rb.velocity /= 2;
-            actualChasingSpeed /= 2f;
-            actualAttackingSpeed /= 2f;
-            actualfleeSpeed /= 2f;
+            actualChasingSpeed /= 10f;
+            actualAttackingSpeed /= 10f;
+            actualfleeSpeed /= 10f;
         }
         else
         {

@@ -17,15 +17,12 @@ public class TutorialSystem : MonoBehaviour
                 {
                     GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
                     Destroy(gameObject);
-                   
                 }
                 break;
             case InputReturnValue.CHANGING_LIGHT:
-                InputManager.GetInstance().playerControls.Gameplay.Protect.Enable();
                 if (InputManager.GetInstance().FlashligthInput())
                 {
                     GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
-                    PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
                     Destroy(gameObject);
                 }
                 break;
@@ -38,12 +35,12 @@ public class TutorialSystem : MonoBehaviour
         if (inputValue == InputReturnValue.FOCUS)
         {
             GameManager.GetInstance().ChangeGameState(GAME_STATE.CUTSCENES);
+            PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.TUTORIAL);
         }
         else if (inputValue == InputReturnValue.CHANGING_LIGHT)
         {
             GameManager.GetInstance().ChangeGameState(GAME_STATE.TUTORIAL);
         }
-        PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.TUTORIAL);
     }
     
 

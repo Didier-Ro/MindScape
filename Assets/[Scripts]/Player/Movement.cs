@@ -46,8 +46,7 @@ public class Movement : MonoBehaviour
         else if (_newGameState == GAME_STATE.TUTORIAL)
         {
             isMoving = true;
-            rb.velocity /= 2;
-            actualSpeed /= 2f;
+            actualSpeed /= 10f;
         }
         else
         {
@@ -71,6 +70,7 @@ public class Movement : MonoBehaviour
     
     private void OnPlayerStateChange(PLAYER_STATES _newPlayerState)
     {
+        Debug.Log("cambio de estado");
         switch (_newPlayerState)
         {
             case PLAYER_STATES.PLAY:
@@ -98,9 +98,9 @@ public class Movement : MonoBehaviour
     #endregion
     private void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         SubscribeToGameManagerGameState();
         SubscribeToPlayerGameState();
-        rb = GetComponent<Rigidbody2D>();
         DialogManager.GetInstance().OnCloseDialog += () =>
         {
             if (currentGamestate == GAME_STATE.READING)
@@ -133,7 +133,6 @@ public class Movement : MonoBehaviour
 
     private void FocusNextTarget()
     {
-        Debug.Log("entr2a");
         CameraManager.instance.ChangeCameraToAnObject(CameraManager.instance.targetPuzzle);
         PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.MOVING_CAMERA);
     }
