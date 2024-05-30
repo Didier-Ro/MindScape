@@ -51,8 +51,7 @@ public class InputManager : MonoBehaviour
                 DeactivateInput();
                 break;
             case GAME_STATE.TUTORIAL:
-                DeactivateInput();
-                DeactivatePause();
+                playerControls.Gameplay.Pause.Disable();
                 break;
         }   
     }
@@ -77,7 +76,6 @@ public class InputManager : MonoBehaviour
                 DeactivatePause();
                 break;
             case PLAYER_STATES.TUTORIAL:
-                DeactivateInput();
                 DeactivatePause();
                 break;
         }   
