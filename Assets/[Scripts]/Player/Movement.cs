@@ -70,7 +70,6 @@ public class Movement : MonoBehaviour
     
     private void OnPlayerStateChange(PLAYER_STATES _newPlayerState)
     {
-        Debug.Log("cambio de estado");
         switch (_newPlayerState)
         {
             case PLAYER_STATES.PLAY:

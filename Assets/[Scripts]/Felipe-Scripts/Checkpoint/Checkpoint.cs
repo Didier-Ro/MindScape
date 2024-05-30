@@ -23,7 +23,6 @@ public class Checkpoint : MonoBehaviour
             if (isSavedInGame)
             {
                 GameManager.GetInstance().SavePlayerPosition(checkpointPosition);
-                Debug.Log("se guardo");
                 GameManager.GetInstance().MarkConditionCompleted(condition);
                 GameManager.GetInstance().SaveAllData();
             }

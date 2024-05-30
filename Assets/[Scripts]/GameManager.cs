@@ -224,12 +224,13 @@ public class GameManager : MonoBehaviour
         if (flashlight != null)
         {
             SetFlashlightEnergy(flashlight.GetEnergy());
-            
         }
         for (int i = 0; i < allConditions.Length; i++)
         {
             dataToSave += allConditions[i].SaveData() + "*";
         }
+        Debug.Log("Se guardaron los datos");
+        Debug.Log(dataToSave);
         PlayerPrefs.SetString("alldata", dataToSave);
     }
 
