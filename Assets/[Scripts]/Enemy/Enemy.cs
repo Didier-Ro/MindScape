@@ -51,9 +51,18 @@ public class Enemy : MonoBehaviour, Ikillable
     }
     private void OnGameStateChange(GAME_STATE _newGameState)//Analyze the Game State type and makes differents behaviour
     {
-        CanMove = _newGameState == GAME_STATE.EXPLORATION;
-        if (!CanMove)
+        if (_newGameState == GAME_STATE.EXPLORATION)
         {
+            CanMove = true;
+        }
+        else if (_newGameState == GAME_STATE.TUTORIAL)
+        {
+            CanMove = true;
+            rb.velocity /= 2;
+        }
+        else
+        {
+            CanMove = false;
             rb.velocity = Vector2.zero;
         }
     }

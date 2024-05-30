@@ -8,6 +8,7 @@ public class Movement : MonoBehaviour
     private bool canWatchTarget = true;
     public bool isMoving = true;
     [SerializeField] private float walkSpeed = 1.5f;
+    private float actualSpeed;
     [SerializeField] bool canInteract = false;
     [SerializeField] private bool isInteracting = false;
     [SerializeField] GameObject interactiveObject;
@@ -37,11 +38,20 @@ public class Movement : MonoBehaviour
     }
     private void OnGameStateChange(GAME_STATE _newGameState)//Analyze the Game State type and makes differents behaviour
     {
-       isMoving = _newGameState == GAME_STATE.EXPLORATION;
-       if (!isMoving)
-       {
-           rb.velocity = Vector2.zero;
-       }
+        if (_newGameState == GAME_STATE.EXPLORATION)
+        {
+            isMoving = true;
+        }
+        else if (_newGameState == GAME_STATE.TUTORIAL)
+        {
+            isMoving = true;
+            rb.velocity /= 2;
+        }
+        else
+        {
+            isMoving = false;
+            rb.velocity = Vector2.zero;
+        }
     }
     #endregion
 
@@ -73,6 +83,7 @@ public class Movement : MonoBehaviour
             case PLAYER_STATES.TUTORIAL:
                 canMove = false;
                 canWatchTarget = true;
+                actualSpeed /= 2f;
                 break;
             default:
                 canMove = false;
@@ -97,6 +108,7 @@ public class Movement : MonoBehaviour
                 canInteract = true;
             }
         };
+        actualSpeed = walkSpeed;
     }
     
     void FixedUpdate()
@@ -198,7 +210,7 @@ public class Movement : MonoBehaviour
             animator.SetFloat("x", input.x);
             animator.SetFloat("y", input.y);
             animator.SetFloat("Speed", input.magnitude);
-            Vector2 movement = input.normalized * walkSpeed * Time.fixedDeltaTime;
+            Vector2 movement = input.normalized * actualSpeed * Time.fixedDeltaTime;
             rb.MovePosition(rb.position + movement);
             timeSinceLastStep += Time.fixedDeltaTime;
             if (timeSinceLastStep > stepDelay)
