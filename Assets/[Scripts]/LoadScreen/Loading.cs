@@ -33,6 +33,7 @@ public class Loading : MonoBehaviour
 
     public void ChangeToLoad()
     {
+        Debug.Log("1-----Start Loading");
         DontDestroyOnLoad(gameObject);
         currentScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
@@ -43,6 +44,7 @@ public class Loading : MonoBehaviour
 
     public void OnLoadingScreenSet()
     {
+        Debug.Log("3------Start Loading");
         nextLoad = LOAD_PART.LOADING_SCENE;
         if( OnStartChangingScene != null )
         {
@@ -52,6 +54,7 @@ public class Loading : MonoBehaviour
     }
     void OnSceneLoaded(Scene _scene, LoadSceneMode _load) //Llamada automatica por SceneManager
     {
+        Debug.Log("4--------Loading scene done");
         StartCoroutine(WaitOnLevelOLoaded());
     }
 
@@ -64,17 +67,19 @@ public class Loading : MonoBehaviour
             {
                 yield return new WaitForEndOfFrame();
             }
-
+            Debug.Log("5--------start unloading scene 1");
             SceneManager.UnloadSceneAsync(currentScene); //quitamos escena 1 y dejamos loading screen
         }
         else if (nextLoad == LOAD_PART.LOAD_NEXT)
         {
+            Debug.Log("7--------Unload scene 2 done");
             nextLoad = LOAD_PART.NONE;
             while (SceneManager.sceneCount < 2)
             {
                 yield return new WaitForEndOfFrame();
             }
             loadScreen.Play("LoadingAnimOut");
+            Debug.Log("8--------Remove loading screen");
             SceneManager.UnloadSceneAsync(loadingSceneName); //quitamos loading screen
         }
     }
@@ -83,6 +88,8 @@ public class Loading : MonoBehaviour
     {
         if (nextLoad != LOAD_PART.UNLOAD_SCENE)
             return;
+
+        Debug.Log("6--------Unload scene 1 done, load scene 2");
         nextLoad = LOAD_PART.LOAD_NEXT;
         SceneManager.sceneUnloaded -= OnSceneUnloaded;
         if (sceneToLoadNum >= 0)
@@ -97,6 +104,7 @@ public class Loading : MonoBehaviour
 
     public void OnLoadingScreenOff()
     {
+        Debug.Log("10--------End of process");
         Destroy(gameObject);
     }
 }
