@@ -59,5 +59,5 @@ public enum PLAYER_STATES
     DASHING,
     THROWBOX,
     MOVING_CAMERA,
-    TARGET_CAMERA,
+    TUTORIAL,
 }

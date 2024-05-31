@@ -18,8 +18,10 @@ public class Enemy : MonoBehaviour, Ikillable
     [SerializeField] private bool isLurkingToTheRight;
     private int changeDirectionTimer;
     private int randomTimer;
-    private float angle = 30;
     #endregion
+    private float actualfleeSpeed;
+    private float actualChasingSpeed;
+    private float actualAttackingSpeed;
     [SerializeField] private float chasingSpeed = default;
     [SerializeField] private float fleeSpeed;
     [SerializeField] private float attackingSpeed;
@@ -52,9 +54,23 @@ public class Enemy : MonoBehaviour, Ikillable
     }
     private void OnGameStateChange(GAME_STATE _newGameState)//Analyze the Game State type and makes differents behaviour
     {
-        CanMove = _newGameState == GAME_STATE.EXPLORATION;
-        if (!CanMove)
+        if (_newGameState == GAME_STATE.EXPLORATION)
         {
+            CanMove = true;
+            actualfleeSpeed = fleeSpeed;
+            actualAttackingSpeed = attackingSpeed;
+            actualChasingSpeed = chasingSpeed;
+        }
+        else if (_newGameState == GAME_STATE.TUTORIAL)
+        {
+            CanMove = true;
+            actualChasingSpeed /= 10f;
+            actualAttackingSpeed /= 10f;
+            actualfleeSpeed /= 10f;
+        }
+        else
+        {
+            CanMove = false;
             rb.velocity = Vector2.zero;
         }
     }
@@ -68,6 +84,9 @@ public class Enemy : MonoBehaviour, Ikillable
         SubscribeToGameManagerGameState();
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        actualfleeSpeed = fleeSpeed;
+        actualAttackingSpeed = attackingSpeed;
+        actualChasingSpeed = chasingSpeed;
     }
 
     void FixedUpdate()
@@ -350,7 +369,7 @@ public class Enemy : MonoBehaviour, Ikillable
          Vector3 result =  transform.position -  _target.position;
          */
         result.Normalize();
-        result *= attackingSpeed;
+        result *= actualAttackingSpeed;
         // transform.rotation = Quaternion.LookRotation(result);
         rb.velocity = result;
     }
@@ -361,10 +380,10 @@ public class Enemy : MonoBehaviour, Ikillable
         if (result.magnitude > satisfactionRadius) //Check if the distance is bigger than radiusLimit
         {
             result /= timeToTarget; // decrease the speed in relation to the time is target
-            if (result.magnitude > chasingSpeed)
+            if (result.magnitude > actualChasingSpeed)
             {
                 result.Normalize();
-                result *= chasingSpeed;
+                result *= actualChasingSpeed;
             }
             rb.velocity = result;
         }
@@ -372,7 +391,7 @@ public class Enemy : MonoBehaviour, Ikillable
         {
             // get out of the circle
             result = transform.position - targetTransform.position;
-            result *= fleeSpeed;
+            result *= actualfleeSpeed;
             rb.velocity = result;
         }
         else //lurking in circles
@@ -380,7 +399,7 @@ public class Enemy : MonoBehaviour, Ikillable
             Vector2 center = targetTransform.position;
             Vector2 direction = ((Vector2)transform.position - center).normalized;
             Vector2 desiredPosition = center + (direction * satisfactionRadius);
-            Vector2 velocity = (desiredPosition - (Vector2)transform.position).normalized * chasingSpeed;
+            Vector2 velocity = (desiredPosition - (Vector2)transform.position).normalized * actualChasingSpeed;
             if (!isLurkingToTheRight)
             {
                 rb.velocity = new Vector2(-direction.y, direction.x) * velocity.magnitude;

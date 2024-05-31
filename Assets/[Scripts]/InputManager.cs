@@ -1,8 +1,8 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
+using UnityEngine.InputSystem.Utilities;
 
 public class InputManager : MonoBehaviour
 {
@@ -50,6 +50,9 @@ public class InputManager : MonoBehaviour
             case GAME_STATE.LOADING:
                 DeactivateInput();
                 break;
+            case GAME_STATE.TUTORIAL:
+                playerControls.Gameplay.Pause.Disable();
+                break;
         }   
     }
     
@@ -72,8 +75,9 @@ public class InputManager : MonoBehaviour
             case PLAYER_STATES.RESPAWN:
                 DeactivatePause();
                 break;
-            
-                
+            case PLAYER_STATES.TUTORIAL:
+                DeactivatePause();
+                break;
         }   
     }
     
@@ -87,7 +91,7 @@ public class InputManager : MonoBehaviour
     
     [SerializeField] private InputActionReference actionReference;
 
-    private PlayerControls playerControls = default;
+    [HideInInspector] public PlayerControls playerControls = default;
     
     [Header("GameplayInputs")]
     private InputAction moveInput = default;
@@ -97,10 +101,12 @@ public class InputManager : MonoBehaviour
     private InputAction dashInput = default;
     private InputAction moveLightInput = default;
     private InputAction focusInput = default;
+    [HideInInspector] public InputAction tutorialInput = default;
     
 
     [Header("UIInputs")] 
     private InputAction nextUIInput = default;
+    public static IObservable<InputControl> onAnyButtonPress { get; }
 
     private InputAction backUIInput = default;
 
@@ -112,6 +118,7 @@ public class InputManager : MonoBehaviour
     private Vector2 vectorLightValue = default;
     private bool isPaused = false;
     private bool isHolding = false;
+    private bool anyButton = true;
 
     private void Awake()
     {
@@ -165,10 +172,17 @@ public class InputManager : MonoBehaviour
             
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        Debug.Log(GameManager.GetInstance().GetCurrentGameState());
-        Debug.Log(PlayerStates.GetInstance().GetCurrentPlayerState());
+        if (GameManager.GetInstance().GetCurrentGameState() == GAME_STATE.DEAD)
+        {
+            InputSystem.onAnyButtonPress.CallOnce(ctrl => anyButton = ctrl.IsPressed());
+        }
+        if (!anyButton)
+        {
+            LoadingManager.instance.LoadScene("MainMenu");
+            anyButton = true;
+        }
     }
 
     private void OnDisable()
@@ -182,7 +196,6 @@ public class InputManager : MonoBehaviour
     {
         if (GameManager.GetInstance().GetCurrentGameState() != GAME_STATE.EXPLORATION || GameManager.GetInstance().GetCurrentGameState() != GAME_STATE.PAUSE)
         {
-            Debug.Log(pauseInput.triggered);
             return pauseInput.triggered;
         }
 
@@ -228,7 +241,6 @@ public class InputManager : MonoBehaviour
 
     public bool DashInput()
     {
-        Debug.Log(dashInput.triggered);
         return dashInput.triggered;
     }
 
@@ -242,6 +254,11 @@ public class InputManager : MonoBehaviour
         return focusInput.triggered;
     }
 
+    public void ReturnAnyButton()
+    {
+        
+    }
+    
     public void SwitchControls(PlayerInput input)
     {
         currentControlScheme = input.currentControlScheme;
@@ -321,4 +338,10 @@ public class InputManager : MonoBehaviour
         playerControls.Gameplay.Disable();
     }
     
+}
+
+public enum ACTIVECONTROLSCHEME
+{
+    CONTROL,
+    KEYBOARD
 }

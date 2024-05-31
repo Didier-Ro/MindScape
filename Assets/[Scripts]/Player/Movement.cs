@@ -8,6 +8,7 @@ public class Movement : MonoBehaviour
     private bool canWatchTarget = true;
     public bool isMoving = true;
     [SerializeField] private float walkSpeed = 1.5f;
+    private float actualSpeed;
     [SerializeField] bool canInteract = false;
     [SerializeField] private bool isInteracting = false;
     [SerializeField] GameObject interactiveObject;
@@ -37,13 +38,22 @@ public class Movement : MonoBehaviour
     }
     private void OnGameStateChange(GAME_STATE _newGameState)//Analyze the Game State type and makes differents behaviour
     {
-       isMoving = _newGameState == GAME_STATE.EXPLORATION;
-       if (!isMoving)
-       {
-           rb.velocity = Vector2.zero;
-       }
+        if (_newGameState == GAME_STATE.EXPLORATION)
+        {
+            isMoving = true;
+            actualSpeed = walkSpeed;
+        }
+        else if (_newGameState == GAME_STATE.TUTORIAL)
+        {
+            isMoving = true;
+            actualSpeed /= 10f;
+        }
+        else
+        {
+            isMoving = false;
+            rb.velocity = Vector2.zero;
+        }
     }
-
     #endregion
 
 
@@ -66,16 +76,13 @@ public class Movement : MonoBehaviour
                 canMove = true;
                 canWatchTarget = true;
                 break;
-            case PLAYER_STATES.TARGET_CAMERA:
-                canMove = false;
-                canWatchTarget = true;
-                break;
             case PLAYER_STATES.MOVING_CAMERA:
                 canMove = false;
-                canWatchTarget = true;
+                canWatchTarget = false;
+                Invoke("ChangeToPlayer", 3f);
                 break;
-            case PLAYER_STATES.RESPAWN:
-                canMove= false;
+            case PLAYER_STATES.TUTORIAL:
+                canMove = false;
                 canWatchTarget = true;
                 break;
             default:
@@ -90,9 +97,9 @@ public class Movement : MonoBehaviour
     #endregion
     private void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         SubscribeToGameManagerGameState();
         SubscribeToPlayerGameState();
-        rb = GetComponent<Rigidbody2D>();
         DialogManager.GetInstance().OnCloseDialog += () =>
         {
             if (currentGamestate == GAME_STATE.READING)
@@ -101,6 +108,7 @@ public class Movement : MonoBehaviour
                 canInteract = true;
             }
         };
+        actualSpeed = walkSpeed;
     }
     
     void FixedUpdate()
@@ -120,33 +128,23 @@ public class Movement : MonoBehaviour
         {
             FocusNextTarget();
         }
-        if (PlayerStates.GetInstance().GetCurrentPlayerState() != PLAYER_STATES.MOVING_CAMERA)
-            return;
-        if (CameraManager.instance.HasCameraArrive(PlayerStates.GetInstance().gameObject))
-        {
-            //PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
-        }
-        else if(CameraManager.instance.HasCameraArrive(CameraManager.instance.targetPuzzle))
-        {
-            PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.TARGET_CAMERA);
-        }
     }
 
     private void FocusNextTarget()
     {
-        if (PlayerStates.GetInstance().GetCurrentPlayerState() == PLAYER_STATES.PLAY)
-        {
-            if (CameraManager.instance.targetPuzzle != null)
-            {
-                CameraManager.instance.ChangeCameraToAnObject(CameraManager.instance.targetPuzzle);
-            }
-            
-        }
-        else if(PlayerStates.GetInstance().GetCurrentPlayerState() == PLAYER_STATES.TARGET_CAMERA)
-        {
-            CameraManager.instance.ChangeCameraToThePlayer();
-        }
+        CameraManager.instance.ChangeCameraToAnObject(CameraManager.instance.targetPuzzle);
         PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.MOVING_CAMERA);
+    }
+
+    private void ChangeToPlayer()
+    {
+        CameraManager.instance.ChangeCameraToThePlayer();
+        Invoke("CanWatchTarget", 2f);
+    }
+
+    private void CanWatchTarget()
+    {
+        PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
     }
     
     /*public void CenterThePlayerToABox(Vector2 positionToMove)
@@ -211,7 +209,7 @@ public class Movement : MonoBehaviour
             animator.SetFloat("x", input.x);
             animator.SetFloat("y", input.y);
             animator.SetFloat("Speed", input.magnitude);
-            Vector2 movement = input.normalized * walkSpeed * Time.fixedDeltaTime;
+            Vector2 movement = input.normalized * actualSpeed * Time.fixedDeltaTime;
             rb.MovePosition(rb.position + movement);
             timeSinceLastStep += Time.fixedDeltaTime;
             if (timeSinceLastStep > stepDelay)

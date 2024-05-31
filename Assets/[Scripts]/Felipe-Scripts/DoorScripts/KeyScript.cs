@@ -4,6 +4,7 @@ public class KeyScript : MonoBehaviour
 {
     public GameObject doorContainer;
     public GameObject UIindicator;
+    public Vector2 checkpointPosition;
     public int conditionId = 6;
     public SoundLibrary soundLibrary;
     public GameObject particlePrefab;
@@ -13,6 +14,10 @@ public class KeyScript : MonoBehaviour
         if (!GameManager.GetInstance().IsConditionCompleted(conditionId))
         {
             gameObject.SetActive(false);
+        }
+        else
+        {
+            UIindicator.SetActive(true);
         }
     }
 
@@ -58,7 +63,10 @@ public class KeyScript : MonoBehaviour
 
     private void OnDestroy()
     {
+        CheckpointManager.AddCheckpointPosition(checkpointPosition);
+        GameManager.GetInstance().SavePlayerPosition(checkpointPosition); 
         GameManager.GetInstance().MarkConditionCompleted(conditionId);
+        GameManager.GetInstance().SaveAllData();
         UIindicator.SetActive(true);
     }
 }

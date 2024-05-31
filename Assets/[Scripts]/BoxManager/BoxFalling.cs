@@ -11,6 +11,8 @@ public class BoxFalling : MonoBehaviour
     [Tooltip("If the box is SINGLE, then there is no need to reference DetectorManager.")]
     [SerializeField] private TYPE_BOX type_Box;
     [SerializeField] private OverlapBoxDetectorManager overlayBoxDetectorManager;
+    [Tooltip("No poner nada, solo si necesitas el tutorial")]
+    public GameObject tutorial;
     
 
     public BOX_STATE boxState = BOX_STATE.IDLE;
@@ -125,6 +127,11 @@ public class BoxFalling : MonoBehaviour
             if (particle != null)
             {
                 particle.SetActive(true);
+            }
+
+            if (tutorial != null)
+            {
+                tutorial.SetActive(true);
             }
             PlayRandomImpactSound();
             box.transform.position = finalPoint;
