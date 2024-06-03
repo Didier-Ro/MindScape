@@ -54,9 +54,9 @@ public class DialogCutscene : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(InputManager.GetInstance().ReturnControlScheme(currentControlScheme));
         if (chatboxActive)
         {
+            InputManager.GetInstance().playerControls.Reading.Enable();
             if (InputManager.GetInstance().NextInput())
             {
                 background.SetActive(false);
