@@ -15,6 +15,7 @@ public class KeyScript : MonoBehaviour
         }
         else
         {
+            gameObject.SetActive(false);
             UIindicator.SetActive(true);
         }
     }
