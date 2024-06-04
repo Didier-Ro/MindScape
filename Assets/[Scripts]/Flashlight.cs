@@ -75,8 +75,8 @@ public class Flashlight : MonoBehaviour
     void Start()
     {
         GameManager.GetInstance().GetFlashlightReferecen(this);
-        SubscribeToGameManagerGameState();
         InitializeFlashlight();
+        SubscribeToGameManagerGameState();
         LightSetUp();
         angleRange = minPointLightOuterAngle / 2;
         if (audioSource == null)
@@ -463,7 +463,7 @@ public class Flashlight : MonoBehaviour
         {
             // Detener el sonido concentrado si est� activo
             StopConcentratedSound();
-
+            currentSliderValue = 0;
             // Reproducir el sonido de apagado de la linterna si la linterna est� encendida
             if (flashlight.gameObject.activeSelf)
             {

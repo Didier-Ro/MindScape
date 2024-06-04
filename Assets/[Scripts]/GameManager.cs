@@ -44,29 +44,30 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        Application.targetFrameRate = 60;
         if (!isCinematic)
         {
             LoadingData(GAME_STATE.EXPLORATION);
         }
+        Application.targetFrameRate = 60;
     }
 
     private void LoadingData(GAME_STATE finalState)
     {
         ChangeGameState(GAME_STATE.LOADING);
-        ResetAll();
-        LoadAllData();
         GetCurrentLevel();
         GetPercentageOfAllGamesCompleted();
         ReturnTimePlayed();
         ChangeGameState(finalState);
+        if (stageConditions == null)
+        {
+            LoadCurrentGameData(PlayerPrefs.GetInt("GameNumber", 1)); 
+        }
     }
     
     private void Update()
     {
         if (InputManager.GetInstance().FlashligthInput())
         {
-
            ToggleFlash();
             if (isFlashing)
             {
