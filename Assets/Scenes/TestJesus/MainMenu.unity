@@ -6068,9 +6068,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1697578723}
-        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
-        m_MethodName: EnterAnimation
+      - m_Target: {fileID: 239286898}
+        m_TargetAssemblyTypeName: ChangeGame, Assembly-CSharp
+        m_MethodName: GetDataInUI
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6080,9 +6080,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 239286898}
-        m_TargetAssemblyTypeName: ChangeGame, Assembly-CSharp
-        m_MethodName: GetDataInUI
+      - m_Target: {fileID: 1697578723}
+        m_TargetAssemblyTypeName: MainMenuController, Assembly-CSharp
+        m_MethodName: EnterAnimation
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

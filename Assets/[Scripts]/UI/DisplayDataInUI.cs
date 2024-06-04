@@ -12,7 +12,7 @@ public class DisplayDataInUI : MonoBehaviour
     public TMP_Text currentTimePlayedText;
     public int index;
 
-    private void Start()
+    private void OnEnable()
     {
         // Verificar si hay al menos un elemento en el arreglo
         if (displayData.percentageOfGameCompleted.Count > 0)

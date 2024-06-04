@@ -72,6 +72,7 @@ public class ChangeGame : MonoBehaviour
          
       }
       SaveAllData();
+      GetDataInUI();
    }
 
    private string RestartAllGamesToNewGames()
