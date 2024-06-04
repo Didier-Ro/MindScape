@@ -46,9 +46,14 @@ public class FuelRegenerationZone : MonoBehaviour, Istepable
             if (InputManager.GetInstance().InteractInput())
             {
                 // Set the slider value to the regeneration value
-                Flashlight.GetInstance().currentSliderValue = regenerationValue;
+             
             }
         }
+    }
+
+    public void Reload()
+    {
+        Flashlight.GetInstance().currentSliderValue = regenerationValue;
     }
 
     public void Activate()
