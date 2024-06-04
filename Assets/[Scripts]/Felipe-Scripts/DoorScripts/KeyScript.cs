@@ -17,6 +17,7 @@ public class KeyScript : MonoBehaviour
         }
         else
         {
+            gameObject.SetActive(false);
             UIindicator.SetActive(true);
         }
     }
@@ -25,13 +26,17 @@ public class KeyScript : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log(other.gameObject);
+            CheckpointManager.AddCheckpointPosition(checkpointPosition);
+            GameManager.GetInstance().SavePlayerPosition(checkpointPosition); 
+            GameManager.GetInstance().MarkConditionCompleted(conditionId);
+            GameManager.GetInstance().SaveAllData();
+            UIindicator.SetActive(true);
             if (doorContainer != null)
             {
                 DoorScript doorScript = doorContainer.GetComponent<DoorScript>();
                 if (doorScript != null)
                 {
-                    UIindicator.SetActive(true);
+                   
                 }
                 else
                 {
@@ -63,10 +68,6 @@ public class KeyScript : MonoBehaviour
 
     private void OnDestroy()
     {
-        CheckpointManager.AddCheckpointPosition(checkpointPosition);
-        GameManager.GetInstance().SavePlayerPosition(checkpointPosition); 
-        GameManager.GetInstance().MarkConditionCompleted(conditionId);
-        GameManager.GetInstance().SaveAllData();
-        UIindicator.SetActive(true);
+        
     }
 }
