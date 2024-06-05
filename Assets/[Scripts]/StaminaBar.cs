@@ -4,12 +4,12 @@ using System.Collections;
 
 public class StaminaBar : MonoBehaviour
 {
-    public Image[] dashImages; // Imágenes de la bota iluminada.
-    public Image[] greyDashImages; // Imágenes de la bota gris.
+    public Image[] dashImages;
+    public Image[] greyDashImages;
     public float regenSpeed = 1f;
     public float delayBeforeRefill = 2f;
     public float maxStamina = 100f;
-    public float dashStaminaCost = 50f; // La cantidad de stamina que cuesta cada dash.
+    public float dashStaminaCost = 50f;
     private float currentStamina;
     private int currentDashIndex;
     private bool isRegenerating;
@@ -96,7 +96,7 @@ public class StaminaBar : MonoBehaviour
             {
                 dashImages[i].enabled = false;
             }
-            greyDashImages[i].enabled = true; // Siempre visibles
+            greyDashImages[i].enabled = true;
         }
     }
 

@@ -49,7 +49,6 @@ public class GoalAnimEvent : MonoBehaviour
 
         PlayObjectBreakSound();
 
-        // Desactivar los objetos
         doorToUnlock.SetActive(false);
         gameObject.SetActive(false);
     }

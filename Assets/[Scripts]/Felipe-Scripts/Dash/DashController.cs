@@ -136,7 +136,6 @@ public class DashController : MonoBehaviour
 
     private bool CanPerformDash()
     {
-        // Verificar si al menos una de las dos imágenes de las botas tiene fillAmount mayor que cero
         foreach (Image image in staminaBar.dashImages)
         {
             if (image.fillAmount > 0)
