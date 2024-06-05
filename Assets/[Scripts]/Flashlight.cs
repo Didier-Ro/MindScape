@@ -76,6 +76,7 @@ public class Flashlight : MonoBehaviour
         if (GameManager.GetInstance().flashlight == null)
         {
             GameManager.GetInstance().GetFlashlightReferecen(this);
+            SetFlashlightEnergy();
         }
         InitializeFlashlight();
         SubscribeToGameManagerGameState();
