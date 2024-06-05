@@ -26,9 +26,10 @@ public class KeyScript : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            Debug.Log("funciona");
+            GameManager.GetInstance().MarkConditionCompleted(conditionId);
             CheckpointManager.AddCheckpointPosition(checkpointPosition);
             GameManager.GetInstance().SavePlayerPosition(checkpointPosition); 
-            GameManager.GetInstance().MarkConditionCompleted(conditionId);
             GameManager.GetInstance().SaveAllData();
             UIindicator.SetActive(true);
             if (doorContainer != null)
@@ -61,13 +62,11 @@ public class KeyScript : MonoBehaviour
                 GameObject particle = Instantiate(particlePrefab, transform.position, Quaternion.identity);
                 Destroy(particle, 2f);
             }
+            Destroy(gameObject);
         }
-
-        Destroy(gameObject);
     }
 
     private void OnDestroy()
     {
-        
     }
 }
