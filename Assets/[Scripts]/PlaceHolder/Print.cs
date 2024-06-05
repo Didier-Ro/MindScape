@@ -1,19 +1,25 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class Print : MonoBehaviour
 {
-   public TextMeshProUGUI text;
-   public WorldCondition si;
+   private TextMeshProUGUI text;
+   public bool GameManagerExist = true;
+   private WorldCondition si;
    private void Start()
    {
       text = GetComponent<TextMeshProUGUI>();
-      si = GameManager.GetInstance().GetActualCondition();
-      GameManager.GetInstance().OnConditionCompleted += ChangingCondition;
-      ChangingCondition(0);
+      if (GameManagerExist)
+      {
+         si = GameManager.GetInstance().GetActualCondition();
+         GameManager.GetInstance().OnConditionCompleted += ChangingCondition;
+         ChangingCondition(0);
+      }
+   }
+
+   public void MostrarElTexto(string texto)
+   {
+      text.text = texto;
    }
 
    private void ChangingCondition(int condition)

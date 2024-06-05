@@ -9,6 +9,7 @@ public class ChangeGame : MonoBehaviour
    [SerializeField] private string[] levelScenes;
    [SerializeField] private int[] conditionsIds;
    public List<int> currentLevel = new List<int>();
+   public Print print;
    public List<int> percentageOfGameCompleted = new List<int>();
    public List<int> gamesTimePlayed = new List<int>();
   
@@ -27,6 +28,7 @@ public class ChangeGame : MonoBehaviour
       GetPercentageOfAllGamesCompleted();
       ReturnTimePlayed();
    }
+   
 
     private void GetPercentageOfAllGamesCompleted()
    {
@@ -87,6 +89,7 @@ public class ChangeGame : MonoBehaviour
       {
          dataToSave += allConditions[i].RestartDataToANewGame() + "*";
       }
+      Debug.Log(dataToSave);
       return dataToSave;
    }
    
@@ -97,7 +100,10 @@ public class ChangeGame : MonoBehaviour
       {
          dataToSave += allConditions[i].SaveData() + "*";
       }
+      print.MostrarElTexto(dataToSave);
+      Debug.Log("se guardo " + dataToSave);
       PlayerPrefs.SetString("alldata", dataToSave);
+      PlayerPrefs.Save();
    }
    private void LoadAllData()
    {

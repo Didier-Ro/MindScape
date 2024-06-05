@@ -48,6 +48,16 @@ public class GameManager : MonoBehaviour
         {
             LoadingData(GAME_STATE.EXPLORATION);
         }
+        else
+        {
+            foreach (var stageCondition in allConditions)
+            {
+                if (stageCondition.nGame == PlayerPrefs.GetInt("GameNumber", 1))
+                {
+                    stageConditions = stageCondition.GetNumOfGame();
+                }
+            }
+        }
         Application.targetFrameRate = 60;
     }
 
@@ -242,6 +252,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Se guardaron los datos");
         Debug.Log(dataToSave);
         PlayerPrefs.SetString("alldata", dataToSave);
+        PlayerPrefs.Save();
     }
 
     private void ResetAll()
