@@ -68,13 +68,15 @@ public class Flashlight : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.GetInstance().GetFlashlightReferecen(this);
+        if (GameManager.GetInstance().flashlight == null)
+        {
+            GameManager.GetInstance().GetFlashlightReferecen(this);
+        }
         InitializeFlashlight();
         SubscribeToGameManagerGameState();
         LightSetUp();
