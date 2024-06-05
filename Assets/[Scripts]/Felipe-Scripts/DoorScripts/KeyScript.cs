@@ -6,12 +6,14 @@ public class KeyScript : MonoBehaviour
     public GameObject UIindicator;
     public Vector2 checkpointPosition;
     public int conditionId = 6;
+    public SoundLibrary soundLibrary;
+    public GameObject particlePrefab;
 
     private void Start()
     {
         if (!GameManager.GetInstance().IsConditionCompleted(conditionId))
         {
-           gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
         else
         {
@@ -39,17 +41,30 @@ public class KeyScript : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogError("No se encontr� el script de DoorScript en el GameObject contenedor.");
+                    Debug.LogError("No se encontró el script de DoorScript en el GameObject contenedor.");
                 }
             }
             else
             {
-                Debug.LogError("No se asign� ning�n GameObject contenedor en el Inspector.");
+                Debug.LogError("No se asignó ningún GameObject contenedor en el Inspector.");
+            }
+
+            if (soundLibrary != null)
+            {
+                AudioClip keySound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.KEYS);
+                if (keySound != null)
+                {
+                    AudioSource.PlayClipAtPoint(keySound, transform.position);
+                }
+            }
+            if (particlePrefab != null)
+            {
+                GameObject particle = Instantiate(particlePrefab, transform.position, Quaternion.identity);
+                Destroy(particle, 2f);
             }
             Destroy(gameObject);
         }
     }
-
 
     private void OnDestroy()
     {
