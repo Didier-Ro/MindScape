@@ -13,6 +13,7 @@ public class Print : MonoBehaviour
       text = GetComponent<TextMeshProUGUI>();
       si = GameManager.GetInstance().GetActualCondition();
       GameManager.GetInstance().OnConditionCompleted += ChangingCondition;
+      ChangingCondition(0);
    }
 
    private void ChangingCondition(int condition)
@@ -23,9 +24,5 @@ public class Print : MonoBehaviour
       text.text = resultString;
    }
   
-
-   private void Update()
-   {
-      
-   }
+   
 }
