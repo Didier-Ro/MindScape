@@ -4,28 +4,21 @@ using System.Collections;
 
 public class StaminaBar : MonoBehaviour
 {
-    public Slider slider; // Si todavía quieres mantener el slider por algún motivo
     public Image[] dashImages; // Imágenes de la bota iluminada.
     public Image[] greyDashImages; // Imágenes de la bota gris.
     public float regenSpeed = 1f;
     public float delayBeforeRefill = 2f;
     public float maxStamina = 100f;
-    public int dashCount = 2; // Número de dashes disponibles.
+    public float dashStaminaCost = 50f; // La cantidad de stamina que cuesta cada dash.
     private float currentStamina;
-    private int currentDashCount;
+    private int currentDashIndex;
     private bool isRegenerating;
 
     private void Start()
     {
         currentStamina = maxStamina;
-        currentDashCount = dashCount;
+        currentDashIndex = dashImages.Length - 1;
         UpdateDashImages();
-
-        if (slider != null)
-        {
-            slider.maxValue = maxStamina;
-            slider.value = currentStamina;
-        }
     }
 
     private void Update()
@@ -43,35 +36,41 @@ public class StaminaBar : MonoBehaviour
             currentStamina += regenSpeed * Time.deltaTime;
             currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
 
-            if (slider != null)
-            {
-                slider.value = currentStamina;
-            }
+            float dashThreshold = maxStamina / dashImages.Length;
+            int newDashIndex = Mathf.FloorToInt(currentStamina / dashThreshold);
 
-            if (currentStamina == maxStamina)
+            if (newDashIndex > currentDashIndex)
             {
-                currentDashCount = dashCount;
-                isRegenerating = false;
+                currentDashIndex = newDashIndex;
                 UpdateDashImages();
             }
+
+            if (currentDashIndex >= 0 && currentDashIndex < dashImages.Length)
+            {
+                float fillAmount = (currentStamina % dashThreshold) / dashThreshold;
+                dashImages[currentDashIndex].fillAmount = fillAmount;
+            }
+        }
+        else
+        {
+            isRegenerating = false;
         }
     }
 
     public void UseStamina(float amount)
     {
-        if (currentDashCount > 0)
+        if (currentDashIndex >= 0)
         {
             currentStamina -= amount;
             currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
-            currentDashCount--;
+            if (currentDashIndex < dashImages.Length)
+            {
+                dashImages[currentDashIndex].fillAmount = 0f;
+            }
+            currentDashIndex--;
             UpdateDashImages();
 
-            if (slider != null)
-            {
-                slider.value = currentStamina;
-            }
-
-            if (currentDashCount == 0)
+            if (!isRegenerating)
             {
                 StartCoroutine(RefillStaminaAfterDelay());
             }
@@ -86,28 +85,24 @@ public class StaminaBar : MonoBehaviour
 
     private void UpdateDashImages()
     {
-        for (int i = 0; i < dashCount; i++)
+        for (int i = 0; i < dashImages.Length; i++)
         {
-            if (i < currentDashCount)
+            if (i <= currentDashIndex)
             {
+                dashImages[i].fillAmount = 1f;
                 dashImages[i].enabled = true;
-                greyDashImages[i].enabled = false;
             }
             else
             {
                 dashImages[i].enabled = false;
-                greyDashImages[i].enabled = true;
             }
+            greyDashImages[i].enabled = true; // Siempre visibles
         }
     }
 
     public void SetMaxStamina(float stamina)
     {
         maxStamina = stamina;
-        if (slider != null)
-        {
-            slider.maxValue = stamina;
-        }
         currentStamina = stamina;
         UpdateDashImages();
     }
@@ -116,10 +111,6 @@ public class StaminaBar : MonoBehaviour
     {
         currentStamina = stamina;
         currentStamina = Mathf.Clamp(currentStamina, 0f, maxStamina);
-        if (slider != null)
-        {
-            slider.value = currentStamina;
-        }
         UpdateDashImages();
     }
 

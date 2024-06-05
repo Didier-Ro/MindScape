@@ -38,7 +38,7 @@ public class DashController : MonoBehaviour
 
     private void FixedUpdate()
     {
-
+        
     }
 
     private IEnumerator PerformDash(bool isPassingHole)
