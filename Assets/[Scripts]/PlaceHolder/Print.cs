@@ -7,14 +7,22 @@ using UnityEngine;
 public class Print : MonoBehaviour
 {
    public TextMeshProUGUI text;
-
+   public WorldCondition si;
    private void Start()
    {
       text = GetComponent<TextMeshProUGUI>();
+      si = GameManager.GetInstance().GetActualCondition();
+      GameManager.GetInstance().OnConditionCompleted += ChangingCondition;
+      ChangingCondition(0);
    }
 
-   private void Update()
+   private void ChangingCondition(int condition)
    {
-     // text.text = GameManager.GetInstance().
+      string s = si.GetConditions();
+      char charToRemove = '/';
+      string resultString = s.Replace(charToRemove.ToString(), "");
+      text.text = resultString;
    }
+  
+   
 }
