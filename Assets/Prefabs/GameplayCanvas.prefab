@@ -4718,6 +4718,7 @@ GameObject:
   - component: {fileID: 3329499379950965816}
   - component: {fileID: 6273315074790027831}
   - component: {fileID: 4349028326168867871}
+  - component: {fileID: 4496497608842362281}
   m_Layer: 5
   m_Name: SI
   m_TagString: Untagged
@@ -4839,6 +4840,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4496497608842362281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2824352669197111309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b646fb8bca5c56489f16510cc023056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventSystem: {fileID: 0}
 --- !u!1 &2852927858106614552
 GameObject:
   m_ObjectHideFlags: 0
@@ -7072,7 +7086,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 108877042554351938}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: 
+        m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7082,17 +7096,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4349676576292517249}
+      - m_Target: {fileID: 1486074268759892954}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: 
-        m_Mode: 1
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &342488370744395710
 MonoBehaviour:
@@ -10539,6 +10553,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7206173131261263814}
   - component: {fileID: 4765314372100718205}
+  - component: {fileID: 3923722758699080693}
   m_Layer: 5
   m_Name: Slider
   m_TagString: Untagged
@@ -10631,6 +10646,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3923722758699080693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6273348298211537156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b646fb8bca5c56489f16510cc023056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventSystem: {fileID: 0}
 --- !u!1 &6385879310452349457
 GameObject:
   m_ObjectHideFlags: 0
