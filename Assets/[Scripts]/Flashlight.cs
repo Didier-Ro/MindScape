@@ -68,15 +68,17 @@ public class Flashlight : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.GetInstance().GetFlashlightReferecen(this);
-        SubscribeToGameManagerGameState();
+        if (GameManager.GetInstance().flashlight == null)
+        {
+            GameManager.GetInstance().GetFlashlightReferecen(this);
+        }
         InitializeFlashlight();
+        SubscribeToGameManagerGameState();
         LightSetUp();
         angleRange = minPointLightOuterAngle / 2;
         if (audioSource == null)
@@ -463,7 +465,7 @@ public class Flashlight : MonoBehaviour
         {
             // Detener el sonido concentrado si est� activo
             StopConcentratedSound();
-
+            currentSliderValue = 0;
             // Reproducir el sonido de apagado de la linterna si la linterna est� encendida
             if (flashlight.gameObject.activeSelf)
             {

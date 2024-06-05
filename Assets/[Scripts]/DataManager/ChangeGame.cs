@@ -17,14 +17,20 @@ public class ChangeGame : MonoBehaviour
    { 
       ResetAll();
       LoadAllData();
+      Application.targetFrameRate = 60;
+      GetDataInUI();
+   }
+
+   public void GetDataInUI()
+   {
       GetCurrentLevel();
       GetPercentageOfAllGamesCompleted();
       ReturnTimePlayed();
-      Application.targetFrameRate = 60;
    }
 
     private void GetPercentageOfAllGamesCompleted()
    {
+      percentageOfGameCompleted.Clear();
       foreach (var condition in allConditions)
       {
          percentageOfGameCompleted.Add(condition.GetPercentageOfGameCompleted());
@@ -33,6 +39,7 @@ public class ChangeGame : MonoBehaviour
 
    private void ReturnTimePlayed()
    {
+      gamesTimePlayed.Clear();
       foreach (var conditions in allConditions)
       {
          gamesTimePlayed.Add(conditions.timePlayed);  
@@ -53,16 +60,19 @@ public class ChangeGame : MonoBehaviour
       }
    }
 
-   private void RestartANewGameData(int _gameToRestart)
+   public void RestartANewGameData(int _gameToRestart)
    {
       foreach (var stageCondition in allConditions)
       {
          if (stageCondition.nGame == _gameToRestart)
          {
-            stageCondition.RestartDataToANewGame();
+            Debug.Log("se reinicio");
+            stageCondition.ResetData();
          }
+         
       }
       SaveAllData();
+      GetDataInUI();
    }
 
    private string RestartAllGamesToNewGames()
@@ -111,6 +121,7 @@ public class ChangeGame : MonoBehaviour
 
    private void GetCurrentLevel()
    {
+      currentLevel.Clear();
       for (int i = 0; i < allConditions.Length; i++)
       { 
          currentLevel.Add(0);

@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Light2D flashlightReference;
     [SerializeField] private Material shadowMaterialReference;
 
-    [SerializeField] private Flashlight flashlight;
+    public Flashlight flashlight;
 
     public bool isCinematic =false;
 
@@ -44,18 +44,24 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        Application.targetFrameRate = 60;
         if (!isCinematic)
         {
             LoadingData(GAME_STATE.EXPLORATION);
         }
+        Application.targetFrameRate = 60;
     }
 
     private void LoadingData(GAME_STATE finalState)
     {
+        if (stageConditions == null)
+        {
+            LoadCurrentGameData(PlayerPrefs.GetInt("GameNumber", 1)); 
+        }
+        if (flashlight != null)
+        {
+            flashlight.SetFlashlightEnergy();
+        }
         ChangeGameState(GAME_STATE.LOADING);
-        ResetAll();
-        LoadAllData();
         GetCurrentLevel();
         GetPercentageOfAllGamesCompleted();
         ReturnTimePlayed();
@@ -66,7 +72,6 @@ public class GameManager : MonoBehaviour
     {
         if (InputManager.GetInstance().FlashligthInput())
         {
-
            ToggleFlash();
             if (isFlashing)
             {

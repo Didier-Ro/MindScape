@@ -6,15 +6,18 @@ public class KeyScript : MonoBehaviour
     public GameObject UIindicator;
     public Vector2 checkpointPosition;
     public int conditionId = 6;
+    public SoundLibrary soundLibrary;
+    public GameObject particlePrefab;
 
     private void Start()
     {
         if (!GameManager.GetInstance().IsConditionCompleted(conditionId))
         {
-           gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
         else
         {
+            gameObject.SetActive(false);
             UIindicator.SetActive(true);
         }
     }
@@ -23,35 +26,47 @@ public class KeyScript : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log(other.gameObject);
+            Debug.Log("funciona");
+            GameManager.GetInstance().MarkConditionCompleted(conditionId);
+            CheckpointManager.AddCheckpointPosition(checkpointPosition);
+            GameManager.GetInstance().SavePlayerPosition(checkpointPosition); 
+            GameManager.GetInstance().SaveAllData();
+            UIindicator.SetActive(true);
             if (doorContainer != null)
             {
                 DoorScript doorScript = doorContainer.GetComponent<DoorScript>();
                 if (doorScript != null)
                 {
-                    UIindicator.SetActive(true);
+                   
                 }
                 else
                 {
-                    Debug.LogError("No se encontr� el script de DoorScript en el GameObject contenedor.");
+                    Debug.LogError("No se encontró el script de DoorScript en el GameObject contenedor.");
                 }
             }
             else
             {
-                Debug.LogError("No se asign� ning�n GameObject contenedor en el Inspector.");
+                Debug.LogError("No se asignó ningún GameObject contenedor en el Inspector.");
             }
+
+            if (soundLibrary != null)
+            {
+                AudioClip keySound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.KEYS);
+                if (keySound != null)
+                {
+                    AudioSource.PlayClipAtPoint(keySound, transform.position);
+                }
+            }
+            if (particlePrefab != null)
+            {
+                GameObject particle = Instantiate(particlePrefab, transform.position, Quaternion.identity);
+                Destroy(particle, 2f);
+            }
+            Destroy(gameObject);
         }
-
-        Destroy(gameObject);
     }
-
 
     private void OnDestroy()
     {
-        CheckpointManager.AddCheckpointPosition(checkpointPosition);
-        GameManager.GetInstance().SavePlayerPosition(checkpointPosition); 
-        GameManager.GetInstance().MarkConditionCompleted(conditionId);
-        GameManager.GetInstance().SaveAllData();
-        UIindicator.SetActive(true);
     }
 }

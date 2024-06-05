@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,8 +7,13 @@ public class FuelRegenerationZone : MonoBehaviour, Istepable
     [SerializeField] private Slider slider;
     [SerializeField] private float regenerationValue = 100f;
     [SerializeField] private GameObject interactInstruction = null;
-
+    private Animator _animator;
     public bool isInside = false;
+
+    private void Start()
+    {
+        _animator = GetComponent<Animator>();
+    }
 
     private void Update()
     {
@@ -40,13 +46,19 @@ public class FuelRegenerationZone : MonoBehaviour, Istepable
             if (InputManager.GetInstance().InteractInput())
             {
                 // Set the slider value to the regeneration value
-                Flashlight.GetInstance().currentSliderValue = regenerationValue;
+             
             }
         }
     }
 
+    public void Reload()
+    {
+        Flashlight.GetInstance().currentSliderValue = regenerationValue;
+    }
+
     public void Activate()
     {
+        _animator.SetTrigger("Recharge");
         isInside = true;
         interactInstruction.SetActive(true);
         Flashlight.GetInstance().ReduceSliderValue(0f);
@@ -54,6 +66,7 @@ public class FuelRegenerationZone : MonoBehaviour, Istepable
 
     public void Deactivate()
     {
+        _animator.SetTrigger("Unrecharge");
         isInside = false;
         interactInstruction.SetActive(false);
         Flashlight.GetInstance().ReduceSliderValue(0.01f);

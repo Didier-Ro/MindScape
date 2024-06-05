@@ -13,11 +13,11 @@ public class Movement : MonoBehaviour
     [SerializeField] private bool isInteracting = false;
     [SerializeField] GameObject interactiveObject;
     private bool isSuscribed = true;
-    private float timeSinceLastStep = 0f; // Tiempo transcurrido desde el último paso
-    private float stepDelay = 0.5f; // Retraso entre pasos en segundos
+    private float timeSinceLastStep = 0f;
+    private float stepDelay = 0.5f;
 
     #region CenterPlayerToABox
-    private bool isThePlayerCenterToTheBox;   
+    private bool isThePlayerCenterToTheBox;
     private bool isMovingToCenterOfTheBox = false;
     private Vector2 positionToCenterThePlayer;
     #endregion
@@ -28,6 +28,9 @@ public class Movement : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     public Rigidbody2D Rb { get { return rb; } }
     [SerializeField] private SoundLibrary soundLibrary;
+
+    // Nueva referencia al punto de los pies
+    [SerializeField] private Transform feetPosition;
 
     #region SubscriptionToGameManager
     private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
@@ -58,7 +61,7 @@ public class Movement : MonoBehaviour
 
 
     #region SubscriptionToPlayerStates
-    
+
     private void SubscribeToPlayerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
     {
         if (PlayerStates.GetInstance() != null)
@@ -67,7 +70,7 @@ public class Movement : MonoBehaviour
             OnPlayerStateChange(PlayerStates.GetInstance().GetCurrentPlayerState());
         }
     }
-    
+
     private void OnPlayerStateChange(PLAYER_STATES _newPlayerState)
     {
         switch (_newPlayerState)
@@ -92,7 +95,7 @@ public class Movement : MonoBehaviour
         }
     }
 
-    
+
 
     #endregion
     private void Start()
@@ -110,7 +113,7 @@ public class Movement : MonoBehaviour
         };
         actualSpeed = walkSpeed;
     }
-    
+
     void FixedUpdate()
     {
         input = InputManager.GetInstance().MovementInput();
@@ -146,7 +149,7 @@ public class Movement : MonoBehaviour
     {
         PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
     }
-    
+
     /*public void CenterThePlayerToABox(Vector2 positionToMove)
     {
         positionToCenterThePlayer = positionToMove;
@@ -184,7 +187,7 @@ public class Movement : MonoBehaviour
         }
         if (other.GetComponent<ActivateZone>())
         {
-                interactiveObject = other.gameObject;
+            interactiveObject = other.gameObject;
             _activateZone = interactiveObject.GetComponent<ActivateZone>();
         }
     }
@@ -197,10 +200,10 @@ public class Movement : MonoBehaviour
             canInteract = false;
             isInteracting = false;
         }
-       
+
     }
 
-    private bool isPlayingSound = false; // Variable para controlar si se está reproduciendo un sonido
+    private bool isPlayingSound = false;
 
     void HandleMovementInput()
     {
@@ -211,37 +214,39 @@ public class Movement : MonoBehaviour
             animator.SetFloat("Speed", input.magnitude);
             Vector2 movement = input.normalized * actualSpeed * Time.fixedDeltaTime;
             rb.MovePosition(rb.position + movement);
-            timeSinceLastStep += Time.fixedDeltaTime;
-            if (timeSinceLastStep > stepDelay)
-            {
-                GameObject particle = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Pasos, rb.position, Vector3.zero);
-                ParticleSystem particleSystem = particle.GetComponent<ParticleSystem>();
-                if (particleSystem != null)
-                {
-                    particleSystem.Play();
-                }
-                timeSinceLastStep = 0f;
 
-                // Reproducir el sonido LAMP_JIGGLE si no se está reproduciendo actualmente
-                if (!isPlayingSound && soundLibrary != null)
+            // Verificar si el personaje est� en movimiento
+            if (input.magnitude > 0)
+            {
+                timeSinceLastStep += Time.fixedDeltaTime;
+                if (timeSinceLastStep > stepDelay)
                 {
-                    AudioClip jiggleSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.LAMP_JIGGLE);
-                    if (jiggleSound != null)
+                    GameObject particle = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Pasos, feetPosition.position, Vector3.zero);
+                    ParticleSystem particleSystem = particle.GetComponent<ParticleSystem>();
+                    if (particleSystem != null)
                     {
-                        isPlayingSound = true; // Marcar que se está reproduciendo un sonido
-                        AudioSource.PlayClipAtPoint(jiggleSound, transform.position, 1f);
-                        StartCoroutine(ResetSoundFlag(jiggleSound.length)); // Restablecer la bandera después de que termine el sonido
+                        particleSystem.Play();
+                    }
+                    timeSinceLastStep = 0f;
+
+                    if (!isPlayingSound && soundLibrary != null)
+                    {
+                        AudioClip jiggleSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.LAMP_JIGGLE);
+                        if (jiggleSound != null)
+                        {
+                            isPlayingSound = true;
+                            AudioSource.PlayClipAtPoint(jiggleSound, transform.position, 5f);
+                            StartCoroutine(ResetSoundFlag(jiggleSound.length));
+                        }
                     }
                 }
             }
         }
     }
 
-    // Corrutina para restablecer la bandera después de que termine el sonido
     private IEnumerator ResetSoundFlag(float soundLength)
     {
         yield return new WaitForSeconds(soundLength);
-        isPlayingSound = false; // Restablecer la bandera
+        isPlayingSound = false;
     }
 }
-
