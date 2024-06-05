@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DashController : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class DashController : MonoBehaviour
     public float wallCheckDistance = 0.1f;
     private float lastDashTime = 0f;
     private Vector2 dashDirection;
+    private GAME_STATE currentGamestate = default;
     private bool isDashing = false;
 
     private Movement movementScript;
@@ -28,23 +30,22 @@ public class DashController : MonoBehaviour
     {
         if (InputManager.GetInstance().DashInput() && Time.time > lastDashTime + dashCooldown)
         {
-            if (!IsTouchingWall())
+            if (!IsTouchingWall() && CanPerformDash())
             {
                 AttemptDash();
             }
         }
     }
 
+    private void FixedUpdate()
+    {
+
+    }
+
     private IEnumerator PerformDash(bool isPassingHole)
     {
         isDashing = true;
         PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.DASHING);
-
-        // Collider2D feetCollider = FindFeetCollider();
-        // if (feetCollider != null)
-        // {
-        //     feetCollider.enabled = false;
-        // }
 
         movementScript.isMoving = false;
         float dashTimer = 0f;
@@ -61,11 +62,6 @@ public class DashController : MonoBehaviour
             dashTimer += Time.deltaTime;
             yield return null;
         }
-
-        // if (feetCollider != null)
-        // {
-        //     feetCollider.enabled = true;
-        // }
 
         movementScript.isMoving = true;
         isDashing = false;
@@ -104,16 +100,6 @@ public class DashController : MonoBehaviour
         }
     }
 
-    // private Collider2D FindFeetCollider()
-    // {
-    //     GameObject[] feetObjects = GameObject.FindGameObjectsWithTag("Feet");
-    //     if (feetObjects.Length > 0)
-    //     {
-    //         return feetObjects[0].GetComponent<Collider2D>();
-    //     }
-    //     return null;
-    // }
-
     private bool IsTouchingWall()
     {
         int wallLayerMask = LayerMask.GetMask("Wall");
@@ -146,5 +132,17 @@ public class DashController : MonoBehaviour
         float jumpDuration = 0.1f;
         yield return new WaitForSeconds(jumpDuration);
         transform.localScale = originalScale;
+    }
+
+    private bool CanPerformDash()
+    {
+        foreach (Image image in staminaBar.dashImages)
+        {
+            if (image.fillAmount > 0)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

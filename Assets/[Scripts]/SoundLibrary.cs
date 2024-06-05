@@ -46,4 +46,7 @@ public enum SOUND_TYPE
     LAMP_JIGGLE,
     LAMP_ON,
     ORBE_DE_CRISTAL,
+    ORBE_DE_CRISTAL_ROTO,
+    RELOAD_LANTERN,
+    KEYS,
 }
