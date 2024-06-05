@@ -38,19 +38,13 @@ public class DashController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
+
     }
 
     private IEnumerator PerformDash(bool isPassingHole)
     {
         isDashing = true;
         PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.DASHING);
-
-        // Collider2D feetCollider = FindFeetCollider();
-        // if (feetCollider != null)
-        // {
-        //     feetCollider.enabled = false;
-        // }
 
         movementScript.isMoving = false;
         float dashTimer = 0f;
@@ -67,11 +61,6 @@ public class DashController : MonoBehaviour
             dashTimer += Time.deltaTime;
             yield return null;
         }
-
-        // if (feetCollider != null)
-        // {
-        //     feetCollider.enabled = true;
-        // }
 
         movementScript.isMoving = true;
         isDashing = false;
@@ -109,16 +98,6 @@ public class DashController : MonoBehaviour
             }
         }
     }
-
-    // private Collider2D FindFeetCollider()
-    // {
-    //     GameObject[] feetObjects = GameObject.FindGameObjectsWithTag("Feet");
-    //     if (feetObjects.Length > 0)
-    //     {
-    //         return feetObjects[0].GetComponent<Collider2D>();
-    //     }
-    //     return null;
-    // }
 
     private bool IsTouchingWall()
     {
