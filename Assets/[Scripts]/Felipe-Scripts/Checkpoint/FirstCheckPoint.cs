@@ -14,8 +14,8 @@ public class FirstCheckPoint : MonoBehaviour
         }
         else
         {
-            GameManager.GetInstance().MarkConditionCompleted(levelConditionCheck);
             PlayerStates.GetInstance().transform.position = transform.position;
+            GameManager.GetInstance().MarkConditionCompleted(levelConditionCheck);
             GameManager.GetInstance().SavePlayerPosition(transform.position);
             GameManager.GetInstance().SaveAllData();
         }

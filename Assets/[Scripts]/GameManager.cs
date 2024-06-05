@@ -162,6 +162,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public WorldCondition GetActualCondition()
+    {
+        return stageConditions;
+    }
+
     public void SavePlayerPosition(Vector3 position)
     {
         stageConditions.SavePlayerPosition(position);

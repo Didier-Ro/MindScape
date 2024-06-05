@@ -66,6 +66,16 @@ public class WorldCondition : ScriptableObject, IsaveScript
         Debug.Log(dataToSave);
         return dataToSave;
     }
+
+    public string GetConditions()
+    {
+        string dataToSave = "";
+        for (int i = 0; i < conditions.Length; i++)
+        {
+            dataToSave += (conditions[i].isCompleted ? 1 : 0) + "/";
+        }
+        return dataToSave;
+    }
     public void LoadData(string s)
     {
         string[] conditionsS = s.Split("/");
