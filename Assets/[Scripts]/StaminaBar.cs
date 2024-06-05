@@ -21,11 +21,14 @@ public class StaminaBar : MonoBehaviour
         UpdateDashImages();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (isRegenerating)
+        if (GameManager.GetInstance().GetCurrentGameState() != GAME_STATE.PAUSE)
         {
-            RegenerateStamina();
+            if (isRegenerating)
+            {
+                RegenerateStamina();
+            }
         }
     }
 
