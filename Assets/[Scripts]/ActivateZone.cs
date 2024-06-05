@@ -17,21 +17,30 @@ public class ActivateZone : MonoBehaviour
   
    public void DeactivateCanvas()
    {
-      gameUI[0].SetActive(false);
-      gameUI[1].SetActive(false);
+      if (gameUI[0] != null && gameUI[1] != null)
+      {
+         gameUI[0].SetActive(false);
+         gameUI[1].SetActive(false);
+      }
    }
    
    public void SetActiveCanvas()
    {
       if (InputManager.GetInstance().ReturnControlScheme(currentControlScheme) == "Gamepad")
       {
-         gameUI[0].SetActive(true);
-         gameUI[1].SetActive(false);
+         if (gameUI[0] != null && gameUI[1] != null)
+         {
+            gameUI[0].SetActive(true);
+            gameUI[1].SetActive(false);
+         }
       }
       else if(InputManager.GetInstance().ReturnControlScheme(currentControlScheme) == "Keyboard")
       {
-         gameUI[0].SetActive(false);
-         gameUI[1].SetActive(true);
+         if (gameUI[0] != null && gameUI[1] != null)
+         {
+            gameUI[0].SetActive(false);
+            gameUI[1].SetActive(true);
+         }
       }
    }
 
