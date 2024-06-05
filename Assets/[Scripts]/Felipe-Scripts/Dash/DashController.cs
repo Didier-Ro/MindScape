@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DashController : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class DashController : MonoBehaviour
     {
         if (InputManager.GetInstance().DashInput() && Time.time > lastDashTime + dashCooldown)
         {
-            if (!IsTouchingWall())
+            if (!IsTouchingWall() && CanPerformDash())
             {
                 AttemptDash();
             }
@@ -38,7 +39,7 @@ public class DashController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
+
     }
 
     private IEnumerator PerformDash(bool isPassingHole)
@@ -131,5 +132,18 @@ public class DashController : MonoBehaviour
         float jumpDuration = 0.1f;
         yield return new WaitForSeconds(jumpDuration);
         transform.localScale = originalScale;
+    }
+
+    private bool CanPerformDash()
+    {
+        // Verificar si al menos una de las dos imágenes de las botas tiene fillAmount mayor que cero
+        foreach (Image image in staminaBar.dashImages)
+        {
+            if (image.fillAmount > 0)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
