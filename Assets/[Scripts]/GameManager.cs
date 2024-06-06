@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     }
     #endregion
     [SerializeField] private float minuteQuickSaveRate;
-    private bool isPaused;
+    public bool isPaused;
     private bool isFlashing;
     private int framesPlayed;
     private GAME_STATE currentGameState = GAME_STATE.EXPLORATION;
@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
         if (InputManager.GetInstance().SetPause())
         {
             GAME_STATE actualGameState = TogglePause() ? GAME_STATE.PAUSE : GAME_STATE.EXPLORATION;
-            PLAYER_STATES playerStates = TogglePause() ? PLAYER_STATES.PAUSE : PLAYER_STATES.PLAY;
+            PLAYER_STATES playerStates = isPaused ? PLAYER_STATES.PAUSE : PLAYER_STATES.PLAY;
             PlayerStates.GetInstance().ChangePlayerState(playerStates);
             ChangeGameState(actualGameState);
         }

@@ -33,7 +33,8 @@ public class InputManager : MonoBehaviour
         switch (_newGameState)
         {
             case GAME_STATE.PAUSE:
-                //PauseUI();
+                DeactivateInput();
+                playerControls.Gameplay.Pause.Enable();
                 break;
             case GAME_STATE.EXPLORATION:
                 ActivateGameplay();
@@ -81,6 +82,7 @@ public class InputManager : MonoBehaviour
                 break;
             case PLAYER_STATES.PAUSE:
                 playerControls.Gameplay.Dash.Disable();
+                playerControls.Gameplay.Pause.Enable();
                 break;
         }   
     }
