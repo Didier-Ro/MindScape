@@ -13,6 +13,7 @@ public class TriggerFuel : MonoBehaviour
     public GameObject dashOn2;
     public GameObject dashOff1;
     public GameObject dashOff2;
+    public GameObject fadeIn;
     public Light2D globalLight;
     public Flashlight playerFlashlight;
     public int conditionID;
@@ -38,6 +39,7 @@ public class TriggerFuel : MonoBehaviour
         dashOn2.SetActive(true);
         dashOff1.SetActive(true);
         dashOff2.SetActive(true);
+        fadeIn.SetActive(false);
         Destroy(timeline);
         PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
         GameManager.GetInstance().ChangeGameState(GAME_STATE.EXPLORATION);
@@ -60,6 +62,7 @@ public class TriggerFuel : MonoBehaviour
             dashOn2.SetActive(true);
             dashOff1.SetActive(true);
             dashOff2.SetActive(true);
+            fadeIn.SetActive(false);
         }
     }
 
@@ -86,7 +89,7 @@ public class TriggerFuel : MonoBehaviour
             yield return null;
         }
 
-        // Asegúrate de que la intensidad sea 0.1 al final
+        // Asegï¿½rate de que la intensidad sea 0.1 al final
         globalLight.intensity = 0.1f;
         isCoroutineRunning = false;
 

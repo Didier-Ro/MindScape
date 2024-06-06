@@ -6,6 +6,7 @@ public class KeyScript : MonoBehaviour
     public GameObject UIindicator;
     public Vector2 checkpointPosition;
     public int conditionId = 6;
+    public bool startInactive = true;
     public SoundLibrary soundLibrary;
     public GameObject particlePrefab;
 
@@ -15,10 +16,15 @@ public class KeyScript : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
-        else
+        else if(startInactive)
         {
             gameObject.SetActive(false);
             UIindicator.SetActive(true);
+        }
+        else
+        {
+            gameObject.SetActive(true);
+            UIindicator.SetActive(false);
         }
     }
 

@@ -92,6 +92,8 @@ public class GameManager : MonoBehaviour
         if (InputManager.GetInstance().SetPause())
         {
             GAME_STATE actualGameState = TogglePause() ? GAME_STATE.PAUSE : GAME_STATE.EXPLORATION;
+            PLAYER_STATES playerStates = TogglePause() ? PLAYER_STATES.PAUSE : PLAYER_STATES.PLAY;
+            PlayerStates.GetInstance().ChangePlayerState(playerStates);
             ChangeGameState(actualGameState);
         }
     }
