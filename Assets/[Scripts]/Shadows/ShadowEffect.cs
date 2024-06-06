@@ -25,7 +25,7 @@ public class ShadowEffect : MonoBehaviour, Ikillable
     float shadowOpacity = 1.0f;
 
     public Light_State lightState = Light_State.DEPLOY;
-    private LIGHT_ENERGY_STATE lighEnergy;
+    public LIGHT_ENERGY_STATE lighEnergy;
     public bool isIlluminated = false;
 
     [SerializeField] private BoxFalling box;
@@ -52,37 +52,50 @@ public class ShadowEffect : MonoBehaviour, Ikillable
             if (!GameManager.GetInstance().GetFlashing())
             {
                 lightState = Light_State.DEPLOY;
+                ShowShadow();
+                DrawShadow();
             }
             else
             {
                 lightState = Light_State.CONCETRATE;
             }
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if (lighEnergy == LIGHT_ENERGY_STATE.ON)
-        {
             if (shadow != null)
             {
                 if (lightState == Light_State.DEPLOY)
                 {
                     isIlluminated = false;
+                    ShowShadow();
                     DrawShadow();
                 }
 
                 if (lightState == Light_State.CONCETRATE)
                 {
                     if (isIlluminated)
+                    {
+                        Debug.Log("Sombra iluminada");
+                        ShowShadow();
                         DrawShadow();
+                    }
                     else
                     {
-                        shadow.SetActive(false);
+                        Debug.Log("Sombra apagada");
+                        DeleteShadow();
                     }
                 }
+                //DrawShadow();
             }
         }
+        else if(lighEnergy == LIGHT_ENERGY_STATE.OFF)
+        {
+            DeleteShadow();
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        /*if (lighEnergy == LIGHT_ENERGY_STATE.ON)
+        {
+        }*/
     }
 
 
@@ -194,10 +207,10 @@ public class ShadowEffect : MonoBehaviour, Ikillable
         switch (lighEnergy)
         {
             case LIGHT_ENERGY_STATE.ON:
-                ShowShadow();
+                
                 break;
             case LIGHT_ENERGY_STATE.OFF:
-                DeleteShadow();
+                
                 break;
         }
     }
