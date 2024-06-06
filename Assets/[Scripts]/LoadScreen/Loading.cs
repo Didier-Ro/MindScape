@@ -46,11 +46,13 @@ public class Loading : MonoBehaviour
     {
         Debug.Log("3------Start Loading");
         nextLoad = LOAD_PART.LOADING_SCENE;
-        if( OnStartChangingScene != null )
+        /**if( OnStartChangingScene != null )
         {
             OnStartChangingScene.Invoke();
-        }
+            Debug.Log("Invoca cambio de escena");
+        }*/
         SceneManager.LoadSceneAsync(loadingSceneName, LoadSceneMode.Additive); //Obtenemos load screen
+        Debug.Log("Obtener loading screen");
     }
     void OnSceneLoaded(Scene _scene, LoadSceneMode _load) //Llamada automatica por SceneManager
     {
@@ -60,6 +62,7 @@ public class Loading : MonoBehaviour
 
     IEnumerator WaitOnLevelOLoaded()
     {
+        Debug.Log("Corrutina");
         if (nextLoad == LOAD_PART.LOADING_SCENE) //Escena 1 y loading screen al mismo tiempo
         {
             nextLoad = LOAD_PART.UNLOAD_SCENE;

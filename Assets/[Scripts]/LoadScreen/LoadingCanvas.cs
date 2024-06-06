@@ -9,6 +9,9 @@ public class LoadingCanvas : MonoBehaviour
     private void OnEnable()
     {
         DontDestroyOnLoad(gameObject);
+
+        GameObject goToLoad = GameObject.Find("GoToLoad");
+        loading = goToLoad.GetComponent<Loading>();
     }
 
     public void LoadingScreenIn()
