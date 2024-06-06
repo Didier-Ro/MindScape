@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
             {
                 flashlight.PunishmentEnergy(10);
             }
-            OnFlashingChange.Invoke(isFlashing);
+            //OnFlashingChange.Invoke(isFlashing);
         }
         if (InputManager.GetInstance().SetPause())
         {
