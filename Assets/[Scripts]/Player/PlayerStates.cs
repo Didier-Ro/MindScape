@@ -60,4 +60,5 @@ public enum PLAYER_STATES
     THROWBOX,
     MOVING_CAMERA,
     TUTORIAL,
+    PAUSE
 }

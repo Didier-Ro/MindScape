@@ -53,6 +53,7 @@ public class InputManager : MonoBehaviour
             case GAME_STATE.TUTORIAL:
                 playerControls.Gameplay.Pause.Disable();
                 break;
+           
         }   
     }
     
@@ -77,6 +78,9 @@ public class InputManager : MonoBehaviour
                 break;
             case PLAYER_STATES.TUTORIAL:
                 DeactivatePause();
+                break;
+            case PLAYER_STATES.PAUSE:
+                playerControls.Gameplay.Dash.Disable();
                 break;
         }   
     }
