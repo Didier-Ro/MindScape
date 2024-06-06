@@ -84,4 +84,5 @@ public enum OBJECT_TYPE
     ParticulaCajaCaida2,
     Particulallave,
     Particulallave1,
+    ParticulaPoof,
 }

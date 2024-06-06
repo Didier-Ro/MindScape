@@ -9,7 +9,6 @@ public class BoxDetector : MonoBehaviour
     [SerializeField] private TYPE_DETECTOR typeDetector;
     [SerializeField] private Animator animator;
 
-
     [SerializeField] private Doors doors;
     [SerializeField] private int conditionId;
     [SerializeField] private Transform transformPoint;
@@ -32,17 +31,32 @@ public class BoxDetector : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
-    
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Box"))
         {
-            animator.SetBool("Pressed", true );
+            animator.SetBool("Pressed", true);
             if (typeDetector == TYPE_DETECTOR.HOLE)
             {
                 doors.IncreaseHoleCounter();
                 if (doors.ReturnHoleCounter() <= doors.holeNumbers)
                 {
+                    GameObject particle = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.ParticulaPoof, boxJail.transform.position, Vector3.zero);
+                    if (particle != null)
+                    {
+                        // Activar y reproducir la partícula
+                        ParticleSystem ps = particle.GetComponent<ParticleSystem>();
+                        if (ps != null)
+                        {
+                            ps.Play();
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogWarning("No se pudo obtener la partícula ParticulaPoof del PoolManager.");
+                    }
+
                     boxJail.SetActive(false);
                     collider1.enabled = true;
                     collider2.enabled = true;
@@ -51,14 +65,10 @@ public class BoxDetector : MonoBehaviour
                 gameObject.SetActive(false);
             }
             else if (typeDetector == TYPE_DETECTOR.BUTTON)
-            { 
+            {
                 doors.IncreaseCounter();
                 if (doors.ReturnCounter() != doors.buttonNumbers || doors.ReturnHoleCounter() != doors.holeNumbers)
                 {
-                    /*Transform parentTransform = collision.transform.parent;
-                    GameObject parent = parentTransform.gameObject;        
-                    colliderParent = parent.GetComponent<BoxCollider2D>();
-                    colliderParent.enabled = false;*/
                     clonPrefab = Instantiate(boxPrefab, new Vector3(spawnPos.x, 27, 0), Quaternion.identity);
                     if (tutorial != null)
                     {
@@ -66,23 +76,16 @@ public class BoxDetector : MonoBehaviour
                     }
                     clonPrefab.GetComponent<BoxFalling>().SetSpawnPosition(spawnPos);
                     CameraManager.instance.ChangeTargetCamera(clonPrefab);
-                    //gameObject.SetActive(false);
                 }
             }
             else if (typeDetector == TYPE_DETECTOR.UNIQUE)
             {
                 doors.IncreaseCounter();
-                /*Transform parentTransform = collision.transform.parent;
-                GameObject parent = parentTransform.gameObject;        
-                colliderParent = parent.GetComponent<BoxCollider2D>();
-                colliderParent.enabled = false;
-                gameObject.SetActive(false);*/
             }
             Transform parentTransform = collision.transform.parent;
             GameObject parent = parentTransform.gameObject;
             colliderParent = parent.GetComponent<BoxCollider2D>();
             colliderParent.enabled = false;
-            //gameObject.SetActive(false);
         }
 
         if (collision.CompareTag("Feet"))
@@ -91,10 +94,10 @@ public class BoxDetector : MonoBehaviour
             player = PlayerStates.GetInstance().transform;
             playerSprite = player.transform.Find("Sprite");
             playerSprite.localPosition = new Vector3(0f, -0.15f, 0f);
-            animator.SetBool("Pressed", true );
+            animator.SetBool("Pressed", true);
             if (typeDetector == TYPE_DETECTOR.HOLE)
             {
-               
+
             }
             else if (typeDetector == TYPE_DETECTOR.BUTTON)
             {
@@ -108,10 +111,10 @@ public class BoxDetector : MonoBehaviour
     }
 
     private void OnTriggerExit2D(Collider2D collision)
-    { 
-        if(typeDetector == TYPE_DETECTOR.BUTTON || typeDetector == TYPE_DETECTOR.UNIQUE)
+    {
+        if (typeDetector == TYPE_DETECTOR.BUTTON || typeDetector == TYPE_DETECTOR.UNIQUE)
         {
-            animator.SetBool("Pressed", false );
+            animator.SetBool("Pressed", false);
             playerSprite = player.Find("Sprite");
             playerSprite.localPosition = new Vector3(0f, -0.1f, 0f);
             if (collision.CompareTag("Feet"))
@@ -128,5 +131,3 @@ public enum TYPE_DETECTOR
     BUTTON,
     UNIQUE
 }
-
-
