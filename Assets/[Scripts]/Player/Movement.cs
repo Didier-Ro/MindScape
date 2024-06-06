@@ -135,8 +135,11 @@ public class Movement : MonoBehaviour
 
     private void FocusNextTarget()
     {
-        CameraManager.instance.ChangeCameraToAnObject(CameraManager.instance.targetPuzzle);
-        PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.MOVING_CAMERA);
+        if (CameraManager.instance.targetPuzzle != null)
+        {
+            CameraManager.instance.ChangeCameraToAnObject(CameraManager.instance.targetPuzzle);
+            PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.MOVING_CAMERA);
+        }
     }
 
     private void ChangeToPlayer()
@@ -215,7 +218,7 @@ public class Movement : MonoBehaviour
             Vector2 movement = input.normalized * actualSpeed * Time.fixedDeltaTime;
             rb.MovePosition(rb.position + movement);
 
-            // Verificar si el personaje está en movimiento
+            // Verificar si el personaje estï¿½ en movimiento
             if (input.magnitude > 0)
             {
                 timeSinceLastStep += Time.fixedDeltaTime;
