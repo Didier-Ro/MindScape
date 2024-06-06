@@ -6,7 +6,7 @@ public class FuelRegenerationZone : MonoBehaviour, Istepable
 {
     [SerializeField] private Slider slider;
     [SerializeField] private float regenerationValue = 100f;
-    [SerializeField] private GameObject interactInstruction = null;
+    //[SerializeField] private GameObject interactInstruction = null;
     private Animator _animator;
     public bool isInside = false;
 
@@ -60,7 +60,7 @@ public class FuelRegenerationZone : MonoBehaviour, Istepable
     {
         _animator.SetTrigger("Recharge");
         isInside = true;
-        interactInstruction.SetActive(true);
+        //interactInstruction.SetActive(true);
         Flashlight.GetInstance().ReduceSliderValue(0f);
     }
 
@@ -68,7 +68,7 @@ public class FuelRegenerationZone : MonoBehaviour, Istepable
     {
         _animator.SetTrigger("Unrecharge");
         isInside = false;
-        interactInstruction.SetActive(false);
+        //interactInstruction.SetActive(false);
         Flashlight.GetInstance().ReduceSliderValue(0.01f);
     }
 }
