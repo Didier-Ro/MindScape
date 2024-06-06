@@ -12,7 +12,7 @@ public class KeyScript : MonoBehaviour
 
     private void Start()
     {
-        if (!GameManager.GetInstance().IsConditionCompleted(conditionId))
+        if (!GameManager.GetInstance().IsConditionCompleted(conditionId) && startInactive)
         {
             gameObject.SetActive(false);
         }
