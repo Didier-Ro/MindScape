@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -6,11 +7,17 @@ public class Print : MonoBehaviour
    private TextMeshProUGUI text;
    public bool GameManagerExist = true;
    private WorldCondition si;
-   private void Start()
+
+   private void Awake()
    {
       text = GetComponent<TextMeshProUGUI>();
+   }
+
+   private void Start()
+   {
       if (GameManagerExist)
       {
+         Debug.Log("funciona por favor");
          si = GameManager.GetInstance().GetActualCondition();
          GameManager.GetInstance().OnConditionCompleted += ChangingCondition;
          ChangingCondition(0);

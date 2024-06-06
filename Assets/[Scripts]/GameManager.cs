@@ -139,6 +139,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetPreferences()
     {
+        ResetAll();
         PlayerPrefs.DeleteAll();
     }
 

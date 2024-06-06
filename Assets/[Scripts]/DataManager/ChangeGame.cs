@@ -50,7 +50,7 @@ public class ChangeGame : MonoBehaviour
 
    public void ResetPlayerPrefs()
    {
-         Debug.Log("se borro");
+         ResetAll();
          PlayerPrefs.DeleteAll();
    }
 

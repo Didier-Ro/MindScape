@@ -668,7 +668,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &661459120
 Transform:
   m_ObjectHideFlags: 0
@@ -919,8 +919,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 16777215
-  m_fontColor: {r: 1, g: 1, b: 1, a: 0}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2895,7 +2895,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2831593003823244744, guid: 98a918afa5f558843b1a45217d5591a3, type: 3}
       propertyPath: isCinematic
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3369258306983447431, guid: 98a918afa5f558843b1a45217d5591a3, type: 3}
       propertyPath: m_Name
