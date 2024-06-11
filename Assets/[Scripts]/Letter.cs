@@ -8,7 +8,6 @@ namespace Assets.SimpleLocalization.Scripts
     public class Letter : MonoBehaviour, Istepable
     {
         [SerializeField] private Dialog dialog;
-        [SerializeField] private GameObject interactionCanvas = default;
         [SerializeField] private GameObject keyboardUI = default;
         [SerializeField] private GameObject gamepadUI = default;
         public String keyTittle;
@@ -39,6 +38,7 @@ namespace Assets.SimpleLocalization.Scripts
             if (other.tag== "Player")
             {
                 DeactivateCanvas();
+                Deactivate();
             }
         }
 
@@ -58,6 +58,7 @@ namespace Assets.SimpleLocalization.Scripts
 
         public void Activate()
         {
+            Debug.Log("Activado");
             StartCoroutine(DialogManager.GetInstance().ShowDialog(dialog));
             GameManager.GetInstance().ChangeGameState(GAME_STATE.READING);
         }
@@ -95,13 +96,12 @@ namespace Assets.SimpleLocalization.Scripts
         {
             if (InputManager.GetInstance().ReturnControlScheme(currentControlScheme) == "Gamepad")
             {
-                interactionCanvas.SetActive(true);
+               
                 keyboardUI.SetActive(false);
                 gamepadUI.SetActive(true);
             }
             else if(InputManager.GetInstance().ReturnControlScheme(currentControlScheme) == "Keyboard")
             {
-                interactionCanvas.SetActive(true);
                 gamepadUI.SetActive(false);
                 keyboardUI.SetActive(true);
             }
@@ -109,7 +109,7 @@ namespace Assets.SimpleLocalization.Scripts
 
         public void DeactivateCanvas()
         {
-            interactionCanvas.SetActive(false);
-        }
+            gamepadUI.SetActive(false);
+            keyboardUI.SetActive(true);        }
     }
 }

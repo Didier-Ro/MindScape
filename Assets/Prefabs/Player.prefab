@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1132715705876445395
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3447915134769624903}
+  m_Layer: 0
+  m_Name: Feet Position
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3447915134769624903
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132715705876445395}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.41, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7769005239479393648}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2329885812725176872
 GameObject:
   m_ObjectHideFlags: 0
@@ -52,6 +83,7 @@ Transform:
   - {fileID: 8578799754084522686}
   - {fileID: 8631737670442529146}
   - {fileID: 2878462277011448063}
+  - {fileID: 3447915134769624903}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &9140427169719169660
@@ -132,7 +164,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 220368
+  m_InstanceId: 213684
   m_LocalBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0.5, z: 0}
@@ -363,11 +395,12 @@ MonoBehaviour:
   canInteract: 0
   isInteracting: 0
   interactiveObject: {fileID: 0}
+  canMove: 1
   _activateZone: {fileID: 0}
   animator: {fileID: 5287131927239762016}
   rb: {fileID: 0}
   soundLibrary: {fileID: 11400000, guid: 1d158b944d9132b47901846bf1107468, type: 2}
-  feetPosition: {fileID: 3342870939058712054}
+  feetPosition: {fileID: 3447915134769624903}
 --- !u!114 &3054615977689496595
 MonoBehaviour:
   m_ObjectHideFlags: 0
