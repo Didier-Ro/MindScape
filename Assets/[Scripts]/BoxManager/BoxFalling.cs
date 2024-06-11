@@ -1,4 +1,4 @@
- using System;
+using System;
 using UnityEngine;
 
 public class BoxFalling : MonoBehaviour
@@ -13,7 +13,6 @@ public class BoxFalling : MonoBehaviour
     [SerializeField] private OverlapBoxDetectorManager overlayBoxDetectorManager;
     [Tooltip("No poner nada, solo si necesitas el tutorial")]
     public GameObject tutorial;
-    
 
     public BOX_STATE boxState = BOX_STATE.IDLE;
     public Action<BOX_STATE> OnBoxStateChange;
@@ -29,8 +28,6 @@ public class BoxFalling : MonoBehaviour
 
     void Start()
     {
-        audioSource = GameManager.GetInstance().audioSource;
-
         if (GameManager.GetInstance().IsConditionCompleted(conditionId))
         {
             boxColliderParent.enabled = false;
@@ -123,7 +120,7 @@ public class BoxFalling : MonoBehaviour
         if (box.transform.position.y <= finalPoint.y)
         {
             ChangeBoxState(BOX_STATE.IDLE);
-            GameObject particle = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.ParticulaCajaCaida2, box.transform.position, Vector3.zero);
+            GameObject particle = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.ParticulaCajaCaida2, box.transform.position + new Vector3(0, -0.5f, -1), Vector3.zero);
             if (particle != null)
             {
                 particle.SetActive(true);
@@ -140,17 +137,17 @@ public class BoxFalling : MonoBehaviour
             boxColliderChild.enabled = true;
         }
     }
+
     [SerializeField] SoundLibrary soundLibrary;
-    [SerializeField] AudioSource audioSource;
+
     void PlayRandomImpactSound()
     {
         int randomIndex = UnityEngine.Random.Range(0, 2);
         AudioClip impactSound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.ROT_CAJAS_IMPACTO);
         if (impactSound != null)
         {
-            // Play the sound
-            audioSource.clip = impactSound;
-            audioSource.Play();
+            // Use the AudioManager singleton to play the sound
+            AudioManager.GetInstance().SetSound(SOUND_TYPE.ROT_CAJAS_IMPACTO);
         }
     }
 }
