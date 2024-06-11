@@ -80,6 +80,8 @@ public class Falling : MonoBehaviour
             spriteTransform.position = finalPlayerSpawnPosition;
             canMove = false;
             healthController.PlayerTakeDamage(50f);
+            flasLight.enabled = true;
+            wallFlaslight.enabled = true;
             if (healthController.currentPlayerHealth > 0)
             {
                 PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
@@ -132,6 +134,8 @@ public class Falling : MonoBehaviour
         if (spriteTransform.localScale.x <= minSpriteSize && spriteTransform.localScale.y <= minSpriteSize)
         {
             isFalling = false;
+            flasLight.enabled = false;
+            wallFlaslight.enabled = false;
             spriteTransform.localScale = new Vector3(minSpriteSize, minSpriteSize);
             playerSprite.material.color = new Color(1, 1, 1, minSpriteSize);
             flasLight.pointLightInnerRadius = minSpriteSize;
