@@ -45,7 +45,6 @@ public class BoxDetector : MonoBehaviour
                     GameObject particle = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.ParticulaPoof, boxJail.transform.position, Vector3.zero);
                     if (particle != null)
                     {
-                        // Activar y reproducir la partícula
                         ParticleSystem ps = particle.GetComponent<ParticleSystem>();
                         if (ps != null)
                         {

@@ -230,7 +230,6 @@ public class Movement : MonoBehaviour
             Vector2 movement = input.normalized * actualSpeed * Time.fixedDeltaTime;
             rb.MovePosition(rb.position + movement);
 
-            // Verificar si el personaje est� en movimiento
             if (input.magnitude > 0)
             {
                 timeSinceLastStep += Time.fixedDeltaTime;
@@ -242,7 +241,7 @@ public class Movement : MonoBehaviour
                     {
                         particleSystem.Play();
                     }
-                    timeSinceLastStep = 0f;
+                    timeSinceLastStep = 0.2f;
 
                     if (!isPlayingSound && soundLibrary != null)
                     {
