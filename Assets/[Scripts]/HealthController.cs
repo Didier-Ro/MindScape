@@ -52,7 +52,7 @@ public class HealthController : MonoBehaviour
             UpdatePlayerHealth();
             healCooldown = maxHealCoolDown;
             startCoolDown = true;
-            PlayerCameraShake.Instance.ShakeCamera(2f, 0.1f);
+            PlayerCameraShake.Instance.ShakeCamera(1f, 0.1f);
             CheckStressParticles();
         }
         else if (currentPlayerHealth <= 0)
