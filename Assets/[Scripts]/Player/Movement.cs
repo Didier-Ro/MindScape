@@ -21,7 +21,7 @@ public class Movement : MonoBehaviour
     private bool isMovingToCenterOfTheBox = false;
     private Vector2 positionToCenterThePlayer;
     #endregion
-    private bool canMove = true;
+    public bool canMove = true;
     public ActivateZone _activateZone;
     private GAME_STATE currentGamestate = default;
     [SerializeField] Animator animator;
@@ -109,6 +109,8 @@ public class Movement : MonoBehaviour
             {
                 interactiveObject.GetComponent<Istepable>().Deactivate();
                 canInteract = true;
+                actualSpeed = walkSpeed;
+                canMove = true;
             }
         };
         actualSpeed = walkSpeed;
@@ -121,7 +123,11 @@ public class Movement : MonoBehaviour
         if (currentGamestate == GAME_STATE.READING)
         {
             DialogManager.GetInstance().HandleUpdate();
-            isMoving = false;
+        }
+
+        if (currentGamestate == GAME_STATE.EXPLORATION)
+        {
+            isMoving = true;
         }
         if (InputManager.GetInstance().HoldingInteract() && _activateZone != null && _activateZone.canActivate)
         {
@@ -131,6 +137,8 @@ public class Movement : MonoBehaviour
         {
             FocusNextTarget();
         }
+        SetInteraction();
+
     }
 
     private void FocusNextTarget()
@@ -185,7 +193,10 @@ public class Movement : MonoBehaviour
         if (other.CompareTag("Stepable"))
         {
             interactiveObject = other.gameObject;
-            _activateZone = interactiveObject.GetComponent<ActivateZone>();
+            if (_activateZone != null)
+            {
+                _activateZone = interactiveObject.GetComponent<ActivateZone>();
+            }
             canInteract = true;
         }
         if (other.GetComponent<ActivateZone>())
@@ -212,6 +223,7 @@ public class Movement : MonoBehaviour
     {
         if (isMoving && canMove)
         {
+            Debug.Log("MOVIMIENTO NARANJA");
             animator.SetFloat("x", input.x);
             animator.SetFloat("y", input.y);
             animator.SetFloat("Speed", input.magnitude);
@@ -251,5 +263,16 @@ public class Movement : MonoBehaviour
     {
         yield return new WaitForSeconds(soundLength);
         isPlayingSound = false;
+    }
+
+    public void SetInteraction()
+    {
+        if (canInteract && InputManager.GetInstance().InteractInput())
+        {
+            interactiveObject.GetComponent<Istepable>().Activate();
+            currentGamestate = GameManager.GetInstance().GetCurrentGameState();
+            canInteract = false;
+            isInteracting = true;
+        }
     }
 }
