@@ -7,6 +7,7 @@ public class BoxFalling : MonoBehaviour
     [SerializeField] private BoxCollider2D boxColliderParent;
     [SerializeField] private BoxCollider2D boxColliderChild;
     [SerializeField] private Vector3 spawnPoint;
+    [SerializeField] private float SpawnY = 27;
     public Vector3 finalPoint;
     [Tooltip("If the box is SINGLE, then there is no need to reference DetectorManager.")]
     [SerializeField] private TYPE_BOX type_Box;
@@ -101,12 +102,12 @@ public class BoxFalling : MonoBehaviour
     void RespawnBox(Vector3 _finalPoint)
     {
         transform.position = _finalPoint;
-        box.transform.position = new Vector3(_finalPoint.x, 27, 0);
+        box.transform.position = new Vector3(_finalPoint.x, SpawnY, 0);
         box.transform.localScale = new Vector3(1, 1, 1);
-        ChangeBoxState(BOX_STATE.SPAWNING);
-        spawnPoint = new Vector3(_finalPoint.x, 27, 0);
+        spawnPoint = new Vector3(_finalPoint.x, SpawnY, 0);
         finalPoint = _finalPoint;
         canMove = true;
+        ChangeBoxState(BOX_STATE.SPAWNING);
     }
 
     void MoveBox()
