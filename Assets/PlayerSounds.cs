@@ -7,6 +7,5 @@ public class PlayerSounds : MonoBehaviour
     public void ActivateFloorSound()
     {
         Debug.Log("Playsound");
-        //AudioManager.GetInstance().
     }
 }

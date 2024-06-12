@@ -579,7 +579,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 16777215
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -810,6 +810,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minuteQuickSaveRate: 0
+  isPaused: 0
   audioSource: {fileID: 0}
   conditionsIds: 
   currentLevel: 
@@ -949,6 +950,8 @@ PlayableDirector:
     value: {fileID: 706650962}
   - key: {fileID: -4010568330459534774, guid: 2bb19592972071e409562b71dd6c86d1, type: 2}
     value: {fileID: 642410215}
+  - key: {fileID: 3184657421402624651, guid: 2bb19592972071e409562b71dd6c86d1, type: 2}
+    value: {fileID: 1080284660}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &709462650
@@ -2998,6 +3001,11 @@ Transform:
   - {fileID: 853618971}
   m_Father: {fileID: 113209519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1080284660 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 4778876794865515053, guid: 98a918afa5f558843b1a45217d5591a3, type: 3}
+  m_PrefabInstance: {fileID: 1219136601}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1219136601
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3630,7 +3638,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190335
+    rgba: 255
   m_fontColor: {r: 1, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -4917,7 +4925,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 16777215
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
