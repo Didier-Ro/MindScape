@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class DashController : MonoBehaviour
 {
@@ -20,10 +22,14 @@ public class DashController : MonoBehaviour
     private Movement movementScript;
     private StaminaBar staminaBar;
 
+    [SerializeField] private Volume postProcessingVolume;
+    private MotionBlur motionBlur;
+
     private void Start()
     {
         movementScript = GetComponent<Movement>();
         staminaBar = FindObjectOfType<StaminaBar>();
+        postProcessingVolume.profile.TryGet(out motionBlur);
     }
 
     private void Update()
@@ -46,6 +52,8 @@ public class DashController : MonoBehaviour
     {
         isDashing = true;
         PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.DASHING);
+        motionBlur.intensity.max = 3;
+        motionBlur.intensity.value = 3;
 
         movementScript.isMoving = false;
         float dashTimer = 0f;
@@ -65,6 +73,7 @@ public class DashController : MonoBehaviour
 
         movementScript.isMoving = true;
         isDashing = false;
+        motionBlur.intensity.value = 0;
         lastDashTime = Time.time;
         if (currentTrigger != null)
         {

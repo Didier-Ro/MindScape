@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class HealthController : MonoBehaviour
 {
@@ -13,6 +16,8 @@ public class HealthController : MonoBehaviour
     public GameObject gameOverScreen;
     public int regenRate = 1;
     private bool canRegen = false;
+    [SerializeField] private Volume postProcessingVolume;
+    private ChromaticAberration chromaticAberration;
 
     [Header("Images")]
     public Image migraineImage = null;
@@ -35,10 +40,16 @@ public class HealthController : MonoBehaviour
     public SOUND_TYPE whisperSoundType;
     public AudioMixer masterMixer;
 
+    private void Start()
+    {
+        postProcessingVolume.profile.TryGet(out chromaticAberration);
+    }
+
     void UpdatePlayerHealth()
     {
         Color imageAlpha = migraineImage.color;
         imageAlpha.a = 1 - (currentPlayerHealth / maxPlayerHealth);
+        chromaticAberration.intensity.value = 1 - (currentPlayerHealth / maxPlayerHealth);
         migraineImage.color = imageAlpha;
     }
 

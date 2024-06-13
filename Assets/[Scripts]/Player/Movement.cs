@@ -223,7 +223,6 @@ public class Movement : MonoBehaviour
     {
         if (isMoving && canMove)
         {
-            Debug.Log("MOVIMIENTO NARANJA");
             animator.SetFloat("x", input.x);
             animator.SetFloat("y", input.y);
             animator.SetFloat("Speed", input.magnitude);
