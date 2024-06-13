@@ -38,7 +38,7 @@ namespace Assets.SimpleLocalization.Scripts
             if (other.tag== "Player")
             {
                 DeactivateCanvas();
-                Deactivate();
+                //Deactivate();
             }
         }
 
