@@ -9,17 +9,17 @@ public class AudioManager : MonoBehaviour
 {
     private static AudioManager _instance;
 
-    #region SingeTone
     public static AudioManager GetInstance()
     {
         return _instance;
     }
+
     private void Awake()
     {
-        if(_instance == null)
+        if (_instance == null)
         {
             _instance = this;
-           // DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -27,55 +27,35 @@ public class AudioManager : MonoBehaviour
         }
         selfAudioSource = GetComponent<AudioSource>();
     }
-    
-    #endregion
-
-    #region SubscribeToGameManager
-    private void SubscribeToGameManagerGameState()//Subscribe to Game Manager to receive Game State notifications when it changes
-    {
-        GameManager.GetInstance().OnGameStateChange += OnGameStateChange;
-        OnGameStateChange(GameManager.GetInstance().GetCurrentGameState());
-    }
-    private void OnGameStateChange(GAME_STATE _newGameState)//Analyze the Game State type and shows a different UI
-    {
-        switch (_newGameState)
-        {
-            case GAME_STATE.PAUSE:
-                //StopSound();
-                break;
-            case GAME_STATE.EXPLORATION:
-                //ResumeSound();
-                break;
-            case GAME_STATE.READING:
-               
-                break;
-            case GAME_STATE.DEAD:
-               
-                break;
-        }   
-    }
-    #endregion
 
     [SerializeField] SoundLibrary soundLibrary;
-    AudioSource selfAudioSource;
-    GameObject prefabAudioSource;
-    List<AudioSource> audioSourcesList = new List<AudioSource>();
+    private AudioSource selfAudioSource;
+    private GameObject prefabAudioSource;
+    private List<AudioSource> audioSourcesList = new List<AudioSource>();
+    private List<AudioSource> pausedAudioSources = new List<AudioSource>();
 
+    private bool isPaused = false;
 
     public void SetSound(SOUND_TYPE _sound)
     {
-        selfAudioSource.PlayOneShot(soundLibrary.GetRandomSoundFromType(_sound));
+        if (!isPaused)
+        {
+            selfAudioSource.PlayOneShot(soundLibrary.GetRandomSoundFromType(_sound));
+        }
     }
 
     public void SetSound(SOUND_TYPE _sound, Vector3 _position)
     {
-        AudioSource audio = GetAudioSource();
-
-        audio.transform.position = _position;
-        audio.clip = soundLibrary.GetRandomSoundFromType(_sound);
-        audio.Play();
+        if (!isPaused)
+        {
+            AudioSource audio = GetAudioSource();
+            audio.transform.position = _position;
+            audio.clip = soundLibrary.GetRandomSoundFromType(_sound);
+            audio.Play();
+        }
     }
-    AudioSource GetAudioSource()
+
+    private AudioSource GetAudioSource()
     {
         for (int i = 0; i < audioSourcesList.Count; i++)
         {
@@ -88,6 +68,45 @@ public class AudioManager : MonoBehaviour
         AudioSource s = Instantiate(prefabAudioSource, transform).GetComponent<AudioSource>();
         audioSourcesList.Add(s);
         return s;
+    }
+
+    public void PauseAllSounds()
+    {
+        foreach (AudioSource audioSource in audioSourcesList)
+        {
+            if (audioSource.isPlaying)
+            {
+                audioSource.Pause();
+                pausedAudioSources.Add(audioSource);
+            }
+        }
+        selfAudioSource.Pause();
+    }
+
+    public void ResumeAllSounds()
+    {
+        foreach (AudioSource audioSource in pausedAudioSources)
+        {
+            audioSource.UnPause();
+        }
+        pausedAudioSources.Clear();
+        selfAudioSource.UnPause();
+    }
+
+    private void Update()
+    {
+        if (GameManager.GetInstance().isPaused != isPaused)
+        {
+            isPaused = GameManager.GetInstance().isPaused;
+            if (isPaused)
+            {
+                PauseAllSounds();
+            }
+            else
+            {
+                ResumeAllSounds();
+            }
+        }
     }
 }
 
