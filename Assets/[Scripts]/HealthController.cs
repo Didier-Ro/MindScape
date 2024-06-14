@@ -39,6 +39,9 @@ public class HealthController : MonoBehaviour
     public SoundLibrary soundLibrary;
     public SOUND_TYPE whisperSoundType;
     public AudioMixer masterMixer;
+    
+    private const float minHealthForSuffering = 100f;
+    private bool hasPlayedSufferingSound = false;
 
     private void Start()
     {
@@ -65,6 +68,9 @@ public class HealthController : MonoBehaviour
             startCoolDown = true;
             PlayerCameraShake.Instance.ShakeCamera(1f, 0.1f);
             CheckStressParticles();
+            
+            // Restablecer la bandera para permitir que se reproduzca otro sonido de sufrimiento
+            hasPlayedSufferingSound = false;
         }
         else if (currentPlayerHealth <= 0)
         {
@@ -211,5 +217,34 @@ public class HealthController : MonoBehaviour
     private void Update()
     {
         Regen();
+
+        // Verificar si la salud está por debajo de 100 y no se ha reproducido ningún sonido de sufrimiento
+        if (currentPlayerHealth < minHealthForSuffering && !hasPlayedSufferingSound && !audioSource.isPlaying)
+        {
+            // Reproducir un sonido aleatorio de sufrimiento
+            PlayRandomSufferingSound();
+        }
+    }
+    private void PlayRandomSufferingSound()
+    {
+        if (audioSource != null && soundLibrary != null)
+        {
+            // Obtener un sonido aleatorio de sufrimiento
+            AudioClip sufferingClip = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.Sufrimiento);
+
+            if (sufferingClip != null)
+            {
+                // Reproducir el sonido
+                audioSource.clip = sufferingClip;
+                audioSource.Play();
+
+                // Establecer que se ha reproducido un sonido de sufrimiento
+                hasPlayedSufferingSound = true;
+            }
+            else
+            {
+                Debug.LogWarning("No se encontró ningún sonido de sufrimiento en la SoundLibrary.");
+            }
+        }
     }
 }

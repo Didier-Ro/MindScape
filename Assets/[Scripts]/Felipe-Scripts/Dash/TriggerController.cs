@@ -22,10 +22,12 @@ public class TriggerController : MonoBehaviour
             {
                 jumpText.SetActive(true);
             }
+
+            AudioManager.GetInstance().SetSound(SOUND_TYPE.Tutorial_corto);
+
             FindObjectOfType<DashController>().SetCurrentTrigger(this);
         }
     }
-
 
     private void OnTriggerExit2D(Collider2D other)
     {
@@ -36,6 +38,7 @@ public class TriggerController : MonoBehaviour
             activated = false;
         }
     }
+
     public void DisableTrigger()
     {
         isActive = false;

@@ -50,4 +50,6 @@ public enum SOUND_TYPE
     RELOAD_LANTERN,
     KEYS,
     Neblina,
+    Sufrimiento,
+    Tutorial_corto,
 }
