@@ -49,4 +49,5 @@ public enum SOUND_TYPE
     ORBE_DE_CRISTAL_ROTO,
     RELOAD_LANTERN,
     KEYS,
+    Neblina,
 }
