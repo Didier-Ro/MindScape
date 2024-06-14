@@ -37,8 +37,10 @@ public class HealthController : MonoBehaviour
     [Header("Audio")]
     public AudioSource audioSource;
     public SoundLibrary soundLibrary;
-    public SOUND_TYPE whisperSoundType;
     public AudioMixer masterMixer;
+    private const float minHealthForSuffering = 100f;
+    private bool hasPlayedSufferingSound = false;
+
 
     private void Start()
     {
@@ -65,6 +67,8 @@ public class HealthController : MonoBehaviour
             startCoolDown = true;
             PlayerCameraShake.Instance.ShakeCamera(1f, 0.1f);
             CheckStressParticles();
+
+            hasPlayedSufferingSound = false;
         }
         else if (currentPlayerHealth <= 0)
         {
@@ -121,6 +125,27 @@ public class HealthController : MonoBehaviour
         }
     }
 
+
+    private void PlayRandomSufferingSound()
+    {
+        if (audioSource != null && soundLibrary != null)
+        {
+            AudioClip sufferingClip = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.Sufrimiento);
+
+            if (sufferingClip != null)
+            {
+                audioSource.clip = sufferingClip;
+                audioSource.Play();
+
+                hasPlayedSufferingSound = true;
+            }
+            else
+            {
+                Debug.LogWarning("No se encontró ningún sonido de sufrimiento en la SoundLibrary.");
+            }
+        }
+    }
+
     private void PlayWhisperSound()
     {
         if (audioSource != null && soundLibrary != null)
@@ -158,16 +183,15 @@ public class HealthController : MonoBehaviour
             return;
         }
 
-        //Debug.Log("Spawning stress particles...");
-
         Vector3 spawnPosition = particleSpawnPoint.position;
 
-        GameObject estres1 = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Estres1, spawnPosition, Vector3.zero);
-        GameObject estres2 = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Estres2Variant, spawnPosition, Vector3.zero);
+        GameObject estres1 = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Estres1, spawnPosition, Quaternion.identity.eulerAngles);
+        GameObject estres2 = PoolManager.GetInstance().GetPooledObject(OBJECT_TYPE.Estres2Variant, spawnPosition, Quaternion.identity.eulerAngles);
 
         if (estres1 != null)
         {
-            estres1.transform.SetParent(particleSpawnPoint); 
+            estres1.transform.SetParent(transform);
+            estres1.transform.localPosition = Vector3.zero;
             var particleSystem1 = estres1.GetComponent<ParticleSystem>();
             if (particleSystem1 != null)
             {
@@ -181,7 +205,8 @@ public class HealthController : MonoBehaviour
 
         if (estres2 != null)
         {
-            estres2.transform.SetParent(particleSpawnPoint);
+            estres2.transform.SetParent(transform);
+            estres2.transform.localPosition = Vector3.zero;
             var particleSystem2 = estres2.GetComponent<ParticleSystem>();
             if (particleSystem2 != null)
             {
@@ -196,7 +221,7 @@ public class HealthController : MonoBehaviour
 
     void RemoveStressParticles()
     {
-//        Debug.Log("Removing stress particles...");
+        // Debug.Log("Removing stress particles...");
         foreach (Transform child in particleSpawnPoint)
         {
             var particleSystem = child.GetComponent<ParticleSystem>();
@@ -211,5 +236,10 @@ public class HealthController : MonoBehaviour
     private void Update()
     {
         Regen();
+
+        if (currentPlayerHealth < minHealthForSuffering && !hasPlayedSufferingSound && !audioSource.isPlaying)
+        {
+            PlayRandomSufferingSound();
+        }
     }
 }

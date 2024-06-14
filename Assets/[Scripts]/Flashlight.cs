@@ -91,7 +91,13 @@ public class Flashlight : MonoBehaviour
                 audioSource = GetComponentInChildren<AudioSource>();
             }
         }
+        if (GameManager.GetInstance() != null)
+        {
+            GameManager.GetInstance().OnGameStateChange += OnGameStateChange;
+            OnGameStateChange(GameManager.GetInstance().GetCurrentGameState());
+        }
     }
+   
 
     // Update is called once per frame
     void FixedUpdate()
@@ -122,8 +128,18 @@ public class Flashlight : MonoBehaviour
     private void OnGameStateChange(GAME_STATE _newGameState)
     {
         isExPloration = _newGameState == GAME_STATE.EXPLORATION;
+        if (_newGameState == GAME_STATE.PAUSE)
+        {
+            StopAllSounds();
+        }
     }
-
+    private void StopAllSounds()
+    {
+        if (audioSource != null && audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
+    }
     // Initialize the flashlight settings
     private void InitializeFlashlight()
     {

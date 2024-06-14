@@ -8,7 +8,11 @@ public class KeyScript : MonoBehaviour
     public int conditionId = 6;
     public bool startInactive = true;
     public SoundLibrary soundLibrary;
-    public GameObject particlePrefab;
+
+    public OBJECT_TYPE particleType;
+    private GameObject particlePrefab;
+
+    public float soundVolume = 1.0f;
 
     private void Start()
     {
@@ -16,7 +20,7 @@ public class KeyScript : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
-        else if(startInactive)
+        else if (startInactive)
         {
             gameObject.SetActive(false);
             UIindicator.SetActive(true);
@@ -25,6 +29,7 @@ public class KeyScript : MonoBehaviour
         {
             gameObject.SetActive(true);
             UIindicator.SetActive(false);
+            SpawnParticleEffect(); // Asegúrate de activar las partículas al inicio
         }
     }
 
@@ -32,18 +37,18 @@ public class KeyScript : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("funciona");
             GameManager.GetInstance().MarkConditionCompleted(conditionId);
             CheckpointManager.AddCheckpointPosition(checkpointPosition);
-            GameManager.GetInstance().SavePlayerPosition(checkpointPosition); 
+            GameManager.GetInstance().SavePlayerPosition(checkpointPosition);
             GameManager.GetInstance().SaveAllData();
             UIindicator.SetActive(true);
+
             if (doorContainer != null)
             {
                 DoorScript doorScript = doorContainer.GetComponent<DoorScript>();
                 if (doorScript != null)
                 {
-                   
+
                 }
                 else
                 {
@@ -60,19 +65,25 @@ public class KeyScript : MonoBehaviour
                 AudioClip keySound = soundLibrary.GetRandomSoundFromType(SOUND_TYPE.KEYS);
                 if (keySound != null)
                 {
-                    AudioSource.PlayClipAtPoint(keySound, transform.position);
+                    AudioSource.PlayClipAtPoint(keySound, transform.position, soundVolume);
                 }
             }
-            if (particlePrefab != null)
-            {
-                GameObject particle = Instantiate(particlePrefab, transform.position, Quaternion.identity);
-                Destroy(particle, 2f);
-            }
+
             Destroy(gameObject);
         }
     }
 
-    private void OnDestroy()
+    private void SpawnParticleEffect()
     {
+        // Intenta obtener el objeto de partículas del PoolManager
+        particlePrefab = PoolManager.GetInstance().GetPooledObject(particleType, transform.position, Vector3.zero);
+        if (particlePrefab == null)
+        {
+            Debug.LogError("No se pudo obtener el objeto de partículas del PoolManager.");
+            return;
+        }
+
+        // Si se obtiene correctamente, activa las partículas
+        particlePrefab.SetActive(true);
     }
 }
