@@ -11,8 +11,10 @@ public class TriggerFuel : MonoBehaviour
     public GameObject timeline;
     public GameObject dashOn1;
     public GameObject dashOn2;
+    public GameObject dashOn3;
     public GameObject dashOff1;
     public GameObject dashOff2;
+    public GameObject dashOff3;
     public GameObject fadeIn;
     public Light2D globalLight;
     public Flashlight playerFlashlight;
@@ -37,8 +39,10 @@ public class TriggerFuel : MonoBehaviour
         lantern.SetActive(true);
         dashOn1.SetActive(true);
         dashOn2.SetActive(true);
+        dashOn3.SetActive(true);
         dashOff1.SetActive(true);
         dashOff2.SetActive(true);
+        dashOff3.SetActive(true);
         fadeIn.SetActive(false);
         Destroy(timeline);
         PlayerStates.GetInstance().ChangePlayerState(PLAYER_STATES.PLAY);
@@ -60,8 +64,10 @@ public class TriggerFuel : MonoBehaviour
             lantern.SetActive(true);
             dashOn1.SetActive(true);
             dashOn2.SetActive(true);
+            dashOn3.SetActive(true);
             dashOff1.SetActive(true);
             dashOff2.SetActive(true);
+            dashOff3.SetActive(true);
             fadeIn.SetActive(false);
         }
     }
